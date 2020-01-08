@@ -1,7 +1,8 @@
 /**
  * @license
- * 
+ *
  * Copyright 2019 Google LLC
+ * Copyright 2020 Kerkko Pelttari - Add typing, change to tsx
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +25,17 @@
 import React from "react"
 import "./BlocklyComponent.css"
 
-import Blockly from "blockly/core"
+
+import Blockly from "blockly"
 import locale from "blockly/msg/en"
 import "blockly/blocks"
 import "./CustomBlocks"
 
-Blockly.setLocale(locale);
+Blockly.setLocale(locale)
 
 class BlocklyComponent extends React.Component {
     componentDidMount() {
-        const { initialXml, children, ...rest } = this.props
+        const {initialXml, children, ...rest} = this.props
         this.primaryWorkspace = Blockly.inject(
             this.blocklyDiv,
             {
@@ -43,7 +45,7 @@ class BlocklyComponent extends React.Component {
         )
 
         if (initialXml) {
-            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
+            this.setXml(initialXml)
         }
     }
 
@@ -56,15 +58,19 @@ class BlocklyComponent extends React.Component {
     }
 
     render() {
-        const { children } = this.props
+        const {children} = this.props
 
-        return <React.Fragment>
-            <div ref={e => this.blocklyDiv = e} id="blocklyDiv" />
-            <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{ display: "none" }} ref={(toolbox) => { this.toolbox = toolbox }}>
-                {children}
-            </xml>
-        </React.Fragment>
+        return (
+            <React.Fragment>
+                <div ref={e => this.blocklyDiv = e} id="blocklyDiv"/>
+                <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{display: "none"}}
+                    ref={(toolbox) => {
+                        this.toolbox = toolbox
+                    }}>
+                    {children}
+                </xml>
+            </React.Fragment>)
     }
 }
 
-export default BlocklyComponent;
+export default BlocklyComponent
