@@ -58,7 +58,6 @@ class BlocklyReactField extends Blockly.Field {
 }
 
 class FieldRenderComponent extends React.Component {
-
     render() {
         return <div style={{color: "#fff"}}>
             Hello from React!

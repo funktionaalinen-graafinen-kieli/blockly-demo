@@ -1,7 +1,8 @@
 import * as React from "react"
 
 import * as BlocklyJS from "blockly/javascript"
-import BlocklyComponent, { Block, Value, Field, Shadow } from "./components/Blockly"
+import BlocklyComponent from "./Blockly/BlocklyComponent"
+import { Block, Value, Field } from "./Blockly/BlocklyReactConstants"
 
 class Editor extends React.Component {
     generateCode = () => {
