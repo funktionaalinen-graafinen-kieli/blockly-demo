@@ -1,6 +1,4 @@
 import * as React from "react"
-// eslint-disable-next-line no-unused-vars
-import * as CSS from "csstype"
 
 import * as BlocklyJS from "blockly/javascript"
 import BlocklyComponent, { Block, Value, Field, Shadow } from "./components/Blockly"
@@ -15,27 +13,18 @@ class Editor extends React.Component {
 
     render = () => {
         return (
-            <div className = "App">
+            <div className = "Editor">
+                <button onClick={this.generateCode}>Convert</button>
                 <BlocklyComponent ref={e => this.simpleWorkspace = e} readOnly={false} move={{
                     scrollbars: true,
-                    drag: true,
+                    drag: false,
                     wheel: true
-                }} initialXml={`
-                    <xml xmlns="http://www.w3.org/1999/xhtml">
-                        <block type="controls_ifelse" x="0" y="0"/>
-                    </xml>`
-                }>
-
+                }}>
+                    <Block type="test_react_field"/>
+                    <Block type="text_print"/>
                     <Block type="controls_ifelse" />
                     <Block type="logic_compare" />
                     <Block type="logic_operation" />
-                    <Block type="controls_repeat_ext">
-                        <Value name="TIMES">
-                            <Shadow type="math_number">
-                                <Field name="NUM">10</Field>
-                            </Shadow>
-                        </Value>
-                    </Block>
                     <Block type="logic_operation" />
                     <Block type="logic_negate" />
                     <Block type="logic_boolean" />
