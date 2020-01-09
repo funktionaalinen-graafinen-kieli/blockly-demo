@@ -1,23 +1,28 @@
 import * as React from "react"
-
 import * as BlocklyJS from "blockly/javascript"
+import * as log from "loglevel"
+
 import BlocklyComponent from "./Blockly/BlocklyComponent"
 import { Block, Value, Field } from "./Blockly/BlocklyReactConstants"
 import CodeRenderer from "./CodeRenderer"
 
 class Editor extends React.Component {
     private simpleWorkspace: BlocklyComponent | null = null
+    readonly state = {key: 0}
 
     generateCode = () : string => {
         if (this.simpleWorkspace) {
-            return BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace)
+            const code: string = BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace)
+            log.trace(code)
+            return code
         } else {
-            console.log("funkly program code not found for generation")
+            log.trace("funkly program code not found for generation")
             return ""
         }
     }
     componentDidMount(): void {
         this.simpleWorkspace?.workspace.addChangeListener(this.incrementKey)
+        log.trace("Mounted change listener on workspace")
     }
     componentWillUnmount(): void {
         this.simpleWorkspace?.workspace.removeChangeListener(this.incrementKey)
@@ -33,6 +38,7 @@ class Editor extends React.Component {
                         <block type="controls_ifelse" x="0" y="0"></block>
                     </xml>
                 `}>
+                    {this.simpleWorkspace?.workspace.addChangeListener(this.incrementKey)}
                     <Block type="test_react_field"/>
                     <Block type="text_print"/>
                     <Block type="controls_ifelse"/>
@@ -51,15 +57,14 @@ class Editor extends React.Component {
                         </Value>
                     </Block>
                 </BlocklyComponent>
-
-                <CodeRenderer generateCode={this.generateCode} key={this.key}/>
+                <CodeRenderer generateCode={this.generateCode} key={this.state.key}/>
             </div>
         )
     }
 
-    private key = 0
     private incrementKey = () => {
-        this.key++
+        log.trace("Incrementing key, current val: " + this.state.key)
+        this.setState({key : this.state.key + 1})
     }
 }
 

@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import React, {CSSProperties} from "react"
+import * as log from "loglevel"
 
 const codeStyle: CSSProperties = {
     height: "100%",
@@ -10,10 +10,11 @@ const codeStyle: CSSProperties = {
 
 
 function CodeRenderer(props: { generateCode: () => string, key: number}) {
+    log.trace("Firing renderer")
     return (
         <div style={codeStyle}>
-            <text>code should show here</text>
-            <text>{ props.generateCode() }</text>
+            code should show here
+            { props.generateCode() }
         </div>
     )
 }
