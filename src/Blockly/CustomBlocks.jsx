@@ -31,7 +31,7 @@ import "./fields/BlocklyReactField"
 
 const testReactField = {
     "type": "test_react_field",
-    "message0": "custom field %1",
+    "message0": "custom field %1 !DOES NOT CODE GEN YET!",
     "args0": [
         {
             "type": "field_react_component",

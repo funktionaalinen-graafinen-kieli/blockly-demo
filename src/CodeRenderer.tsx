@@ -13,7 +13,7 @@ function CodeRenderer(props: { generateCode: () => string, key: number}) {
     log.trace("Firing renderer")
     return (
         <div style={codeStyle}>
-            code should show here
+            <h1>Generated JS code is here</h1>
             { props.generateCode() }
         </div>
     )
