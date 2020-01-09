@@ -21,56 +21,54 @@
  * @fileoverview Blockly React Component.
  * @author samelh@google.com (Sam El-Husseini)
  */
-
-import React from "react"
-import "./BlocklyComponent.css"
-
-
-import Blockly from "blockly"
+import * as React from "react"
+import * as Blockly from "blockly"
 import locale from "blockly/msg/en"
-import "blockly/blocks"
-import "./CustomBlocks"
+
+import "./blockly_component.css"
+import "./custom_blocks"
 
 Blockly.setLocale(locale)
+class BlocklyComponent extends React.Component<{initialXml: string, }> {
+    private toolbox!: Blockly.Toolbox
+    private primaryWorkspace!: Blockly.Workspace
+    private blocklyDiv: HTMLElement | null = null
 
-class BlocklyComponent extends React.Component {
     componentDidMount() {
         const {initialXml, children, ...rest} = this.props
-        this.primaryWorkspace = Blockly.inject(
-            this.blocklyDiv,
-            {
-                toolbox: this.toolbox,
-                ...rest
-            },
-        )
+
+        if (this.blocklyDiv) {
+            this.primaryWorkspace = Blockly.inject(
+                this.blocklyDiv,
+                {
+                    toolbox: this.toolbox,
+                    ...rest
+                }
+            )
+        }
 
         if (initialXml) {
-            this.setXml(initialXml)
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
         }
     }
 
     get workspace() {
         return this.primaryWorkspace
     }
-
-    setXml(xml) {
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this.primaryWorkspace)
-    }
-
     render() {
         const {children} = this.props
-
         return (
             <React.Fragment>
                 <div ref={e => this.blocklyDiv = e} id="blocklyDiv"/>
+                {/* Needed to ignore xml error
+                //@ts-ignore */}
                 <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{display: "none"}}
-                    ref={(toolbox) => {
-                        this.toolbox = toolbox
-                    }}>
+                    ref={(toolbox: Blockly.Toolbox) => {this.toolbox = toolbox}}>
                     {children}
+                    {/* Needed to ignore xml error
+                //@ts-ignore */}
                 </xml>
             </React.Fragment>)
     }
 }
-
 export default BlocklyComponent

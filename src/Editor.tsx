@@ -2,10 +2,9 @@ import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
 import * as log from "loglevel"
 
-import BlocklyComponent from "./Blockly/BlocklyComponent"
-import { Block, Value, Field } from "./Blockly/BlocklyReactConstants"
-import CodeRenderer from "./CodeRenderer"
-import {ReactElement} from "react"
+import BlocklyComponent from "./Blockly/blockly_component"
+import { Block, Value, Field } from "./Blockly/blockly_react_constants"
+import CodeRenderer from "./code_renderer"
 
 interface BlocklyConfig {
     readOnly: boolean,

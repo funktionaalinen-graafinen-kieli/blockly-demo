@@ -24,10 +24,10 @@
 // More on defining blocks:
 // https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks
 
-import * as Blockly from "blockly"
+import * as Blocks from "blockly/blocks"
 
 // Since we're using json to initialize the field, we'll need to import it.
-import "./fields/BlocklyReactField"
+import "./fields/blockly_react_field"
 
 const testReactField = {
     "type": "test_react_field",
@@ -43,7 +43,7 @@ const testReactField = {
     "nextStatement": null,
 }
 
-Blockly["Blocks"]["test_react_field"] = {
+Blocks["test_react_field"] = {
     init: function () {
         this.jsonInit(testReactField)
         this.setStyle("loop_blocks")

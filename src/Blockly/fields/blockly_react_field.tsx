@@ -23,33 +23,31 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import React from "react"
-import ReactDOM from "react-dom"
-
-import * as Blockly from "blockly/core"
-
+import * as React from "react"
+import * as ReactDOM from "react-dom"
+import * as Blockly from "blockly"
 
 class BlocklyReactField extends Blockly.Field {
+    private div_: Element | undefined
 
-    static fromJson(options) {
-        return new BlocklyReactField(options["text"])
+    static fromJson(options: Blockly.BlocklyOptions) {
+        return new BlocklyReactField(options)
     }
 
     showEditor_() {
         this.div_ = Blockly.DropDownDiv.getContentDiv()
-        ReactDOM.render(this.render(),
-            this.div_)
+        ReactDOM.render(this.render(), this.div_)
 
-        var border = this.sourceBlock_.getColourBorder()
+        let border = this.sourceBlock_.getColourBorder()
         border = border.colourBorder || border.colourLight
-        Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(), border)
+        Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(), border.colourBorder)
 
         Blockly.DropDownDiv.showPositionedByField(
             this, this.dropdownDispose_.bind(this))
     }
 
     dropdownDispose_() {
-        ReactDOM.unmountComponentAtNode(this.div_)
+        if (this.div_) ReactDOM.unmountComponentAtNode(this.div_)
     }
 
     render() {
