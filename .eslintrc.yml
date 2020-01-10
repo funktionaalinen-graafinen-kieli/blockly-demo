@@ -32,7 +32,20 @@ rules:
   semi:
     - error
     - never
+  object-curly-spacing:
+    - error
+    - never
+    - "objectsInObjects": true
+  object-curly-newline:
+    - error
+    - "multiline": true
   no-console:
     - error
   '@typescript-eslint/no-explicit-any':
     - error
+  '@typescript-eslint/consistent-type-assertions':
+    - error
+    - {
+      assertionStyle: as,
+      objectLiteralTypeAssertions: 'never'
+    }

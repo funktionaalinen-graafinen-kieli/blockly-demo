@@ -26,7 +26,7 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
 import * as BlocklyJS from "blockly/javascript"
-import { Block } from "blockly"
+import {Block} from "blockly"
 BlocklyJS.JavaScript["test_react_field"] = function(block: Block) {
     // See link for actual implementation of the code generation logic
     // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code

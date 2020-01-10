@@ -3,10 +3,9 @@ import * as BlocklyJS from "blockly/javascript"
 import * as log from "loglevel"
 
 import BlocklyComponent from "./Blockly/blockly_component"
-import { Block, Value, Field } from "./Blockly/blockly_jsx_wrappers"
+import {Block, Value, Field} from "./Blockly/blockly_jsx_wrappers"
 import blocklyConfig from "./Blockly/config"
 import CodeRenderer from "./code_renderer"
-
 
 const editorBlocks =  (
     <React.Fragment>
@@ -30,19 +29,19 @@ const editorBlocks =  (
 )
 
 class Editor extends React.Component {
-    private simpleWorkspace!: BlocklyComponent
-    readonly state = { code: "" }
+    private blocklyComponent!: BlocklyComponent
+    readonly state = {code: ""}
 
     generateCode = () => {
         // Concise null check
-        this.setState({code : BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace)})
+        this.setState({code : BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
     }
     componentDidMount(): void {
-        this.simpleWorkspace?.workspace.addChangeListener(this.generateCode)
+        this.blocklyComponent?.workspace.addChangeListener(this.generateCode)
         log.trace("Mounted change listener on workspace")
     }
     componentWillUnmount(): void {
-        this.simpleWorkspace?.workspace.removeChangeListener(this.generateCode)
+        this.blocklyComponent?.workspace.removeChangeListener(this.generateCode)
     }
 
 
@@ -50,7 +49,7 @@ class Editor extends React.Component {
         return (
             <div className="Editor">
                 <BlocklyComponent
-                    ref = {(event: BlocklyComponent) => { this.simpleWorkspace = event }}
+                    ref = {(event: BlocklyComponent) => { this.blocklyComponent = event }}
                     {...blocklyConfig}>
                     {editorBlocks}
                 </BlocklyComponent>

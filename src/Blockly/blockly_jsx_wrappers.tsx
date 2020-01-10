@@ -21,7 +21,7 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import React, { ReactElement } from "react"
+import React, {ReactElement} from "react"
 
 interface BlocklyProps {
     children?: ReactElement | string
@@ -33,7 +33,7 @@ interface BlocklyProps {
 
 const createBlocklyElement = (type: string, props: BlocklyProps) => {
     // Spread operator is needed to extend props here
-    const properties = { ...props, is : "blockly" }
+    const properties = {...props, is : "blockly"}
     if (props.children) return React.createElement(type, properties, properties.children)
     else return React.createElement(type, props)
 }
@@ -44,4 +44,4 @@ const Value = (p: BlocklyProps) => { return createBlocklyElement("value", p) }
 const Field = (p: BlocklyProps) => { return createBlocklyElement("field", p) }
 const Shadow = (p: BlocklyProps) => { return createBlocklyElement("shadow", p) }
 
-export { Block, Category, Value, Field, Shadow }
+export {Block, Category, Value, Field, Shadow}
