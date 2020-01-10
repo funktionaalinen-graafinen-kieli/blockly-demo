@@ -9,12 +9,12 @@ const codeStyle: CSSProperties = {
 }
 
 
-function CodeRenderer(props: { generateCode: () => string, key: number}) {
+function CodeRenderer(props: { code: string}) {
     log.trace("Firing renderer")
     return (
         <div style={codeStyle}>
             <h1>Generated JS code is here</h1>
-            { props.generateCode() }
+            { props.code }
         </div>
     )
 }

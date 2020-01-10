@@ -3,26 +3,10 @@ import * as BlocklyJS from "blockly/javascript"
 import * as log from "loglevel"
 
 import BlocklyComponent from "./Blockly/blockly_component"
-import { Block, Value, Field } from "./Blockly/blockly_react_constants"
+import { Block, Value, Field } from "./Blockly/blockly_jsx_wrappers"
+import blocklyConfig from "./Blockly/config"
 import CodeRenderer from "./code_renderer"
 
-interface BlocklyConfig {
-    readOnly: boolean,
-    move: {
-        scrollbars: boolean,
-        drag: boolean,
-        wheel: boolean
-    },
-    initialXml: string
-}
-const blocklyConfig: BlocklyConfig = {
-    readOnly : false,
-    move:{ scrollbars: true, drag: false, wheel: true },
-    initialXml : `
-        <xml xmlns="http://www.w3.org/1999/xhtml">
-            <block type="controls_ifelse" x="0" y="0"></block>
-        </xml>`
-}
 
 const blocks =  (
     <React.Fragment>
@@ -34,7 +18,7 @@ const blocks =  (
         <Block type="logic_operation"/>
         <Block type="logic_negate"/>
         <Block type="logic_boolean"/>
-        <Block type="logic_null" disabled="false"/>
+        <Block type="logic_null" disabled={false}/>
         <Block type="text_charAt">
             <Value name="VALUE">
                 <Block type="variables_get">
@@ -46,21 +30,19 @@ const blocks =  (
 )
 
 class Editor extends React.Component {
-    private simpleWorkspace: BlocklyComponent | null = null
-    readonly state = { key: 0 }
+    private simpleWorkspace!: BlocklyComponent
+    readonly state = { code: "" }
 
-    generateCode = () : string => {
+    generateCode = () => {
         // Concise null check
-        const code: string = this.simpleWorkspace
-            && BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace)
-        return code
+        this.setState({code : BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace)})
     }
     componentDidMount(): void {
-        this.simpleWorkspace?.workspace.addChangeListener(this.incrementKey)
+        this.simpleWorkspace?.workspace.addChangeListener(this.generateCode)
         log.trace("Mounted change listener on workspace")
     }
     componentWillUnmount(): void {
-        this.simpleWorkspace?.workspace.removeChangeListener(this.incrementKey)
+        this.simpleWorkspace?.workspace.removeChangeListener(this.generateCode)
     }
 
 
@@ -68,18 +50,13 @@ class Editor extends React.Component {
         return (
             <div className="Editor">
                 <BlocklyComponent
-                    ref = {(event: BlocklyComponent | null) => { this.simpleWorkspace = event }}
+                    ref = {(event: BlocklyComponent) => { this.simpleWorkspace = event }}
                     {...blocklyConfig}>
                     {blocks}
                 </BlocklyComponent>
-                <CodeRenderer generateCode={this.generateCode} key={this.state.key}/>
+                <CodeRenderer code={this.state.code}/>
             </div>
         )
-    }
-
-    private incrementKey = () => {
-        log.trace("Incrementing key, current val: " + this.state.key)
-        this.setState({key : this.state.key + 1})
     }
 }
 

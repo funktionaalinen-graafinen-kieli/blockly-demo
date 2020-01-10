@@ -20,39 +20,45 @@
  * @fileoverview XML wrappers for block, category, value, field and shadow.
  * @author samelh@google.com (Sam El-Husseini)
  */
-//@ts-nocheck
-// should be replaced with typed props at some point
 
-import React from "react"
+import React, {ReactElement} from "react"
 
-const Block = (p) => {
+interface BlockProps {
+    children?: ReactElement | string
+    type?: string
+    name?: string
+    is?: string
+    disabled?: boolean
+}
+
+const Block = (p: BlockProps) => {
     const {children, ...props} = p
     props.is = "blockly"
     return React.createElement("block", props, children)
 }
 
-const Category = (p) => {
+const Category = (p: BlockProps) => {
     const {children, ...props} = p
     props.is = "blockly"
     return React.createElement("category", props, children)
 }
 
-const Value = (p) => {
+const Value = (p: BlockProps) => {
     const {children, ...props} = p
     props.is = "blockly"
     return React.createElement("value", props, children)
 }
 
-const Field = (p) => {
+const Field = (p: BlockProps) => {
     const {children, ...props} = p
     props.is = "blockly"
     return React.createElement("field", props, children)
 }
 
-const Shadow = (p) => {
+const Shadow = (p: BlockProps) => {
     const {children, ...props} = p
     props.is = "blockly"
     return React.createElement("shadow", props, children)
 }
 
-export {Block, Category, Value, Field, Shadow}
+export { Block, Category, Value, Field, Shadow }
