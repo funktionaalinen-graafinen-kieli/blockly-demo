@@ -21,44 +21,27 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import React, {ReactElement} from "react"
+import React, { ReactElement } from "react"
 
-interface BlockProps {
+interface BlocklyProps {
     children?: ReactElement | string
     type?: string
+    disabled?: boolean
     name?: string
     is?: string
-    disabled?: boolean
 }
 
-const Block = (p: BlockProps) => {
-    const {children, ...props} = p
-    props.is = "blockly"
-    return React.createElement("block", props, children)
+const createBlocklyElement = (type: string, props: BlocklyProps) => {
+    // Spread operator is needed to extend props here
+    const properties = { ...props, is : "blockly" }
+    if (props.children) return React.createElement(type, properties, properties.children)
+    else return React.createElement(type, props)
 }
 
-const Category = (p: BlockProps) => {
-    const {children, ...props} = p
-    props.is = "blockly"
-    return React.createElement("category", props, children)
-}
-
-const Value = (p: BlockProps) => {
-    const {children, ...props} = p
-    props.is = "blockly"
-    return React.createElement("value", props, children)
-}
-
-const Field = (p: BlockProps) => {
-    const {children, ...props} = p
-    props.is = "blockly"
-    return React.createElement("field", props, children)
-}
-
-const Shadow = (p: BlockProps) => {
-    const {children, ...props} = p
-    props.is = "blockly"
-    return React.createElement("shadow", props, children)
-}
+const Block = (p: BlocklyProps) => { return createBlocklyElement("block", p) }
+const Category = (p: BlocklyProps) => { return createBlocklyElement("category", p) }
+const Value = (p: BlocklyProps) => { return createBlocklyElement("value", p) }
+const Field = (p: BlocklyProps) => { return createBlocklyElement("field", p) }
+const Shadow = (p: BlocklyProps) => { return createBlocklyElement("shadow", p) }
 
 export { Block, Category, Value, Field, Shadow }

@@ -25,11 +25,17 @@ import * as React from "react"
 import * as Blockly from "blockly"
 import locale from "blockly/msg/en"
 
-import "./blockly_component.css"
-import "./custom_blocks"
+import "./custom_blocks/blocks"
+
+const blocklyDivStyle: React.CSSProperties =  {
+    height: "100%",
+    width: "80%",
+    position: "absolute"
+}
+
 
 Blockly.setLocale(locale)
-class BlocklyComponent extends React.Component<{initialXml: string, }> {
+export class BlocklyComponent extends React.Component<{initialXml: string, }> {
     private toolbox!: Blockly.Toolbox
     private primaryWorkspace!: Blockly.Workspace
     private blocklyDiv: HTMLElement | null = null
@@ -55,11 +61,12 @@ class BlocklyComponent extends React.Component<{initialXml: string, }> {
     get workspace() {
         return this.primaryWorkspace
     }
+
     render() {
         const {children} = this.props
         return (
             <React.Fragment>
-                <div ref={e => this.blocklyDiv = e} id="blocklyDiv"/>
+                <div ref={e => this.blocklyDiv = e} id="blocklyDiv" style={blocklyDivStyle}/>
                 {/* Needed to ignore xml error
                 //@ts-ignore */}
                 <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{display: "none"}}

@@ -27,7 +27,7 @@
 import * as Blocks from "blockly/blocks"
 
 // Since we're using json to initialize the field, we'll need to import it.
-import "./fields/blockly_react_field"
+import "./blockly_react_field"
 
 const testReactField = {
     "type": "test_react_field",

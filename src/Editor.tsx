@@ -8,7 +8,7 @@ import blocklyConfig from "./Blockly/config"
 import CodeRenderer from "./code_renderer"
 
 
-const blocks =  (
+const editorBlocks =  (
     <React.Fragment>
         <Block type="test_react_field"/>
         <Block type="text_print"/>
@@ -52,7 +52,7 @@ class Editor extends React.Component {
                 <BlocklyComponent
                     ref = {(event: BlocklyComponent) => { this.simpleWorkspace = event }}
                     {...blocklyConfig}>
-                    {blocks}
+                    {editorBlocks}
                 </BlocklyComponent>
                 <CodeRenderer code={this.state.code}/>
             </div>
