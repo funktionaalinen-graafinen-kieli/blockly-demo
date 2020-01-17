@@ -32,9 +32,5 @@ The following stores a timer into `t` which increments `x` by one every `1000ms`
 ```
 var x = 0;
 var t;
-eval(timer("t")(mutate("x")(
-    cond(gt("x")(5))
-        (add("x")(1))
-        (0)))
-    (1000))
+eval(timer("t")(mutate("x")(cond(gt("x")(100))(add("x")(1))(0)))(100));
 ```
