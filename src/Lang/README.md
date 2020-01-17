@@ -28,9 +28,9 @@ Mutating a variable happens like this.
 ```
 
 # Examples
-The following stores a timer into `t` which increments `x` by one every `1000ms`.
+The following stores a timer into `t` which increments `x` by one every `100ms` and sets x to 0 when !(x<100).
 ```
 var x = 0;
 var t;
-eval(timer("t")(mutate("x")(cond(gt("x")(100))(add("x")(1))(0)))(100));
+eval(timer("t")(mutate("x")(cond(lt('x')(100))(add('x')(1))(0)))(100))
 ```
