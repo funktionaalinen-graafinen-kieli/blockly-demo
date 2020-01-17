@@ -2,14 +2,14 @@ import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
 import * as log from "loglevel"
 
-import BlocklyComponent from "./Blockly/blockly_component"
-import {Block, Value, Field} from "./Blockly/blockly_jsx_wrappers"
-import blocklyConfig from "./Blockly/config"
+import BlocklyComponent from "./BlocklyReact/blockly_component"
+import {Block, Value, Field} from "./BlocklyReact/blockly_jsx_wrappers"
+import blocklyConfig from "./BlocklyReact/config"
 import CodeRenderer from "./code_renderer"
 
 const editorBlocks =  (
     <React.Fragment>
-        <Block type="test_react_field"/>
+        {/*<Block type="test_react_field"/>*/}
         <Block type="text_print"/>
         <Block type="controls_ifelse"/>
         <Block type="logic_compare"/>
@@ -33,7 +33,6 @@ class Editor extends React.Component {
     readonly state = {code: ""}
 
     generateCode = () => {
-        // Concise null check
         this.setState({code : BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
     }
     componentDidMount(): void {

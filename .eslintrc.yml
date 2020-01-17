@@ -45,7 +45,6 @@ rules:
     - error
   '@typescript-eslint/consistent-type-assertions':
     - error
-    - {
-      assertionStyle: as,
+    - assertionStyle: as
       objectLiteralTypeAssertions: 'never'
-    }
+
