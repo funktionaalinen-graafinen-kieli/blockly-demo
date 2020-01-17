@@ -1,20 +1,15 @@
-# Yksinkertainen funktionaalinen kieli
-Tämän kielen on tarkoitus näyttää samankaltaiselta kuin haluttu palikkakieli.
+# Funkly Lang
 
-Kielessä ei ole vielä tyyppejä. (eikä se vältämättä tarvitse niitä)
+`node-repl lang.js` to run interactively (requires node-repl to be installed)
 
-Kielen funktiot luovat merkkijonon jonka pystyy ajamaan JS:n funktiolla eval().
+## Variables
 
-`node-repl lang.js` avaa koodin REPL:issa (vaatii että node-repl on asennettu)
-
-## Globaalit muuttujat
-
-Nämä toimivat tutulla tavalla.
+Variables are initialized like this
 ```
 var e = new Entity(0,0);
 var t;
 ```
-## Perus operaatiot
+## Basic operations
 ```
 > eval(add(1)(2))
 3
@@ -24,18 +19,22 @@ var t;
 2
 ```
 
-## Tilan muutos
-
+## Mutating state
+Variables must always be referenced as strings.
+Mutating a variable happens like this.
 ```
-> e.x
-0
 > eval(mutate("e.x")(4))
 4
-> e.x
-4
 ```
 
-Tämä tallentaa setInterval():in palauttaman Timeout olion muuttujaan t joka kasvattaa muuttujaa "e.x" yhdellä joka sekunti.
+# Examples
+The following stores a timer into `t` which increments `x` by one every `1000ms`.
 ```
-eval(timer("t")(mutate("e.x")(add("e.x")(1)))(1000))
+var x = 0;
+var t;
+eval(timer("t")(mutate("x")(
+    cond(gt("x")(5))
+        (add("x")(1))
+        (0)))
+    (1000))
 ```
