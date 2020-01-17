@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import * as log from "loglevel"
 
-import Editor from "./editor"
+import Editor from "./BlocklyEditor/editor"
 
 
 log.setLevel("trace")
