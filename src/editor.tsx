@@ -33,7 +33,6 @@ class Editor extends React.Component {
     readonly state = {code: ""}
 
     generateCode = () => {
-        // Concise null check
         this.setState({code : BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
     }
     componentDidMount(): void {
