@@ -1,21 +1,24 @@
-// the most basic function; identity
 // simply returns the previous value (use when you do not want a variable to change)
 let id = (x,s) => x;
 
-function getVal(name) {
-    return state.get(name)[1];
-}
+let getVal = name => state.get(name)[1];
 
 // Data
 class Entity {
-    constructor(state, [xk,xv],[yk,yv],[imgk,imgv]) {
-        this.x = xk;
-        this.y = yk;
-        this.img = imgk;
-        state.set(xk,xv);
-        state.set(yk,yv);
-        state.set(imgk,imgv);
+    setVal(k,v) {
+        var key = this.name+'_'+k;
+        eval('this.'+k+' = "'+key+'"');
+        this.state.set(key,v);
     }
+
+    constructor(name, state, values) {
+        this.name = name;
+        this.state = state;
+        for (let [k,v] of values) {
+            this.setVal(k,v);
+        }
+    }
+
 }
 
 
@@ -23,10 +26,11 @@ class Entity {
 const frameTime = 1000 / 60; //60fps in ms
 var state = new Map();
 
-var e = new Entity(state,
-    ["e_x",[(x,s) => s.get('everySecond')[1][0] ? x+1 : x,1]],
-    ["e_y",[id,1]],
-    ["e_img",[id,"/path/to/img"]]);
+var e = new Entity("e", state, [
+    ["x",[(x,s) => s.get('everySecond')[1][0] ? x+1 : x,1]],
+    ["y",[id,1]],
+    ["img",[id,"/path/to/img"]]
+    ]);
 
 var checkTime = (time,prev,interval) =>
     time - prev >= interval;
@@ -64,12 +68,12 @@ async function run() {
         var nextState = new Map();
         // iterates through all key-value pairs in state
         for (let [key, value] of state) {
-            console.log(key + ' = ' + value[1]); // for testing
+            //console.log(key + ' = ' + value[1]); // for testing
             // puts the new pair into nextState
             nextState.set(key, [value[0], applyF(key,state)]);
         }
         state = nextState; // nextState replaces previous
         await sleep(frameTime);
-        await sleep(100); //for testing
+        //await sleep(100); //for testing
     }
 }
