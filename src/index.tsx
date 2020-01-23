@@ -4,7 +4,6 @@ import * as log from "loglevel";
 import { id, frameTime } from "./utils";
 
 import Editor from "./BlocklyEditor/editor";
-import GameEngine from "./GameEngine/game_engine.js";
 
 log.setLevel("trace");
 ReactDOM.render(

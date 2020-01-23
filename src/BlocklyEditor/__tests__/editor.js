@@ -16,3 +16,12 @@ test("Code renderer displays correctly", () => {
     render(<Editor/>)
     expect(screen.getByText("Generated JS code is here"))
 })
+
+test("Editor renders drop down menu correctly", () => {
+    const {getByText} = render(<Editor/>)
+    expect(getByText("true"))
+
+    fireEvent.click(getByText("true"))
+    //expect(screen.getByText("true"))
+    expect(getByText("false"))
+})

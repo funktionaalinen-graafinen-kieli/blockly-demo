@@ -25,7 +25,7 @@ import * as React from "react"
 import * as Blockly from "blockly"
 import locale from "blockly/msg/en"
 
-import "./custom_blocks/blocks"
+import "./custom_blocks/registration"
 
 const blocklyDivStyle: React.CSSProperties =  {
     height: "100%",
