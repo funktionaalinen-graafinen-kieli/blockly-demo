@@ -9,9 +9,8 @@ import CodeRenderer from "./code_renderer"
 
 const editorBlocks =  (
     <React.Fragment>
-        {/*<Block type="test_react_field"/>*/}
+        <Block type="funkly_cond"/>
         <Block type="text_print"/>
-        <Block type="controls_ifelse"/>
         <Block type="logic_compare"/>
         <Block type="logic_operation"/>
         <Block type="logic_operation"/>

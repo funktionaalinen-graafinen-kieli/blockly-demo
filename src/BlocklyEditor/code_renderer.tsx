@@ -1,5 +1,4 @@
 import React, {CSSProperties} from "react"
-import * as log from "loglevel"
 
 const codeStyle: CSSProperties = {
     height: "100%",
@@ -10,7 +9,6 @@ const codeStyle: CSSProperties = {
 
 
 function CodeRenderer(props: { code: string}) {
-    log.trace("Firing renderer")
     return (
         <div style={codeStyle}>
             <h1>Generated JS code is here</h1>

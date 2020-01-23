@@ -34,6 +34,7 @@ interface BlocklyProps {
 const createBlocklyElement = (type: string, props: BlocklyProps) => {
     // Spread operator is needed to extend props here
     const properties = {...props, is : "blockly"}
+    // Recursively create children elements
     if (props.children) return React.createElement(type, properties, properties.children)
     else return React.createElement(type, props)
 }
