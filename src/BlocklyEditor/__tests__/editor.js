@@ -4,7 +4,7 @@ import React from "react"
 import {render, fireEvent, screen, cleanup} from "@testing-library/react"
 
 import Editor from "../editor"
-afterEach(cleanup);
+afterEach(cleanup)
 
 test("Editor renders correctly", () => {
     render(<Editor/>)
