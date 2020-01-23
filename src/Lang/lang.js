@@ -1,25 +1,18 @@
-class Entity {
-    constructor(x, y, t) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-var e = new Entity(1,-1);
-var t;
-
 // basic blocks
 // each is a curried function
-var add = x => y => "("+x+")+("+y+")";
+export default class Lang {
 
-var cond = b => f => g => b+"?"+f+":"+g;
+    static add = x => y => "(" + x + ")+(" + y + ")"
 
-var gt = x => y => "("+x+")>("+y+")";
+    static cond = b => f => g => b + "?" + f + ":" + g
 
-// state handling functions
+    static gt = x => y => "(" + x + ")>(" + y + ")"
 
-// p must be string
-var mutate = p => v => "eval("+p+"="+v+")";
+    // state handling functions
 
-// p and f are strings
-var timer = p => f => t => mutate(p)("setInterval(eval(()=>"+f+"),"+t+")");
+    // p must be string
+    static mutate = p => v => "eval(" + p + "=" + v + ")"
+
+    // p and f are strings
+    static timer = p => f => t => mutate(p)("setInterval(eval(()=>" + f + ")," + t + ")")
+}
