@@ -4,5 +4,5 @@ import * as log from "loglevel"
 
 import Editor from "./BlocklyEditor/editor"
 
-log.setLevel("trace")
+log.setLevel("trace");
 ReactDOM.render(<Editor/>, document.getElementById("root"))
