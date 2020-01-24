@@ -1,7 +1,6 @@
 // basic blocks
 // each is a curried function
 class Lang {
-
     static add = x => y => "(" + x + ")+(" + y + ")"
 
     /**
@@ -13,6 +12,8 @@ class Lang {
     static cond = b => f => g => b + "?" + f + ":" + g
 
     static gt = x => y => "(" + x + ")>(" + y + ")"
+
+    static wrap = x => "(" + x + ")"
 
     // state handling functions
 

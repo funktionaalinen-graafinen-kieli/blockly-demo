@@ -10,7 +10,7 @@ const cond = {
     "message0": "if: %1",
     "args0": [
         {
-            "type": "input_value",
+            "type": "input_statement",
             "name": "IF"
         }
     ],
@@ -29,7 +29,7 @@ const cond = {
         }
     ],
     "previousStatement": null,
-    "nextStatement": null,
+    "nextStatement": 3,
 }
 
 class CondField extends Field {
@@ -52,18 +52,18 @@ const gt = {
     "message0": "is: %1",
     "args0": [
         {
-            "type": "input_value",
-            "name": "arg0"
+            "type": "input_statement",
+            "name": "NUMBER0"
         }
     ],
     "message1": "greater than: %1",
     "args1": [
         {
-            "type": "input_value",
-            "name": "arg1"
+            "type": "input_statement",
+            "name": "NUMBER1"
         }
     ],
-    "output": "boolean"
+    "previousStatement": null
 }
 
 class GreaterThan extends Field {
@@ -80,28 +80,30 @@ Blocks["funkly_gt"] = {
 BlocklyJS["funkly_gt"] = Generator.gt
 Blockly.fieldRegistry.register("funkly_gt_field", GreaterThan)
 
-/*
-const testReactField = {
-    "type": "react_test_field",
-    "message0": "custom field %1 !DOES NOT CODE GEN YET!",
+
+const number = {
+    "type:": "funkly_number",
+    "message0": "%1",
     "args0": [
         {
-            "type": "react_test_field",
-            "name": "FIELD",
-            "text": "Click me"
-        },
+            "type": "field_number",
+            "name:": "NUMBER_CONSTANT",
+            "value": 1
+        }
     ],
-    "previousStatement": null,
-    "nextStatement": null,
+    "previousStatement": null
 }
 
-Blocks["react_test_field"] = {
-    init: function () {
-        this.jsonInit(testReactField)
-        this.setStyle("loop_blocks")
+class FunklyNumber extends Field {
+    static fromJson = (options: BlocklyOptions) => new FunklyNumber(options)
+}
+
+Blocks["funkly_number"] = {
+    init: function() {
+        this.jsonInit(number)
+        this.setStyle("math_blocks")
     }
 }
 
-BlocklyJS["react_test_field"] = Generator.reactFieldCode
-Blockly.fieldRegistry.register("react_test_field", BlocklyReactField)
-*/
+BlocklyJS["funkly_number"] = Generator.number
+Blockly.fieldRegistry.register("funkly_number_field", FunklyNumber)
