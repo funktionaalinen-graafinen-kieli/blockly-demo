@@ -10,9 +10,8 @@ const cond = {
     "message0": "if: %1",
     "args0": [
         {
-            "type": "input_statement",
-            "name": "IF",
-            "check": "Boolean"
+            "type": "input_value",
+            "name": "IF"
         }
     ],
     "message1": "do: %1",

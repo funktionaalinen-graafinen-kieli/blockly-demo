@@ -35,7 +35,7 @@ function gt(block: Block) {
     const arg0 = BlocklyJS.valueToCode(block, "arg0", BlocklyJS.ORDER_RELATIONAL || "false")
     const arg1 = BlocklyJS.valueToCode(block, "arg1", BlocklyJS.ORDER_RELATIONAL || "false")
 
-    return Lang.gt(arg0)(arg1)
+    return [Lang.gt(arg0)(arg1), BlocklyJS.ORDER_RELATIONAL]
 }
 
 function sanitise(code: string) {
