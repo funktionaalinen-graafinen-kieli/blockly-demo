@@ -1,5 +1,5 @@
 // Class to test out lang features
-import Lang from "lang"
+import {Lang} from "lang"
 
 class Entity {
     constructor(x, y, t) {

@@ -10,13 +10,15 @@ import CodeRenderer from "./code_renderer"
 const editorBlocks =  (
     <React.Fragment>
         <Block type="funkly_cond"/>
-        <Block type="text_print"/>
+        <Block type="funkly_gt"/>
+        <Block type="math_number"/>
         <Block type="logic_compare"/>
-        <Block type="logic_operation"/>
         <Block type="logic_operation"/>
         <Block type="logic_negate"/>
         <Block type="logic_boolean"/>
         <Block type="logic_null" disabled={false}/>
+        <Block type="text"/>
+        <Block type="text_print"/>
         <Block type="text_charAt">
             <Value name="VALUE">
                 <Block type="variables_get">
@@ -28,7 +30,7 @@ const editorBlocks =  (
 )
 
 class Editor extends React.Component {
-  private blocklyComponent!: BlocklyComponent;
+  private blocklyComponent!: BlocklyComponent
   readonly state = {code: ""};
 
   generateCode = () => {
@@ -56,7 +58,7 @@ class Editor extends React.Component {
               <CodeRenderer code={this.state.code} />
           </div>
       )
-  };
+  }
 }
 
 export default Editor

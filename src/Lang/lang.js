@@ -5,7 +5,7 @@ class Lang {
     static add = x => y => "(" + x + ")+(" + y + ")"
 
     /**
-     * Curried functional conditional expression.
+     * Curried functional -style conditional.
      * Feed it cond(condition)(do_branch)(else_branch)
      * @param b
      * @returns {function(*): function(*): string}

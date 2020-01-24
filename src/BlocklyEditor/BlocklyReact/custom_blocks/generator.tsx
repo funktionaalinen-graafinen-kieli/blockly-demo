@@ -6,33 +6,43 @@ import {Block} from "blockly"
 import {Lang} from "../../../Lang/lang"
 import * as log from "loglevel"
 
+/*
 function reactFieldCode(block: Block) {
     // See link for actual implementation of the code generation logic
     // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
     return "console.log('Custom block, code generation not implemented yet');\n"
 }
+*/
 
 function cond(block: Block) {
 
-    let doBranch = ""
-    let elseBranch = ""
-    let conditionCode = ""
+    const conditionCode = block.getInput("IF") ?
+        BlocklyJS.valueToCode(block, "IF", BlocklyJS.ORDER_NONE || "false") : ""
 
-    if (block.getInput("IF")) conditionCode = BlocklyJS.valueToCode(block, "IF", BlocklyJS.ORDER_NONE || "false")
-    if (block.getInput("DO")) doBranch = BlocklyJS.statementToCode(block, "DO")
+    const doBranch = BlocklyJS.statementToCode(block, "DO", BlocklyJS.ORDER_ADDITION || "false")
 
-    if (block.getInput("ELSE")) {
-        elseBranch = BlocklyJS.statementToCode(block, "ELSE")
-    }
-    //let code = ""
-    //code += "if (" + conditionCode + ") {\n" + doBranch + "}"
-    //code += " else {\n" + elseBranch + "}"
-    // return code
-    log.trace(`condition: ${conditionCode}
+    const elseBranch = sanitise(BlocklyJS.statementToCode(block, "ELSE"))
+
+    log.trace(
+        `condition: ${conditionCode}
         doBranch: ${doBranch}
         elseBranch: ${elseBranch}`
     )
-    log.trace(Lang.cond(conditionCode)(doBranch)(elseBranch))
     return Lang.cond(conditionCode)(doBranch)(elseBranch)
 }
-export {reactFieldCode, cond}
+
+function gt(block: Block) {
+    const arg0 = BlocklyJS.valueToCode(block, "arg0", BlocklyJS.ORDER_RELATIONAL || "false")
+    const arg1 = BlocklyJS.valueToCode(block, "arg1", BlocklyJS.ORDER_RELATIONAL || "false")
+
+    return Lang.gt(arg0)(arg1)
+}
+
+function sanitise(code: string) {
+    // Regex containing the whitelist of allowed characters, negated to make it replace all characters
+    // not explicitly allowed with empty string(s).
+    return code.replace("[^a-z0-9åäö{}[\\]().,_-]", "")
+}
+
+
+export {cond, gt}

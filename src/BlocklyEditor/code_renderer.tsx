@@ -11,7 +11,7 @@ const codeStyle: CSSProperties = {
 function CodeRenderer(props: { code: string}) {
     return (
         <div style={codeStyle}>
-            <h1>Generated JS code is here</h1>
+            <h2>Generoitu JS</h2>
             { props.code }
         </div>
     )

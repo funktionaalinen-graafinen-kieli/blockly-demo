@@ -2,7 +2,7 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import {Field, DropDownDiv, BlocklyOptions} from "blockly"
-
+/*
 class BlocklyReactField extends Field {
     private div_: Element | undefined
     static fromJson = (options: BlocklyOptions) => new BlocklyReactField(options)
@@ -30,4 +30,4 @@ const FieldRenderComponent: React.FC = () => {
 }
 
 export default BlocklyReactField
-
+*/

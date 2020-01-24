@@ -13,7 +13,7 @@ const blocklyConfig: BlocklyConfig = {
     move: {scrollbars: true, drag: false, wheel: true},
     initialXml:`
         <xml xmlns="http://www.w3.org/1999/xhtml">
-            <block type="controls_ifelse" x="0" y="0"></block>
+            <block type="funkly_cond" x="0" y="0"></block>
         </xml>`
 }
 
