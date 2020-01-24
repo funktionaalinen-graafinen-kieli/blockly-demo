@@ -1,6 +1,8 @@
 
 ## Creating blocks
+* https://sites.google.com/view/blockly-user-summit-2019/hackathon/rendering-quick-start
 * https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
+* https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
 * Block json _has_ to contain a message for every argument containing the string "%1"
 For example this
 ``` 

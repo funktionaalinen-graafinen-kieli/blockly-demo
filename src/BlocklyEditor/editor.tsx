@@ -4,7 +4,7 @@ import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
 import {Block, Value, Field} from "./BlocklyReact/blockly_jsx_wrappers"
-import blocklyConfig from "./BlocklyReact/config"
+import blocklyConfig from "./blockly_workspace_config"
 import CodeRenderer from "./code_renderer"
 
 const editorBlocks =  (
