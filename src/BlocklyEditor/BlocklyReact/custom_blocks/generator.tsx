@@ -5,8 +5,19 @@ import {Lang} from "../../../Lang/lang"
 import * as log from "loglevel"
 
 
-class Generator {
-    static funkly_cond(block: Block) {
+enum funklyBlockType {
+    COND = "funkly_cond",
+    GT = "funkly_gt",
+    NUMBER = "funkly_number"
+}
+
+function funklyCodegen(type: funklyBlockType) {
+    if (type === funklyBlockType.COND) return funkly_cond
+    else if (type === funklyBlockType.GT) return funkly_gt
+    else if (type === funklyBlockType.NUMBER) return funkly_number
+    else log.error("Invalid funkly block type")
+
+    function funkly_cond(block: Block) {
 
         const conditionCode = block.getInput("IF") ?
             BlocklyJS.statementToCode(block, "IF", BlocklyJS.ORDER_NONE || "false") : ""
@@ -24,7 +35,7 @@ class Generator {
     }
 
 
-    static funkly_gt(block: Block) {
+    function funkly_gt(block: Block) {
         const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL || "false")
         const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL || "false")
 
@@ -32,7 +43,7 @@ class Generator {
     }
 
 
-    static funkly_number(block: Block) {
+    function funkly_number(block: Block) {
         // TODO: This always returns the OR case. Figure out why and how to fix
         const arg0 = BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC) || 0
         log.trace(block.getInput("NUMBER_CONSTANT"))
@@ -41,10 +52,4 @@ class Generator {
     }
 }
 
-enum funklyBlockType {
-    COND = "funkly_cond",
-    GT = "funkly_gt",
-    NUMBER = "funkly_number"
-}
-
-export {funklyBlockType, Generator}
+export {funklyBlockType, funklyCodegen}
