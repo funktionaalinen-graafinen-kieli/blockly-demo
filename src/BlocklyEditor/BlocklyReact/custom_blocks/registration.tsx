@@ -1,12 +1,26 @@
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
-import Blockly, {BlocklyOptions, Field} from "blockly"
+import log from "loglevel"
 
-import * as Generator from "./generator"
+import {funklyBlockType, Generator} from "./generator"
 
 
-const cond = {
-    "type:": "funkly_cond",
+function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
+    if (style !in ["logic_blocks", "math_blocks"]) {
+        log.error("Non-enabled blockly style!")
+    }
+    Blocks[id] = {
+        init: function () {
+            this.jsonInit(configuration)
+            this.setStyle(style)
+        }
+    }
+
+    BlocklyJS[id] = Generator[id]
+}
+
+const condJson = {
+    "type:": funklyBlockType.COND,
     "message0": "if: %1",
     "args0": [
         {
@@ -32,23 +46,10 @@ const cond = {
     "nextStatement": 3,
 }
 
-class CondField extends Field {
-    static fromJson = (options: BlocklyOptions) => new CondField(options)
-}
+createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
 
-Blocks["funkly_cond"] = {
-    init: function() {
-        this.jsonInit(cond)
-        this.setStyle("logic_blocks")
-    }
-}
-
-BlocklyJS["funkly_cond"] = Generator.cond
-Blockly.fieldRegistry.register("funkly_cond_field", CondField)
-
-
-const gt = {
-    "type:": "funkly_gt",
+const gtJson = {
+    "type:": funklyBlockType.GT,
     "message0": "is: %1",
     "args0": [
         {
@@ -66,23 +67,10 @@ const gt = {
     "previousStatement": null
 }
 
-class GreaterThan extends Field {
-    static fromJson = (options: BlocklyOptions) => new GreaterThan(options)
-}
+createCustomBlock(funklyBlockType.GT, "logic_blocks", gtJson)
 
-Blocks["funkly_gt"] = {
-    init: function() {
-        this.jsonInit(gt)
-        this.setStyle("logic_blocks")
-    }
-}
-
-BlocklyJS["funkly_gt"] = Generator.gt
-Blockly.fieldRegistry.register("funkly_gt_field", GreaterThan)
-
-
-const number = {
-    "type:": "funkly_number",
+const numberJson = {
+    "type:": funklyBlockType.NUMBER,
     "message0": "%1",
     "args0": [
         {
@@ -93,17 +81,4 @@ const number = {
     ],
     "previousStatement": null
 }
-
-class FunklyNumber extends Field {
-    static fromJson = (options: BlocklyOptions) => new FunklyNumber(options)
-}
-
-Blocks["funkly_number"] = {
-    init: function() {
-        this.jsonInit(number)
-        this.setStyle("math_blocks")
-    }
-}
-
-BlocklyJS["funkly_number"] = Generator.number
-Blockly.fieldRegistry.register("funkly_number_field", FunklyNumber)
+createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
