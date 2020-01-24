@@ -1,4 +1,15 @@
 ## README 
+
+# Deployed environments
+
+- [staging](http://staging-funkly.herokuapp.com/)
+- [Latest "stable"](http://funkly.herokuapp.com/)
+
+# Task boards
+
+* [Sprint backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/3)
+* [Product backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/1)
+
 # Usage
 
 ## Installing 
