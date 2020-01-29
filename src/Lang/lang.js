@@ -6,6 +6,11 @@ class Lang {
     // functions used to simplify writing new functions
 
     /**
+     * removes \n
+     */
+    static cleanString = s => s.replace(/\/\n/g,'');
+
+    /**
      *
      */
     static infix = (op,x,y) => this.cat(this.wrap(x),op,this.wrap(y));
@@ -44,10 +49,9 @@ class Lang {
     static mutate = name => val => "eval"+this.wrap(this.infix("=",name,val));
 
     /**
-     * removes \n
+     * Gets a value from the global state map in GameEngine
      */
-    static cleanString = s => s.replace(/\/\n/g,'');
-
+    static get = v => this.cat("getVal",this.wrap(v));
 }
 
 exports.Lang = Lang;
