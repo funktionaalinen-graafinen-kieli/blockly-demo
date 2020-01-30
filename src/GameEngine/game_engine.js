@@ -10,7 +10,10 @@ export default class GameEngine extends React.Component {
 
         this.state = {state: new Map()}
         
-        this.entity = new Entity("e", this.state.state, props.entityList[0])
+        this.entities = []
+        Object.keys(props.entityList).forEach(entityName => {
+            this.entities.push(new Entity(entityName, this.state.state, props.entityList[entityName]));
+        })
     }
 
     getVal = name => this.state.state.get(name)[1]

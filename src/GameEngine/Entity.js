@@ -5,12 +5,11 @@ export default class Entity {
         this.state.set(key,v)
     }
 
-    constructor(name, state, values) {
+    constructor(state, name, vars) {
         this.name = name
         this.state = state
-        for (let [k,v] of values) {
-            this.setVal(k,v)
-        }
+        Object.keys(vars).forEach(k => {
+            this.setVal(k,vars[k])
+        })
     }
-
 }
