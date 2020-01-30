@@ -26,6 +26,7 @@ export const cat = (...xs) => xs.reduce((x,y) => String(x)+String(y),"");
 
 // BASIC FUNCTIONS
 
+export const id = x => x;
 export const add = x => y => infix("+",x,y);
 export const sub = x => y => infix("-",x,y);
 export const gt = x => y => infix(">",x,y);
@@ -48,6 +49,9 @@ export const cond = b => f => g => cat(b,"?",infix(":",f,g));
 export const mutate = name => val => "eval"+wrap(infix("=",name,val));
 
 /**
-    * Gets a value from the global state map in GameEngine
+    * Gets a value from the state map in GameEngine
     */
-export const get = v => cat("getVal",wrap(v));
+export const get = v => cat("s.get",wrap(v),"[1]");
+
+// TODO document this func
+export const timer = x => get("time") - x[1] >= x[2] ? [true,get("time"),x[2]] : [false,x[1],x[2]]

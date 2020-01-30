@@ -8,20 +8,21 @@ export default class GameEngine extends React.Component {
     constructor(props){
         super(props)
 
-        this.state = {state: new Map()}
-        
-        this.entities = []
-        Object.keys(props.entityList).forEach(entityName => {
-            this.entities.push(new Entity(entityName, this.state.state, props.entityList[entityName]));
-        })
+        this.state = {state: new Map(), entities: []}
+        console.log(this.props.objectList)
     }
 
     getVal = name => this.state.state.get(name)[1]
 
-    timer = (x,s,time) => this.getVal("time") - x[1] >= x[2] ? [true,this.getVal("time"),x[2]] : [false,x[1],x[2]]
 
     componentDidMount(){
-        this.props.addEvents(this.state.state,this.timer)
+        Object.keys(this.props.objectList["entities"]).forEach(entityName => {
+            this.state.entities.push(new Entity(this.state.state, entityName, this.props.objectList["entities"][entityName]));
+        })
+        Object.keys(this.props.objectList["events"]).forEach(eventName => {
+            this.state.state.set(eventName,this.props.objectList["events"][eventName])
+        })
+        //this.props.addEvents(this.state.state,this.timer)
         this.run()
     }
 
@@ -43,13 +44,20 @@ export default class GameEngine extends React.Component {
     }
 
     render(){
+        if (this.state.entities.length == 0) return null;
         return (
-            <div>
-                <img style={{width: 500, height: 500, backgroundColor: "red", position:"absolute", left:0, top:0}}/>
+            <>
+            <img style={{width: 500, height: 500, backgroundColor: "red", position:"absolute", left:0, top:0}}/>
+            { this.state.entities.map((entity,key) =>  
+            <div key={key}>
+                console.log("kajdkajfk",entity)
                 <img
-                    style={{width: 20, height: 20, position:"absolute", left: this.getVal(this.entity.x), top: this.getVal(this.entity.y)}}
-                    src={this.getVal(this.entity.img)}
+                    style={{width: 20, height: 20, position:"absolute", left: this.getVal(entity.x), top: this.getVal(entity.y)}}
+                    src={this.getVal(entity.img)}
                 />
             </div>
+            )
+            }
+            </>
         )}
 }

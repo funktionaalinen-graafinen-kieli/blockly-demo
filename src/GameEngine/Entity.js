@@ -2,6 +2,7 @@ export default class Entity {
     setVal(k,v) {
         var key = this.name+"_"+k
         eval("this."+k+" = \""+key+"\"")
+        console.warn("state",this.state)
         this.state.set(key,v)
     }
 
