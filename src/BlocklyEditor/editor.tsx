@@ -4,8 +4,8 @@ import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
 import {Block, Value, Field} from "./BlocklyReact/blockly_jsx_wrappers"
-import blocklyConfig from "./blockly_workspace_config"
 import CodeRenderer from "./code_renderer"
+import {BLOCKLYCONFIG} from "./blockly_workspace_config"
 
 const editorBlocks =  (
     <React.Fragment>
@@ -53,7 +53,7 @@ class Editor extends React.Component {
                   ref={(event: BlocklyComponent) => {
                       this.blocklyComponent = event
                   }}
-                  {...blocklyConfig}
+                  {...BLOCKLYCONFIG}
               >
                   {editorBlocks}
               </BlocklyComponent>

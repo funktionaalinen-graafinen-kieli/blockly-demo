@@ -9,7 +9,7 @@ interface BlocklyConfig {
     initialXml: string
 }
 
-const blocklyConfig: BlocklyConfig = {
+export const BLOCKLYCONFIG: BlocklyConfig = {
     readOnly: false,
     trashcan: true,
     move: {scrollbars: true, drag: false, wheel: true},
@@ -18,5 +18,3 @@ const blocklyConfig: BlocklyConfig = {
             <block type="funkly_cond" x="0" y="0"></block>
         </xml>`
 }
-
-export default blocklyConfig
