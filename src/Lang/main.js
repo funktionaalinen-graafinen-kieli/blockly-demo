@@ -1,6 +1,5 @@
 // Class to test out lang features
-// TODO fix import 
-Lang = require('./lang');
+import {Lang} from "lang"
 
 test = `
         {

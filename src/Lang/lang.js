@@ -8,7 +8,7 @@ class Lang {
     /**
      * removes \n
      */
-    static cleanString = s => s.replace(/\/\n/g,'');
+    static cleanString = s => s.replace(/\/\n/g,"");
 
     /**
      *
@@ -33,14 +33,14 @@ class Lang {
     static lt = x => y => this.infix("<",x,y);
 
     /**
-     * Curried functional conditional expression.
+     * Curried functional -style conditional.
      * Feed it cond(condition)(do_branch)(else_branch)
      * @param b
      * @returns {function(*): function(*): string}
      */
     static cond = b => f => g => this.cat(b,"?",this.infix(":",f,g));
 
-    // STATE HANDLING
+    // state handling functions
 
     /**
      * Stores a value with a name

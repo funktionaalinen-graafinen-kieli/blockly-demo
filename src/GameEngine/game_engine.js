@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import * as log from "loglevel"
 import Entity from "./Entity.js"
-import {id,frameTime} from "../utils"
+import {id,frameTime} from "./utils"
 
 
 export default class GameEngine extends React.Component { 
