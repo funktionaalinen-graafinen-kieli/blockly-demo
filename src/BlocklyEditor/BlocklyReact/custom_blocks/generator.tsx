@@ -1,6 +1,6 @@
 import * as BlocklyJS from "blockly/javascript"
 import {Block} from "blockly"
-import Lang from "../../../Lang/lang"
+import {cond,gt,wrap} from "../../../Lang/lang"
 import * as log from "loglevel"
 
 enum funklyBlockType {
@@ -29,7 +29,7 @@ function funklyCodegen(type: funklyBlockType) {
         doBranch: ${doBranch}
         elseBranch: ${elseBranch}`
         )
-        return Lang.cond(conditionCode)(doBranch)(elseBranch)
+        return cond(conditionCode)(doBranch)(elseBranch)
     }
 
 
@@ -37,7 +37,7 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL || "false")
         const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL || "false")
 
-        return Lang.gt(arg0)(arg1)
+        return gt(arg0)(arg1)
     }
 
 
@@ -46,7 +46,7 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC) || 0
         log.trace(block.getInput("NUMBER_CONSTANT"))
 
-        return Lang.wrap(arg0)
+        return wrap(arg0)
     }
 }
 
