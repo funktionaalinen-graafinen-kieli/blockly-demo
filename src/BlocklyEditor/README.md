@@ -22,6 +22,10 @@ Would _not_ work without the message. Blockly won't realize that the inputs exis
 If you have an existing message that _doesn't_ contain the string "%1" blockly will correctly raise an error.
 
 
+Blocklys own definitions (useful as an example):
+* https://github.com/google/blockly/tree/master/generators
+* https://github.com/google/blockly/tree/master/blocks
+
 
 React-dropdown field sample
 ```typescript
