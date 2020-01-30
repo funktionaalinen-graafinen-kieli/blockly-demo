@@ -1,9 +1,7 @@
-
 import * as BlocklyJS from "blockly/javascript"
 import {Block} from "blockly"
-import {Lang} from "../../../Lang/lang"
+import Lang from "../../../Lang/lang"
 import * as log from "loglevel"
-
 
 enum funklyBlockType {
     COND = "funkly_cond",

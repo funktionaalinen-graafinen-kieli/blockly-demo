@@ -54,4 +54,4 @@ class Lang {
     static get = v => this.cat("getVal",this.wrap(v));
 }
 
-exports.Lang = Lang;
+export default Lang
