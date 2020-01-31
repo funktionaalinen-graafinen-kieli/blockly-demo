@@ -27,18 +27,22 @@ rules:
     - error
     - unix
   quotes:
-    - error
+    - warn
     - double
   semi:
     - error
     - never
   object-curly-spacing:
-    - error
+    - warn
     - never
     - "objectsInObjects": true
   object-curly-newline:
-    - error
+    - warn
     - "multiline": true
+  lines-between-class-members:
+    - warn
+    - always
+    - "exceptAfterSingleLine": true
   no-console:
     - error
   '@typescript-eslint/no-explicit-any':
