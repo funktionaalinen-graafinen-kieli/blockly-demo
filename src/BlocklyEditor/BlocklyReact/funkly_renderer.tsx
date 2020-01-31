@@ -1,9 +1,7 @@
-import * as React from "react"
 import Blockly from "blockly"
 
-export class FunklyRenderer extends Blockly.blockRendering.Renderer {
-    constructor(name: string) {
-        super(name)
-    }
-
+export function FunklyRenderer(name: string) {
+    // @ts-ignore
+    FunklyRenderer.superClass_.constructor.call(this, name)
 }
+Blockly.utils.object.inherits(FunklyRenderer, Blockly.blockRendering.Renderer)
