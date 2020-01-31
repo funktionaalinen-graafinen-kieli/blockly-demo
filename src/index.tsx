@@ -40,7 +40,7 @@ class Adapter extends React.Component<{}, {toggle: boolean}> {
 
 log.setLevel("trace")
 
-blockRendering.unregister("geras")
+//blockRendering.unregister("geras")
 blockRendering.register("funkly_renderer", FunklyRenderer)
 
 ReactDOM.render(
