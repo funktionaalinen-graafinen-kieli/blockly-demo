@@ -17,14 +17,15 @@ class Adapter extends React.Component<{}, {toggle: boolean}> {
         if (this.state.toggle) {
             return (
                 <div>
-                    <a onClick={this.onClick}> press to change component </a>
+                    <p onClick={this.onClick}> press this to change component </p>
                     <BlocklyEditor/>
                 </div>
             )
         } else {
             return (
                 <div>
-                    <a onClick={this.onClick}> press to change component </a>
+                    <p onClick={this.onClick}> press this to change component </p>
+                    <p/>
                     RENDER GAME ENGINE HERE
                 </div>
             )
