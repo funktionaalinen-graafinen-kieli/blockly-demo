@@ -2,6 +2,9 @@ import React from "react"
 import ReactDOM from "react-dom"
 
 import BlocklyEditor from "./BlocklyEditor/editor"
+import Blockly from "blockly"
+import {FunklyRenderer} from "./BlocklyEditor/BlocklyReact/funkly_renderer"
+import * as log from "loglevel"
 
 class Adapter extends React.Component<{}, {toggle: boolean}> {
     constructor(props: {}) {
@@ -32,6 +35,12 @@ class Adapter extends React.Component<{}, {toggle: boolean}> {
         }
     }
 }
+
+Blockly.blockRendering.unregister("geras")
+Blockly.blockRendering.register("funkly_renderer", FunklyRenderer)
+
+log.setLevel("trace")
+
 ReactDOM.render(
     <Adapter/>,
     document.getElementById("root")
