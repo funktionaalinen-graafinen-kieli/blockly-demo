@@ -1,4 +1,4 @@
-interface BlocklyConfig {
+interface BlocklyWsOptions {
     readOnly: boolean,
     trashcan: boolean
     move: {
@@ -6,12 +6,14 @@ interface BlocklyConfig {
         drag: boolean,
         wheel: boolean
     },
-    initialXml: string
+    initialXml: string,
+    renderer: string
 }
 
-export const BLOCKLYCONFIG: BlocklyConfig = {
+export const BLOCKLYCONFIG: BlocklyWsOptions = {
     readOnly: false,
     trashcan: true,
+    renderer: "funkly_renderer",
     move: {scrollbars: true, drag: false, wheel: true},
     initialXml:`
         <xml xmlns="http://www.w3.org/1999/xhtml">
