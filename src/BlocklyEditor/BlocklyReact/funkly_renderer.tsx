@@ -2,21 +2,21 @@ import Blockly from "blockly"
 
 /* This doesn't work. Seems like blockly doesn't support modern ES classes / their prototypes?
 
-export class FunklyRenderer {
+export class FunklyRenderer extends Blockly.blockRendering.Renderer {
     constructor(name: string) {
         super(name)
     }
 }
 Blockly.utils.object.inherits(FunklyRenderer, Blockly.blockRendering.Renderer)
+*/
 
- */
 
 // This works
+
 export function FunklyRenderer(name: string) {
     // @ts-ignore
     FunklyRenderer.superClass_.constructor.call(this, name)
 }
-
 Blockly.utils.object.inherits(FunklyRenderer, Blockly.blockRendering.Renderer)
 
 

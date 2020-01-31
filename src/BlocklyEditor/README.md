@@ -27,6 +27,11 @@ Blocklys own definitions (useful as an example):
 * https://github.com/google/blockly/tree/master/blocks
 
 
+## Customizing Blockly's renderer(s)
+* Code of Blockly's own default renderer: https://github.com/google/blockly/tree/master/core/renderers/geras
+* blockly rendering customization walkthrough https://github.com/google/blockly-samples/tree/master/rendering/rendering-walkthrough
+ (Sadly it doesn't go into depth on customizing block shape / anything outside of notches / puzzle tabs)
+
 React-dropdown field sample
 ```typescript
 // generator.tsx
