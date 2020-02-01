@@ -1,20 +1,9 @@
-# Yksinkertainen funktionaalinen kieli
-Tämän kielen on tarkoitus näyttää samankaltaiselta kuin haluttu palikkakieli.
+# FunkLang
+A simplified language for making javascript more similar to Funkly's block-based language.
+The language allows any standard JS to be mixed with it, since it is itself just a collection of curried functions.
 
-Kielessä ei ole vielä tyyppejä. (eikä se vältämättä tarvitse niitä)
+## Basic functions
 
-Kielen funktiot luovat merkkijonon jonka pystyy ajamaan JS:n funktiolla eval().
-
-`node-repl lang.js` avaa koodin REPL:issa (vaatii että node-repl on asennettu)
-
-## Globaalit muuttujat
-
-Nämä toimivat tutulla tavalla.
-```
-var e = new Entity(0,0);
-var t;
-```
-## Perus operaatiot
 ```
 > eval(add(1)(2))
 3
@@ -24,18 +13,14 @@ var t;
 2
 ```
 
-## Tilan muutos
+## State
+State is stored in the global map `s` in the GameEngine instance.
+Values from this map can be read with the function `get`.
+```
+get('e1_x')
+```
+This gets the value of `x` in the entity `e1`.
 
-```
-> e.x
-0
-> eval(mutate("e.x")(4))
-4
-> e.x
-4
-```
-
-Tämä tallentaa setInterval():in palauttaman Timeout olion muuttujaan t joka kasvattaa muuttujaa "e.x" yhdellä joka sekunti.
-```
-eval(timer("t")(mutate("e.x")(add("e.x")(1)))(1000))
-```
+Every key in the map corresponds to a tuple containing a function and a value.
+The function is what calculates the next value for that variable.
+If you wish for the value to be constant, use the function `id` for that variable.

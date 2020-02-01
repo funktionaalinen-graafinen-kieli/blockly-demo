@@ -1,34 +1,17 @@
 // Class to test out lang features
-const {add,timer,get,id,pack,infix} =  require('./lang');
+const {add,timer,get,id,pack,infix,cond,packF,lt,gt,sin,mul} =  require('./lang');
 
-export default function EvalFunc() {
-    var test = `
-            {
-                "entities": {
-                    "e1": {
-                        "x": ["pack(add(1))", 1],
-                        "y": ["pack(id)", 1],
-                        "img": ["pack(id)", "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-dog-royalty-free-image-505534037-1565105327.jpg" ]
-                    }
-                },
-                "events": {
-                    "frameTime": ["pack(id)", 16],
-                    "time": ["pack(id)", 0],
-                    "everySecond": ["pack(id)", [false, 0, 1000]]
-                }
-            }
-            
-            `
+export default function EvalFunc(flang) {
 
-    var t = JSON.parse(test)
-    Object.keys(t["entities"]).forEach(e => {
-        Object.keys(t["entities"][e]).forEach(v => {
-            t["entities"][e][v][0] = eval(eval(t["entities"][e][v][0]))
+    var js = JSON.parse(flang)
+    Object.keys(js["entities"]).forEach(e => {
+        Object.keys(js["entities"][e]).forEach(v => {
+            js["entities"][e][v][0] = eval(eval(js["entities"][e][v][0]))
         })
     })
-    Object.keys(t["events"]).forEach(e => {
-        t["events"][e][0] = eval(eval(t["events"][e][0]))
+    Object.keys(js["events"]).forEach(e => {
+        js["events"][e][0] = eval(eval(js["events"][e][0]))
     })
-    console.log(t)
-    return(t)
+    console.log(js)
+    return(js)
 }
