@@ -3,6 +3,8 @@ import ReactDOM from "react-dom"
 
 import BlocklyEditor from "./BlocklyEditor/editor"
 
+import Main from "./GameEngine/main"
+
 class Adapter extends React.Component<{}, {toggle: boolean}> {
     constructor(props: {}) {
         super(props)
@@ -18,14 +20,13 @@ class Adapter extends React.Component<{}, {toggle: boolean}> {
             return (
                 <div>
                     <a onClick={this.onClick}> press to change component </a>
-                    <BlocklyEditor/>
                 </div>
             )
         } else {
             return (
                 <div>
                     <a onClick={this.onClick}> press to change component </a>
-                    RENDER GAME ENGINE HERE
+                    <Main/>
                 </div>
             )
         }

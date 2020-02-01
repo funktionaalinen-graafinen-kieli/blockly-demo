@@ -48,6 +48,7 @@ export const cond = b => f => g => cat(b,"?",infix(":",f,g));
     */
 export const mutate = name => val => "eval"+wrap(infix("=",name,val));
 
+// GAMEENGINe
 /**
     * Gets a value from the state map in GameEngine
     */
@@ -55,3 +56,5 @@ export const get = v => cat("s.get",wrap(v),"[1]");
 
 // TODO document this func
 export const timer = x => get("time") - x[1] >= x[2] ? [true,get("time"),x[2]] : [false,x[1],x[2]]
+
+export const pack = f => cat("(x,s) => ","eval(",f,")",wrap("x"))

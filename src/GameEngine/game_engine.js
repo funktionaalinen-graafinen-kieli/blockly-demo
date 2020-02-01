@@ -48,9 +48,9 @@ export default class GameEngine extends React.Component {
         return (
             <>
             <img style={{width: 500, height: 500, backgroundColor: "red", position:"absolute", left:0, top:0}}/>
-            { this.state.entities.map((entity,key) =>  
+            //{ this.state.entities.map((entity,key) =>  
             <div key={key}>
-                console.log("kajdkajfk",entity)
+                {console.log("Img",this.state.state.get(entity.img))}
                 <img
                     style={{width: 20, height: 20, position:"absolute", left: this.getVal(entity.x), top: this.getVal(entity.y)}}
                     src={this.getVal(entity.img)}
