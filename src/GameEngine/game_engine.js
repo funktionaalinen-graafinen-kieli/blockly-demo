@@ -47,7 +47,7 @@ export default class GameEngine extends React.Component {
         if (this.state.entities.length == 0) return null;
         return (
             <>
-            <img style={{width: 1920, height: 1080, backgroundColor: "green", position:"absolute", left:0, top:0}}/>
+            <img style={{width: 1920, height: 1080, backgroundColor: "green", position:"absolute", left:0, top:40}}/>
             { this.state.entities.map((entity,key) =>  
             <div key={key}>
                 <img

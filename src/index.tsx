@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
-//import BlocklyEditor from "./BlocklyEditor/editor"
+import BlocklyEditor from "./BlocklyEditor/editor"
 
 import Main from "./GameEngine/main"
 
@@ -20,6 +20,7 @@ class Adapter extends React.Component<{}, {toggle: boolean}> {
             return (
                 <div>
                     <a onClick={this.onClick}> press to change component </a>
+		    <BlocklyEditor/>
                 </div>
             )
         } else {
