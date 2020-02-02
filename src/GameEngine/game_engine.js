@@ -10,6 +10,7 @@ export default class GameEngine extends React.Component {
 
         this.state = {state: new Map(), entities: []}
         console.log(this.props.objectList)
+        this.gameArea = React.createRef()
     }
 
     getVal = name => this.state.state.get(name)[1]
@@ -17,7 +18,7 @@ export default class GameEngine extends React.Component {
 
     componentDidMount(){
         Object.keys(this.props.objectList["entities"]).forEach(entityName => {
-            this.state.entities.push(new Entity(this.state.state, entityName, this.props.objectList["entities"][entityName]));
+            this.state.entities.push(new Entity(this.state.state, entityName, this.props.objectList["entities"][entityName]))
         })
         Object.keys(this.props.objectList["events"]).forEach(eventName => {
             this.state.state.set(eventName,this.props.objectList["events"][eventName])
@@ -44,19 +45,21 @@ export default class GameEngine extends React.Component {
     }
 
     render(){
-        if (this.state.entities.length == 0) return null;
+        this.props.setState(this.state.state)
+        if (this.state.entities.length == 0) return null
         return (
-            <>
-            <img style={{width: 1920, height: 1080, backgroundColor: "green", position:"absolute", left:0, top:40}}/>
-            { this.state.entities.map((entity,key) =>  
-            <div key={key}>
-                <img
-                    style={{width: 50, height: 50, position:"absolute", left: this.getVal(entity.x), top: this.getVal(entity.y)}}
-                    src={this.getVal(entity.img)}
-                />
+            <div style={{backgroundColor: "green", width: "100%", height: "100%"}}
+                ref={this.gameArea}
+            >
+                { this.state.entities.map((entity,key) =>  
+                    <div key={key}>
+                        <img
+                            style={{width: 50, height: 50, position:"absolute", left: this.getVal(entity.x), top: this.getVal(entity.y)}}
+                            src={this.getVal(entity.img)}
+                        />
+                    </div>
+                )
+                }
             </div>
-            )
-            }
-            </>
         )}
 }

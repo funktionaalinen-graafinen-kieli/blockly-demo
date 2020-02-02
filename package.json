@@ -14,8 +14,10 @@
     "@types/testing-library__user-event": "^4.1.1",
     "@types/typescript": "^2.0.0",
     "blockly": "^3.20200123.1",
+    "bootstrap": "^4.4.1",
     "loglevel": "^1.6.6",
     "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
     "typescript": "^3.7.4"
