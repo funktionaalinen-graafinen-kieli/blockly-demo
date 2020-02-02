@@ -28,9 +28,15 @@ Blocklys own definitions (useful as an example):
 
 
 ## Customizing Blockly's renderer(s)
-* Code of Blockly's own default renderer: https://github.com/google/blockly/tree/master/core/renderers/geras
+* Code of Blockly's own default renderer: 
+    * https://github.com/google/blockly/tree/master/core/renderers/geras
+    * https://github.com/google/blockly/blob/master/core/renderers/geras/path_object.js
 * blockly rendering customization walkthrough https://github.com/google/blockly-samples/tree/master/rendering/rendering-walkthrough
  (Sadly it doesn't go into depth on customizing block shape / anything outside of notches / puzzle tabs)
+ * http://127.0.0.1:3001/index.html?renderer=typed_connection_shapes
+ * https://developers.google.com/blockly/reference/js/Blockly.blockRendering.ConstantProvider.html#makeNotch
+ 
+ 
 
 React-dropdown field sample
 ```typescript
