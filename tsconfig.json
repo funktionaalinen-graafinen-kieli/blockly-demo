@@ -20,9 +20,5 @@
   },
   "include": [
     "src"
-  ],
-  "exclude": [
-    "src/GameEngine",
-    "src/Lang"
   ]
 }

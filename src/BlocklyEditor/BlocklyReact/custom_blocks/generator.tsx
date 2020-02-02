@@ -1,6 +1,5 @@
 import * as BlocklyJS from "blockly/javascript"
 import {Block} from "blockly"
-import {cond,gt,wrap} from "../../../Lang/lang"
 import * as log from "loglevel"
 
 enum funklyBlockType {
@@ -18,7 +17,8 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_cond(block: Block) {
 
         const conditionCode = block.getInput("IF") ?
-            BlocklyJS.statementToCode(block, "IF", BlocklyJS.ORDER_NONE || "false") : ""
+            BlocklyJS.statementToCode(block, "IF", BlocklyJS.ORDER_NONE || "false")
+            : ""
 
         const doBranch = BlocklyJS.statementToCode(block, "DO", BlocklyJS.ORDER_ADDITION || "false")
 
@@ -29,7 +29,7 @@ function funklyCodegen(type: funklyBlockType) {
         doBranch: ${doBranch}
         elseBranch: ${elseBranch}`
         )
-        return cond(conditionCode)(doBranch)(elseBranch)
+        return funcwrap("cond", conditionCode, doBranch, elseBranch)
     }
 
 
@@ -37,7 +37,7 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL || "false")
         const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL || "false")
 
-        return gt(arg0)(arg1)
+        return funcwrap("gt", arg0, arg1)
     }
 
 
@@ -48,6 +48,15 @@ function funklyCodegen(type: funklyBlockType) {
 
         return wrap(arg0)
     }
+}
+
+const wrap = (x: string) => "("+x+")"
+
+const cat = (...xs: string[]) => xs.reduce((x,y) => x+y)
+
+const funcwrap = (func: string, ...args: string[]) => {
+    return func + "(" + cat(...args) + ")"
+
 }
 
 export {funklyBlockType, funklyCodegen}
