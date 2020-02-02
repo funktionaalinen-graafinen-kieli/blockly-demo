@@ -47,8 +47,7 @@ export class BlocklyComponent extends React.Component<{initialXml: string, }> {
             this.primaryWorkspace = Blockly.inject(
                 this.blocklyDiv,
                 {
-		    // this line would not compile
-                    //toolbox: this.toolbox,
+                    toolbox: this.toolbox,
                     ...rest
                 }
             )
