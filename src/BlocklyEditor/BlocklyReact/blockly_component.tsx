@@ -25,7 +25,7 @@ import * as React from "react"
 import * as Blockly from "blockly"
 import locale from "blockly/msg/en"
 
-import "./custom_blocks/blocks"
+import "./custom_blocks/registration"
 
 const blocklyDivStyle: React.CSSProperties =  {
     height: "100%",
@@ -36,7 +36,7 @@ const blocklyDivStyle: React.CSSProperties =  {
 
 Blockly.setLocale(locale)
 export class BlocklyComponent extends React.Component<{initialXml: string, }> {
-    private toolbox!: Blockly.Toolbox
+    private toolbox!: HTMLElement
     private primaryWorkspace!: Blockly.Workspace
     private blocklyDiv: HTMLElement | null = null
 
@@ -70,7 +70,7 @@ export class BlocklyComponent extends React.Component<{initialXml: string, }> {
                 {/* Needed to ignore xml error
                 //@ts-ignore */}
                 <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{display: "none"}}
-                    ref={(toolbox: Blockly.Toolbox) => {this.toolbox = toolbox}}>
+                    ref={(toolbox: HTMLElement) => {this.toolbox = toolbox}}>
                     {children}
                     {/* Needed to ignore xml error
                 //@ts-ignore */}

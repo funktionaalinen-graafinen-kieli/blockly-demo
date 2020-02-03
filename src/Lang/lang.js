@@ -1,32 +1,69 @@
-// removes \n and runs eval
-var makeJs = s => eval(s.replace(/\/\n/g,''));
-
-// BASIC FUNCTIONS
-var add = x => y => infix("+",x,y);
-
-var sub = x => y => infix("-",x,y);
-
-var gt = x => y => infix(">",x,y);
-
-var lt = x => y => infix("<",x,y);
-
-var cond = b => f => g => cat(b,"?",infix(":",f,g));
-
-// STATE HANDLING FUNCTIONS
-
-// Stores a value with a name
-// or changes existing variable.
-var mutate = name => val => "eval"+w(infix("=",name,val));
-
-// name is the name of the Timer that setInterval returns.f is function to run. t is interval in ms
-var timer = name => f => t => mutate(name)(cat("setInterval(eval(()=>",f,"),",t,")"));
+// basic blocks
+// each is a curried function
 
 // HELPER FUNCTIONS
+// functions used to simplify writing new functions
 
-var infix = (op,x,y) => cat(w(x),op,w(y));
+/**
+    * removes \n
+    */
+export const cleanString = s => s.replace(/\/\n/g,"");
 
-// wrap in parens
-var w = x => "("+x+")";
+/**
+    *
+    */
+export const infix = (op,x,y) => cat(wrap(x),op,wrap(y));
 
-// concatenate strings
-var cat = (...xs) => xs.reduce((x,y) => String(x)+String(y),"");
+/**
+    * Wrap a string in parens
+    */
+export const wrap = x => "("+x+")";
+export const quote = x => "'"+x+"'";
+
+/**
+    * concatenate strings
+    */
+export const cat = (...xs) => xs.reduce((x,y) => String(x)+String(y),"");
+
+// BASIC FUNCTIONS
+
+export const id = x => x;
+export const add = x => y => infix("+",x,y);
+export const sub = x => y => infix("-",x,y);
+export const mul = x => y => infix("*",x,y);
+export const gt = x => y => infix(">",x,y);
+export const lt = x => y => infix("<",x,y);
+
+// Trig
+export const sin = x => cat("Math.sin",wrap(x));
+/**
+    * Curried functional -style conditional.
+    * Feed it cond(condition)(do_branch)(else_branch)
+    * @param b
+    * @returns {function(*): function(*): string}
+    */
+export const cond = b => f => g => cat(b,"?",infix(":",f,g));
+
+// state handling functions
+
+/**
+    * Stores a value with a name
+    * or changes existing variable.
+    */
+export const mutate = name => val => "eval"+wrap(infix("=",name,val));
+
+// GAMEENGINe
+/**
+    * Gets a value from the state map in GameEngine
+    */
+export const get = v => cat("s.get",wrap(quote(v)),"[1]");
+
+// TODO document this func
+export const timer = x => get("time") - x[1] >= x[2] ? [true,get("time"),x[2]] : [false,x[1],x[2]]
+
+// packages a funklang function with all arguments
+export const pack = f => cat("(x,s) => ",f)
+
+// packages a funklang function which is missing one argument.
+// applies 'x' as the missing argument
+export const packF = f => cat("(x,s) => ",wrap(eval(f)),wrap('x'))

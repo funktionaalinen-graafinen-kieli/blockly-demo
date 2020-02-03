@@ -4,7 +4,7 @@ import React from "react"
 import {render, fireEvent, screen, cleanup} from "@testing-library/react"
 
 import Editor from "../editor"
-afterEach(cleanup);
+afterEach(cleanup)
 
 test("Editor renders buttons correctly", () => {
     render(<Editor/>)
@@ -18,10 +18,10 @@ test("Code renderer displays correctly", () => {
 })
 
 test("Editor renders drop down menu correctly", () => {
-    let rendered = render(<Editor/>)
-    let container = rendered.container
+    const {getByText} = render(<Editor/>)
+    expect(getByText("true"))
 
-    fireEvent.click(container.querySelector("blocklyDropDownContent"), {button: 1})
-    expect(container.getByText("blockly:u"))
-    expect(container.getByText("blockly:s"))
+    fireEvent.click(getByText("true"))
+    //expect(screen.getByText("true"))
+    expect(getByText("false"))
 })

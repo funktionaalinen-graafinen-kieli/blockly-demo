@@ -1,15 +1,9 @@
-# Funkly Lang
+# FunkLang
+A simplified language for making javascript more similar to Funkly's block-based language.
+The language allows any standard JS to be mixed with it, since it is itself just a collection of curried functions.
 
-`node-repl lang.js` to run interactively (requires node-repl to be installed)
+## Basic functions
 
-## Variables
-
-Variables are initialized like this
-```
-var e = new Entity(0,0);
-var t;
-```
-## Basic operations
 ```
 > eval(add(1)(2))
 3
@@ -19,18 +13,14 @@ var t;
 2
 ```
 
-## Mutating state
-Variables must always be referenced as strings.
-Mutating a variable happens like this.
+## State
+State is stored in the global map `s` in the GameEngine instance.
+Values from this map can be read with the function `get`.
 ```
-> eval(mutate("e.x")(4))
-4
+get('e1_x')
 ```
+This gets the value of `x` in the entity `e1`.
 
-# Examples
-The following stores a timer into `t` which increments `x` by one every `100ms` and sets x to 0 when !(x<100).
-```
-var x = 0;
-var t;
-eval(timer("t")(mutate("x")(cond(lt('x')(100))(add('x')(1))(0)))(100))
-```
+Every key in the map corresponds to a tuple containing a function and a value.
+The function is what calculates the next value for that variable.
+If you wish for the value to be constant, use the function `id` for that variable.
