@@ -9,10 +9,14 @@ const codeStyle: CSSProperties = {
 
 
 function CodeRenderer(props: { code: string}) {
+    let engineCode = '"entities": {'
+    engineCode += props.code
+    engineCode += "}"
+
     return (
         <div style={codeStyle}>
             <h2>Generoitu JS</h2>
-            { props.code }
+            { engineCode }
         </div>
     )
 }

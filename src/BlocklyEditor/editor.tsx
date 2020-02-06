@@ -13,6 +13,7 @@ const editorBlocks =  (
         <Block type="funkly_gt"/>
         <Block type="funkly_number"/>
         <Block type="funkly_entity"/>
+        <Block type="funkly_event"/>
         <Block type="text"/>
     </React.Fragment>
 )

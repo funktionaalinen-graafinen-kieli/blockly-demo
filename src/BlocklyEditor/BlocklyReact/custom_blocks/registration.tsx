@@ -6,7 +6,7 @@ import {funklyBlockType, funklyCodegen} from "./generator"
 
 
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
-    if (style !in ["logic_blocks", "math_blocks"]) {
+    if (!["logic_blocks", "math_blocks"].includes(style)) {
         log.error("Non-enabled blockly style!")
     }
     Blocks[id] = {
@@ -119,3 +119,25 @@ const entityJson = {
 }
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
+
+const eventJson = {
+    "type:": funklyBlockType.EVENT,
+    "inputsInline": true,
+    "message0": "name: %1",
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "eventName",
+            "check": "String"
+        }
+    ],
+    "message1": "function: %1",
+    "args1": [
+        {
+            "type": "input_statement",
+            "name": "f"
+        }
+    ]
+}
+
+createCustomBlock(funklyBlockType.EVENT, "text_blocks", eventJson)
