@@ -44,12 +44,25 @@ export default class GameEngine extends React.Component {
         },frameTime)
     }
 
+    handleKeyDown = (e) =>
+    {
+        console.log("down",e.key)
+    }
+
+    handleKeyUp = (e) =>
+    {
+        console.log("up",e.key)
+    }
+
     render(){
         this.props.setState(this.state.state)
         if (this.state.entities.length == 0) return null
         return (
             <div style={{backgroundColor: "green", width: "100%", height: "100%"}}
                 ref={this.gameArea}
+                onKeyDown={this.handleKeyDown}
+                onKeyUp={this.handleKeyUp}
+                tabIndex="0"
             >
                 { this.state.entities.map((entity,key) =>  
                     <div key={key}>
