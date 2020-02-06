@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import ReactDOM from "react-dom"
 import * as log from "loglevel"
 import {id, frameTime} from "./utils"
@@ -41,12 +41,17 @@ const dogeRace = `
 `
 
 log.setLevel("trace")
-export default function Main(props) {
-    const [codeInput, setCodeInput] = useState(dogeRace)
-    const [code, setCode] = useState(null)
-    const [state, setState] = useState(null)
+export default class Main extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            codeInput: dogeRace,
+            code: null,
+            state: null
+        }
+    }
 
-    const iterate = (state) => {
+    iterate = (state) => {
         if(!state) return null
         const table = []
         state.forEach((value,key,map)=>{
@@ -55,24 +60,30 @@ export default function Main(props) {
         return table
     }
 
-    return(
-        <Container fluid>
-            <Row>
-                <Col>
-                    {code && <GameEngine
-                        objectList={EvalFunc(code)}
-                        setState={(i)=>setState(i)}
-                    />}
-                </Col>
-                <Col>
-                    <textarea value={codeInput} onChange={(i)=>setCodeInput(i.target.value)} style={{width:500, height: 750}} />
-                    <button onClick={()=>code ? setCode(null) : setCode(codeInput)}>{code ? "stop" : "run"}</button>
-                </Col>
-                <Col style={{backgroundColor:"orange"}}>
-                    <p>State</p>
-                    {iterate(state)}
-                </Col>
-            </Row>
-        </Container>
-    )
+    render() {
+        const {codeInput,code,state} = this.state
+        return(
+            <Container fluid>
+                <Row>
+                    <Col>
+                        {code && <GameEngine
+                            objectList={EvalFunc(code)}
+                            setState={(i)=>{
+                                // React complained the amount of updates
+                                if(Math.random() < .1) this.setState({state: i})
+                            }}
+                        />}
+                    </Col>
+                    <Col>
+                        <textarea value={codeInput} onChange={(i)=>this.setState({codeInput:i.target.value})} style={{width:500, height: 750}} />
+                        <button onClick={()=>code ? this.setState({code:null}) : this.setState({code:codeInput})}>{code ? "stop" : "run"}</button>
+                    </Col>
+                    <Col style={{backgroundColor:"orange"}}>
+                        <p>State</p>
+                        {this.iterate(state)}
+                    </Col>
+                </Row>
+            </Container>
+        )
+    }
 }
