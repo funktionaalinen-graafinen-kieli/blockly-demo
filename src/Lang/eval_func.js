@@ -15,6 +15,6 @@ export default function EvalFunc(flang) {
         const event = js["events"][key]
         event[0] = eval(eval(event[0]))
     })
-    log.trace(js)
+    console.log(js)
     return(js)
 }

@@ -1,9 +1,7 @@
 import React from "react"
-import ReactDOM from "react-dom"
 import * as log from "loglevel"
-import {id, frameTime} from "./utils"
 import GameEngine from "./game_engine"
-import EvalFunc from "../Lang/eval"
+import EvalFunc from "../Lang/eval_func"
 import {Container, Row, Col} from "react-bootstrap"
 
 const dogeRace = `

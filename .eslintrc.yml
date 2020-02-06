@@ -44,8 +44,6 @@ rules:
     - warn
     - always
     - "exceptAfterSingleLine": true
-  no-console:
-    - error
   '@typescript-eslint/no-explicit-any':
     - error
   '@typescript-eslint/consistent-type-assertions':

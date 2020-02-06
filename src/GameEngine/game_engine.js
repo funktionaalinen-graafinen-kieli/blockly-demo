@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from "react"
-import * as log from "loglevel"
+import React from "react"
 import Entity from "./Entity.js"
-import {id,frameTime} from "./utils"
+import {frameTime} from "./utils"
 
 class MapWithDefault extends Map {
-  get(key) {
-    if (!this.has(key)) return this.default();
-    return super.get(key);
-  }
+    get(key) {
+        if (!this.has(key)) return this.default()
+        return super.get(key)
+    }
   
-  constructor(defaultFunction, entries) {
-    super(entries);
-    this.default = defaultFunction;
-  }
+    constructor(defaultFunction, entries) {
+        super(entries)
+        this.default = defaultFunction
+    }
 }
 
 export default class GameEngine extends React.Component { 
@@ -89,8 +88,7 @@ export default class GameEngine extends React.Component {
                 onKeyDown={this.handleKeyDown}
                 onKeyUp={this.handleKeyUp}
                 tabIndex="0"
-            >
-                { this.state.entities.map((entity,key) =>  
+            >{ this.state.entities.map((entity,key) =>
                     <div key={key}>
                         <img
                             style={{width: 50, height: 50, position:"absolute", left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300), top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)}}
@@ -100,5 +98,6 @@ export default class GameEngine extends React.Component {
                 )
                 }
             </div>
-        )}
+        )
+    }
 }
