@@ -15,7 +15,7 @@ class MapWithDefault extends Map {
 }
 
 export default class GameEngine extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
@@ -26,7 +26,7 @@ export default class GameEngine extends React.Component {
     getVal = name => this.state.gameState.get(name)[1]
 
 
-    componentDidMount(){
+    componentDidMount() {
         const entities = this.props.objectList["entities"]
         Object.keys(entities).forEach(entityName => {
             this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
@@ -42,15 +42,15 @@ export default class GameEngine extends React.Component {
         this.run()
     }
 
-    updateState = (k,v) => {
+    updateState = (k, v) => {
         this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
     }
-  
+
     applyF(key,state) {
-        let p = this.state.gameState.get(key)
-        return p[0](p[1],this.state.gameState)
+        let p = state.get(key)
+        return p[0](p[1],state)
     }
-  
+
     run = async () =>  {
         setInterval(()=>{
             for (let [key, value] of this.state.gameState) {
@@ -79,7 +79,7 @@ export default class GameEngine extends React.Component {
         return num <= min ? min : num >= max ? max : num
     }
 
-    render(){
+    render() {
         this.props.setState(this.state.gameState)
         if (!this.state.entities.length) return null
         return (
@@ -88,14 +88,16 @@ export default class GameEngine extends React.Component {
                 onKeyDown={this.handleKeyDown}
                 onKeyUp={this.handleKeyUp}
                 tabIndex="0"
-            >{ this.state.entities.map((entity,key) =>
-                    <div key={key}>
-                        <img
-                            style={{width: 50, height: 50, position:"absolute", left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300), top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)}}
-                            src={this.getVal(entity.img)}
-                        />
-                    </div>
-                )
+            >
+                {
+                    this.state.entities.map((entity,key) =>
+                        <div key={key}>
+                            <img
+                                style={{width: 50, height: 50, position:"absolute", left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300), top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)}}
+                                src={this.getVal(entity.img)}
+                            />
+                        </div>
+                    )
                 }
             </div>
         )
