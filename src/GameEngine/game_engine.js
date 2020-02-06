@@ -18,42 +18,42 @@ export default class GameEngine extends React.Component {
     constructor(props){
         super(props)
 
-        this.state = {state: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
+        this.state = {gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
         console.log(this.props.objectList)
         this.gameArea = React.createRef()
     }
 
-    getVal = name => this.state.state.get(name)[1]
+    getVal = name => this.state.gameState.get(name)[1]
 
 
     componentDidMount(){
         const entities = this.props.objectList["entities"]
         Object.keys(entities).forEach(entityName => {
-            this.state.entities.push(new Entity(this.state.state, entityName, entities[entityName]))
+            this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
         })
 
         const events = this.props.objectList["events"]
         Object.keys(events).forEach(eventName => {
-            this.state.state.set(eventName,events[eventName])
+            this.state.gameState.set(eventName,events[eventName])
         })
-        //this.state.state.setDefault = key => [(x,s) => x,false]
-        console.log(this.state.state.get("key_a"))
-        //this.props.addEvents(this.state.state,this.timer)
+        //this.state.gameState.setDefault = key => [(x,s) => x,false]
+        console.log(this.state.gameState.get("key_a"))
+        //this.props.addEvents(this.state.gameState,this.timer)
         this.run()
     }
 
     updateState = (k,v) => {
-        this.setState({state:this.state.state.set(k,[v[0],this.applyF(k,this.state.state)])})
+        this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
     }
   
     applyF(key,state) {
-        let p = this.state.state.get(key)
-        return p[0](p[1],this.state.state)
+        let p = this.state.gameState.get(key)
+        return p[0](p[1],this.state.gameState)
     }
   
     run = async () =>  {
         setInterval(()=>{
-            for (let [key, value] of this.state.state) {
+            for (let [key, value] of this.state.gameState) {
                 this.saveKeysToState()
                 this.updateState(key,value)
             }
@@ -71,8 +71,8 @@ export default class GameEngine extends React.Component {
     }
 
     saveKeysToState = () => {
-        Array.from(this.state.keymap,([k,v]) => this.state.state.set("key_"+k,[(x,s) => x, v]))
-        //console.log(this.state.state)
+        Array.from(this.state.keymap,([k,v]) => this.state.gameState.set("key_"+k,[(x,s) => x, v]))
+        //console.log(this.state.gameState)
     }
 
     clamp = (num, min, max) => {
@@ -80,8 +80,8 @@ export default class GameEngine extends React.Component {
     }
 
     render(){
-        this.props.setState(this.state.state)
-        if (this.state.entities.length == 0) return null
+        this.props.setState(this.state.gameState)
+        if (!this.state.entities.length) return null
         return (
             <div style={{backgroundColor: "green", width: "100%", height: "100%"}}
                 ref={this.gameArea}
