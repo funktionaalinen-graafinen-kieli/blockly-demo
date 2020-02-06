@@ -3,12 +3,23 @@ import * as log from "loglevel"
 import Entity from "./Entity.js"
 import {id,frameTime} from "./utils"
 
+class MapWithDefault extends Map {
+  get(key) {
+    if (!this.has(key)) return this.default();
+    return super.get(key);
+  }
+  
+  constructor(defaultFunction, entries) {
+    super(entries);
+    this.default = defaultFunction;
+  }
+}
 
 export default class GameEngine extends React.Component { 
     constructor(props){
         super(props)
 
-        this.state = {state: new Map(), entities: []}
+        this.state = {state: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
         console.log(this.props.objectList)
         this.gameArea = React.createRef()
     }
@@ -23,6 +34,8 @@ export default class GameEngine extends React.Component {
         Object.keys(this.props.objectList["events"]).forEach(eventName => {
             this.state.state.set(eventName,this.props.objectList["events"][eventName])
         })
+        //this.state.state.setDefault = key => [(x,s) => x,false]
+        console.log(this.state.state.get("key_a"))
         //this.props.addEvents(this.state.state,this.timer)
         this.run()
     }
@@ -39,6 +52,7 @@ export default class GameEngine extends React.Component {
     run = async () =>  {
         setInterval(()=>{
             for (let [key, value] of this.state.state) {
+                this.saveKeysToState()
                 this.updateState(key,value)
             }
         },frameTime)
@@ -46,12 +60,20 @@ export default class GameEngine extends React.Component {
 
     handleKeyDown = (e) =>
     {
-        console.log("down",e.key)
+        this.state.keymap.set(e.key,true)
+        //console.log("down",e.key)
     }
 
     handleKeyUp = (e) =>
     {
-        console.log("up",e.key)
+        this.state.keymap.set(e.key,false)
+        //console.log("up",e.key)
+    }
+
+    saveKeysToState = () =>
+    {
+        Array.from(this.state.keymap,([k,v]) => this.state.state.set("key_"+k,[(x,s) => x, v]))
+        //console.log(this.state.state)
     }
 
     render(){
