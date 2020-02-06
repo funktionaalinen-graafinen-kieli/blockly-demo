@@ -14,7 +14,7 @@ class MapWithDefault extends Map {
     }
 }
 
-export default class GameEngine extends React.Component { 
+export default class GameEngine extends React.Component {
     constructor(props){
         super(props)
 
@@ -27,11 +27,14 @@ export default class GameEngine extends React.Component {
 
 
     componentDidMount(){
-        Object.keys(this.props.objectList["entities"]).forEach(entityName => {
-            this.state.entities.push(new Entity(this.state.state, entityName, this.props.objectList["entities"][entityName]))
+        const entities = this.props.objectList["entities"]
+        Object.keys(entities).forEach(entityName => {
+            this.state.entities.push(new Entity(this.state.state, entityName, entities[entityName]))
         })
-        Object.keys(this.props.objectList["events"]).forEach(eventName => {
-            this.state.state.set(eventName,this.props.objectList["events"][eventName])
+
+        const events = this.props.objectList["events"]
+        Object.keys(events).forEach(eventName => {
+            this.state.state.set(eventName,events[eventName])
         })
         //this.state.state.setDefault = key => [(x,s) => x,false]
         console.log(this.state.state.get("key_a"))
@@ -57,20 +60,17 @@ export default class GameEngine extends React.Component {
         },frameTime)
     }
 
-    handleKeyDown = (e) =>
-    {
+    handleKeyDown = (e) => {
         this.state.keymap.set(e.key,true)
         //console.log("down",e.key)
     }
 
-    handleKeyUp = (e) =>
-    {
+    handleKeyUp = (e) => {
         this.state.keymap.set(e.key,false)
         //console.log("up",e.key)
     }
 
-    saveKeysToState = () =>
-    {
+    saveKeysToState = () => {
         Array.from(this.state.keymap,([k,v]) => this.state.state.set("key_"+k,[(x,s) => x, v]))
         //console.log(this.state.state)
     }
