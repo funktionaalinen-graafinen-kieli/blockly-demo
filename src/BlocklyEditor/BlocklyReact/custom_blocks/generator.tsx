@@ -6,7 +6,8 @@ enum funklyBlockType {
     COND = "funkly_cond",
     GT = "funkly_gt",
     NUMBER = "funkly_number",
-    ENTITY = "funkly_entity"
+    ENTITY = "funkly_entity",
+    EVENT = "funkly_event"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -14,6 +15,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
+    else if (type == funklyBlockType.EVENT) return funkly_event
     else log.error("Invalid funkly block type")
 
     function funkly_cond(block: Block) {
@@ -75,6 +77,20 @@ function funklyCodegen(type: funklyBlockType) {
             "img": ["packF(id)", "http://www.pngmart.com/files/11/Shiba-Inu-Doge-Meme-PNG-Image.png" ]
         }
         */
+
+    }
+    function funkly_event(block: Block) {
+        const eventName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_event"
+        const f = BlocklyJS.statementToCode(block, "f", BlocklyJS.ORDER_RELATIONAL)
+
+        const functionInterval = 0
+
+        let output = `${eventName}: {`
+
+        output += `"f": ["pack(${f})", ${functionInterval}],`
+
+        output += "},"
+        return output
 
     }
 }

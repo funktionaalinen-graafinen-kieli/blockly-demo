@@ -119,3 +119,25 @@ const entityJson = {
 }
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
+
+const eventJson = {
+    "type:": funklyBlockType.EVENT,
+    "inputsInline": true,
+    "message0": "name: %1",
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "eventName",
+            "check": "String"
+        }
+    ],
+    "message1": "function: %1",
+    "args1": [
+        {
+            "type": "input_statement",
+            "name": "f"
+        }
+    ]
+}
+
+createCustomBlock(funklyBlockType.EVENT, "text_blocks", eventJson)
