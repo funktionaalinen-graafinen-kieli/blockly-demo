@@ -54,6 +54,10 @@ export default class GameEngine extends React.Component {
         console.log("up",e.key)
     }
 
+    clamp = (num, min, max) => {
+        return num <= min ? min : num >= max ? max : num
+    }
+
     render(){
         this.props.setState(this.state.state)
         if (this.state.entities.length == 0) return null
@@ -67,7 +71,7 @@ export default class GameEngine extends React.Component {
                 { this.state.entities.map((entity,key) =>  
                     <div key={key}>
                         <img
-                            style={{width: 50, height: 50, position:"absolute", left: this.getVal(entity.x), top: this.getVal(entity.y)}}
+                            style={{width: 50, height: 50, position:"absolute", left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300), top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)}}
                             src={this.getVal(entity.img)}
                         />
                     </div>

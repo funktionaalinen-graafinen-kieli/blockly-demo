@@ -65,12 +65,12 @@ export default class Main extends React.Component {
                             objectList={EvalFunc(code)}
                             setState={(i)=>{
                                 // React complained the amount of updates
-                                if(Math.random() < .5) this.setState({state: i})
+                                if(Math.random() < .1) this.setState({state: i})
                             }}
                         />}
                     </Col>
                     <Col>
-                        <textarea value={codeInput} onChange={(i)=>this.setState({code:i.target.value})} style={{width:500, height: 750}} />
+                        <textarea value={codeInput} onChange={(i)=>this.setState({codeInput:i.target.value})} style={{width:500, height: 750}} />
                         <button onClick={()=>code ? this.setState({code:null}) : this.setState({code:codeInput})}>{code ? "stop" : "run"}</button>
                     </Col>
                     <Col style={{backgroundColor:"orange"}}>
