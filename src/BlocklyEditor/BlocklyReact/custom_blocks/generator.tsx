@@ -66,8 +66,8 @@ function funklyCodegen(type: funklyBlockType) {
         output += `"y": ["pack(${y})", ${yDelay}],`
         output +=  `"img": ["packF(id)", ${img}]`
 
-        output += "}"
-        return wrap(output)
+        output += "},"
+        return output
         /*
         e1": {
             "x": ["pack(cond(lt(get('e1_x'))(get('width')))(add(1)(get('e1_x')))(get('e1_x')))", 1],
