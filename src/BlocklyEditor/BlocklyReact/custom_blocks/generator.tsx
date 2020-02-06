@@ -5,22 +5,24 @@ import * as log from "loglevel"
 enum funklyBlockType {
     COND = "funkly_cond",
     GT = "funkly_gt",
-    NUMBER = "funkly_number"
+    NUMBER = "funkly_number",
+    ENTITY = "funkly_entity"
 }
 
 function funklyCodegen(type: funklyBlockType) {
     if (type === funklyBlockType.COND) return funkly_cond
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
+    else if (type === funklyBlockType.ENTITY) return funkly_entity
     else log.error("Invalid funkly block type")
 
     function funkly_cond(block: Block) {
 
         const conditionCode = block.getInput("IF") ?
-            BlocklyJS.statementToCode(block, "IF", BlocklyJS.ORDER_NONE || "false")
+            BlocklyJS.statementToCode(block, "IF", BlocklyJS.ORDER_NONE)
             : ""
 
-        const doBranch = BlocklyJS.statementToCode(block, "DO", BlocklyJS.ORDER_ADDITION || "false")
+        const doBranch = BlocklyJS.statementToCode(block, "DO", BlocklyJS.ORDER_ADDITION)
 
         const elseBranch = BlocklyJS.statementToCode(block, "ELSE")
 
@@ -34,8 +36,8 @@ function funklyCodegen(type: funklyBlockType) {
 
 
     function funkly_gt(block: Block) {
-        const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL || "false")
-        const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL || "false")
+        const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
+        const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
 
         return funcwrap("gt", arg0, arg1)
     }
@@ -47,6 +49,33 @@ function funklyCodegen(type: funklyBlockType) {
         log.trace(block.getInput("NUMBER_CONSTANT"))
 
         return wrap(arg0)
+    }
+
+    function funkly_entity(block: Block) {
+        const id = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_id"
+        const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
+        const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
+        const img = BlocklyJS.valueToCode(block, "img", BlocklyJS.ORDER_RELATIONAL) || "default_image.png"
+
+        const xDelay = 0
+        const yDelay = 0
+
+        let output = `${id}: {`
+
+        output += `"x": ["pack(${x})", ${xDelay}],`
+        output += `"y": ["pack(${y})", ${yDelay}],`
+        output +=  `"img": ["packF(id)", ${img}]`
+
+        output += "}"
+        return wrap(output)
+        /*
+        e1": {
+            "x": ["pack(cond(lt(get('e1_x'))(get('width')))(add(1)(get('e1_x')))(get('e1_x')))", 1],
+            "y": ["packF(id)", 0],
+            "img": ["packF(id)", "http://www.pngmart.com/files/11/Shiba-Inu-Doge-Meme-PNG-Image.png" ]
+        }
+        */
+
     }
 }
 

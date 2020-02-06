@@ -82,3 +82,40 @@ const numberJson = {
     "previousStatement": null
 }
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
+
+const entityJson = {
+    "type:": funklyBlockType.ENTITY,
+    "inputsInline": true,
+    "message0": "name: %1",
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "id",
+            "check": "String"
+        }
+    ],
+    "message1": "x: %1",
+    "args1": [
+        {
+            "type": "input_statement",
+            "name": "x"
+        }
+    ],
+    "message2": "y: %1",
+    "args2": [
+        {
+            "type": "input_statement",
+            "name": "y"
+        }
+    ],
+    "message3": "img: %1",
+    "args3": [
+        {
+            "type": "input_value",
+            "name": "img",
+            "check": "String"
+        }
+    ]
+}
+
+createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
