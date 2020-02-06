@@ -61,7 +61,7 @@ export default function Main(props) {
                 </Col>
                 <Col>
                     <textarea value={codeInput} onChange={(i)=>setCodeInput(i.target.value)} style={{width:500, height: 750}} />
-                    <button onClick={()=>setCode(codeInput)}>Run</button>
+                    <button onClick={()=>code ? setCode(null) : setCode(codeInput)}>{code ? "stop" : "run"}</button>
                 </Col>
                 <Col style={{backgroundColor:"orange"}}>
                     <p>State</p>
