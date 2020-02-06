@@ -31,7 +31,7 @@ function funklyCodegen(type: funklyBlockType) {
         doBranch: ${doBranch}
         elseBranch: ${elseBranch}`
         )
-        return funcwrap("cond", conditionCode, doBranch, elseBranch)
+        return "cond" + argwrap(conditionCode, doBranch, elseBranch)
     }
 
 
@@ -39,7 +39,7 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
         const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
 
-        return funcwrap("gt", arg0, arg1)
+        return "gt" + argwrap(arg0, arg1)
     }
 
 
@@ -67,7 +67,7 @@ function funklyCodegen(type: funklyBlockType) {
         output +=  `"img": ["packF(id)", ${img}]`
 
         output += "}"
-        return wrap(output)
+        return output
         /*
         e1": {
             "x": ["pack(cond(lt(get('e1_x'))(get('width')))(add(1)(get('e1_x')))(get('e1_x')))", 1],
@@ -81,11 +81,23 @@ function funklyCodegen(type: funklyBlockType) {
 
 const wrap = (x: string) => "("+x+")"
 
+// TODO find better fix for stray spaces
+// strip spaces
+//args = args.map(x=>x.replace(/\s/g,""));
+const strip = (x: string) => x.replace(/\s/g,"");
+
+// wrap varArg of arguments as arguments to curried function
+const argwrap = (...xs: string[]) => cat(...xs.map(s => {
+    //if (s !== "") {
+        return wrap(strip(s))
+    //}
+    //return ""
+}))
+
 const cat = (...xs: string[]) => xs.reduce((x,y) => x+y)
 
 const funcwrap = (func: string, ...args: string[]) => {
     return func + "(" + cat(...args) + ")"
-
 }
 
 export {funklyBlockType, funklyCodegen}
