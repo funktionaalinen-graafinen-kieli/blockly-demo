@@ -1,7 +1,8 @@
 export default class Entity {
     setVal(k,v) {
-        let key = this.name+"_"+k
-        eval("this."+k+" = \""+key+"\"")
+        const key = this.name+"_"+k
+        // No idea why this.k fails when the below doesn't
+        this[k] = key
         //console.warn("state",this.state)
         this.state.set(key,v)
     }
