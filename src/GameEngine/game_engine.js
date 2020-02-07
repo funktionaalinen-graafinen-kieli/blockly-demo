@@ -2,6 +2,8 @@ import React from "react"
 import Entity from "./Entity.js"
 import {frameTime} from "./utils"
 
+const GAMESTYLE = {backgroundColor: "green", width: "100%", height: "100%"}
+
 class MapWithDefault extends Map {
     get(key) {
         if (!this.has(key)) return this.default()
@@ -80,10 +82,11 @@ export default class GameEngine extends React.Component {
     }
 
     render() {
+        // TODO: Why? Props should be immutable
         this.props.setState(this.state.gameState)
         if (!this.state.entities.length) return null
         return (
-            <div style={{backgroundColor: "green", width: "100%", height: "100%"}}
+            <div style={GAMESTYLE}
                 ref={this.gameArea}
                 onKeyDown={this.handleKeyDown}
                 onKeyUp={this.handleKeyUp}
@@ -93,7 +96,11 @@ export default class GameEngine extends React.Component {
                     this.state.entities.map((entity,key) =>
                         <div key={key}>
                             <img
-                                style={{width: 50, height: 50, position:"absolute", left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300), top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)}}
+                                style={{
+                                    width: 50, height: 50, position:"absolute",
+                                    left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300),
+                                    top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)
+                                }}
                                 src={this.getVal(entity.img)}
                                 alt=""
                             />
