@@ -41,6 +41,8 @@ export default class GameEngine extends React.Component {
         //this.state.gameState.setDefault = key => [(x,s) => x,false]
         console.log(this.state.gameState.get("key_a"))
         //this.props.addEvents(this.state.gameState,this.timer)
+        /* TODO: Should the component actually run itself? The more react way
+           Would be for the component's owner component to call for updates */
         this.run()
     }
 
