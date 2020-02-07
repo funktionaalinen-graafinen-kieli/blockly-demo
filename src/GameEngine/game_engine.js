@@ -95,6 +95,7 @@ export default class GameEngine extends React.Component {
                             <img
                                 style={{width: 50, height: 50, position:"absolute", left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300), top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)}}
                                 src={this.getVal(entity.img)}
+                                alt=""
                             />
                         </div>
                     )
