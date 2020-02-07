@@ -15,7 +15,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
-    else if (type == funklyBlockType.EVENT) return funkly_event
+    else if (type === funklyBlockType.EVENT) return funkly_event
     else log.error("Invalid funkly block type")
 
     function funkly_cond(block: Block) {
@@ -104,16 +104,9 @@ const strip = (x: string) => x.replace(/\s/g,"");
 
 // wrap varArg of arguments as arguments to curried function
 const argwrap = (...xs: string[]) => cat(...xs.map(s => {
-    //if (s !== "") {
-        return wrap(strip(s))
-    //}
-    //return ""
+    return wrap(strip(s))
 }))
 
 const cat = (...xs: string[]) => xs.reduce((x,y) => x+y)
-
-const funcwrap = (func: string, ...args: string[]) => {
-    return func + "(" + cat(...args) + ")"
-}
 
 export {funklyBlockType, funklyCodegen}
