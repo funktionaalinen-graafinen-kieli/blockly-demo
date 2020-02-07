@@ -1,3 +1,5 @@
+import {langEval} from "./lang"
+
 export default function EvalFunc(sourceCode) {
     let js = JSON.parse(sourceCode)
     Object.keys(js["entities"]).forEach(key => {
@@ -12,9 +14,4 @@ export default function EvalFunc(sourceCode) {
     })
     console.log(js)
     return(js)
-}
-
-function langEval(code) {
-    const {add,timer,get,id,pack,infix,cond,packF,lt,gt,sin,mul} =  require("./lang")
-    return eval(eval(code))
 }

@@ -1,6 +1,8 @@
-// basic blocks
-// each is a curried function
-    
+/**
+ * Evaluate a javascript statement with Lang's context
+ */
+export const langEval = (code) => eval(eval(code))
+
 // HELPER FUNCTIONS
 // functions used to simplify writing new functions
 
