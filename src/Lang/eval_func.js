@@ -2,14 +2,16 @@ import {langEval} from "./lang"
 
 export default function EvalFunc(sourceCode) {
     let js = JSON.parse(sourceCode)
-    Object.keys(js["entities"]).forEach(key => {
-        Object.keys(js["entities"][key]).forEach(v => {
-            const entity = js["entities"][key][v]
+    const entities = js["entities"]
+    Object.keys(entities).forEach(key => {
+        Object.keys(entities[key]).forEach(v => {
+            const entity = entities[key][v]
             entity[0] = langEval(entity[0])
         })
     })
-    Object.keys(js["events"]).forEach(key => {
-        const event = js["events"][key]
+    const events = js["events"]
+    Object.keys(events).forEach(key => {
+        const event = events[key]
         event[0] = langEval(event[0])
     })
     console.log(js)
