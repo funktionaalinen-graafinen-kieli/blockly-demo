@@ -7,7 +7,7 @@ enum funklyBlockType {
     GT = "funkly_gt",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
-    EVENT = "funkly_event"
+    BIND = "funkly_bind"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -15,7 +15,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
-    else if (type === funklyBlockType.EVENT) return funkly_event
+    else if (type === funklyBlockType.BIND) return funkly_bind
     else log.error("Invalid funkly block type")
 
     function funkly_cond(block: Block) {
@@ -79,13 +79,13 @@ function funklyCodegen(type: funklyBlockType) {
         */
 
     }
-    function funkly_event(block: Block) {
-        const eventName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_event"
+    function funkly_bind(block: Block) {
+        const bindName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_bind"
         const f = BlocklyJS.statementToCode(block, "f", BlocklyJS.ORDER_RELATIONAL)
 
         const functionInterval = 0
 
-        let output = `${eventName}: {`
+        let output = `${bindName}: {`
 
         output += `"f": ["pack(${f})", ${functionInterval}],`
 
