@@ -35,7 +35,6 @@ const dogeRace = `
         "width": ["packF(id)", 450]
     }
 }
-
 `
 
 log.setLevel("trace")
