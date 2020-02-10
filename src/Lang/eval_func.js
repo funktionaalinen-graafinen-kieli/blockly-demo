@@ -9,9 +9,9 @@ export default function EvalFunc(sourceCode) {
             entity[0] = langEval(entity[0])
         })
     })
-    const events = js["events"]
-    Object.keys(events).forEach(key => {
-        const event = events[key]
+    const binds = js["binds"]
+    Object.keys(binds).forEach(key => {
+        const event = binds[key]
         event[0] = langEval(event[0])
     })
     console.log(js)
