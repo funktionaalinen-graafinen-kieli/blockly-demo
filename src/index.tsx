@@ -7,7 +7,7 @@ import {blockRendering} from "blockly"
 import BlocklyEditor from "./BlocklyEditor/editor"
 import {FunklyRenderer} from "./BlocklyEditor/BlocklyReact/funkly_renderer"
 
-import Main from "./GameEngine/main"
+import EngineMain from "./GameEngine/engine_main"
 
 log.setLevel("trace")
 
@@ -16,8 +16,9 @@ blockRendering.register("funkly_renderer", FunklyRenderer)
 
 ReactDOM.render(
     <React.Fragment>
-        <Main/>
-        <BlocklyEditor/>
+        <EngineMain
+            editor={<BlocklyEditor/>}
+        />
     </React.Fragment>
     , document.getElementById("root")
 )

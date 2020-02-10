@@ -35,71 +35,66 @@ const dogeRace = `
         "width": ["packF(id)", 450]
     }
 }
-
 `
+
+const cellStyle = {
+    width: "500px",
+    height: "500px"
+}
 log.setLevel("trace")
 
-const renderGame = (code, updateFunction) => {
+const renderGame = (codefunction, updateFunction) => {
     return <>
-        {code && <GameEngine
-            objectList={EvalFunc(code)}
+        {codefunction() && <GameEngine
+            objectList={EvalFunc(codefunction())}
             setState={updateFunction}
         />}
-    </>
-}
-
-const codeBox = (codeInput, code, clickAction) => {
-    return <>
-            <textarea value={codeInput} onChange={(i) => this.setState({codeInput: i.target.value})}
-                style={{
-                    width: 500,
-                    height: 750
-                }}
-            />
-        <button onClick={clickAction}>
-            {code ? "stop" : "run"}
-        </button>
     </>
 }
 
 const renderStateMap = (state) => {
     if(!state) return null
     const table = []
-    state.forEach((value,key,map)=>{
+    state.forEach((value,key)=>{
         table.push(<p>{key} => {value}</p>)
     })
     return table
 }
 
-export default class Main extends React.Component {
+export default class EngineMain extends React.Component {
     constructor(props){
         super(props)
         this.state = {
             codeInput: dogeRace,
-            code: null,
             state: null
         }
     }
 
     render() {
-        const {codeInput,code,state} = this.state
+        const {gameState} = this.state
+        const codefunction = () => {
+            if (this.props.editor.state) return this.props.editor.state.code
+            else return ""
+        }
         return(
             <Container fluid>
                 <Row>
-                    <Col>
-                        {renderGame(code,
-                            // React complained the amount of updates
-                            (i) => { if (Math.random() < .1) this.setState({state: i}) }
-                        )}
+                    <Col style={cellStyle}>
+                        {this.props.editor}
                     </Col>
-                    <Col>
-                        {codeBox(codeInput, code,
-                            () => { this.setState({code: codeInput}) })
-                        }
-                    </Col>
-                    <Col style={{backgroundColor: "orange"}}>
+                </Row>
+                <Row>
+                    <Col style={cellStyle}> {
+                        renderGame(codefunction,
+                        // React complained the amount of updates
+                        (i) => { if (Math.random() < .1) this.setState({gameState: i}) }
+                        )
+                    }</Col>
+                    <Col style={cellStyle}>
+                        <div style={{background: "orange"}}>
                         <p>State</p>
-                        {renderStateMap(state)}
+                        {renderStateMap(gameState)}
+                        </div>
                     </Col>
                 </Row>
             </Container>
