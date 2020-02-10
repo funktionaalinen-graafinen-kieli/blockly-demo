@@ -37,8 +37,40 @@ const dogeRace = `
 }
 
 `
-
 log.setLevel("trace")
+
+const renderGame = (code, updateFunction) => {
+    return <>
+        {code && <GameEngine
+            objectList={EvalFunc(code)}
+            setState={updateFunction}
+        />}
+    </>
+}
+
+const codeBox = (codeInput, code, clickAction) => {
+    return <>
+            <textarea value={codeInput} onChange={(i) => this.setState({codeInput: i.target.value})}
+                style={{
+                    width: 500,
+                    height: 750
+                }}
+            />
+        <button onClick={clickAction}>
+            {code ? "stop" : "run"}
+        </button>
+    </>
+}
+
+const renderStateMap = (state) => {
+    if(!state) return null
+    const table = []
+    state.forEach((value,key,map)=>{
+        table.push(<p>{key} => {value}</p>)
+    })
+    return table
+}
+
 export default class Main extends React.Component {
     constructor(props){
         super(props)
@@ -49,36 +81,25 @@ export default class Main extends React.Component {
         }
     }
 
-    iterate = (state) => {
-        if(!state) return null
-        const table = []
-        state.forEach((value,key,map)=>{
-            table.push(<p>{key} => {value}</p>)
-        })
-        return table
-    }
-
     render() {
         const {codeInput,code,state} = this.state
         return(
             <Container fluid>
                 <Row>
                     <Col>
-                        {code && <GameEngine
-                            objectList={EvalFunc(code)}
-                            setState={(i)=>{
-                                // React complained the amount of updates
-                                if(Math.random() < .1) this.setState({state: i})
-                            }}
-                        />}
+                        {renderGame(code,
+                            // React complained the amount of updates
+                            (i) => { if (Math.random() < .1) this.setState({state: i}) }
+                        )}
                     </Col>
                     <Col>
-                        <textarea value={codeInput} onChange={(i)=>this.setState({codeInput:i.target.value})} style={{width:500, height: 750}} />
-                        <button onClick={()=>code ? this.setState({code:null}) : this.setState({code:codeInput})}>{code ? "stop" : "run"}</button>
+                        {codeBox(codeInput, code,
+                            () => { this.setState({code: codeInput}) })
+                        }
                     </Col>
-                    <Col style={{backgroundColor:"orange"}}>
+                    <Col style={{backgroundColor: "orange"}}>
                         <p>State</p>
-                        {this.iterate(state)}
+                        {renderStateMap(state)}
                     </Col>
                 </Row>
             </Container>
