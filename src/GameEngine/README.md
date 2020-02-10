@@ -19,7 +19,7 @@ An example program:
 	"img": ["packF(id)", "http://www.pngmart.com/files/11/Doge-Meme-PNG-Picture.png" ]
     }
 },
-"events": {
+"binds": {
     "frameTime": ["packF(id)", 16],
     "time": ["pack(add(get('time'))(get('frameTime')))", 0],
     "everySecond": ["packF(timer)", [false, 0, 1000]],

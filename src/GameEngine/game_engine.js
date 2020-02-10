@@ -34,9 +34,9 @@ export default class GameEngine extends React.Component {
             this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
         })
 
-        const events = this.props.objectList["events"]
-        Object.keys(events).forEach(eventName => {
-            this.state.gameState.set(eventName,events[eventName])
+        const binds = this.props.objectList["binds"]
+        Object.keys(binds).forEach(eventName => {
+            this.state.gameState.set(eventName,binds[eventName])
         })
         //this.state.gameState.setDefault = key => [(x,s) => x,false]
         console.log(this.state.gameState.get("key_a"))
