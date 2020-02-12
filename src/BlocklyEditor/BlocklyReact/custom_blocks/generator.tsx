@@ -5,9 +5,11 @@ import * as log from "loglevel"
 enum funklyBlockType {
     COND = "funkly_cond",
     GT = "funkly_gt",
+    ADD = "funkly_add",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
-    EVENT = "funkly_event"
+    BIND = "funkly_bind",
+    GET = "funkly_get"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -15,7 +17,9 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
-    else if (type === funklyBlockType.EVENT) return funkly_event
+    else if (type === funklyBlockType.BIND) return funkly_bind
+    else if (type === funklyBlockType.GET) return funkly_get
+    else if (type === funklyBlockType.ADD) return funkly_arg2("add")
     else log.error("Invalid funkly block type")
 
     function funkly_cond(block: Block) {
@@ -36,6 +40,13 @@ function funklyCodegen(type: funklyBlockType) {
         return "cond" + argwrap(conditionCode, doBranch, elseBranch)
     }
 
+    function funkly_arg2(f: String){
+        return (block: Block) => {
+            const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
+            const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
+            return f + argwrap(arg0,arg1)
+        }
+    }
 
     function funkly_gt(block: Block) {
         const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
@@ -44,11 +55,17 @@ function funklyCodegen(type: funklyBlockType) {
         return "gt" + argwrap(arg0, arg1)
     }
 
+    function funkly_get(block: Block) {
+        const arg0 = BlocklyJS.valueToCode(block, "key", BlocklyJS.ORDER_RELATIONAL) || "default_key"
+        return "get" + argwrap(arg0)
+    }
+
 
     function funkly_number(block: Block) {
         // TODO: This always returns the OR case. Figure out why and how to fix
+        //console.log(BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC))
         const arg0 = BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC) || 0
-        log.trace(block.getInput("NUMBER_CONSTANT"))
+        //log.trace(block.getInput("NUMBER_CONSTANT"))
 
         return wrap(arg0)
     }
@@ -79,13 +96,13 @@ function funklyCodegen(type: funklyBlockType) {
         */
 
     }
-    function funkly_event(block: Block) {
-        const eventName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_event"
+    function funkly_bind(block: Block) {
+        const bindName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_bind"
         const f = BlocklyJS.statementToCode(block, "f", BlocklyJS.ORDER_RELATIONAL)
 
         const functionInterval = 0
 
-        let output = `${eventName}: {`
+        let output = `${bindName}: {`
 
         output += `"f": ["pack(${f})", ${functionInterval}],`
 

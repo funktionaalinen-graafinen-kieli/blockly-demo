@@ -39,6 +39,9 @@ const dogeRace = `
 }
 `
 
+// posFactor: multiplies x and y before clamp. used to scale position.
+const ENGINECONF = {posFactor: 1/2000}
+
 class MapWithDefault extends Map {
     get(key) {
         if (!this.has(key)) return this.default()
@@ -79,9 +82,6 @@ export default class GameEngine extends React.Component {
         Object.keys(binds).forEach(eventName => {
             this.state.gameState.set(eventName,binds[eventName])
         })
-        //this.state.gameState.setDefault = key => [(x,s) => x,false]
-        console.log(this.state.gameState.get("key_a"))
-        //this.props.addEvents(this.state.gameState,this.timer)
         /* TODO: Should the component actually run itself? The more react way
            Would be for the component's owner component to call for updates */
         if (this.props.toggle) this.run()
@@ -111,17 +111,14 @@ export default class GameEngine extends React.Component {
 
     handleKeyDown = (e) => {
         this.state.keymap.set(e.key,true)
-        //console.log("down",e.key)
     }
 
     handleKeyUp = (e) => {
         this.state.keymap.set(e.key,false)
-        //console.log("up",e.key)
     }
 
     saveKeysToState = () => {
         Array.from(this.state.keymap,([k,v]) => this.state.gameState.set("key_"+k,[(x,s) => x, v]))
-        //console.log(this.state.gameState)
     }
 
     render() {
@@ -139,8 +136,8 @@ export default class GameEngine extends React.Component {
                             <img
                                 style={{
                                     width: 50, height: 50, position:"absolute",
-                                    left: window.innerWidth * this.getVal(entity.x) / 1000,
-                                    top: window.innerHeight * this.getVal(entity.y) / 1000
+                                    left: this.clamp(window.innerWidth*(this.getVal(entity.x) * ENGINECONF.posFactor),0,300),
+                                    top: this.clamp(window.innerHeight*(this.getVal(entity.y) * ENGINECONF.posFactor),0,300)
                                 }}
                                 src={this.getVal(entity.img)}
                                 alt=""

@@ -9,11 +9,13 @@ import {BLOCKLYCONFIG} from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks =  (
     <React.Fragment>
+        <Block type="funkly_add"/>
+        <Block type="funkly_number"/>
         <Block type="funkly_cond"/>
         <Block type="funkly_gt"/>
-        <Block type="funkly_number"/>
         <Block type="funkly_entity"/>
-        <Block type="funkly_event"/>
+        <Block type="funkly_bind"/>
+        <Block type="funkly_get"/>
         <Block type="text"/>
     </React.Fragment>
 )

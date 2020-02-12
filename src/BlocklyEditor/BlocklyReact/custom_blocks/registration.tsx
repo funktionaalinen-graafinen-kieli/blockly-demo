@@ -69,6 +69,27 @@ const gtJson = {
 
 createCustomBlock(funklyBlockType.GT, "logic_blocks", gtJson)
 
+const addJson = {
+    "type:": funklyBlockType.ADD,
+    "message0": "add: %1",
+    "args0": [
+        {
+            "type": "input_statement",
+            "name": "NUMBER0"
+        }
+    ],
+    "message1": "to: %1",
+    "args1": [
+        {
+            "type": "input_statement",
+            "name": "NUMBER1"
+        }
+    ],
+    "previousStatement": null
+}
+
+createCustomBlock(funklyBlockType.ADD, "math_blocks", addJson)
+
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
     "message0": "%1",
@@ -120,14 +141,30 @@ const entityJson = {
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 
-const eventJson = {
-    "type:": funklyBlockType.EVENT,
+const getJson = {
+    "type:": funklyBlockType.GET,
+    "inputsInline": true,
+    "message0": "get key: %1",
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "key",
+            "check": "String"
+        }
+    ],
+    "previousStatement": null,
+}
+
+createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
+
+const bindJson = {
+    "type:": funklyBlockType.BIND,
     "inputsInline": true,
     "message0": "name: %1",
     "args0": [
         {
             "type": "input_value",
-            "name": "eventName",
+            "name": "id",
             "check": "String"
         }
     ],
@@ -140,4 +177,4 @@ const eventJson = {
     ]
 }
 
-createCustomBlock(funklyBlockType.EVENT, "text_blocks", eventJson)
+createCustomBlock(funklyBlockType.BIND, "text_blocks", bindJson)
