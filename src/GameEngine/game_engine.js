@@ -121,6 +121,8 @@ export default class GameEngine extends React.Component {
         Array.from(this.state.keymap,([k,v]) => this.state.gameState.set("key_"+k,[(x,s) => x, v]))
     }
 
+    clamp = (num,min,max) => num <= min ? min : num >= max ? max : num
+
     render() {
         if (!this.state.entities.length) return null
         return (<>
