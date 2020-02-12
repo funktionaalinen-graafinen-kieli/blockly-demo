@@ -30,7 +30,7 @@ class Editor extends React.Component {
 
     componentDidMount(): void {
         this.blocklyComponent?.workspace.addChangeListener(this.generateCode)
-        log.trace("Mounted change listener on workspace")
+        log.debug("Mounted change listener on workspace")
     }
 
     componentWillUnmount(): void {
