@@ -1,4 +1,6 @@
 import React from "react"
+import PropTypes from "prop-types"
+
 import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
 import {StateMap} from "./state_map"
@@ -41,6 +43,8 @@ const dogeRace = `
 // posFactor: multiplies x and y before clamp. used to scale position.
 const ENGINECONF = { posFactor: 1/2000 }
 
+const clamp = (num, min, max) => num <= min ? min : num >= max ? max : num
+
 class MapWithDefault extends Map {
     get(key) {
         if (!this.has(key)) return this.default()
@@ -54,38 +58,14 @@ class MapWithDefault extends Map {
 }
 
 export default class GameEngine extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
-        this.gameArea = React.createRef()
+    state = {
+        gameState: new MapWithDefault(() => [(x, s) => x, false]),
+        entities: [],
+        keymap: new Map()
     }
+    gameArea = React.createRef()
 
     getVal = name => this.state.gameState.get(name)[1]
-
-
-    componentDidMount() {
-        let parsedObjectList
-        try {
-            parsedObjectList = evalFunc(this.props.objectList)
-        } catch {
-            parsedObjectList = evalFunc(dogeRace)
-        }
-
-        const entities = parsedObjectList["entities"]
-        Object.keys(entities).forEach(entityName => {
-            this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
-        })
-
-        const binds = parsedObjectList["binds"]
-        Object.keys(binds).forEach(eventName => {
-            this.state.gameState.set(eventName,binds[eventName])
-        })
-
-        if (this.props.toggle) this.props.updater(this)
-        else this.stop()
-    }
-
 
     applyF(key,state) {
         let p = state.get(key)
@@ -94,7 +74,6 @@ export default class GameEngine extends React.Component {
 
     stop = () => {
         // TODO: Implement stopping
-
     }
 
     handleKeyDown = (e) => {
@@ -105,7 +84,6 @@ export default class GameEngine extends React.Component {
         this.state.keymap.set(e.key,false)
     }
 
-    clamp = (num,min,max) => num <= min ? min : num >= max ? max : num
 
     update() {
         for (let [key, value] of this.state.gameState) {
@@ -123,6 +101,32 @@ export default class GameEngine extends React.Component {
     }
 
     render() {
+        let parsedObjectList
+        try {
+            parsedObjectList = evalFunc(this.props.objectList)
+        } catch (error) {
+            console.debug("Error in parsing block json")
+            console.debug(error)
+            console.log("Defaulting to dogerace")
+            parsedObjectList = evalFunc(dogeRace)
+        }
+
+        const entities = parsedObjectList["entities"]
+        Object.keys(entities).forEach(entityName => {
+            this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
+        })
+
+        const binds = parsedObjectList["binds"]
+        Object.keys(binds).forEach(eventName => {
+            this.state.gameState.set(eventName,binds[eventName])
+        })
+
+        if (this.props.toggle) {
+            console.debug("Binding interval updater")
+            this.props.updater(this)
+        }
+        else this.stop()
+
         if (!this.state.entities.length) return null
         return (<>
             <div style={GAMESTYLE}
@@ -137,8 +141,8 @@ export default class GameEngine extends React.Component {
                             <img
                                 style={{
                                     width: 50, height: 50, position:"absolute",
-                                    left: this.clamp(window.innerWidth*(this.getVal(entity.x) * ENGINECONF.posFactor),0,300),
-                                    top: this.clamp(window.innerHeight*(this.getVal(entity.y) * ENGINECONF.posFactor),0,300)
+                                    left: clamp(window.innerWidth*(this.getVal(entity.x) * ENGINECONF.posFactor),0,300),
+                                    top: clamp(window.innerHeight*(this.getVal(entity.y) * ENGINECONF.posFactor),0,300)
                                 }}
                                 src={this.getVal(entity.img)}
                                 alt=""
@@ -146,10 +150,14 @@ export default class GameEngine extends React.Component {
                         </div>
                     )
                 }
-
             </div>
 
             <StateMap gameState={this.state.gameState}/>
         </>)
     }
+}
+GameEngine.propTypes = {
+    objectList: PropTypes.any.isRequired,
+    toggle: PropTypes.bool.isRequired,
+    updater: PropTypes.func.isRequired
 }

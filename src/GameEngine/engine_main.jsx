@@ -12,7 +12,10 @@ const cellStyle = {
 }
 
 const intervalUpdater = async (updateable) =>  {
-    setInterval(()=>{ updateable.update() }, FRAMETIME)
+    setInterval(()=>{
+        log.debug("Interval update happening")
+        updateable.update()
+    }, FRAMETIME)
 }
 
 export default class EngineMain extends React.Component {
@@ -46,9 +49,9 @@ export default class EngineMain extends React.Component {
                 <Row>
                     <Col style={cellStyle}>
                         <GameEngine
-                            toggle={this.game_running}
-                            objectList={getCode}
-                            updater={intervalUpdater}
+                            toggle={ this.game_running }
+                            objectList={ getCode() }
+                            updater={ intervalUpdater }
                         />
                     </Col>
                 </Row>
