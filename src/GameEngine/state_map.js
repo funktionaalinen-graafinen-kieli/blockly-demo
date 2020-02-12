@@ -1,6 +1,6 @@
 import React from "react"
 
-export const RenderStateMap = props => {
+export const StateMap = props => {
     if (!props.gameState) return null
     const table = []
     props.gameState.forEach((value, key) => {
@@ -10,5 +10,8 @@ export const RenderStateMap = props => {
             </p>
         )
     })
-    return table
+    return <div style={{ background: "orange" }}>
+        <h3>State</h3>>
+        {table}
+    </div>
 }

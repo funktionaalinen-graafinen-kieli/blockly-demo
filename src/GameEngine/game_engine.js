@@ -2,7 +2,7 @@ import React from "react"
 import Entity from "./entity.js"
 import {frameTime} from "./utils"
 import evalFunc from "../Lang/eval_func"
-import {RenderStateMap} from "./render_state_map"
+import {StateMap} from "./state_map"
 
 const GAMESTYLE = {backgroundColor: "green", width: "100%", height: "100%"}
 
@@ -40,7 +40,7 @@ const dogeRace = `
 `
 
 // posFactor: multiplies x and y before clamp. used to scale position.
-const ENGINECONF = {posFactor: 1/2000}
+const ENGINECONF = { posFactor: 1/2000 }
 
 class MapWithDefault extends Map {
     get(key) {
@@ -85,6 +85,7 @@ export default class GameEngine extends React.Component {
         /* TODO: Should the component actually run itself? The more react way
            Would be for the component's owner component to call for updates */
         if (this.props.toggle) this.run()
+        else this.stop()
     }
 
     updateState = (k, v) => {
@@ -104,9 +105,12 @@ export default class GameEngine extends React.Component {
     }
 
     run = async () =>  {
-        setInterval(()=>{
-            this.update()
-        }, frameTime)
+        setInterval(()=>{ this.update() }, frameTime)
+    }
+
+    stop = () => {
+        // TODO: Implement stopping
+
     }
 
     handleKeyDown = (e) => {
@@ -149,10 +153,8 @@ export default class GameEngine extends React.Component {
                 }
 
             </div>
-            <div style={{ background: "orange" }}>
-                <h3>State</h3>
-                <RenderStateMap gameState={this.state.gameState}/>
-            </div>
+
+            <StateMap gameState={this.state.gameState}/>
             </>
         )
     }
