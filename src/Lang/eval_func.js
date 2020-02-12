@@ -14,6 +14,6 @@ export default function evalFunc(sourceCode) {
         const event = binds[key]
         event[0] = langEval(event[0])
     })
-    console.log(js)
+    // console.log(js)
     return(js)
 }

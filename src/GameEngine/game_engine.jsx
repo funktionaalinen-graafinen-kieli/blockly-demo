@@ -105,9 +105,11 @@ export default class GameEngine extends React.Component {
         try {
             parsedObjectList = evalFunc(this.props.objectList)
         } catch (error) {
-            console.debug("Error in parsing block json")
-            console.debug(error)
-            console.log("Defaulting to dogerace")
+            console.debug(
+                "Caught error in parsing block json \n"
+                + error +
+                "\n Defaulting to dogerace"
+            )
             parsedObjectList = evalFunc(dogeRace)
         }
 
