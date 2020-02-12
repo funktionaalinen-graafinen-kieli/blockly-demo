@@ -1,7 +1,8 @@
 import React from "react"
-import Entity from "./Entity.js"
+import Entity from "./entity.js"
 import {frameTime} from "./utils"
 import evalFunc from "../Lang/eval_func"
+import {RenderStateMap} from "./render_state_map"
 
 const GAMESTYLE = {backgroundColor: "green", width: "100%", height: "100%"}
 
@@ -125,7 +126,7 @@ export default class GameEngine extends React.Component {
 
     render() {
         if (!this.state.entities.length) return null
-        return (
+        return (<>
             <div style={GAMESTYLE}
                 ref={this.gameArea}
                 onKeyDown={this.handleKeyDown}
@@ -147,7 +148,13 @@ export default class GameEngine extends React.Component {
                         </div>
                     )
                 }
+
             </div>
+            <div style={{ background: "orange" }}>
+                <h3>State</h3>
+                <RenderStateMap gameState={this.state.gameState}/>
+            </div>
+            </>
         )
     }
 }

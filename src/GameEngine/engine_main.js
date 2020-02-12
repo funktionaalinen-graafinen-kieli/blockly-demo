@@ -9,18 +9,6 @@ const cellStyle = {
 }
 log.setLevel("trace")
 
-const renderStateMap = state => {
-    if (!state) return null
-    const table = []
-    state.forEach((value, key) => {
-        table.push(
-            <p>
-                {key} => {value}
-            </p>
-        )
-    })
-    return table
-}
 
 export default class EngineMain extends React.Component {
     constructor(props) {
@@ -46,20 +34,16 @@ export default class EngineMain extends React.Component {
                     <Col style={cellStyle}>{this.props.editor}</Col>
                 </Row>
                 <Row>
+                    <button onClick={this.toggle}>
+                        {this.state.game_running ? "stop" : "run"}
+                    </button>
+                </Row>
+                <Row>
                     <Col style={cellStyle}>
                         <GameEngine
                             toggle={this.game_running}
                             objectList={getCode}
                         />
-                        <button onClick={this.toggle}>
-                            {this.state.game_running ? "stop" : "run"}
-                        </button>
-                    </Col>
-                    <Col style={cellStyle}>
-                        <div style={{ background: "orange" }}>
-                            <p>State</p>
-                            {renderStateMap(this.state.gameState)}
-                        </div>
                     </Col>
                 </Row>
             </Container>
