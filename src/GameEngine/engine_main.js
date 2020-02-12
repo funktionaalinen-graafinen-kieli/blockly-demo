@@ -4,8 +4,7 @@ import GameEngine from "./game_engine"
 import EvalFunc from "../Lang/eval_func"
 import {Container, Row, Col} from "react-bootstrap"
 
-const dogeRace = `
-{
+const dogeRace = ` {
     "entities": {
         "e1": {
             "x": ["pack(add(1)(get('e1_x')))", 1],
@@ -65,10 +64,14 @@ export default class EngineMain extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            codeInput: dogeRace,
             editor: this.props.editor,
-            state: null
+            state: null,
+            game_running: false
         }
+    }
+
+    toggle = () => {
+        this.setState({game_running: !this.state.game_running})
     }
 
     render() {
@@ -78,10 +81,9 @@ export default class EngineMain extends React.Component {
             if (this.state.editor.code) {
                 return this.state.editor.code
             } else {
-                return ""
+                return dogeRace
             }
         }
-        const currentCode = codeFunction()
         return(
             <Container fluid>
                 <Row>
@@ -97,7 +99,9 @@ export default class EngineMain extends React.Component {
                         )}
                     </Col>
                     <Col style={cellStyle}>
-                        <button onClick={()=>currentCode ? this.setState({code:null}) : this.setState({code:currentCode})}>{currentCode ? "stop" : "run"}</button>
+                        <button onClick={ this.toggle() }>
+                            {this.state.game_running ? "stop" : "run"}
+                        </button>
                     </Col>
                     <Col style={cellStyle}>
                         <div style={{background: "orange"}}>

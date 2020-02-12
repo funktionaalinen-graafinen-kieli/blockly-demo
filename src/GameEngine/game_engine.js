@@ -20,7 +20,7 @@ export default class GameEngine extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
+        this.state = {toggle: props.toggle, gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
         console.log(this.props.objectList)
         this.gameArea = React.createRef()
     }
@@ -50,6 +50,13 @@ export default class GameEngine extends React.Component {
         this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
     }
 
+    update() {
+        for (let [key, value] of this.state.gameState) {
+            this.saveKeysToState()
+            this.updateState(key,value)
+        }
+    }
+
     applyF(key,state) {
         let p = state.get(key)
         return p[0](p[1],state)
@@ -57,11 +64,8 @@ export default class GameEngine extends React.Component {
 
     run = async () =>  {
         setInterval(()=>{
-            for (let [key, value] of this.state.gameState) {
-                this.saveKeysToState()
-                this.updateState(key,value)
-            }
-        },frameTime)
+            this.update()
+        }, frameTime)
     }
 
     handleKeyDown = (e) => {
