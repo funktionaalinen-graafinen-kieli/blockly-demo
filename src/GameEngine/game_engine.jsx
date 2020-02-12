@@ -155,7 +155,6 @@ export default class GameEngine extends React.Component {
             </div>
 
             <StateMap gameState={this.state.gameState}/>
-            </>
-        )
+        </>)
     }
 }

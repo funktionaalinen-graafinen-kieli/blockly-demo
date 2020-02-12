@@ -1,7 +1,7 @@
 import React from "react"
 
-export const StateMap = props => {
-    if (!props.gameState) return null
+export function StateMap(props) {
+    if (!props.gameState) return <></>
     const table = []
     props.gameState.forEach((value, key) => {
         table.push(
@@ -10,8 +10,12 @@ export const StateMap = props => {
             </p>
         )
     })
-    return <div style={{ background: "orange" }}>
-        <h3>State</h3>>
-        {table}
-    </div>
+
+    return (
+        <div style={{ background: "orange" }}>
+            <h3>State</h3>
+
+            {table}
+        </div>
+    )
 }
