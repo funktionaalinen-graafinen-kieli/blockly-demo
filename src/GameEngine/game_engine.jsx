@@ -1,6 +1,5 @@
 import React from "react"
 import Entity from "./entity.js"
-import {frameTime} from "./utils"
 import evalFunc from "../Lang/eval_func"
 import {StateMap} from "./state_map"
 
@@ -82,30 +81,15 @@ export default class GameEngine extends React.Component {
         Object.keys(binds).forEach(eventName => {
             this.state.gameState.set(eventName,binds[eventName])
         })
-        /* TODO: Should the component actually run itself? The more react way
-           Would be for the component's owner component to call for updates */
-        if (this.props.toggle) this.run()
+
+        if (this.props.toggle) this.props.updater(this)
         else this.stop()
     }
 
-    updateState = (k, v) => {
-        this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
-    }
-
-    update() {
-        for (let [key, value] of this.state.gameState) {
-            this.saveKeysToState()
-            this.updateState(key,value)
-        }
-    }
 
     applyF(key,state) {
         let p = state.get(key)
         return p[0](p[1],state)
-    }
-
-    run = async () =>  {
-        setInterval(()=>{ this.update() }, frameTime)
     }
 
     stop = () => {
@@ -121,11 +105,22 @@ export default class GameEngine extends React.Component {
         this.state.keymap.set(e.key,false)
     }
 
+    clamp = (num,min,max) => num <= min ? min : num >= max ? max : num
+
+    update() {
+        for (let [key, value] of this.state.gameState) {
+            this.saveKeysToState()
+            this.updateState(key,value)
+        }
+    }
+
+    updateState = (k, v) => {
+        this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
+    }
+
     saveKeysToState = () => {
         Array.from(this.state.keymap,([k,v]) => this.state.gameState.set("key_"+k,[(x,s) => x, v]))
     }
-
-    clamp = (num,min,max) => num <= min ? min : num >= max ? max : num
 
     render() {
         if (!this.state.entities.length) return null

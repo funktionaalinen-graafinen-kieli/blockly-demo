@@ -2,13 +2,18 @@ import React from "react"
 import * as log from "loglevel"
 import GameEngine from "./game_engine"
 import { Container, Row, Col } from "react-bootstrap"
+import {FRAMETIME} from "./utils"
+
+log.setLevel("trace")
 
 const cellStyle = {
     width: "500px",
     height: "500px"
 }
-log.setLevel("trace")
 
+const intervalUpdater = async (updateable) =>  {
+    setInterval(()=>{ updateable.update() }, FRAMETIME)
+}
 
 export default class EngineMain extends React.Component {
     constructor(props) {
@@ -43,6 +48,7 @@ export default class EngineMain extends React.Component {
                         <GameEngine
                             toggle={this.game_running}
                             objectList={getCode}
+                            updater={intervalUpdater}
                         />
                     </Col>
                 </Row>

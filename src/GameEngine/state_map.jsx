@@ -2,6 +2,7 @@ import React from "react"
 
 export function StateMap(props) {
     if (!props.gameState) return <></>
+
     const table = []
     props.gameState.forEach((value, key) => {
         table.push(
