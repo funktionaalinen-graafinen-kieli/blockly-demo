@@ -5,7 +5,7 @@ export const StateMap = props => {
     const table = []
     props.gameState.forEach((value, key) => {
         table.push(
-            <p>
+            <p key={key}>
                 {key} => {value}
             </p>
         )
