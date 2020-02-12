@@ -62,20 +62,26 @@ const renderStateMap = (state) => {
 }
 
 export default class EngineMain extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             codeInput: dogeRace,
+            editor: this.props.editor,
             state: null
         }
     }
 
     render() {
         const {gameState} = this.state
-        const codefunction = () => {
-            if (this.props.editor.state) return this.props.editor.state.code
-            else return ""
+        const codeFunction = () => {
+            log.debug(this.state.editor)
+            if (this.state.editor.code) {
+                return this.state.editor.code
+            } else {
+                return ""
+            }
         }
+        const currentCode = codeFunction()
         return(
             <Container fluid>
                 <Row>
@@ -85,15 +91,18 @@ export default class EngineMain extends React.Component {
                 </Row>
                 <Row>
                     <Col style={cellStyle}> {
-                        renderGame(codefunction,
+                        renderGame(codeFunction,
                         // React complained the amount of updates
                         (i) => { if (Math.random() < .1) this.setState({gameState: i}) }
-                        )
-                    }</Col>
+                        )}
+                    </Col>
+                    <Col style={cellStyle}>
+                        <button onClick={()=>currentCode ? this.setState({code:null}) : this.setState({code:currentCode})}>{currentCode ? "stop" : "run"}</button>
+                    </Col>
                     <Col style={cellStyle}>
                         <div style={{background: "orange"}}>
                         <p>State</p>
-                        {renderStateMap(gameState)}
+                        { renderStateMap(gameState) }
                         </div>
                     </Col>
                 </Row>

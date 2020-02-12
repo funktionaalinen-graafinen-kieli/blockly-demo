@@ -19,37 +19,37 @@ const editorBlocks =  (
 )
 
 class Editor extends React.Component {
-  private blocklyComponent!: BlocklyComponent
-  readonly state = {code: ""};
+    private blocklyComponent!: BlocklyComponent
+    readonly state = {code: ""}
 
-  generateCode = () => {
-      this.setState({code: BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
-  }
+    generateCode = () => {
+        this.setState({code: BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
+    }
 
-  componentDidMount(): void {
-    this.blocklyComponent?.workspace.addChangeListener(this.generateCode)
-    log.trace("Mounted change listener on workspace")
-  }
+    componentDidMount(): void {
+        this.blocklyComponent?.workspace.addChangeListener(this.generateCode)
+        log.trace("Mounted change listener on workspace")
+    }
 
-  componentWillUnmount(): void {
-    this.blocklyComponent?.workspace.removeChangeListener(this.generateCode)
-  }
+    componentWillUnmount(): void {
+        this.blocklyComponent?.workspace.removeChangeListener(this.generateCode)
+    }
 
-  render = () => {
-      return (
-          <div className="Editor">
-              <BlocklyComponent
-                  ref={(event: BlocklyComponent) => {
-                      this.blocklyComponent = event
-                  }}
-                  {...BLOCKLYCONFIG}
-              >
-                  {editorBlocks}
-              </BlocklyComponent>
-              <CodeRenderer code={this.state.code} />
-          </div>
-      )
-  }
+    render = () => {
+        return (
+            <div className="Editor">
+                <BlocklyComponent
+                    ref={(event: BlocklyComponent) => {
+                        this.blocklyComponent = event
+                    }}
+                    {...BLOCKLYCONFIG}
+                >
+                    {editorBlocks}
+                </BlocklyComponent>
+                <CodeRenderer code={this.state.code}/>
+            </div>
+        )
+    }
 }
 
 export default Editor
