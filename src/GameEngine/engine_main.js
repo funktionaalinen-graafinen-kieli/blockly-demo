@@ -26,8 +26,8 @@ export default class EngineMain extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            state: null,
-            game_running: false
+            gameState: null,
+            game_running: false,
         }
     }
 
@@ -36,14 +36,10 @@ export default class EngineMain extends React.Component {
     }
 
     render() {
-        const { gameState } = this.state
         const getCode = () => {
             return this.props.editor.code
         }
-        // React complained the amount of updates
-        const updateFunction = (i) => {
-            if (Math.random() < 0.1) this.setState({ gameState: i })
-        }
+
         return (
             <Container fluid>
                 <Row>
@@ -54,7 +50,6 @@ export default class EngineMain extends React.Component {
                         <GameEngine
                             toggle={this.game_running}
                             objectList={getCode}
-                            setState={updateFunction}
                         />
                         <button onClick={this.toggle}>
                             {this.state.game_running ? "stop" : "run"}
@@ -63,7 +58,7 @@ export default class EngineMain extends React.Component {
                     <Col style={cellStyle}>
                         <div style={{ background: "orange" }}>
                             <p>State</p>
-                            {renderStateMap(gameState)}
+                            {renderStateMap(this.state.gameState)}
                         </div>
                     </Col>
                 </Row>

@@ -123,13 +123,7 @@ export default class GameEngine extends React.Component {
         //console.log(this.state.gameState)
     }
 
-    clamp = (num, min, max) => {
-        return num <= min ? min : num >= max ? max : num
-    }
-
     render() {
-        // TODO: Why? Props should be immutable
-        this.props.setState(this.state.gameState)
         if (!this.state.entities.length) return null
         return (
             <div style={GAMESTYLE}
@@ -144,8 +138,8 @@ export default class GameEngine extends React.Component {
                             <img
                                 style={{
                                     width: 50, height: 50, position:"absolute",
-                                    left: this.clamp(window.innerWidth*(this.getVal(entity.x)/1000),0,300),
-                                    top: this.clamp(window.innerHeight*(this.getVal(entity.y)/1000),0,300)
+                                    left: window.innerWidth * this.getVal(entity.x) / 1000,
+                                    top: window.innerHeight * this.getVal(entity.y) / 1000
                                 }}
                                 src={this.getVal(entity.img)}
                                 alt=""
