@@ -1,8 +1,42 @@
 import React from "react"
 import Entity from "./Entity.js"
 import {frameTime} from "./utils"
+import evalFunc from "../Lang/eval_func"
 
 const GAMESTYLE = {backgroundColor: "green", width: "100%", height: "100%"}
+
+const dogeRace = ` 
+{
+    "entities": {
+        "e1": {
+            "x": ["pack(add(1)(get('e1_x')))", 1],
+            "y": ["packF(id)", 0],
+            "img": ["packF(id)", "http://www.pngmart.com/files/11/Shiba-Inu-Doge-Meme-PNG-Image.png" ]
+        },
+        "e2": {
+            "x": ["pack(cond(gt(get('time'))(3000))(add(2)(get('e2_x')))(get('e2_x')))", 1],
+            "y": ["packF(id)", 60],
+            "img": ["packF(id)", "https://www.pikpng.com/pngl/b/58-584318_doge-bread-clipart.png" ]
+        },
+        "e3": {
+            "x": ["pack(add(1)(get('e3_x')))", 1],
+            "y": ["pack(add(get('e3_y'))(mul(sin(mul(get('e3_x'))(0.02)))(1)))", 120],
+            "img": ["packF(id)", "http://www.pngmart.com/files/11/Doge-Meme-PNG-Picture.png" ]
+        },
+        "e4": {
+            "x": ["pack(cond(get('key_d'))(add(2)(get('e4_x')))(cond(get('key_a'))(add(-2)(get('e4_x')))(get('e4_x'))))", 1],
+            "y": ["pack(cond(get('key_s'))(add(2)(get('e4_y')))(cond(get('key_w'))(add(-2)(get('e4_y')))(get('e4_y'))))", 180],
+            "img": ["packF(id)", "http://www.pngmart.com/files/11/Doge-Meme-PNG-Picture.png" ]
+        }
+    },
+    "binds": {
+        "frameTime": ["packF(id)", 16],
+        "time": ["pack(add(get('time'))(get('frameTime')))", 0],
+        "everySecond": ["packF(timer)", [false, 0, 1000]],
+        "width": ["packF(id)", 450]
+    }
+}
+`
 
 class MapWithDefault extends Map {
     get(key) {
@@ -20,8 +54,7 @@ export default class GameEngine extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {toggle: props.toggle, gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
-        console.log(this.props.objectList)
+        this.state = {gameState: new MapWithDefault(()=> [(x,s)=>x,false]), entities: [], keymap: new Map()}
         this.gameArea = React.createRef()
     }
 
@@ -29,12 +62,19 @@ export default class GameEngine extends React.Component {
 
 
     componentDidMount() {
-        const entities = this.props.objectList["entities"]
+        let parsedObjectList
+        try {
+            parsedObjectList = evalFunc(this.props.objectList)
+        } catch {
+            parsedObjectList = evalFunc(dogeRace)
+        }
+
+        const entities = parsedObjectList["entities"]
         Object.keys(entities).forEach(entityName => {
             this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
         })
 
-        const binds = this.props.objectList["binds"]
+        const binds = parsedObjectList["binds"]
         Object.keys(binds).forEach(eventName => {
             this.state.gameState.set(eventName,binds[eventName])
         })
@@ -43,7 +83,7 @@ export default class GameEngine extends React.Component {
         //this.props.addEvents(this.state.gameState,this.timer)
         /* TODO: Should the component actually run itself? The more react way
            Would be for the component's owner component to call for updates */
-        this.run()
+        if (this.props.toggle) this.run()
     }
 
     updateState = (k, v) => {
