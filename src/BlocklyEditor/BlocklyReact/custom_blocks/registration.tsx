@@ -109,9 +109,10 @@ const entityJson = {
     "message0": "name: %1",
     "args0": [
         {
-            "type": "input_value",
+            "type": "field_input",
             "name": "id",
-            "check": "String"
+            "text": "default text",
+            "spellcheck": false
         }
     ],
     "message1": "x: %1",
@@ -131,9 +132,10 @@ const entityJson = {
     "message3": "img: %1",
     "args3": [
         {
-            "type": "input_value",
+            "type": "field_input",
             "name": "img",
-            "check": "String"
+            "text": "text",
+            "spellcheck": false
         }
     ]
 }

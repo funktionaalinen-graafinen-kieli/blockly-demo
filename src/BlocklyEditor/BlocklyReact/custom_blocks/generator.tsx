@@ -69,14 +69,15 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_entity(block: Block) {
-        const id = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_id"
+        const id = block.getFieldValue("id") || "default_entity"
         const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
         const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
-        const img = BlocklyJS.valueToCode(block, "img", BlocklyJS.ORDER_RELATIONAL) || "default_image.png"
+        const img = block.getFieldValue("img") || "default_img"
 
         const xDelay = 0
         const yDelay = 0
 
+        console.log(id)
         let output = `${id}: {`
 
         output += `"x": ["pack(${x})", ${xDelay}],`
@@ -104,7 +105,7 @@ function funklyCodegen(type: funklyBlockType) {
 
         output += `"f": ["pack(${f})", ${functionInterval}],`
 
-        output += "},"
+        output += "}"
         return output
 
     }
