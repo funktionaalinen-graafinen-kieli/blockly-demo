@@ -64,44 +64,8 @@ export default class GameEngine extends React.Component {
         entities: [],
         keymap: new Map()
     }
-    gameArea = React.createRef()
 
-    getVal = name => this.state.gameState.get(name)[1]
-
-    applyF(key,state) {
-        let p = state.get(key)
-        return p[0](p[1],state)
-    }
-
-    stop = () => {
-        // TODO: Implement stopping
-    }
-
-    handleKeyDown = (e) => {
-        this.state.keymap.set(e.key,true)
-    }
-
-    handleKeyUp = (e) => {
-        this.state.keymap.set(e.key,false)
-    }
-
-
-    update() {
-        for (let [key, value] of this.state.gameState) {
-            this.saveKeysToState()
-            this.updateState(key,value)
-        }
-    }
-
-    updateState = (k, v) => {
-        this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
-    }
-
-    saveKeysToState = () => {
-        Array.from(this.state.keymap,([k,v]) => this.state.gameState.set("key_"+k,[(x,s) => x, v]))
-    }
-
-    render() {
+    componentDidMount() {
         let parsedObjectList
         try {
             parsedObjectList = evalFunc(this.props.objectList)
@@ -124,13 +88,49 @@ export default class GameEngine extends React.Component {
             this.state.gameState.set(eventName,binds[eventName])
         })
 
-        if (this.props.toggle) {
-            console.debug("Binding interval updater")
-            this.props.updater(this)
-        }
-        else this.stop()
+        this.props.updater(this)
+    }
 
+    gameArea = React.createRef()
+
+    getVal = name => this.state.gameState.get(name)[1]
+
+    applyF(key,state) {
+        let p = state.get(key)
+        return p[0](p[1],state)
+    }
+
+    stop = () => {
+        // TODO: Implement stopping
+    }
+
+    handleKeyDown = (e) => {
+        this.state.keymap.set(e.key,true)
+    }
+
+    handleKeyUp = (e) => {
+        this.state.keymap.set(e.key,false)
+    }
+
+    update() {
+        for (let [key, value] of this.state.gameState) {
+            this.saveKeysToState()
+            this.updateState(key,value)
+        }
+    }
+
+    updateState = (k, v) => {
+        this.setState({state:this.state.gameState.set(k,[v[0],this.applyF(k,this.state.gameState)])})
+    }
+
+    saveKeysToState = () => {
+        Array.from(this.state.keymap,([k,v]) => this.state.gameState.set("key_"+k,[(x,s) => x, v]))
+    }
+
+    render() {
+        if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
+
         return (
         <Row>
             <Col>
