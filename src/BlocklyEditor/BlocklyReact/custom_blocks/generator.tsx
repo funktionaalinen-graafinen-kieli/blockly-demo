@@ -82,7 +82,7 @@ function funklyCodegen(type: funklyBlockType) {
 
         output += `"x": ["pack(${x})", ${xDelay}],`
         output += `"y": ["pack(${y})", ${yDelay}],`
-        output +=  `"img": ["packF(id)", ${img}]`
+        output +=  `"img": ["packF(id)", "${img}"]`
 
         output += "},"
         return output
