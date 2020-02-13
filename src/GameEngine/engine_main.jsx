@@ -6,9 +6,12 @@ import {FRAMETIME} from "./utils"
 
 log.setLevel("trace")
 
-const cellStyle = {
-    width: "500px",
+const rowStyle = {
     height: "500px"
+}
+
+const colStyle = {
+    width: "500px"
 }
 
 const intervalUpdater = async (updateable) =>  {
@@ -38,16 +41,16 @@ export default class EngineMain extends React.Component {
 
         return (
             <Container fluid>
-                <Row>
-                    <Col style={cellStyle}>{this.props.editor}</Col>
+                <Row style={rowStyle}>
+                    <Col style={colStyle}>{this.props.editor}</Col>
                 </Row>
                 <Row>
                     <button onClick={this.toggle}>
                         {this.state.game_running ? "stop" : "run"}
                     </button>
                 </Row>
-                <Row>
-                    <Col style={cellStyle}>
+                <Row style={rowStyle}>
+                    <Col style={colStyle}>
                         <GameEngine
                             toggle={ this.game_running }
                             objectList={ getCode() }

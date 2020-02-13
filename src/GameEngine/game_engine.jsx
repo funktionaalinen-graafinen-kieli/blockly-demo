@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { Row, Col } from "react-bootstrap"
 
 import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
@@ -130,32 +131,37 @@ export default class GameEngine extends React.Component {
         else this.stop()
 
         if (!this.state.entities.length) return null
-        return (<>
-            <div style={GAMESTYLE}
-                ref={this.gameArea}
-                onKeyDown={this.handleKeyDown}
-                onKeyUp={this.handleKeyUp}
-                tabIndex="0"
-            >
-                {
-                    this.state.entities.map((entity,key) =>
-                        <div key={key}>
-                            <img
-                                style={{
-                                    width: 50, height: 50, position:"absolute",
-                                    left: clamp(window.innerWidth*(this.getVal(entity.x) * ENGINECONF.posFactor),0,300),
-                                    top: clamp(window.innerHeight*(this.getVal(entity.y) * ENGINECONF.posFactor),0,300)
-                                }}
-                                src={this.getVal(entity.img)}
-                                alt=""
-                            />
-                        </div>
-                    )
-                }
-            </div>
+        return (
+        <Row>
+            <Col>
+                <div style={GAMESTYLE}
+                    ref={this.gameArea}
+                    onKeyDown={this.handleKeyDown}
+                    onKeyUp={this.handleKeyUp}
+                    tabIndex="0"
+                >
+                    {
+                        this.state.entities.map((entity,key) =>
+                            <div key={key}>
+                                <img
+                                    style={{
+                                        width: 50, height: 50, position:"absolute",
+                                        left: clamp(window.innerWidth*(this.getVal(entity.x) * ENGINECONF.posFactor),0,300),
+                                        top: clamp(window.innerHeight*(this.getVal(entity.y) * ENGINECONF.posFactor),0,300)
+                                    }}
+                                    src={this.getVal(entity.img)}
+                                    alt=""
+                                />
+                            </div>
+                        )
+                    }
+                </div>
+            </Col>
+            <Col>
+                <StateMap gameState={this.state.gameState}/>
+            </Col>
 
-            <StateMap gameState={this.state.gameState}/>
-        </>)
+        </Row>)
     }
 }
 GameEngine.propTypes = {
