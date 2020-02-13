@@ -1,5 +1,6 @@
 import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
+import * as Blockly from "blockly"
 import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
@@ -22,10 +23,17 @@ const editorBlocks =  (
 
 class Editor extends React.Component {
     private blocklyComponent!: BlocklyComponent
-    readonly state = {code: ""}
+    readonly state = {code: "", blockXml: ""}
 
     generateCode = () => {
-        this.setState({code: BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
+        const workspace = this.blocklyComponent.workspace
+
+        const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+
+        this.setState({
+            code: BlocklyJS.workspaceToCode(workspace),
+            blockXml : xmlWorkspace
+        })
     }
 
     componentDidMount(): void {
@@ -48,7 +56,7 @@ class Editor extends React.Component {
                 >
                     {editorBlocks}
                 </BlocklyComponent>
-                <CodeRenderer code={this.state.code}/>
+                <CodeRenderer code={this.state.code} blockXml={this.state.blockXml}/>
             </div>
         )
     }

@@ -8,7 +8,7 @@ const codeStyle: CSSProperties = {
 }
 
 
-function CodeRenderer(props: { code: string}) {
+function CodeRenderer(props: { code: string, blockXml: string}) {
     let engineCode = '"entities": {'
     engineCode += props.code
     engineCode += "}"
@@ -17,6 +17,9 @@ function CodeRenderer(props: { code: string}) {
         <div style={codeStyle}>
             <h2>Generoitu JS</h2>
             { engineCode }
+            <h2>Palikka-xml</h2>
+
+            { props.blockXml.toString() }
         </div>
     )
 }
