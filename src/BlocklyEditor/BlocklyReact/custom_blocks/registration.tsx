@@ -43,7 +43,6 @@ const condJson = {
         }
     ],
     "previousStatement": null,
-    "nextStatement": 3,
 }
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
