@@ -15,7 +15,7 @@ const colStyle = {
 }
 
 const intervalUpdater = async (updateable) =>  {
-    setInterval(()=>{
+    return setInterval(()=>{
         log.debug("Interval update happening")
         updateable.update()
     }, FRAMETIME)
@@ -39,6 +39,17 @@ export default class EngineMain extends React.Component {
             return this.props.editor.code
         }
 
+        let gameEngine
+        if (this.state.game_running) {
+            gameEngine = <GameEngine
+                toggle={ this.state.game_running }
+                objectList={ getCode() }
+                updater={ intervalUpdater }
+            />
+        } else {
+            gameEngine = null
+        }
+
         return (
             <Container fluid>
                 <Row style={rowStyle}>
@@ -51,12 +62,7 @@ export default class EngineMain extends React.Component {
                 </Row>
                 <Row style={rowStyle}>
                     <Col style={colStyle}>
-                        {console.debug(this.state.game_running)}
-                        <GameEngine
-                            toggle={ this.state.game_running }
-                            objectList={ getCode() }
-                            updater={ intervalUpdater }
-                        />
+                        {gameEngine}
                     </Col>
                 </Row>
             </Container>

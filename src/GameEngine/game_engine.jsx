@@ -62,6 +62,7 @@ export default class GameEngine extends React.Component {
     state = {
         gameState: new MapWithDefault(() => [(x, s) => x, false]),
         entities: [],
+        updater: null,
         keymap: new Map()
     }
 
@@ -88,7 +89,11 @@ export default class GameEngine extends React.Component {
             this.state.gameState.set(eventName,binds[eventName])
         })
 
-        this.props.updater(this)
+        this.state.updater = this.props.updater(this)
+    }
+
+    componentWillUnmount() {
+        this.state.updater.then(val => clearInterval(val))
     }
 
     gameArea = React.createRef()
@@ -98,10 +103,6 @@ export default class GameEngine extends React.Component {
     applyF(key,state) {
         let p = state.get(key)
         return p[0](p[1],state)
-    }
-
-    stop = () => {
-        // TODO: Implement stopping
     }
 
     handleKeyDown = (e) => {
