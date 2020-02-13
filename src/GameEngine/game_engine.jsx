@@ -6,7 +6,8 @@ import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
 import {StateMap} from "./state_map"
 
-const GAMESTYLE = {backgroundColor: "green", width: "100%", height: "100%"}
+import { posFactor, imgSize, gameboard, } from "./config"
+import { clamp } from "./utils"
 
 const dogeRace = ` 
 {
@@ -40,11 +41,6 @@ const dogeRace = `
     }
 }
 `
-
-// posFactor: multiplies x and y before clamp. used to scale position.
-const ENGINECONF = { posFactor: 1/2000 }
-
-const clamp = (num, min, max) => num <= min ? min : num >= max ? max : num
 
 class MapWithDefault extends Map {
     get(key) {
@@ -134,7 +130,7 @@ export default class GameEngine extends React.Component {
         return (
         <Row>
             <Col>
-                <div style={GAMESTYLE}
+                <div style={gameboard['containerStyle']}
                     ref={this.gameArea}
                     onKeyDown={this.handleKeyDown}
                     onKeyUp={this.handleKeyUp}
@@ -145,9 +141,9 @@ export default class GameEngine extends React.Component {
                             <div key={key}>
                                 <img
                                     style={{
-                                        width: 50, height: 50, position:"absolute",
-                                        left: clamp(window.innerWidth*(this.getVal(entity.x) * ENGINECONF.posFactor),0,300),
-                                        top: clamp(window.innerHeight*(this.getVal(entity.y) * ENGINECONF.posFactor),0,300)
+                                        width: imgSize['width'], height: imgSize['height'], position: "absolute",
+                                        left: clamp(window.innerWidth*(this.getVal(entity.x) * posFactor),0,gameboard['size']['width']),
+                                        top: clamp(window.innerHeight*(this.getVal(entity.y) * posFactor),0,gameboard['size']['height'])
                                     }}
                                     src={this.getVal(entity.img)}
                                     alt=""
