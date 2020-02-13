@@ -85,7 +85,7 @@ export default class GameEngine extends React.Component {
             this.state.gameState.set(eventName,binds[eventName])
         })
 
-        this.state.updater = this.props.updater(this)
+        this.setState({updater: this.props.updater(this)})
     }
 
     componentWillUnmount() {
@@ -148,7 +148,7 @@ export default class GameEngine extends React.Component {
                                         top: clamp(window.innerHeight*(this.getVal(entity.y) * posFactor),0,gameboard['size']['height'])
                                     }}
                                     src={this.getVal(entity.img)}
-                                    alt=""
+                                    alt="loading..."
                                 />
                             </div>
                         )
