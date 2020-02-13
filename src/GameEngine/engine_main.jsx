@@ -2,7 +2,7 @@ import React from "react"
 import * as log from "loglevel"
 import GameEngine from "./game_engine"
 import { Container, Row, Col } from "react-bootstrap"
-import {FRAMETIME} from "./utils"
+import {frametime} from "./config"
 
 log.setLevel("trace")
 
@@ -18,7 +18,7 @@ const intervalUpdater = async (updateable) =>  {
     return setInterval(()=>{
         log.debug("Interval update happening")
         updateable.update()
-    }, FRAMETIME)
+    }, frametime)
 }
 
 export default class EngineMain extends React.Component {

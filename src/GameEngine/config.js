@@ -10,11 +10,11 @@ export const imgSize = () => {
     })
 }
 
-export const gameboardSize = () => {
+export const gameboard = () => {
     return({
         size: {
-            width: 300,
-            height: 300,
+            width: 500,
+            height: 500,
         },
         containerStyle: {
             backgroundColor: "green",
