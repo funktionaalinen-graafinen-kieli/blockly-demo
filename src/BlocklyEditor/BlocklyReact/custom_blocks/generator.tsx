@@ -29,14 +29,8 @@ function funklyCodegen(type: funklyBlockType) {
             : ""
 
         const doBranch = BlocklyJS.statementToCode(block, "DO", BlocklyJS.ORDER_ADDITION)
-
         const elseBranch = BlocklyJS.statementToCode(block, "ELSE")
 
-        log.trace(
-            `condition: ${conditionCode}
-        doBranch: ${doBranch}
-        elseBranch: ${elseBranch}`
-        )
         return "cond" + argwrap(conditionCode, doBranch, elseBranch)
     }
 
@@ -57,7 +51,6 @@ function funklyCodegen(type: funklyBlockType) {
 
     function funkly_get(block: Block) {
         const arg0 = BlocklyJS.valueToCode(block, "key", BlocklyJS.ORDER_RELATIONAL) || "default_key"
-        log.trace(block)
         return "get" + argwrap(arg0)
     }
 

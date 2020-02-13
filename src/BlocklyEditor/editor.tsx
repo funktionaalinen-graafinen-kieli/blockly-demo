@@ -58,7 +58,7 @@ class Editor extends React.Component {
                 >
                     {editorBlocks}
                 </BlocklyComponent>
-                <CodeRenderer code={this.state.code} entities={this.state.entities} blockXml={this.state.blockXml}/>
+                <CodeRenderer entities={this.state.entities} blockXml={this.state.blockXml}/>
             </div>
         )
     }

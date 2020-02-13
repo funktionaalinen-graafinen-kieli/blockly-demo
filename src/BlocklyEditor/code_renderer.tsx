@@ -10,7 +10,7 @@ const codeStyle: CSSProperties = {
 }
 
 
-function CodeRenderer(props: { code: string, entities: Block[], blockXml: string}) {
+function CodeRenderer(props: {entities: Block[], blockXml: string}) {
     let engineCode = '{ "entities": {'
     props.entities.slice(0,-1).forEach(e => engineCode += BlocklyJS.blockToCode(e) + ',')
     engineCode += BlocklyJS.blockToCode(props.entities.slice(-1)[0])
