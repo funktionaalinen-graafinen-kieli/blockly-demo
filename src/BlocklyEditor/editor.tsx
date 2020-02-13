@@ -23,7 +23,7 @@ const editorBlocks =  (
 
 class Editor extends React.Component {
     private blocklyComponent!: BlocklyComponent
-    readonly state = {code: "", entities: [], blockXml: ""}
+    readonly state = {code: "", blockXml: ""}
 
     generateCode = () => {
         const workspace = this.blocklyComponent.workspace
@@ -31,9 +31,14 @@ class Editor extends React.Component {
 
         const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
 
+        // Generate code for each entity and place commas
+        let engineCode = '{ "entities": {'
+        entities.slice(0,-1).forEach(e => engineCode += BlocklyJS.blockToCode(e) + ',')
+        engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
+        engineCode += "} }"
+
         this.setState({
-            code: BlocklyJS.workspaceToCode(workspace),
-            entities, 
+            code: engineCode,
             blockXml : xmlWorkspace
         })
     }
@@ -58,7 +63,7 @@ class Editor extends React.Component {
                 >
                     {editorBlocks}
                 </BlocklyComponent>
-                <CodeRenderer code={this.state.code} entities={this.state.entities} blockXml={this.state.blockXml}/>
+                <CodeRenderer code={this.state.code} blockXml={this.state.blockXml}/>
             </div>
         )
     }
