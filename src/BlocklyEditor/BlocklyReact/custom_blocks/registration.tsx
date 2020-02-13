@@ -115,18 +115,28 @@ const entityJson = {
             "spellcheck": false
         }
     ],
-    "message1": "x: %1",
+    "message1": "x: %2 %1",
     "args1": [
         {
             "type": "input_statement",
             "name": "x"
+        },
+        {
+            "type": "field_number",
+            "name": "initx",
+            "value": "1"
         }
     ],
-    "message2": "y: %1",
+    "message2": "y: %2 %1",
     "args2": [
         {
             "type": "input_statement",
             "name": "y"
+        },
+        {
+            "type": "field_number",
+            "name": "inity",
+            "value": "1"
         }
     ],
     "message3": "img: %1",
