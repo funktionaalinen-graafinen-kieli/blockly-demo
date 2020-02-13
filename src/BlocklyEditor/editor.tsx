@@ -21,6 +21,15 @@ const editorBlocks =  (
     </React.Fragment>
 )
 
+const defaultBinds = `
+"binds": {
+    "frameTime": ["packF(id)", 16],
+    "time": ["pack(add(get('time'))(get('frameTime')))", 0],
+    "everySecond": ["packF(timer)", [false, 0, 1000]]
+}
+`
+
+
 class Editor extends React.Component {
     private blocklyComponent!: BlocklyComponent
     readonly state = {code: "", blockXml: ""}
@@ -35,7 +44,8 @@ class Editor extends React.Component {
         let engineCode = '{ "entities": {'
         entities.slice(0,-1).forEach(e => engineCode += BlocklyJS.blockToCode(e) + ',')
         engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
-        engineCode += "} }"
+        engineCode += "}, "
+        engineCode += defaultBinds + "}"
 
         this.setState({
             code: engineCode,
