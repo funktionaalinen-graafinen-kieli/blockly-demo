@@ -77,14 +77,13 @@ function funklyCodegen(type: funklyBlockType) {
         const xDelay = 0
         const yDelay = 0
 
-        console.log(id)
         let output = `"${id}": {`
 
         output += `"x": ["pack(${x})", ${xDelay}],`
         output += `"y": ["pack(${y})", ${yDelay}],`
         output +=  `"img": ["packF(id)", ${img}]`
 
-        output += "},"
+        output += "}"
         return output
         /*
         e1": {
