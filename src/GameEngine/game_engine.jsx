@@ -125,6 +125,7 @@ export default class GameEngine extends React.Component {
     }
 
     render() {
+        console.warn('gameboard:',gameboard)
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
 
