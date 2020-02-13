@@ -60,7 +60,6 @@ function funklyCodegen(type: funklyBlockType) {
         return "get" + argwrap(arg0)
     }
 
-
     function funkly_number(block: Block) {
         // TODO: This always returns the OR case. Figure out why and how to fix
         //console.log(BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC))
