@@ -57,14 +57,13 @@ function funklyCodegen(type: funklyBlockType) {
 
     function funkly_get(block: Block) {
         const arg0 = BlocklyJS.valueToCode(block, "key", BlocklyJS.ORDER_RELATIONAL) || "default_key"
+        log.trace(block)
         return "get" + argwrap(arg0)
     }
 
     function funkly_number(block: Block) {
         // TODO: This always returns the OR case. Figure out why and how to fix
-        //console.log(BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC))
-        const arg0 = BlocklyJS.valueToCode(block, "NUMBER_CONSTANT", BlocklyJS.ORDER_ATOMIC) || 0
-        //log.trace(block.getInput("NUMBER_CONSTANT"))
+        const arg0 = block.getFieldValue("NUM") || 0
 
         return wrap(arg0)
     }
