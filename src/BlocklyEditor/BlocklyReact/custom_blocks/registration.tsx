@@ -43,7 +43,6 @@ const condJson = {
         }
     ],
     "previousStatement": null,
-    "nextStatement": 3,
 }
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
@@ -92,12 +91,12 @@ createCustomBlock(funklyBlockType.ADD, "math_blocks", addJson)
 
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
-    "message0": "%1",
+    "message0": "num: %1",
     "args0": [
         {
             "type": "field_number",
-            "name:": "NUMBER_CONSTANT",
-            "value": 1
+            "name": "NUM",
+            "value": "1"
         }
     ],
     "previousStatement": null
