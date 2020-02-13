@@ -6,8 +6,8 @@ import {funklyBlockType, funklyCodegen} from "./generator"
 
 
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
-    if (!["logic_blocks", "math_blocks"].includes(style)) {
-        log.error("Non-enabled blockly style!")
+    if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
+        log.debug("Non-enabled blockly style!")
     }
     Blocks[id] = {
         init: function () {

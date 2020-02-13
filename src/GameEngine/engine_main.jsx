@@ -36,14 +36,16 @@ export default class EngineMain extends React.Component {
 
     render() {
         const getCode = () => {
-            return this.props.editor.code
+            console.debug(this.props.editor.code)
+            // Miksi ylempi ei kaadu
+            return this.props.editor.state.code
         }
 
         let gameEngine
         if (this.state.game_running) {
             gameEngine = <GameEngine
                 toggle={ this.state.game_running }
-                objectList={ getCode() }
+                program={ getCode() }
                 updater={ intervalUpdater }
             />
         } else {

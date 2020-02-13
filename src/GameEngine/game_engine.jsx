@@ -65,13 +65,10 @@ export default class GameEngine extends React.Component {
     componentDidMount() {
         let parsedObjectList
         try {
-            parsedObjectList = evalFunc(this.props.objectList)
+            parsedObjectList = evalFunc(this.props.program)
         } catch (error) {
-            console.debug(
-                "Caught error in parsing block json \n"
-                + error +
-                "\n Defaulting to dogerace"
-            )
+            console.debug("Caught error in parsing block json")
+            console.debug(error)
             parsedObjectList = evalFunc(dogeRace)
         }
 
@@ -125,7 +122,7 @@ export default class GameEngine extends React.Component {
     }
 
     render() {
-        console.warn('gameboard:',gameboard)
+        // console.warn('gameboard:',gameboard)
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
 
@@ -163,7 +160,7 @@ export default class GameEngine extends React.Component {
     }
 }
 GameEngine.propTypes = {
-    objectList: PropTypes.any.isRequired,
+    program: PropTypes.any.isRequired,
     toggle: PropTypes.bool.isRequired,
     updater: PropTypes.func.isRequired
 }
