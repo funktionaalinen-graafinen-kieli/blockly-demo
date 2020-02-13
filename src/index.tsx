@@ -16,7 +16,7 @@ blockRendering.register("funkly_renderer", FunklyRenderer)
 
 ReactDOM.render(
     <React.Fragment>
-        <EngineMain editor={<BlocklyEditor/>} />
+        <EngineMain />
     </React.Fragment>,
     document.getElementById("root")
 )

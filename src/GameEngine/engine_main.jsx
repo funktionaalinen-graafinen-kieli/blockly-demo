@@ -1,8 +1,12 @@
 import React from "react"
-import * as log from "loglevel"
-import GameEngine from "./game_engine"
 import { Container, Row, Col } from "react-bootstrap"
+import PropTypes from "prop-types"
+import * as log from "loglevel"
+
+import GameEngine from "./game_engine"
 import {frametime} from "./config"
+import Editor from "../BlocklyEditor/editor"
+
 
 log.setLevel("trace")
 
@@ -22,6 +26,8 @@ const intervalUpdater = async (updateable) =>  {
 }
 
 export default class EngineMain extends React.Component {
+    EditorInstance = React.createRef()
+
     constructor(props) {
         super(props)
         this.state = {
@@ -36,11 +42,8 @@ export default class EngineMain extends React.Component {
 
     render() {
         const getCode = () => {
-            console.debug(this.props.editor.code)
-            // Miksi ylempi ei kaadu
-            return this.props.editor.state.code
+            return this.EditorInstance.current.state.code
         }
-
         let gameEngine
         if (this.state.game_running) {
             gameEngine = <GameEngine
@@ -55,7 +58,9 @@ export default class EngineMain extends React.Component {
         return (
             <Container fluid>
                 <Row style={rowStyle}>
-                    <Col style={colStyle}>{this.props.editor}</Col>
+                    <Col style={colStyle}>
+                        <Editor ref={this.EditorInstance} />
+                    </Col>
                 </Row>
                 <Row>
                     <button onClick={this.toggle}>
@@ -70,4 +75,8 @@ export default class EngineMain extends React.Component {
             </Container>
         )
     }
+}
+
+EngineMain.propTypes = {
+    editor: PropTypes.element.isRequired
 }

@@ -30,7 +30,7 @@ const defaultBinds = `
 `
 
 
-class Editor extends React.Component {
+class Editor extends React.Component<{}> {
     private blocklyComponent!: BlocklyComponent
     readonly state = {code: "", blockXml: ""}
 
