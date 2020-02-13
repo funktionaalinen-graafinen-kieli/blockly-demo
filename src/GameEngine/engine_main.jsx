@@ -51,8 +51,9 @@ export default class EngineMain extends React.Component {
                 </Row>
                 <Row style={rowStyle}>
                     <Col style={colStyle}>
+                        {console.debug(this.state.game_running)}
                         <GameEngine
-                            toggle={ this.game_running }
+                            toggle={ this.state.game_running }
                             objectList={ getCode() }
                             updater={ intervalUpdater }
                         />
