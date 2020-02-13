@@ -64,16 +64,15 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_entity(block: Block) {
         const id = block.getFieldValue("id") || "default_entity"
         const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
+        const initx = block.getFieldValue("initx") || 0
         const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
+        const inity = block.getFieldValue("inity") || 0
         const img = block.getFieldValue("img") || "default_img"
-
-        const xDelay = 0
-        const yDelay = 0
 
         let output = `"${id}": {`
 
-        output += `"x": ["pack(${x})", ${xDelay}],`
-        output += `"y": ["pack(${y})", ${yDelay}],`
+        output += `"x": ["pack(${x})", ${initx}],`
+        output += `"y": ["pack(${y})", ${inity}],`
         output +=  `"img": ["packF(id)", "${img}"]`
 
         output += "}"
