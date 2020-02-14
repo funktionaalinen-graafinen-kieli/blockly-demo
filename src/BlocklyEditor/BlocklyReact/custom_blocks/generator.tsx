@@ -50,8 +50,9 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_get(block: Block) {
-        const arg0 = BlocklyJS.valueToCode(block, "key", BlocklyJS.ORDER_RELATIONAL) || "default_key"
-        return "get" + argwrap(arg0)
+        const arg0 = block.getFieldValue("entity") || "default_entity"
+        const arg1 = block.getFieldValue("property") || "default_property"
+        return "get" + argwrap(arg0+'_'+arg1)
     }
 
     function funkly_number(block: Block) {

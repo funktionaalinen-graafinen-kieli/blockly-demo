@@ -183,7 +183,7 @@ Extensions.register('entity_dropdowns',
         .appendField(new FieldDropdown(
             function() {
                 let options: string[][] = [["none","NONEXISTANT"]]
-                entities.forEach((e: Block) => options.push([e.getFieldValue('id') || "NONAME","ID_HERE"]))
+                entities.forEach((e: Block) => options.push([e.getFieldValue('id') || "NONAME", e.getFieldValue('id') || "NONAME"]))
                 console.log(options)
                 return options
             }));
