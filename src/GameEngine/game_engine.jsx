@@ -5,7 +5,7 @@ import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
 import { renderGame } from "./render_game"
 
-class MapWithDefault extends Map {
+export class MapWithDefault extends Map {
     get(key) {
         if (!this.has(key)) return this.default()
         return super.get(key)

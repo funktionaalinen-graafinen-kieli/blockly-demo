@@ -1,11 +1,32 @@
 import * as React from "react"
 import { Row, Col } from "react-bootstrap"
 
-import { StateMap } from "./state_map"
 import { posFactor, imgSize, gameboard } from "./config"
 import { clamp } from "./utils"
-import GameEngine from "./game_engine"
+import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
+
+function StateMap(props: {gameState: MapWithDefault}) {
+    if (!props.gameState) return <></>
+
+    const table: React.ReactElement[] = []
+    // @ts-ignore
+    props.gameState.forEach((value, key) => {
+        table.push(
+            <p key={key}>
+                {key} =&gt; {value}
+            </p>
+        )
+    })
+
+    return (
+        <div style={{ background: "orange" }}>
+            <h3>State</h3>
+
+            {table}
+        </div>
+    )
+}
 
 
 export const renderGame = (gameEngine: GameEngine) => {
@@ -54,3 +75,5 @@ export const renderGame = (gameEngine: GameEngine) => {
         </Row>
     )
 }
+
+
