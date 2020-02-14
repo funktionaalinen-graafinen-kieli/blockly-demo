@@ -1,5 +1,5 @@
 import * as BlocklyJS from "blockly/javascript"
-import {Block} from "blockly"
+import { Block } from "blockly"
 import * as log from "loglevel"
 
 enum funklyBlockType {
@@ -101,7 +101,7 @@ const wrap = (x: string) => "("+x+")"
 // TODO find better fix for stray spaces
 // strip spaces
 //args = args.map(x=>x.replace(/\s/g,""));
-const strip = (x: string) => x.replace(/\s/g,"");
+const strip = (x: string) => x.replace(/\s/g,"")
 
 // wrap varArg of arguments as arguments to curried function
 const argwrap = (...xs: string[]) => cat(...xs.map(s => {
@@ -110,4 +110,4 @@ const argwrap = (...xs: string[]) => cat(...xs.map(s => {
 
 const cat = (...xs: string[]) => xs.reduce((x,y) => x+y)
 
-export {funklyBlockType, funklyCodegen}
+export { funklyBlockType, funklyCodegen }

@@ -1,12 +1,12 @@
 interface BlocklyWsOptions {
-    readOnly: boolean,
+    readOnly: boolean
     trashcan: boolean
     move: {
-        scrollbars: boolean,
-        drag: boolean,
+        scrollbars: boolean
+        drag: boolean
         wheel: boolean
-    },
-    initialXml: string,
+    }
+    initialXml: string
     renderer: string
 }
 
@@ -18,6 +18,6 @@ export const BLOCKLYCONFIG: BlocklyWsOptions = {
     readOnly: false,
     trashcan: true,
     renderer: "funkly_renderer",
-    move: {scrollbars: true, drag: false, wheel: true},
+    move: { scrollbars: true, drag: false, wheel: true },
     initialXml: initialXml
 }

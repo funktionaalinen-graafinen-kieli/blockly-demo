@@ -4,11 +4,10 @@ const codeStyle: CSSProperties = {
     height: "100%",
     width: "20%",
     left: "82%",
-    position: "absolute",
+    position: "absolute"
 }
 
-
-function CodeRenderer(props: { code: string, blockXml: string }) {
+function CodeRenderer(props: { code: string; blockXml: string }) {
     return (
         <div style={codeStyle}>
             <h2>Generoitu JS</h2>

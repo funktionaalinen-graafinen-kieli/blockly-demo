@@ -1,5 +1,7 @@
 # funkly game engine
+
 An example program:
+
 ```
 const dogeRace = `
 {

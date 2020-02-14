@@ -8,13 +8,9 @@ import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
 
 log.setLevel("trace")
 
-const rowStyle = {
-    height: "500px"
-}
+const rowStyle = { height: "500px" }
 
-const colStyle = {
-    width: "500px"
-}
+const colStyle = { width: "500px" }
 
 interface hasUpdate {
     update(): void
@@ -27,15 +23,15 @@ const intervalUpdater = async (updatee: hasUpdate) => {
     }, frametime)
 }
 
-export default class App extends React.Component <{}, {game_running: boolean, gameState?: object}> {
+export default class App extends React.Component<
+    {},
+    { game_running: boolean}
+> {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
         super(props)
-        this.state = {
-            gameState: undefined,
-            game_running: false
-        }
+        this.state = { game_running: false }
     }
 
     toggle = () => {

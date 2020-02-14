@@ -1,4 +1,4 @@
-import {langEval} from "./lang"
+import { langEval } from "./lang"
 
 export default function evalFunc(sourceCode) {
     let js = JSON.parse(sourceCode)

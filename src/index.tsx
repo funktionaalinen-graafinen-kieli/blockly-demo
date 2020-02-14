@@ -2,9 +2,9 @@ import React from "react"
 import ReactDOM from "react-dom"
 
 import * as log from "loglevel"
-import {blockRendering} from "blockly"
+import { blockRendering } from "blockly"
 
-import {FunklyRenderer} from "./BlocklyEditor/BlocklyReact/funkly_renderer"
+import { FunklyRenderer } from "./BlocklyEditor/BlocklyReact/funkly_renderer"
 
 import App from "./Gui/app"
 
