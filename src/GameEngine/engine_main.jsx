@@ -1,12 +1,10 @@
 import React from "react"
 import { Container, Row, Col } from "react-bootstrap"
-import PropTypes from "prop-types"
 import * as log from "loglevel"
 
 import GameEngine from "./game_engine"
-import {frametime} from "./config"
-import Editor from "../BlocklyEditor/editor"
-
+import { frametime } from "./config"
+import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
 
 log.setLevel("trace")
 
@@ -18,21 +16,21 @@ const colStyle = {
     width: "500px"
 }
 
-const intervalUpdater = async (updateable) =>  {
-    return setInterval(()=>{
+const intervalUpdater = async updateable => {
+    return setInterval(() => {
         log.debug("Interval update happening")
         updateable.update()
     }, frametime)
 }
 
 export default class EngineMain extends React.Component {
-    EditorInstance = React.createRef()
+    editorInstance = React.createRef()
 
     constructor(props) {
         super(props)
         this.state = {
             gameState: null,
-            game_running: false,
+            game_running: false
         }
     }
 
@@ -42,15 +40,17 @@ export default class EngineMain extends React.Component {
 
     render() {
         const getCode = () => {
-            return this.EditorInstance.current.state.code
+            return this.editorInstance.current.state.code
         }
         let gameEngine
         if (this.state.game_running) {
-            gameEngine = <GameEngine
-                toggle={ this.state.game_running }
-                program={ getCode() }
-                updater={ intervalUpdater }
-            />
+            gameEngine = (
+                <GameEngine
+                    toggle={this.state.game_running}
+                    program={getCode()}
+                    updater={intervalUpdater}
+                />
+            )
         } else {
             gameEngine = null
         }
@@ -59,24 +59,36 @@ export default class EngineMain extends React.Component {
             <Container fluid>
                 <Row style={rowStyle}>
                     <Col style={colStyle}>
-                        <Editor ref={this.EditorInstance} />
+                        <Editor ref={this.editorInstance} />
                     </Col>
                 </Row>
                 <Row>
                     <button onClick={this.toggle}>
                         {this.state.game_running ? "stop" : "run"}
                     </button>
+                    <button
+                        onClick={() =>
+                            saveProject(
+                                this.editorInstance.current.state.blockXml.toString()
+                            )
+                        }
+                    >
+                        SAVE
+                    </button>
+                    <button
+                        onClick={() =>
+                            loadProject(
+                                this.editorInstance.current.blocklyComponent
+                            )
+                        }
+                    >
+                        LOAD
+                    </button>
                 </Row>
                 <Row style={rowStyle}>
-                    <Col style={colStyle}>
-                        {gameEngine}
-                    </Col>
+                    <Col style={colStyle}>{gameEngine}</Col>
                 </Row>
             </Container>
         )
     }
-}
-
-EngineMain.propTypes = {
-    editor: PropTypes.element.isRequired
 }

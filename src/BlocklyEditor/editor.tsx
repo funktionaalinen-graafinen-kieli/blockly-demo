@@ -29,7 +29,6 @@ const defaultBinds = `
 }
 `
 
-
 class Editor extends React.Component<{}> {
     private blocklyComponent!: BlocklyComponent
     readonly state = { code: "", blockXml: "" }
@@ -38,11 +37,15 @@ class Editor extends React.Component<{}> {
         const workspace = this.blocklyComponent.workspace
         const entities = workspace.getBlocksByType("funkly_entity", true)
 
-        const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+        const xmlWorkspace = Blockly.Xml.domToPrettyText(
+            Blockly.Xml.workspaceToDom(workspace)
+        )
 
         // Generate code for each entity and place commas
         let engineCode = '{ "entities": {'
-        entities.slice(0, -1).forEach(e => engineCode += BlocklyJS.blockToCode(e) + ',')
+        entities
+            .slice(0, -1)
+            .forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
         engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
         engineCode += "}, "
         engineCode += defaultBinds + "}"
@@ -62,15 +65,6 @@ class Editor extends React.Component<{}> {
         this.blocklyComponent?.workspace.removeChangeListener(this.generateCode)
     }
 
-    saveProject(blockXml: any): void {
-        localStorage.setItem('defaultProject', blockXml)
-    }
-
-    loadProject(setBlockXml: (blockXml: any) => void): void {
-        const a = localStorage.getItem('defaultProject') || ""
-        Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), this.blocklyComponent.workspace);
-    }
-
     render = () => {
         return (
             <div className="Editor">
@@ -82,14 +76,28 @@ class Editor extends React.Component<{}> {
                 >
                     {editorBlocks}
                 </BlocklyComponent>
-                <CodeRenderer code={this.state.code} blockXml={this.state.blockXml} />
-                <div style={{ position: 'absolute', top: 500, left: 50 }}>
-                    <button onClick={() => this.saveProject(this.state.blockXml.toString())}>SAVE</button>
-                    <button onClick={() => this.loadProject((blockXml: any) => this.setState({ blockXml }))}>LOAD</button>
-                </div>
+                <CodeRenderer
+                    code={this.state.code}
+                    blockXml={this.state.blockXml}
+                />
             </div>
         )
     }
 }
 
+function saveProject(blockXml: string): void {
+    localStorage.setItem("defaultProject", blockXml)
+}
+
+function loadProject(blocklyComponent: BlocklyComponent): void {
+    const a =
+        localStorage.getItem("defaultProject") ||
+        '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(
+        Blockly.Xml.textToDom(a),
+        blocklyComponent.workspace
+    )
+}
+
 export default Editor
+export {saveProject, loadProject}
