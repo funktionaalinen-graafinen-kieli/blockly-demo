@@ -31,11 +31,11 @@ const defaultBinds = `
 `
 
 class Editor extends React.Component<{}> {
-    private blocklyComponent!: BlocklyComponent
+    blocklyReactInstance = React.createRef<BlocklyComponent>()
     readonly state = { code: "", blockXml: "" }
 
-    generateCode = () => {
-        const workspace = this.blocklyComponent.workspace
+        generateCode = () => {
+        const workspace = this.blocklyReactInstance.current!.workspace
         const entities = workspace.getBlocksByType("funkly_entity", true)
 
         const xmlWorkspace = Blockly.Xml.domToPrettyText(
@@ -59,21 +59,19 @@ class Editor extends React.Component<{}> {
     }
 
     componentDidMount(): void {
-        this.blocklyComponent?.workspace.addChangeListener(this.generateCode)
+        this.blocklyReactInstance.current!.workspace.addChangeListener(this.generateCode)
         log.debug("Mounted change listener on workspace")
     }
 
     componentWillUnmount(): void {
-        this.blocklyComponent?.workspace.removeChangeListener(this.generateCode)
+        this.blocklyReactInstance.current!.workspace.removeChangeListener(this.generateCode)
     }
 
     render = () => {
         return (
             <div className="Editor">
                 <BlocklyComponent
-                    ref={(event: BlocklyComponent) => {
-                        this.blocklyComponent = event
-                    }}
+                    ref={ this.blocklyReactInstance }
                     {...BLOCKLYCONFIG}
                 >
                     {editorBlocks}

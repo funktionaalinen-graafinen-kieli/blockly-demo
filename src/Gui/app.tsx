@@ -16,20 +16,24 @@ const colStyle = {
     width: "500px"
 }
 
-const intervalUpdater = async updateable => {
+interface hasUpdate {
+    update(): void
+}
+
+const intervalUpdater = async (updatee: hasUpdate) => {
     return setInterval(() => {
         log.debug("Interval update happening")
-        updateable.update()
+        updatee.update()
     }, frametime)
 }
 
-export default class App extends React.Component {
-    editorInstance = React.createRef()
+export default class App extends React.Component <{}, {game_running: boolean, gameState?: object}> {
+    editorInstance = React.createRef<Editor>()
 
-    constructor(props) {
+    constructor(props: {}) {
         super(props)
         this.state = {
-            gameState: null,
+            gameState: undefined,
             game_running: false
         }
     }
@@ -39,8 +43,10 @@ export default class App extends React.Component {
     }
 
     render() {
+        let editorInstance = this.editorInstance.current!
+
         const getCode = () => {
-            return this.editorInstance.current.state.code
+            return editorInstance.state.code
         }
         let gameEngine
         if (this.state.game_running) {
@@ -69,7 +75,7 @@ export default class App extends React.Component {
                     <button
                         onClick={() =>
                             saveProject(
-                                this.editorInstance.current.state.blockXml.toString()
+                                editorInstance.state.blockXml.toString()
                             )
                         }
                     >
@@ -78,7 +84,7 @@ export default class App extends React.Component {
                     <button
                         onClick={() =>
                             loadProject(
-                                this.editorInstance.current.blocklyComponent
+                                editorInstance.blocklyReactInstance.current!
                             )
                         }
                     >
