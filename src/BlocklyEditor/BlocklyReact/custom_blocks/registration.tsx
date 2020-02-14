@@ -91,7 +91,7 @@ createCustomBlock(funklyBlockType.ADD, "math_blocks", addJson)
 
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
-    "message0": "num: %1",
+    "message0": "%1",
     "args0": [
         {
             "type": "field_number",
