@@ -37,6 +37,7 @@ export default class GameEngine extends React.Component {
             // This should never happen with the blocks generating the json
             console.debug("Caught error in parsing block json")
             console.debug(error)
+            this.setState({ updater: this.props.updater(this) })
             return
         }
 
