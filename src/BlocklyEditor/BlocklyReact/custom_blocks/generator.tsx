@@ -56,8 +56,7 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_number(block: Block) {
-        // TODO: This always returns the OR case. Figure out why and how to fix
-        const arg0 = block.getFieldValue("NUM") || 0
+        const arg0 = block.getFieldValue("NUM")
 
         return wrap(arg0)
     }
