@@ -7,7 +7,7 @@ export function StateMap(props) {
     props.gameState.forEach((value, key) => {
         table.push(
             <p key={key}>
-                {key} => {value}
+                {key} =&gt; {value}
             </p>
         )
     })

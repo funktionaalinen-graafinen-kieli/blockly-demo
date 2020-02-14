@@ -2,7 +2,7 @@ import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
 import log from "loglevel"
 
-import {funklyBlockType, funklyCodegen} from "./generator"
+import { funklyBlockType, funklyCodegen } from "./generator"
 
 
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {

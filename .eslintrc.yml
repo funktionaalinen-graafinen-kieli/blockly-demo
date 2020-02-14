@@ -20,6 +20,9 @@ plugins:
   - react
   - '@typescript-eslint'
 rules:
+  max-len:
+    - error
+    - "code": 120
   indent:
     - error
     - 4
@@ -35,7 +38,7 @@ rules:
     - never
   object-curly-spacing:
     - warn
-    - never
+    - always
     - "objectsInObjects": true
   object-curly-newline:
     - warn
