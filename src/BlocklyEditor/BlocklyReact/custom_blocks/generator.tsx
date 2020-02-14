@@ -83,11 +83,11 @@ function funklyCodegen(type: funklyBlockType) {
         const bindName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_bind"
         const f = BlocklyJS.statementToCode(block, "f", BlocklyJS.ORDER_RELATIONAL)
 
-        const functionInterval = 0
+        const init = 0
 
         let output = `${bindName}: {`
 
-        output += `"f": ["pack(${f})", ${functionInterval}],`
+        output += `"f": ["pack(${f})", ${init}],`
 
         output += "}"
         return output

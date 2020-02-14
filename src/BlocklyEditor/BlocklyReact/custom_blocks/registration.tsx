@@ -1,5 +1,6 @@
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
+import {Block, Extensions, FieldDropdown} from "blockly"
 import log from "loglevel"
 
 import {funklyBlockType, funklyCodegen} from "./generator"
@@ -155,18 +156,46 @@ createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 const getJson = {
     "type:": funklyBlockType.GET,
     "inputsInline": true,
-    "message0": "get key: %1",
+    "message0": "get: %1 %2",
     "args0": [
         {
-            "type": "input_value",
-            "name": "key",
-            "check": "String"
+            "type": "input_dummy",
+            "name": "entity",
+        },
+        {
+            "type": "input_dummy",
+            "name": "property",
         }
     ],
+    "extensions": ["entity_dropdowns"],
     "previousStatement": null,
 }
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
+
+// TODO look into removing ts-ignores
+Extensions.register('entity_dropdowns',
+    function() {
+        //@ts-ignore
+        let entities = this.workspace.getBlocksByType('funkly_entity', true)
+        //@ts-ignore
+        this.getInput('entity')
+        .appendField(new FieldDropdown(
+            function() {
+                let options: string[][] = [["none","NONEXISTANT"]]
+                entities.forEach((e: Block) => options.push([e.getFieldValue('id') || "NONAME","ID_HERE"]))
+                console.log(options)
+                return options
+            }));
+        //@ts-ignore
+        this.getInput('property')
+        .appendField(new FieldDropdown(
+            function() {
+                let options: string[][] = [["x","x"],["y","y"],["img","img"]]
+                return options
+            }));
+    });
+
 
 const bindJson = {
     "type:": funklyBlockType.BIND,
