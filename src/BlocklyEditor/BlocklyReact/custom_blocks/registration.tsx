@@ -3,6 +3,7 @@ import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
 import log from "loglevel"
 
+import { publicImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 
 
@@ -143,10 +144,8 @@ const entityJson = {
     "message3": "img: %1",
     "args3": [
         {
-            "type": "field_input",
-            "name": "img",
-            "text": "text",
-            "spellcheck": false
+            "type": "input_statement",
+            "name": "img"
         }
     ]
 }
@@ -167,19 +166,19 @@ const getJson = {
             "name": "property",
         }
     ],
-    "extensions": ["entity_dropdowns"],
+    "extensions": ["entity_dropdown"],
     "previousStatement": null,
 }
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
-Extensions.register("entity_dropdowns",
+Extensions.register("entity_dropdown",
     function(this: Block) {
-        let entities = this.workspace.getBlocksByType("funkly_entity", true)
+        const entities = this.workspace.getBlocksByType("funkly_entity", true)
         this.getInput("entity")
             .appendField(new FieldDropdown(
                 function() {
-                    let options: string[][] = [["none","NONEXISTENT"]]
+                    let options: string[][] = [["none","DEFAULT_NONE"]]
                     entities.forEach((e: Block) =>
                         options.push([
                             e.getFieldValue("id") || "NONAME",
@@ -195,6 +194,41 @@ Extensions.register("entity_dropdowns",
                     return options
                 }
             ), "property")
+    }
+)
+
+const imgJson = {
+    "type:": funklyBlockType.IMG,
+    "inputsInline": true,
+    "message0": "image: %1",
+    "args0": [
+        {
+            "type": "input_dummy",
+            "name": "IMAGE",
+        }
+    ],
+    "extensions": ["img_dropdown"],
+    "previousStatement": null,
+}
+
+createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
+
+Extensions.register("img_dropdown",
+    function(this: Block) {
+        const images = publicImages
+        this.getInput("IMAGE")
+            .appendField(new FieldDropdown(
+                function() {
+                    let options: string[][] = [["none","DEFAULT_NONE"]]
+                    for (const [displayKey, imageUri] of images) {
+                        options.push([
+                            displayKey,
+                            imageUri
+                        ])
+                    }
+                    return options
+                }), "IMAGE")
+
     }
 )
 

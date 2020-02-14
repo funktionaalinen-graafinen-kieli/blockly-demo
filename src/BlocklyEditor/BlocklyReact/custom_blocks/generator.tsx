@@ -9,7 +9,8 @@ enum funklyBlockType {
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
     BIND = "funkly_bind",
-    GET = "funkly_get"
+    GET = "funkly_get",
+    IMG = "funkly_img"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -20,6 +21,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.GET) return funkly_get
     else if (type === funklyBlockType.ADD) return funkly_arg2("add")
+    else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
 
     function funkly_cond(block: Block) {
@@ -67,10 +69,9 @@ function funklyCodegen(type: funklyBlockType) {
         const initx = block.getFieldValue("initx") || 0
         const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
         const inity = block.getFieldValue("inity") || 0
-        const img = block.getFieldValue("img") || "default_img"
+        const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
         let output = `"${id}": {`
-
         output += `"x": ["pack(${x})", ${initx}],`
         output += `"y": ["pack(${y})", ${inity}],`
         output +=  `"img": ["packF(id)", "${img}"]`
@@ -82,16 +83,17 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_bind(block: Block) {
         const bindName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_bind"
         const f = BlocklyJS.statementToCode(block, "f", BlocklyJS.ORDER_RELATIONAL)
-
         const init = 0
 
         let output = `${bindName}: {`
-
         output += `"f": ["pack(${f})", ${init}],`
-
         output += "}"
         return output
+    }
 
+    function funkly_img(block: Block) {
+        const arg0 = block.getFieldValue("IMAGE") || "default_image"
+        return arg0
     }
 }
 
