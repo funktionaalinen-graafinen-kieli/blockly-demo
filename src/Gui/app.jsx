@@ -2,8 +2,8 @@ import React from "react"
 import { Container, Row, Col } from "react-bootstrap"
 import * as log from "loglevel"
 
-import GameEngine from "./game_engine"
-import { frametime } from "./config"
+import GameEngine from "../GameEngine/game_engine"
+import { frametime } from "../GameEngine/config"
 import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
 
 log.setLevel("trace")
@@ -23,7 +23,7 @@ const intervalUpdater = async updateable => {
     }, frametime)
 }
 
-export default class EngineMain extends React.Component {
+export default class App extends React.Component {
     editorInstance = React.createRef()
 
     constructor(props) {

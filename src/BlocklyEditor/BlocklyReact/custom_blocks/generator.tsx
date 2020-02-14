@@ -77,15 +77,8 @@ function funklyCodegen(type: funklyBlockType) {
 
         output += "}"
         return output
-        /*
-        e1": {
-            "x": ["pack(cond(lt(get('e1_x'))(get('width')))(add(1)(get('e1_x')))(get('e1_x')))", 1],
-            "y": ["packF(id)", 0],
-            "img": ["packF(id)", "http://www.pngmart.com/files/11/Shiba-Inu-Doge-Meme-PNG-Image.png" ]
-        }
-        */
-
     }
+
     function funkly_bind(block: Block) {
         const bindName = BlocklyJS.valueToCode(block, "id", BlocklyJS.ORDER_RELATIONAL) || "default_bind"
         const f = BlocklyJS.statementToCode(block, "f", BlocklyJS.ORDER_RELATIONAL)
