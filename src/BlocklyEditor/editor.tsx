@@ -15,7 +15,8 @@ const editorBlocks = (
         <Block type="funkly_cond" />
         <Block type="funkly_gt" />
         <Block type="funkly_entity" />
-        <Block type="funkly_bind" />
+        // TODO implement list of binds (same way as entities)
+        //<Block type="funkly_bind" />
         <Block type="funkly_get" />
         <Block type="text" />
     </React.Fragment>
@@ -41,7 +42,10 @@ class Editor extends React.Component<{}> {
 
         // Generate code for each entity and place commas
         let engineCode = '{ "entities": {'
-        entities.slice(0, -1).forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
+        entities
+            .slice(0, -1)
+            .forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
+        // Leave out comma from last entity
         engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
         engineCode += "}, "
         engineCode += defaultBinds + "}"
