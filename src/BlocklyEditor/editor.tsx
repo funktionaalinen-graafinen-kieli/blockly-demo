@@ -18,6 +18,7 @@ const editorBlocks = (
         // TODO implement list of binds (same way as entities) //
         <Block type="funkly_bind" />
         <Block type="funkly_get" />
+        <Block type="funkly_img" />
         <Block type="text" />
     </React.Fragment>
 )
