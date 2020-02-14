@@ -1,6 +1,6 @@
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
-import {Block, Extensions, FieldDropdown} from "blockly"
+import { Block, Extensions, FieldDropdown } from "blockly"
 import log from "loglevel"
 
 import { funklyBlockType, funklyCodegen } from "./generator"
@@ -174,27 +174,31 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 // TODO look into removing ts-ignores
-Extensions.register('entity_dropdowns',
+Extensions.register("entity_dropdowns",
     function() {
         //@ts-ignore
-        let entities = this.workspace.getBlocksByType('funkly_entity', true)
+        let entities = this.workspace.getBlocksByType("funkly_entity", true)
         //@ts-ignore
-        this.getInput('entity')
-        .appendField(new FieldDropdown(
-            function() {
-                let options: string[][] = [["none","NONEXISTANT"]]
-                entities.forEach((e: Block) => options.push([e.getFieldValue('id') || "NONAME", e.getFieldValue('id') || "NONAME"]))
-                console.log(options)
-                return options
-            }));
+        this.getInput("entity")
+            .appendField(new FieldDropdown(
+                function() {
+                    let options: string[][] = [["none","NONEXISTENT"]]
+                    entities.forEach((e: Block) =>
+                        options.push([
+                            e.getFieldValue("id") || "NONAME",
+                            e.getFieldValue("id") || "NONAME"
+                        ]))
+                    console.log(options)
+                    return options
+                }), "entity")
         //@ts-ignore
-        this.getInput('property')
-        .appendField(new FieldDropdown(
-            function() {
-                let options: string[][] = [["x","x"],["y","y"],["img","img"]]
-                return options
-            }));
-    });
+        this.getInput("property")
+            .appendField(new FieldDropdown(
+                function() {
+                    let options: string[][] = [["x","x"],["y","y"],["img","img"]]
+                    return options
+                }), "property")
+    })
 
 
 const bindJson = {
