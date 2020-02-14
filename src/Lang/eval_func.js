@@ -15,5 +15,5 @@ export default function evalFunc(sourceCode) {
         event[0] = langEval(event[0])
     })
     // console.log(js)
-    return(js)
+    return js
 }

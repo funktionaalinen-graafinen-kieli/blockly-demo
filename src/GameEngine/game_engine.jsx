@@ -1,15 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Row, Col } from "react-bootstrap"
 
 import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
-import { StateMap } from "./state_map"
+import { renderGame } from "./render_game"
 
-import { posFactor, imgSize, gameboard } from "./config"
-import { clamp } from "./utils"
-
-class MapWithDefault extends Map {
+export class MapWithDefault extends Map {
     get(key) {
         if (!this.has(key)) return this.default()
         return super.get(key)
@@ -22,6 +18,7 @@ class MapWithDefault extends Map {
 }
 
 export default class GameEngine extends React.Component {
+    gameArea = React.createRef()
     state = {
         gameState: new MapWithDefault(() => [(x, s) => x, false]),
         entities: [],
@@ -34,7 +31,7 @@ export default class GameEngine extends React.Component {
         try {
             parsedObjectList = evalFunc(this.props.program)
         } catch (error) {
-            // This should never happen with the blocks generating the json
+            console.debug("This should never happen with the blocks generating the json")
             console.debug("Caught error in parsing block json")
             console.debug(error)
             this.setState({ updater: this.props.updater(this) })
@@ -57,8 +54,6 @@ export default class GameEngine extends React.Component {
     componentWillUnmount() {
         this.state.updater.then(val => clearInterval(val))
     }
-
-    gameArea = React.createRef()
 
     getVal = name => this.state.gameState.get(name)[1]
 
@@ -97,46 +92,7 @@ export default class GameEngine extends React.Component {
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
 
-        return (
-            <Row>
-                <Col>
-                    <div
-                        style={gameboard["containerStyle"]}
-                        ref={this.gameArea}
-                        onKeyDown={this.handleKeyDown}
-                        onKeyUp={this.handleKeyUp}
-                        tabIndex="0"
-                    >
-                        {this.state.entities.map((entity, key) => (
-                            <div key={key}>
-                                <img
-                                    style={{
-                                        width: imgSize["width"],
-                                        height: imgSize["height"],
-                                        position: "absolute",
-                                        left: clamp(
-                                            window.innerWidth * (this.getVal(entity.x) * posFactor),
-                                            0,
-                                            gameboard["size"]["width"]
-                                        ),
-                                        top: clamp(
-                                            window.innerHeight * (this.getVal(entity.y) * posFactor),
-                                            0,
-                                            gameboard["size"]["height"]
-                                        )
-                                    }}
-                                    src={this.getVal(entity.img)}
-                                    alt="loading..."
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </Col>
-                <Col>
-                    <StateMap gameState={this.state.gameState} />
-                </Col>
-            </Row>
-        )
+        return renderGame(this)
     }
 }
 GameEngine.propTypes = {
@@ -144,5 +100,3 @@ GameEngine.propTypes = {
     toggle: PropTypes.bool.isRequired,
     updater: PropTypes.func.isRequired
 }
-
-export const clampWrap = () => {}
