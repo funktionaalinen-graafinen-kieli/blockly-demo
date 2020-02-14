@@ -15,7 +15,7 @@ const editorBlocks = (
         <Block type="funkly_cond" />
         <Block type="funkly_gt" />
         <Block type="funkly_entity" />
-        // TODO implement list of binds (same way as entities) //
+        // TODO implement list of binds (same way as entities)
         <Block type="funkly_bind" />
         <Block type="funkly_get" />
         <Block type="funkly_img" />

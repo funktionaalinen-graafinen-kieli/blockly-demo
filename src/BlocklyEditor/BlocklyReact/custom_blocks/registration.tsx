@@ -6,13 +6,12 @@ import log from "loglevel"
 import { publicImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 
-
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
         log.debug("Non-enabled blockly style!")
     }
     Blocks[id] = {
-        init: function () {
+        init: function() {
             this.jsonInit(configuration)
             this.setStyle(style)
         }
@@ -23,129 +22,129 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
 
 const condJson = {
     "type:": funklyBlockType.COND,
-    "message0": "if: %1",
-    "args0": [
+    message0: "if: %1",
+    args0: [
         {
-            "type": "input_statement",
-            "name": "IF"
+            type: "input_statement",
+            name: "IF"
         }
     ],
-    "message1": "do: %1",
-    "args1": [
+    message1: "do: %1",
+    args1: [
         {
-            "type": "input_statement",
-            "name": "DO"
+            type: "input_statement",
+            name: "DO"
         }
     ],
-    "message2": "else: %1",
-    "args2": [
+    message2: "else: %1",
+    args2: [
         {
-            "type": "input_statement",
-            "name": "ELSE"
+            type: "input_statement",
+            name: "ELSE"
         }
     ],
-    "previousStatement": null,
+    previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
 
 const gtJson = {
     "type:": funklyBlockType.GT,
-    "message0": "is: %1",
-    "args0": [
+    message0: "is: %1",
+    args0: [
         {
-            "type": "input_statement",
-            "name": "NUMBER0"
+            type: "input_statement",
+            name: "NUMBER0"
         }
     ],
-    "message1": "greater than: %1",
-    "args1": [
+    message1: "greater than: %1",
+    args1: [
         {
-            "type": "input_statement",
-            "name": "NUMBER1"
+            type: "input_statement",
+            name: "NUMBER1"
         }
     ],
-    "previousStatement": null
+    previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.GT, "logic_blocks", gtJson)
 
 const addJson = {
     "type:": funklyBlockType.ADD,
-    "message0": "add: %1",
-    "args0": [
+    message0: "add: %1",
+    args0: [
         {
-            "type": "input_statement",
-            "name": "NUMBER0"
+            type: "input_statement",
+            name: "NUMBER0"
         }
     ],
-    "message1": "to: %1",
-    "args1": [
+    message1: "to: %1",
+    args1: [
         {
-            "type": "input_statement",
-            "name": "NUMBER1"
+            type: "input_statement",
+            name: "NUMBER1"
         }
     ],
-    "previousStatement": null
+    previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.ADD, "math_blocks", addJson)
 
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
-    "message0": "%1",
-    "args0": [
+    message0: "%1",
+    args0: [
         {
-            "type": "field_number",
-            "name": "NUM",
-            "value": "1"
+            type: "field_number",
+            name: "NUM",
+            value: "1"
         }
     ],
-    "previousStatement": null
+    previousStatement: null
 }
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
-    "inputsInline": true,
-    "message0": "name: %1",
-    "args0": [
+    inputsInline: true,
+    message0: "name: %1",
+    args0: [
         {
-            "type": "field_input",
-            "name": "id",
-            "text": "default text",
-            "spellcheck": false
+            type: "field_input",
+            name: "id",
+            text: "default text",
+            spellcheck: false
         }
     ],
-    "message1": "x: %2 %1",
-    "args1": [
+    message1: "x: %2 %1",
+    args1: [
         {
-            "type": "input_statement",
-            "name": "x"
+            type: "input_statement",
+            name: "x"
         },
         {
-            "type": "field_number",
-            "name": "initx",
-            "value": "1"
+            type: "field_number",
+            name: "initx",
+            value: "1"
         }
     ],
-    "message2": "y: %2 %1",
-    "args2": [
+    message2: "y: %2 %1",
+    args2: [
         {
-            "type": "input_statement",
-            "name": "y"
+            type: "input_statement",
+            name: "y"
         },
         {
-            "type": "field_number",
-            "name": "inity",
-            "value": "1"
+            type: "field_number",
+            name: "inity",
+            value: "1"
         }
     ],
-    "message3": "img: %1",
-    "args3": [
+    message3: "img: %1",
+    args3: [
         {
-            "type": "input_statement",
-            "name": "img"
+            type: "input_statement",
+            name: "img"
         }
     ]
 }
@@ -154,101 +153,96 @@ createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 
 const getJson = {
     "type:": funklyBlockType.GET,
-    "inputsInline": true,
-    "message0": "get: %1 %2",
-    "args0": [
+    inputsInline: true,
+    message0: "get: %1 %2",
+    args0: [
         {
-            "type": "input_dummy",
-            "name": "entity",
+            type: "input_dummy",
+            name: "entity"
         },
         {
-            "type": "input_dummy",
-            "name": "property",
+            type: "input_dummy",
+            name: "property"
         }
     ],
-    "extensions": ["entity_dropdown"],
-    "previousStatement": null,
+    extensions: ["entity_dropdown"],
+    previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
-Extensions.register("entity_dropdown",
-    function(this: Block) {
-        const entities = this.workspace.getBlocksByType("funkly_entity", true)
-        this.getInput("entity")
-            .appendField(new FieldDropdown(
-                function() {
-                    let options: string[][] = [["none","DEFAULT_NONE"]]
-                    entities.forEach((e: Block) =>
-                        options.push([
-                            e.getFieldValue("id") || "NONAME",
-                            e.getFieldValue("id") || "NONAME"
-                        ]))
-                    return options
-                }), "entity")
+Extensions.register("entity_dropdown", function(this: Block) {
+    const entities = this.workspace.getBlocksByType("funkly_entity", true)
+    const entityMap = new Map<string, string>()
+    entities.forEach(entity => {
+        const id = entity.getFieldValue("id")
+        entityMap.set(id, id)
+    })
 
-        this.getInput("property")
-            .appendField(new FieldDropdown(
-                function() {
-                    let options: string[][] = [["x","x"],["y","y"],["img","img"]]
-                    return options
-                }
-            ), "property")
-    }
-)
+    this.getInput("entity").appendField(newCustomDropdown(entityMap), "entity")
+
+    this.getInput("property").appendField(
+        newCustomDropdown(
+            new Map([
+                ["x", "x"],
+                ["y", "y"],
+                ["img", "img"]
+            ])
+        ),
+        "property"
+    )
+})
 
 const imgJson = {
     "type:": funklyBlockType.IMG,
-    "inputsInline": true,
-    "message0": "image: %1",
-    "args0": [
+    inputsInline: true,
+    message0: "image: %1",
+    args0: [
         {
-            "type": "input_dummy",
-            "name": "IMAGE",
+            type: "input_dummy",
+            name: "IMAGE"
         }
     ],
-    "extensions": ["img_dropdown"],
-    "previousStatement": null,
+    extensions: ["img_dropdown"],
+    previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
 
-Extensions.register("img_dropdown",
-    function(this: Block) {
-        const images = publicImages
-        this.getInput("IMAGE")
-            .appendField(new FieldDropdown(
-                function() {
-                    let options: string[][] = [["none","DEFAULT_NONE"]]
-                    for (const [displayKey, imageUri] of images) {
-                        options.push([
-                            displayKey,
-                            imageUri
-                        ])
-                    }
-                    return options
-                }), "IMAGE")
+Extensions.register("img_dropdown", function(this: Block) {
+    this.getInput("IMAGE").appendField(newCustomDropdown(publicImages), "IMAGE")
+})
 
-    }
-)
-
+/**
+ * Helper method for creating custom FieldDropdowns
+ * @param values Map of dropdown display- and internal values
+ * @returns blockly FieldDropdown() containing the passed values as the options
+ */
+const newCustomDropdown = (values: Map<string, string>) =>
+    new FieldDropdown(function() {
+        let options: string[][] = [["none", "DEFAULT_NONE"]]
+        for (const [display, internal] of values) {
+            options.push([display, internal])
+        }
+        return options
+    })
 
 const bindJson = {
     "type:": funklyBlockType.BIND,
-    "inputsInline": true,
-    "message0": "name: %1",
-    "args0": [
+    inputsInline: true,
+    message0: "name: %1",
+    args0: [
         {
-            "type": "input_value",
-            "name": "id",
-            "check": "String"
+            type: "input_value",
+            name: "id",
+            check: "String"
         }
     ],
-    "message1": "function: %1",
-    "args1": [
+    message1: "function: %1",
+    args1: [
         {
-            "type": "input_statement",
-            "name": "f"
+            type: "input_statement",
+            name: "f"
         }
     ]
 }
