@@ -173,12 +173,9 @@ const getJson = {
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
-// TODO look into removing ts-ignores
 Extensions.register("entity_dropdowns",
-    function() {
-        //@ts-ignore
+    function(this: Block) {
         let entities = this.workspace.getBlocksByType("funkly_entity", true)
-        //@ts-ignore
         this.getInput("entity")
             .appendField(new FieldDropdown(
                 function() {
@@ -188,17 +185,18 @@ Extensions.register("entity_dropdowns",
                             e.getFieldValue("id") || "NONAME",
                             e.getFieldValue("id") || "NONAME"
                         ]))
-                    console.log(options)
                     return options
                 }), "entity")
-        //@ts-ignore
+
         this.getInput("property")
             .appendField(new FieldDropdown(
                 function() {
                     let options: string[][] = [["x","x"],["y","y"],["img","img"]]
                     return options
-                }), "property")
-    })
+                }
+            ), "property")
+    }
+)
 
 
 const bindJson = {
