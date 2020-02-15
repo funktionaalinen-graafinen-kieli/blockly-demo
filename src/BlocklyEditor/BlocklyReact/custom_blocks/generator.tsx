@@ -1,6 +1,7 @@
 import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import * as log from "loglevel"
+import { publicImages } from "../../../Gui/image_storage"
 
 enum funklyBlockType {
     COND = "funkly_cond",
@@ -88,7 +89,12 @@ function funklyCodegen(type: funklyBlockType) {
         let output = `"${id}": {`
         output += `"x": ["pack(${x})", ${initx}],`
         output += `"y": ["pack(${y})", ${inity}],`
-        output +=  `"img": ["packF(id)", "${img}"]`
+        const imgDefault = publicImages.entries().next().value[1]
+        if (img === "") {
+            output +=  `"img": ["packF(id)", "${imgDefault}"]`
+        } else {
+            output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
+        }
 
         output += "}"
         return output
@@ -107,7 +113,7 @@ function funklyCodegen(type: funklyBlockType) {
 
     function funkly_img(block: Block) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
-        return arg0
+        return `'\\"${strip(arg0)}\\"'`
     }
 }
 
