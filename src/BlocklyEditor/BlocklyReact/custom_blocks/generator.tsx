@@ -9,6 +9,8 @@ enum funklyBlockType {
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
     BIND = "funkly_bind",
+    KEY = "funkly_key",
+    BINDGET = "funkly_bindget",
     GET = "funkly_get",
     IMG = "funkly_img"
 }
@@ -19,7 +21,9 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
     else if (type === funklyBlockType.BIND) return funkly_bind
+    else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
+    else if (type === funklyBlockType.KEY) return funkly_key
     else if (type === funklyBlockType.ADD) return funkly_arg2("add")
     else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
@@ -55,6 +59,16 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("entity") || "default_entity"
         const arg1 = block.getFieldValue("property") || "default_property"
         return "get" + argwrap("'" + arg0 + "_" + arg1 + "'")
+    }
+
+    function funkly_bindget(block: Block) {
+        const arg0 = block.getFieldValue("id") || "default_bind"
+        return "get" + argwrap("'" + arg0 + "'")
+    }
+
+    function funkly_key(block: Block) {
+        const arg0 = block.getFieldValue("key") || "default_key"
+        return "get" + argwrap("'key_" + arg0 + "'")
     }
 
     function funkly_number(block: Block) {

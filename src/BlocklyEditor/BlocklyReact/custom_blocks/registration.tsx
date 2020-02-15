@@ -193,6 +193,48 @@ Extensions.register("entity_dropdown", function(this: Block) {
     )
 })
 
+const bindGetJson = {
+    "type:": funklyBlockType.BINDGET,
+    inputsInline: true,
+    message0: "get: %1",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "id"
+        }
+    ],
+    extensions: ["bind_dropdown"],
+    previousStatement: null
+}
+
+createCustomBlock(funklyBlockType.BINDGET, "text_blocks", bindGetJson)
+
+//TODO declare binds elsewhere
+Extensions.register("bind_dropdown", function(this: Block) {
+    this.getInput("id").appendField(newCustomDropdown(new Map([["time","time"]])), "id")
+})
+
+const keyJson = {
+    "type:": funklyBlockType.KEY,
+    inputsInline: true,
+    message0: "input: %1",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "key"
+        }
+    ],
+    extensions: ["key_dropdown"],
+    previousStatement: null
+}
+
+createCustomBlock(funklyBlockType.KEY, "logic_blocks", keyJson)
+
+//TODO make key selection system
+Extensions.register("key_dropdown", function(this: Block) {
+    this.getInput("key").appendField(newCustomDropdown(new Map([["w","w"],["a","a"],["s","s"],["d","d"]])), "key")
+})
+
 const imgJson = {
     "type:": funklyBlockType.IMG,
     inputsInline: true,
@@ -227,7 +269,7 @@ const newCustomDropdown = (values: Map<string, string>) =>
         return options
     })
 
-const bindJson = {
+const bindSetJson = {
     "type:": funklyBlockType.BIND,
     inputsInline: true,
     message0: "name: %1",
@@ -247,4 +289,4 @@ const bindJson = {
     ]
 }
 
-createCustomBlock(funklyBlockType.BIND, "text_blocks", bindJson)
+createCustomBlock(funklyBlockType.BIND, "text_blocks", bindSetJson)
