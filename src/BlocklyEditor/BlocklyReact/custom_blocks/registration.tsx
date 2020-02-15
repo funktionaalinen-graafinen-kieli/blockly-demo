@@ -146,7 +146,7 @@ const entityJson = {
             type: "input_statement",
             name: "img"
         }
-    ]
+    ],
 }
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
@@ -172,21 +172,21 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-    const entities = this.workspace.getBlocksByType("funkly_entity", true)
-    const entityMap = new Map<string, string>()
-    entities.forEach(entity => {
-        const id = entity.getFieldValue("id")
-        entityMap.set(id, id)
-    })
 
-    this.getInput("entity").appendField(newCustomDropdown(entityMap), "entity")
+    //@ts-ignore
+    const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+
+    this.getInput("entity").appendField(new FieldDropdown(function() {
+        let options: string[][] = [["none", "DEFAULT_NONE"]]
+        entities().forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
+        return options
+    }), "entity")
 
     this.getInput("property").appendField(
         newCustomDropdown(
             new Map([
                 ["x", "x"],
-                ["y", "y"],
-                ["img", "img"]
+                ["y", "y"]
             ])
         ),
         "property"
