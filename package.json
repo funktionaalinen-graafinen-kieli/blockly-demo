@@ -1,7 +1,9 @@
 {
   "name": "funkly",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "engines": {
+    "node": "13.x"
+  },
   "dependencies": {
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.0.25",
