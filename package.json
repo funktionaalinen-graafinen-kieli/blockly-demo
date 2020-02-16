@@ -1,21 +1,22 @@
 {
   "name": "funkly",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "engines": {
+    "node": "13.x"
+  },
   "dependencies": {
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.0.25",
-    "@types/loglevel": "^1.6.3",
     "@types/node": "^12.12.24",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@types/testing-library__jest-dom": "^5.0.0",
     "@types/testing-library__react": "^9.1.2",
     "@types/testing-library__user-event": "^4.1.1",
-    "@types/typescript": "^2.0.0",
     "blockly": "^3.20200123.1",
     "bootstrap": "^4.4.1",
     "loglevel": "^1.6.6",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
@@ -43,6 +44,17 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0"
+    "@testing-library/react": "^9.4.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.3",
+    "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": false
   }
 }

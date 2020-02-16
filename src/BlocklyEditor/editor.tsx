@@ -1,68 +1,90 @@
 import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
+import * as Blockly from "blockly"
 import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
-import {Block} from "./BlocklyReact/blockly_jsx_wrappers"
+import { Block } from "./BlocklyReact/blockly_jsx_wrappers"
 import CodeRenderer from "./code_renderer"
-import {BLOCKLYCONFIG} from "./BlocklyReact/blockly_workspace_config"
+import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
-const editorBlocks =  (
+const editorBlocks = (
     <React.Fragment>
-        <Block type="funkly_cond"/>
-        <Block type="funkly_gt"/>
-        <Block type="funkly_number"/>
-        {/*
-        <Block type="logic_compare"/>
-        <Block type="logic_operation"/>
-        <Block type="logic_negate"/>
-        <Block type="logic_boolean"/>
-        <Block type="logic_null" disabled={false}/>
-        <Block type="text"/>
-        <Block type="text_print"/>
-        <Block type="text_charAt">
-            <Value name="VALUE">
-                <Block type="variables_get">
-                    <Field name="VAR">text</Field>
-                </Block>
-            </Value>
-        </Block>
-        */}
+        <Block type="funkly_add" />
+        <Block type="funkly_number" />
+        <Block type="funkly_cond" />
+        <Block type="funkly_gt" />
+        <Block type="funkly_entity" />
+        <Block type="funkly_key" />
+        <Block type="funkly_bind" />
+        <Block type="funkly_bindget" />
+        <Block type="funkly_get" />
+        <Block type="funkly_img" />
+        <Block type="text" />
     </React.Fragment>
 )
 
-class Editor extends React.Component {
-  private blocklyComponent!: BlocklyComponent
-  readonly state = {code: ""};
+const defaultBinds = `
+"binds": {
+    "frameTime": ["packF(id)", 16],
+    "time": ["pack(add(get('time'))(get('frameTime')))", 0],
+    "everySecond": ["packF(timer)", [false, 0, 1000]]
+}
+`
 
-  generateCode = () => {
-      this.setState({code: BlocklyJS.workspaceToCode(this.blocklyComponent.workspace)})
-  }
+class Editor extends React.Component<{}> {
+    blocklyReactInstance = React.createRef<BlocklyComponent>()
+    readonly state = { code: "", blockXml: "" }
 
-  componentDidMount(): void {
-    this.blocklyComponent?.workspace.addChangeListener(this.generateCode)
-    log.trace("Mounted change listener on workspace")
-  }
+    generateCode = () => {
+        const workspace = this.blocklyReactInstance.current!.workspace
+        const entities = workspace.getBlocksByType("funkly_entity", true)
 
-  componentWillUnmount(): void {
-    this.blocklyComponent?.workspace.removeChangeListener(this.generateCode)
-  }
+        const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
 
-  render = () => {
-      return (
-          <div className="Editor">
-              <BlocklyComponent
-                  ref={(event: BlocklyComponent) => {
-                      this.blocklyComponent = event
-                  }}
-                  {...BLOCKLYCONFIG}
-              >
-                  {editorBlocks}
-              </BlocklyComponent>
-              <CodeRenderer code={this.state.code} />
-          </div>
-      )
-  }
+        // Generate code for each entity and place commas
+        let engineCode = '{ "entities": {'
+        entities.slice(0, -1).forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
+        // Leave out comma from last entity
+        engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
+        engineCode += "}, "
+        engineCode += defaultBinds + "}"
+
+        this.setState({
+            code: engineCode,
+            blockXml: xmlWorkspace
+        })
+    }
+
+    componentDidMount(): void {
+        this.blocklyReactInstance.current!.workspace.addChangeListener(this.generateCode)
+        log.debug("Mounted change listener on workspace")
+    }
+
+    componentWillUnmount(): void {
+        this.blocklyReactInstance.current!.workspace.removeChangeListener(this.generateCode)
+    }
+
+    render = () => {
+        return (
+            <div className="Editor">
+                <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>
+                    {editorBlocks}
+                </BlocklyComponent>
+                <CodeRenderer code={this.state.code} blockXml={this.state.blockXml} />
+            </div>
+        )
+    }
+}
+
+function saveProject(blockXml: string): void {
+    localStorage.setItem("defaultProject", blockXml)
+}
+
+function loadProject(blocklyComponent: BlocklyComponent): void {
+    const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.workspace)
 }
 
 export default Editor
+export { saveProject, loadProject }

@@ -27,30 +27,26 @@ import locale from "blockly/msg/en"
 
 import "./custom_blocks/registration"
 
-const blocklyDivStyle: React.CSSProperties =  {
+const blocklyDivStyle: React.CSSProperties = {
     height: "100%",
     width: "80%",
     position: "absolute"
 }
 
-
 Blockly.setLocale(locale)
-export class BlocklyComponent extends React.Component<{initialXml: string, }> {
+export class BlocklyComponent extends React.Component<{ initialXml: string }> {
     private toolbox!: HTMLElement
     private primaryWorkspace!: Blockly.Workspace
     private blocklyDiv: HTMLElement | null = null
 
     componentDidMount() {
-        const {initialXml, children, ...rest} = this.props
+        const { initialXml, children, ...rest } = this.props
 
         if (this.blocklyDiv) {
-            this.primaryWorkspace = Blockly.inject(
-                this.blocklyDiv,
-                {
-                    toolbox: this.toolbox,
-                    ...rest
-                }
-            )
+            this.primaryWorkspace = Blockly.inject(this.blocklyDiv, {
+                toolbox: this.toolbox,
+                ...rest
+            })
         }
 
         if (initialXml) {
@@ -63,19 +59,26 @@ export class BlocklyComponent extends React.Component<{initialXml: string, }> {
     }
 
     render() {
-        const {children} = this.props
+        const { children } = this.props
         return (
             <React.Fragment>
-                <div ref={e => this.blocklyDiv = e} id="blocklyDiv" style={blocklyDivStyle}/>
+                <div ref={e => (this.blocklyDiv = e)} id="blocklyDiv" style={blocklyDivStyle} />
                 {/* Needed to ignore xml error
                 //@ts-ignore */}
-                <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{display: "none"}}
-                    ref={(toolbox: HTMLElement) => {this.toolbox = toolbox}}>
+                <xml
+                    xmlns="https://developers.google.com/blockly/xml"
+                    is="blockly"
+                    style={{ display: "none" }}
+                    ref={(toolbox: HTMLElement) => {
+                        this.toolbox = toolbox
+                    }}
+                >
                     {children}
                     {/* Needed to ignore xml error
                 //@ts-ignore */}
                 </xml>
-            </React.Fragment>)
+            </React.Fragment>
+        )
     }
 }
 export default BlocklyComponent

@@ -1,11 +1,12 @@
-
 ## Creating blocks
-* https://sites.google.com/view/blockly-user-summit-2019/hackathon/rendering-quick-start
-* https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
-* https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
-* Block json _has_ to contain a message for every argument containing the string "%1"
-For example this
-``` 
+
+-   https://sites.google.com/view/blockly-user-summit-2019/hackathon/rendering-quick-start
+-   https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
+-   https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
+-   Block json _has_ to contain a message for every argument containing the string "%1"
+    For example this
+
+```
 const block_json = {
       "type:": "funkly_custom_block",
       "message0": "%1",
@@ -17,31 +18,30 @@ const block_json = {
       ]
   }
 ```
+
 Would _not_ work without the message. Blockly won't realize that the inputs exist or something without the %1 messages.
 
 If you have an existing message that _doesn't_ contain the string "%1" blockly will correctly raise an error.
 
-
 Blocklys own definitions (useful as an example):
-* https://github.com/google/blockly/tree/master/generators
-* https://github.com/google/blockly/tree/master/blocks
 
+-   https://github.com/google/blockly/tree/master/generators
+-   https://github.com/google/blockly/tree/master/blocks
 
 ## Customizing Blockly's renderer(s)
-* Code of Blockly's own default renderer: 
-    * https://github.com/google/blockly/tree/master/core/renderers/geras
-    * https://github.com/google/blockly/blob/master/core/renderers/geras/path_object.js
-* blockly rendering customization walkthrough https://github.com/google/blockly-samples/tree/master/rendering/rendering-walkthrough
- (Sadly it doesn't go into depth on customizing block shape / anything outside of notches / puzzle tabs)
- * http://127.0.0.1:3001/index.html?renderer=typed_connection_shapes
- * https://developers.google.com/blockly/reference/js/Blockly.blockRendering.ConstantProvider.html#makeNotch
- 
- 
+
+-   Code of Blockly's own default renderer:
+    -   https://github.com/google/blockly/tree/master/core/renderers/geras
+    -   https://github.com/google/blockly/blob/master/core/renderers/geras/path_object.js
+-   blockly rendering customization walkthrough https://github.com/google/blockly-samples/tree/master/rendering/rendering-walkthrough
+    (Sadly it doesn't go into depth on customizing block shape / anything outside of notches / puzzle tabs)
+-   http://127.0.0.1:3001/index.html?renderer=typed_connection_shapes
+-   https://developers.google.com/blockly/reference/js/Blockly.blockRendering.ConstantProvider.html#makeNotch
 
 React-dropdown field sample
+
 ```typescript
 // generator.tsx
-
 
 function reactFieldCode(block: Block) {
     // See link for actual implementation of the code generation logic
@@ -53,7 +53,7 @@ function reactFieldCode(block: Block) {
 
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import {Field, DropDownDiv, BlocklyOptions} from "blockly"
+import { Field, DropDownDiv, BlocklyOptions } from "blockly"
 /*
 class BlocklyReactField extends Field {
     private div_: Element | undefined
@@ -111,5 +111,25 @@ Blocks["react_test_field"] = {
 BlocklyJS["react_test_field"] = Generator.reactFieldCode
 Blockly.fieldRegistry.register("react_test_field", BlocklyReactField)
 */
+```
+
+        {/*
+        <Block type="logic_compare"/>
+        <Block type="logic_operation"/>
+        <Block type="logic_negate"/>
+        <Block type="logic_boolean"/>
+        <Block type="logic_null" disabled={false}/>
+        <Block type="text"/>
+        <Block type="text_print"/>
+        <Block type="text_charAt">
+            <Value name="VALUE">
+                <Block type="variables_get">
+                    <Field name="VAR">text</Field>
+                </Block>
+            </Value>
+        </Block>
+        */}
+
+```
 
 ```

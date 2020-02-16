@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "Test",
+            "dialect": "MySQL",
+            "name": "Quze",
+            "password": "scooterBus3029#",
+            "port": 3306,
+            "server": "quze-test-1.ce6mxjcvsyeh.us-east-2.rds.amazonaws.com",
+            "username": "adminUser"
+        }
+    ]
+}

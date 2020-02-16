@@ -26,6 +26,10 @@
 
 # Development
 
+## Extensions
+.ts for vanilla typescript, .tsx for react-extended typescript
+.js for vanilla javascript, .jsx for react-extended javascript
+
 ## Logging
  - Use loglevel for logging (https://github.com/pimterry/loglevel) instead of console.log (it supports log levels and is syntactically almost as low-effort).
     ```

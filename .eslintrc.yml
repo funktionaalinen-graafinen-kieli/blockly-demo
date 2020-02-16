@@ -20,6 +20,9 @@ plugins:
   - react
   - '@typescript-eslint'
 rules:
+  max-len:
+    - error
+    - "code": 120
   indent:
     - error
     - 4
@@ -29,12 +32,13 @@ rules:
   quotes:
     - warn
     - double
+    - "avoidEscape": true
   semi:
     - error
     - never
   object-curly-spacing:
     - warn
-    - never
+    - always
     - "objectsInObjects": true
   object-curly-newline:
     - warn
@@ -43,8 +47,6 @@ rules:
     - warn
     - always
     - "exceptAfterSingleLine": true
-  no-console:
-    - error
   '@typescript-eslint/no-explicit-any':
     - error
   '@typescript-eslint/consistent-type-assertions':

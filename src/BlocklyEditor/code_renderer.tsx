@@ -1,4 +1,4 @@
-import React, {CSSProperties} from "react"
+import React, { CSSProperties } from "react"
 
 const codeStyle: CSSProperties = {
     height: "100%",
@@ -7,12 +7,14 @@ const codeStyle: CSSProperties = {
     position: "absolute"
 }
 
-
-function CodeRenderer(props: { code: string}) {
+function CodeRenderer(props: { code: string; blockXml: string }) {
     return (
         <div style={codeStyle}>
             <h2>Generoitu JS</h2>
-            { props.code }
+            {props.code}
+            <h2>Palikka-xml</h2>
+
+            {props.blockXml.toString()}
         </div>
     )
 }

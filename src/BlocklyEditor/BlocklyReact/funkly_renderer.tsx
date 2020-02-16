@@ -10,7 +10,6 @@ export class FunklyRenderer extends Blockly.blockRendering.Renderer {
 Blockly.utils.object.inherits(FunklyRenderer, Blockly.blockRendering.Renderer)
 */
 
-
 // This works
 
 export function FunklyRenderer(name: string) {
@@ -19,12 +18,10 @@ export function FunklyRenderer(name: string) {
 }
 Blockly.utils.object.inherits(FunklyRenderer, Blockly.blockRendering.Renderer)
 
-
 FunklyRenderer.prototype.makeConstants_ = function() {
     // @ts-ignore
     return new CustomNotchProvider()
 }
-
 
 const CustomNotchProvider = function() {
     // @ts-ignore
@@ -37,17 +34,15 @@ const CustomNotchProvider = function() {
 
 Blockly.utils.object.inherits(CustomNotchProvider, Blockly.blockRendering.ConstantProvider)
 
-
 CustomNotchProvider.prototype.makeNotch = function() {
     let width = this.NOTCH_WIDTH
     let height = this.NOTCH_HEIGHT
     function makeMainPath(horizontal_direction: number) {
-        return Blockly.utils.svgPaths.line(
-            [
-                Blockly.utils.svgPaths.point(0, height),
-                Blockly.utils.svgPaths.point(horizontal_direction * width, 0),
-                Blockly.utils.svgPaths.point(0, -height)
-            ])
+        return Blockly.utils.svgPaths.line([
+            Blockly.utils.svgPaths.point(0, height),
+            Blockly.utils.svgPaths.point(horizontal_direction * width, 0),
+            Blockly.utils.svgPaths.point(0, -height)
+        ])
     }
     let pathLeft = makeMainPath(1)
     let pathRight = makeMainPath(-1)
@@ -65,13 +60,11 @@ CustomNotchProvider.prototype.makePuzzleTab = function() {
     let height = this.TAB_HEIGHT
 
     function makeMainPath(vertical_direction: number) {
-        return Blockly.utils.svgPaths.line(
-            [
-                Blockly.utils.svgPaths.point(-width, 0),
-                Blockly.utils.svgPaths.point(0, -1 * vertical_direction * height),
-                Blockly.utils.svgPaths.point(width, 0)
-            ]
-        )
+        return Blockly.utils.svgPaths.line([
+            Blockly.utils.svgPaths.point(-width, 0),
+            Blockly.utils.svgPaths.point(0, -1 * vertical_direction * height),
+            Blockly.utils.svgPaths.point(width, 0)
+        ])
     }
 
     let pathUp = makeMainPath(1)

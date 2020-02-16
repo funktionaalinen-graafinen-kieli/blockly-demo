@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect"
 
 import React from "react"
-import {render, fireEvent, screen, cleanup} from "@testing-library/react"
+import { render, fireEvent, screen, cleanup } from "@testing-library/react"
 
 import Editor from "../editor"
 afterEach(cleanup)
@@ -18,7 +18,7 @@ test("Code renderer displays correctly", () => {
 })
 
 test("Editor renders drop down menu correctly", () => {
-    const {getByText} = render(<Editor/>)
+    const { getByText } = render(<Editor/>)
     expect(getByText("true"))
 
     fireEvent.click(getByText("true"))
