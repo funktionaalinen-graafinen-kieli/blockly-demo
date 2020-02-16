@@ -172,8 +172,6 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-
-    //@ts-ignore
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
 
     this.getInput("entity").appendField(new FieldDropdown(function() {
