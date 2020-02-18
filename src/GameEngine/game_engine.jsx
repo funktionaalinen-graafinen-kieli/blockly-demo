@@ -71,20 +71,13 @@ export default class GameEngine extends React.Component {
     }
 
     update() {
+        let newState = new MapWithDefault(() => [(x, s) => x, false], this.state.gameState)
+
         for (let [key, value] of this.state.gameState) {
-            this.saveKeysToState()
-            this.updateState(key, value)
+            Array.from(this.state.keymap, ([k, v]) => newState.set("key_" + k, [(x, s) => x, v]))
+            newState.set(key, [value[0], this.applyF(key, this.state.gameState)])
         }
-    }
-
-    updateState = (k, v) => {
-        this.setState({
-            state: this.state.gameState.set(k, [v[0], this.applyF(k, this.state.gameState)])
-        })
-    }
-
-    saveKeysToState = () => {
-        Array.from(this.state.keymap, ([k, v]) => this.state.gameState.set("key_" + k, [(x, s) => x, v]))
+        this.setState({gameState: newState})
     }
 
     render() {
