@@ -130,6 +130,41 @@ const entityJson = {
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 
+const colJson = {
+    "type:": funklyBlockType.COL,
+    inputsInline: true,
+    message0: "törmääkö: %1 %2",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "e1"
+        },
+        {
+            type: "input_dummy",
+            name: "e2"
+        }
+    ],
+    extensions: ["col_dropdown"],
+    previousStatement: null
+}
+
+createCustomBlock(funklyBlockType.COL, "logic_blocks", colJson)
+
+Extensions.register("col_dropdown", function(this: Block) {
+    const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+
+    let es = () => {
+        let options: string[][] = []
+        entities().forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
+        if (options.length == 0) options = [["none", "DEFAULT_NONE"]]
+        return options
+    }
+
+    this.getInput("e1").appendField(new FieldDropdown(es), "e1")
+    this.getInput("e2").appendField(new FieldDropdown(es), "e2")
+
+})
+
 const getJson = {
     "type:": funklyBlockType.GET,
     inputsInline: true,

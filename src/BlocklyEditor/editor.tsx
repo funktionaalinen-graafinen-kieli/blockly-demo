@@ -10,6 +10,7 @@ import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks = (
     <React.Fragment>
+        <Block type="funkly_col" />
         <Block type="funkly_math" />
         <Block type="funkly_trig" />
         <Block type="funkly_number" />

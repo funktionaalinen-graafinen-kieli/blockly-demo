@@ -8,6 +8,7 @@ enum funklyBlockType {
     GT = "funkly_gt",
     MATH = "funkly_math",
     TRIG = "funkly_trig",
+    COL = "funkly_col",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
     BIND = "funkly_bind",
@@ -25,6 +26,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
+    else if (type === funklyBlockType.COL) return funkly_col
     else if (type === funklyBlockType.KEY) return funkly_key
     else if (type === funklyBlockType.MATH) return funkly_math
     else if (type === funklyBlockType.TRIG) return funkly_trig
@@ -77,6 +79,12 @@ function funklyCodegen(type: funklyBlockType) {
         return "gt" + argwrap(arg0, arg1)
     }
 
+    function funkly_col(block: Block) {
+        const arg0 = block.getFieldValue("e1") || "default_e1"
+        const arg1 = block.getFieldValue("e2") || "default_e2"
+        return "col" + argwrap(`'${arg0}'`,`'${arg1}'`)
+    }
+
     function funkly_get(block: Block) {
         const arg0 = block.getFieldValue("entity") || "default_entity"
         const arg1 = block.getFieldValue("property") || "default_property"
@@ -110,6 +118,9 @@ function funklyCodegen(type: funklyBlockType) {
         let output = `"${id}": {`
         output += `"x": ["pack(${x})", ${initx}],`
         output += `"y": ["pack(${y})", ${inity}],`
+        //TODO add width and height to Block and render in Engine
+        output += `"w": ["packF(id)", 50],`
+        output += `"h": ["packF(id)", 50],`
         const imgDefault = publicImages.entries().next().value[1]
         if (img === "") {
             output +=  `"img": ["packF(id)", "${imgDefault}"]`

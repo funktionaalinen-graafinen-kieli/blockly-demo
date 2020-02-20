@@ -40,6 +40,9 @@ export const lt = x => y => infix("<", x, y)
 export const geq = x => y => infix(">=", x, y)
 export const leq = x => y => infix("<=", x, y)
 
+export const and = x => y => infix("&&", x, y)
+export const or = x => y => infix("||", x, y)
+
 /** Trig */
 export const sin = x => cat("Math.sin", wrap(x))
 export const cos = x => cat("Math.cos", wrap(x))
@@ -68,6 +71,13 @@ export const get = v => cat("s.get", wrap(quote(v)), "[1]")
 
 // TODO: document this func
 export const timer = x => (get("time") - x[1] >= x[2] ? [true, get("time"), x[2]] : [false, x[1], x[2]])
+
+//const col1 = ((x1,y1,h1,w1),(x2,y2,h2,w2)) => `${get(e1+"_x")}<${get(e2+"_x")}&&${get(e2+"_x")}<${get(e1+"_x")}+${get(e1+"_w")} ? ${get(e1+"_y")}<${get(e2+"_y")}&&${get(e2+"_y")}<${get(e1+"_y")}+${get(e1+"_h")}|| ${get(e1+"_y")}<${get(e2+"_y")}+${e2+"_h"}&&${get(e2+"_y")}+${get(e2+"_h")}<${get(e1+"_y")}+${get(e1+"_h")} : false`
+const col1 = (x1,y1,h1,w1,x2,y2,h2,w2) => `${x1}<${x2}&&${x2}<${x1}+${w1} ? ${y1}<${y2}&&${y2}<${y1}+${h1} || ${y1}<${y2}+${h2}&&${y2}+${h2}<${y1}+${h1} : ${y1}<${y2}&&${y2}<${y1}+${h1} || ${y1}<${y2}+${h2}&&${y2}+${h2}<${y1}+${h1}`
+
+const colh = e1 => e2 => col1(get(e1+'_x'),get(e1+'_y'),get(e1+'_h'),get(e1+'_w'),get(e2+'_x'),get(e2+'_y'),get(e2+'_h'),get(e2+'_w'))
+
+export const col = e1 => e2 => or(colh(e1)(e2))(colh(e2)(e1))
 
 // packages a funklang function with all arguments
 export const pack = f => cat("(x,s) => ", f)
