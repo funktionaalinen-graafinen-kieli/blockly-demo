@@ -12,6 +12,15 @@ const rowStyle = { height: "500px" }
 
 const colStyle = { width: "500px" }
 
+const backgroundStyle = { backgroundColor: "#ffefc1ff" }
+
+const headerStyle = {
+    alignItems: "left",
+    backgroundColor: "#ffefc1ff",
+    textIndent: "10%",
+    fontColor: "rgb(255, 255, 255)"
+}
+
 interface hasUpdate {
     update(): void
 }
@@ -25,8 +34,8 @@ const intervalUpdater = async (updatee: hasUpdate) => {
 
 export default class App extends React.Component<
     {},
-    { game_running: boolean}
-> {
+    { game_running: boolean }
+    > {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
@@ -58,39 +67,46 @@ export default class App extends React.Component<
         }
 
         return (
-            <Container fluid>
-                <Row style={rowStyle}>
-                    <Col style={colStyle}>
-                        <Editor ref={this.editorInstance} />
-                    </Col>
-                </Row>
-                <Row>
-                    <button onClick={this.toggle}>
-                        {this.state.game_running ? "stop" : "run"}
-                    </button>
-                    <button
-                        onClick={() =>
-                            saveProject(
-                                editorInstance.state.blockXml.toString()
-                            )
-                        }
-                    >
-                        SAVE
-                    </button>
-                    <button
-                        onClick={() =>
-                            loadProject(
-                                editorInstance.blocklyReactInstance.current!
-                            )
-                        }
-                    >
-                        LOAD
-                    </button>
-                </Row>
-                <Row style={rowStyle}>
-                    <Col style={colStyle}>{gameEngine}</Col>
-                </Row>
-            </Container>
+            <div>
+                <Container fluid style={backgroundStyle}>
+                    <Row>
+                        <header style={headerStyle}>
+                            <h1>FUNKLY</h1>
+                        </header>
+                    </Row>
+                    <Row style={rowStyle}>
+                        <Col style={colStyle}>
+                            <Editor ref={this.editorInstance} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <button onClick={this.toggle}>
+                            {this.state.game_running ? "stop" : "run"}
+                        </button>
+                        <button
+                            onClick={() =>
+                                saveProject(
+                                    editorInstance.state.blockXml.toString()
+                                )
+                            }
+                        >
+                            SAVE
+                        </button>
+                        <button
+                            onClick={() =>
+                                loadProject(
+                                    editorInstance.blocklyReactInstance.current!
+                                )
+                            }
+                        >
+                            LOAD
+                        </button>
+                    </Row>
+                    <Row style={rowStyle}>
+                        <Col style={colStyle}>{gameEngine}</Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 }
