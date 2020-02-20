@@ -22,21 +22,21 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
 
 const condJson = {
     "type:": funklyBlockType.COND,
-    message0: "if: %1",
+    message0: "jos: %1",
     args0: [
         {
             type: "input_statement",
             name: "IF"
         }
     ],
-    message1: "do: %1",
+    message1: "tee: %1",
     args1: [
         {
             type: "input_statement",
             name: "DO"
         }
     ],
-    message2: "else: %1",
+    message2: "muuten: %1",
     args2: [
         {
             type: "input_statement",
@@ -50,14 +50,14 @@ createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
 
 const gtJson = {
     "type:": funklyBlockType.GT,
-    message0: "is: %1",
+    message0: "tämä: %1",
     args0: [
         {
             type: "input_statement",
             name: "NUMBER0"
         }
     ],
-    message1: "greater than: %1",
+    message1: "on suurempi kuin: %1",
     args1: [
         {
             type: "input_statement",
@@ -107,7 +107,7 @@ createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
     inputsInline: true,
-    message0: "name: %1",
+    message0: "Hahmo: %1",
     args0: [
         {
             type: "field_input",
