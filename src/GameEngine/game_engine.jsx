@@ -7,20 +7,20 @@ import { renderGame } from "./render_game"
 
 export class MapWithDefault extends Map {
     get(key) {
-        if (!this.has(key)) return this.default()
+        if (!this.has(key)) return this.defaultValue
         return super.get(key)
     }
 
-    constructor(defaultFunction, entries) {
+    constructor(defaultValue, entries) {
         super(entries)
-        this.default = defaultFunction
+        this.defaultValue = defaultValue
     }
 }
 
 export default class GameEngine extends React.Component {
     gameArea = React.createRef()
     state = {
-        gameState: new MapWithDefault(() => [(x, s) => x, false]),
+        gameState: new MapWithDefault(false),
         entities: [],
         updater: null,
         keymap: new Map()
@@ -71,7 +71,7 @@ export default class GameEngine extends React.Component {
     }
 
     update() {
-        let newState = new MapWithDefault(() => [(x, s) => x, false], this.state.gameState)
+        let newState = new MapWithDefault(false, this.state.gameState)
 
         for (let [key, value] of this.state.gameState) {
             newState.set(key, [value[0], this.applyF(key, this.state.gameState)])
@@ -79,7 +79,7 @@ export default class GameEngine extends React.Component {
 
         Array.from(this.state.keymap, ([k, v]) => { newState.set("key_" + k, [(x, _) => x, v]) })
 
-        this.setState({gameState: newState})
+        this.setState({ gameState: newState })
     }
 
     render() {
