@@ -6,7 +6,7 @@ import { clamp } from "./utils"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
 
-function StateMap(props: {gameState: MapWithDefault}) {
+function StateMap(props: { gameState: MapWithDefault }) {
     if (!props.gameState) return <></>
 
     const table: React.ReactElement[] = []
@@ -14,7 +14,7 @@ function StateMap(props: {gameState: MapWithDefault}) {
     props.gameState.forEach((value, key) => {
         table.push(
             <p key={key}>
-                {key} =&gt; {value}
+                {key} :: {value.toString()}
             </p>
         )
     })

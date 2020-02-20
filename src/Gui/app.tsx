@@ -34,8 +34,8 @@ const intervalUpdater = async (updatee: hasUpdate) => {
 
 export default class App extends React.Component<
     {},
-    { game_running: boolean}
-> {
+    { game_running: boolean }
+    > {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
