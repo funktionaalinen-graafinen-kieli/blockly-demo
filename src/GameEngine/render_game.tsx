@@ -14,7 +14,7 @@ function StateMap(props: {gameState: MapWithDefault}) {
     props.gameState.forEach((value, key) => {
         table.push(
             <p key={key}>
-                {key} =&gt; {value}
+                {key} :: {value.toString()}
             </p>
         )
     })

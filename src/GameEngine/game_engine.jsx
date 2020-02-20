@@ -64,17 +64,20 @@ export default class GameEngine extends React.Component {
 
     handleKeyDown = e => {
         this.state.keymap.set(e.key, true)
+        console.log("down ", e.key)
     }
 
     handleKeyUp = e => {
         this.state.keymap.set(e.key, false)
+        console.log("up ", e.key)
     }
 
     update() {
         let newState = new MapWithDefault(() => [(x, s) => x, false], this.state.gameState)
 
+        Array.from(this.state.keymap, ([k, v]) => newState.set("key_" + k, [(x, s) => x, v]))
+
         for (let [key, value] of this.state.gameState) {
-            Array.from(this.state.keymap, ([k, v]) => newState.set("key_" + k, [(x, s) => x, v]))
             newState.set(key, [value[0], this.applyF(key, this.state.gameState)])
         }
         this.setState({gameState: newState})
