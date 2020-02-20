@@ -29,14 +29,21 @@ export const cat = (...xs) => xs.reduce((x, y) => String(x) + String(y), "")
 // BASIC FUNCTIONS
 
 export const id = x => x
+
 export const add = x => y => infix("+", x, y)
 export const sub = x => y => infix("-", x, y)
 export const mul = x => y => infix("*", x, y)
+export const div = x => y => infix("/", x, y)
+
 export const gt = x => y => infix(">", x, y)
 export const lt = x => y => infix("<", x, y)
+export const geq = x => y => infix(">=", x, y)
+export const leq = x => y => infix("<=", x, y)
 
 /** Trig */
 export const sin = x => cat("Math.sin", wrap(x))
+export const cos = x => cat("Math.cos", wrap(x))
+export const tan = x => cat("Math.tan", wrap(x))
 /**
  * Curried functional -style conditional.
  * Feed it cond(condition)(do_branch)(else_branch)

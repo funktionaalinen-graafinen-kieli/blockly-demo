@@ -69,27 +69,6 @@ const gtJson = {
 
 createCustomBlock(funklyBlockType.GT, "logic_blocks", gtJson)
 
-const addJson = {
-    "type:": funklyBlockType.ADD,
-    message0: "add: %1",
-    args0: [
-        {
-            type: "input_statement",
-            name: "NUMBER0"
-        }
-    ],
-    message1: "to: %1",
-    args1: [
-        {
-            type: "input_statement",
-            name: "NUMBER1"
-        }
-    ],
-    previousStatement: null
-}
-
-createCustomBlock(funklyBlockType.ADD, "math_blocks", addJson)
-
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
     message0: "%1",
@@ -212,6 +191,76 @@ Extensions.register("bind_dropdown", function(this: Block) {
     this.getInput("id").appendField(newCustomDropdown(new Map([["time","time"]])), "id")
 })
 
+const mathJson = {
+    "type:": funklyBlockType.MATH,
+    inputsInline: true,
+    message0: "%1",
+    args0: [
+        {
+            type: "input_statement",
+            name: "NUMBER0"
+        }
+    ],
+    message1: "%1",
+    args1: [
+        {
+            type: "input_dummy",
+            name: "func"
+        }
+    ],
+    message2: "%1",
+    args2: [
+        {
+            type: "input_statement",
+            name: "NUMBER1"
+        }
+    ],
+    extensions: ["math_dropdown"],
+    previousStatement: null
+}
+
+createCustomBlock(funklyBlockType.MATH, "math_blocks", mathJson)
+
+Extensions.register("math_dropdown", function(this: Block) {
+    this.getInput("func").appendField(newCustomDropdown(new Map([
+        ["+","add"],
+        ["-","sub"],
+        ["*","mul"],
+        ["/","div"]
+    ])), "func")
+})
+
+const trigJson = {
+    "type:": funklyBlockType.TRIG,
+    inputsInline: true,
+    message0: "%1",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "func"
+        }
+    ],
+    message1: "%1",
+    args1: [
+        {
+            type: "input_statement",
+            name: "NUMBER0"
+        }
+    ],
+    extensions: ["trig_dropdown"],
+    previousStatement: null
+}
+
+createCustomBlock(funklyBlockType.TRIG, "math_blocks", trigJson)
+
+Extensions.register("trig_dropdown", function(this: Block) {
+    this.getInput("func").appendField(newCustomDropdown(new Map([
+        ["sin","sin"],
+        ["cos","cos"],
+        ["tan","tan"]
+    ])), "func")
+})
+
 const keyJson = {
     "type:": funklyBlockType.KEY,
     inputsInline: true,
@@ -260,7 +309,8 @@ Extensions.register("img_dropdown", function(this: Block) {
  */
 const newCustomDropdown = (values: Map<string, string>) =>
     new FieldDropdown(function() {
-        let options: string[][] = [["none", "DEFAULT_NONE"]]
+        let options: string[][] = []
+        if (values.size == 0) options = [["none", "DEFAULT_NONE"]]
         for (const [display, internal] of values) {
             options.push([display, internal])
         }

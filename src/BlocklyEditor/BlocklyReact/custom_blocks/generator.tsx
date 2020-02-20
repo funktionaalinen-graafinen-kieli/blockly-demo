@@ -6,7 +6,8 @@ import { publicImages } from "../../../Gui/image_storage"
 enum funklyBlockType {
     COND = "funkly_cond",
     GT = "funkly_gt",
-    ADD = "funkly_add",
+    MATH = "funkly_math",
+    TRIG = "funkly_trig",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
     BIND = "funkly_bind",
@@ -25,7 +26,8 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
     else if (type === funklyBlockType.KEY) return funkly_key
-    else if (type === funklyBlockType.ADD) return funkly_arg2("add")
+    else if (type === funklyBlockType.MATH) return funkly_math
+    else if (type === funklyBlockType.TRIG) return funkly_trig
     else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
 
@@ -41,11 +43,30 @@ function funklyCodegen(type: funklyBlockType) {
         return "cond" + argwrap(conditionCode, doBranch, elseBranch)
     }
 
+    function funkly_trig(block: Block) {
+
+        const func = block.getFieldValue("func") || "sin"
+        return funkly_arg1(func)(block)
+    }
+
+    function funkly_math(block: Block) {
+
+        const func = block.getFieldValue("func") || "add"
+        return funkly_arg2(func)(block)
+    }
+
     function funkly_arg2(f: String){
         return (block: Block) => {
             const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
             const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
             return f + argwrap(arg0,arg1)
+        }
+    }
+
+    function funkly_arg1(f: String){
+        return (block: Block) => {
+            const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
+            return f + argwrap(arg0)
         }
     }
 
