@@ -121,6 +121,7 @@ function funklyCodegen(type: funklyBlockType) {
         //TODO add width and height to Block and render in Engine
         output += `"w": ["packF(id)", 50],`
         output += `"h": ["packF(id)", 50],`
+        output += `"r": ["packF(id)", 30],`
         const imgDefault = publicImages.entries().next().value[1]
         if (img === "") {
             output +=  `"img": ["packF(id)", "${imgDefault}"]`
