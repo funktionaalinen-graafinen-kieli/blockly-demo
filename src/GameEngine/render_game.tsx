@@ -78,10 +78,11 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                             )
                         }>
                         <img
+                            style={{ width: "100%" }}
                             src={gameEngine.getVal(entity.img)}
                             alt="loading..."
                         />
-                        <text
+                        <div
                             style={{
                                 color: "white",
                                 fontSize: "20px",
@@ -92,7 +93,7 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                                 position: "absolute"
                             }}>
                             {gameEngine.getVal(entity.text)}
-                        </text>
+                        </div>
 
                     </div>
                 ))}
