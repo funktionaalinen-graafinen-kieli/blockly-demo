@@ -165,6 +165,8 @@ const entityCode = (
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
+
+    output += `"r": ["packF(id)", 30],`
     const imgDefault = publicImages.entries().next().value[1]
     if (img === "") {
         output +=  `"img": ["packF(id)", "${imgDefault}"]`
