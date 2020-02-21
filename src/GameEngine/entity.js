@@ -4,6 +4,7 @@ export default class Entity {
     w
     h
     img
+    text
     setVal(k, v) {
         const key = this.name + "_" + k
         // No idea why `this.k = key` fails when the below doesn't
