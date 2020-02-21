@@ -45,7 +45,6 @@ const debugInfoStyle = {
 
 const intervalUpdater = async (updatee: { update(): void }) => {
     return setInterval(() => {
-        log.debug("Interval update happening")
         updatee.update()
     }, frametime)
 }
