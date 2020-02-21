@@ -45,6 +45,7 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                 {gameEngine.state.entities.map((entity: Entity, key) => (
                     <div key={key}
                         style={{
+                            backgroundColor: "red",
                             display: "flex",
                             width: gameEngine.getVal(entity.w),
                             height: gameEngine.getVal(entity.h),
@@ -67,6 +68,7 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                         <text>
                             {gameEngine.getVal(entity.text)}
                         </text>
+
                     </div>
                 ))}
             </div>
