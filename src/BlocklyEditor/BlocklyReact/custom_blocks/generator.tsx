@@ -120,7 +120,7 @@ function funklyCodegen(type: funklyBlockType) {
 
         return entityCode(id, x, initx, y, inity, img,
             entityDefaultSize["width"], entityDefaultSize["height"],
-            `'\\"entity\\"'`
+            `'\\"\\"'`
         )
     }
 

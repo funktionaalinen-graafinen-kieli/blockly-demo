@@ -81,7 +81,16 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                             src={gameEngine.getVal(entity.img)}
                             alt="loading..."
                         />
-                        <text>
+                        <text
+                            style={{
+                                color: "white",
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                WebkitTextStroke: "1px black",
+                                marginLeft: "40%",
+                                marginTop: "10%",
+                                position: "absolute"
+                            }}>
                             {gameEngine.getVal(entity.text)}
                         </text>
 
