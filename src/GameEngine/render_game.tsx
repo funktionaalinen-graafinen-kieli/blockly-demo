@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { posFactor, imgSize, gameBoard, gameStyle} from "./config"
+import { posFactor, entityDefaultSize, gameBoard, gameStyle} from "./config"
 import { clamp } from "./utils"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
@@ -47,23 +47,20 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                     <div key={key}>
                         <img
                             style={{
-                                width: imgSize["width"],
-                                height: imgSize["height"],
+                                width: gameEngine.getVal(entity.w),
+                                height: gameEngine.getVal(entity.h),
                                 position: "absolute",
                                 left: clamp(
-                                    // @ts-ignore
                                     window.innerWidth * (gameEngine.getVal(entity.x) * posFactor),
                                     0,
                                     gameBoard["width"]
                                 ),
                                 top: clamp(
-                                    // @ts-ignore
                                     window.innerHeight * (gameEngine.getVal(entity.y) * posFactor),
                                     0,
                                     gameBoard["height"]
                                 )
                             }}
-                            // @ts-ignore
                             src={gameEngine.getVal(entity.img)}
                             alt="loading..."
                         />

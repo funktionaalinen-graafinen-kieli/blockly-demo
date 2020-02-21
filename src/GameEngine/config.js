@@ -3,7 +3,7 @@ export const frametime = 1000 / 60
 // posFactor: multiplies x and y before clamp. used to scale position.
 export const posFactor = 1 / 2000
 
-export const imgSize = {
+export const entityDefaultSize = {
     width: 50,
     height: 50
 }

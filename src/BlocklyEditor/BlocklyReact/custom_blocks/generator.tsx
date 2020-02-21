@@ -2,6 +2,7 @@ import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import * as log from "loglevel"
 import { publicImages } from "../../../Gui/image_storage"
+import { entityDefaultSize } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
@@ -118,9 +119,9 @@ function funklyCodegen(type: funklyBlockType) {
         let output = `"${id}": {`
         output += `"x": ["pack(${x})", ${initx}],`
         output += `"y": ["pack(${y})", ${inity}],`
-        //TODO add width and height to Block and render in Engine
-        output += `"w": ["packF(id)", 50],`
-        output += `"h": ["packF(id)", 50],`
+
+        output += `"w": ["packF(id)", ${entityDefaultSize["width"]}],`
+        output += `"h": ["packF(id)", ${entityDefaultSize["height"]}],`
         const imgDefault = publicImages.entries().next().value[1]
         if (img === "") {
             output +=  `"img": ["packF(id)", "${imgDefault}"]`
