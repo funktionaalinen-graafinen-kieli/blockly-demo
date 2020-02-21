@@ -119,7 +119,8 @@ function funklyCodegen(type: funklyBlockType) {
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
         return entityCode(id, x, initx, y, inity, img,
-            entityDefaultSize["width"], entityDefaultSize["height"]
+            entityDefaultSize["width"], entityDefaultSize["height"],
+            `'\\"entity\\"'`
         )
     }
 
@@ -130,12 +131,12 @@ function funklyCodegen(type: funklyBlockType) {
         const width = block.getFieldValue("width") || 0
         const height = block.getFieldValue("height") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
+        const text = BlocklyJS.statementToCode(block, "text", BlocklyJS.ORDER_RELATIONAL)
 
         let x = "packF(id)"
         let y = "packF(id)"
 
-        console.log(entityCode(id, x, initx, y, inity, img, width, height))
-        return entityCode(id, x, initx, y, inity, img, width, height)
+        return entityCode(id, x, initx, y, inity, img, width, height, text)
     }
 
     function funkly_bind(block: Block) {
@@ -156,7 +157,7 @@ function funklyCodegen(type: funklyBlockType) {
 }
 
 const entityCode = (
-    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number
+    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number, text: string
 ) => {
 
     let output = `"${id}": {`
@@ -165,6 +166,7 @@ const entityCode = (
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
+    output += `"text": ["pack(${text})", ""],`
 
     output += `"r": ["packF(id)", 30],`
     const imgDefault = publicImages.entries().next().value[1]
