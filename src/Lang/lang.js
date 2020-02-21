@@ -80,10 +80,12 @@ export const timer = x => (get("time") - x[1] >= x[2] ? [true, get("time"), x[2]
 // tweak hitbox by adding offset based on height and width
 export const col = e1 => e2 => col1(
     get(e1+'_x'),
-    add(get(e1+'_y'))(div(get(e1+'_h'))(4)),
+    //add(get(e1+'_y'))(div(get(e1+'_h'))(5)),
+    get(e1+'_y'),
     get(e1+'_r'),
     get(e2+'_x'),
-    add(get(e2+'_y'))(div(get(e2+'_h'))(4)),
+    //add(get(e2+'_y'))(div(get(e2+'_h'))(5)),
+    get(e2+'_y'),
     get(e2+'_r')
 )
 // helper functions for col
