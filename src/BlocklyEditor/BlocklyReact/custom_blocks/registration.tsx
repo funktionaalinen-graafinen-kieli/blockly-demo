@@ -130,6 +130,56 @@ const entityJson = {
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 
+const guiEntityJson = {
+    "type:": funklyBlockType.GUIENTITY,
+    inputsInline: true,
+    message0: "tietovekotin: %1",
+    args0: [
+        {
+            type: "field_input",
+            name: "id",
+            text: "default text",
+            spellcheck: false
+        }
+    ],
+    message1: "aloitusx ja leveys: %1 %2",
+    args1: [
+        {
+            type: "field_number",
+            name: "initx",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "width",
+            value: "50"
+        }
+
+    ],
+    message2: "aloitusy ja korkeus: %1 %2",
+    args2: [
+        {
+            type: "field_number",
+            name: "inity",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "height",
+            value: "50"
+        }
+    ],
+    message3: "img: %1",
+    args3: [
+        {
+            type: "input_statement",
+            name: "img"
+        }
+    ],
+}
+
+createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
+
 const colJson = {
     "type:": funklyBlockType.COL,
     inputsInline: true,

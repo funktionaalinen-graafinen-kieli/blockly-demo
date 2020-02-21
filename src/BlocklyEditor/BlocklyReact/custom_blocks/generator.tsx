@@ -12,6 +12,7 @@ enum funklyBlockType {
     COL = "funkly_col",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
+    GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
     KEY = "funkly_key",
     BINDGET = "funkly_bindget",
@@ -24,6 +25,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
+    else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
@@ -116,21 +118,24 @@ function funklyCodegen(type: funklyBlockType) {
         const inity = block.getFieldValue("inity") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        let output = `"${id}": {`
-        output += `"x": ["pack(${x})", ${initx}],`
-        output += `"y": ["pack(${y})", ${inity}],`
+        return entityCode(id, x, initx, y, inity, img,
+            entityDefaultSize["width"], entityDefaultSize["height"]
+        )
+    }
 
-        output += `"w": ["packF(id)", ${entityDefaultSize["width"]}],`
-        output += `"h": ["packF(id)", ${entityDefaultSize["height"]}],`
-        const imgDefault = publicImages.entries().next().value[1]
-        if (img === "") {
-            output +=  `"img": ["packF(id)", "${imgDefault}"]`
-        } else {
-            output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
-        }
+    function funkly_guientity(block: Block) {
+        const id = block.getFieldValue("id") || "default_gui_id"
+        const initx     = block.getFieldValue("initx") || 0
+        const inity = block.getFieldValue("inity") || 0
+        const width = block.getFieldValue("width") || 0
+        const height = block.getFieldValue("height") || 0
+        const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        output += "}"
-        return output
+        let x = "packF(id)"
+        let y = "packF(id)"
+
+        console.log(entityCode(id, x, initx, y, inity, img, width, height))
+        return entityCode(id, x, initx, y, inity, img, width, height)
     }
 
     function funkly_bind(block: Block) {
@@ -148,6 +153,27 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
         return `'\\"${strip(arg0)}\\"'`
     }
+}
+
+const entityCode = (
+    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number
+) => {
+
+    let output = `"${id}": {`
+    output += `"x": ["pack(${x})", ${initx}],`
+    output += `"y": ["pack(${y})", ${inity}],`
+
+    output += `"w": ["packF(id)", ${width}],`
+    output += `"h": ["packF(id)", ${height}],`
+    const imgDefault = publicImages.entries().next().value[1]
+    if (img === "") {
+        output +=  `"img": ["packF(id)", "${imgDefault}"]`
+    } else {
+        output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
+    }
+
+    output += "}"
+    return output
 }
 
 const wrap = (x: string) => "("+x+")"

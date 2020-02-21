@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { posFactor, entityDefaultSize, gameBoard, gameStyle} from "./config"
+import { posFactor, gameBoard, gameStyle} from "./config"
 import { clamp } from "./utils"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
