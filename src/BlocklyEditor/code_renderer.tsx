@@ -1,12 +1,12 @@
 import React from "react"
 
 function CodeRenderer(props: { debugToggle: boolean, code?: string }) {
-    if (!props.debugToggle) return null
+    if (!props.debugToggle || !props.code) return null
     return (
         <div>
             <h2>Generoitu JS</h2>
             <pre>
-                {props.code}
+                {JSON.stringify(JSON.parse(props.code), null, 4)}
             </pre>
         </div>
     )
