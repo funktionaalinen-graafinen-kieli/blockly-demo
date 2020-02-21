@@ -26,6 +26,30 @@ function StateMap(props: { gameState: MapWithDefault }) {
     )
 }
 
+const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: number): React.CSSProperties  => {
+    let background
+    if (debug) background = "red"
+    else background = ""
+
+    return {
+        backgroundColor: background,
+        display: "flex",
+        width: width,
+        height: h,
+        position: "absolute",
+        left: clamp(
+            window.innerWidth * x * posFactor,
+            0,
+            gameBoard["width"]
+        ),
+        top: clamp(
+            window.innerHeight * y * posFactor,
+            0,
+            gameBoard["height"]
+        )
+    }
+}
+
 export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
     let stateMap
     if (debugToggle) stateMap = <div style={{ position: "absolute" }}>
@@ -44,23 +68,15 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
             >
                 {gameEngine.state.entities.map((entity: Entity, key) => (
                     <div key={key}
-                        style={{
-                            backgroundColor: "red",
-                            display: "flex",
-                            width: gameEngine.getVal(entity.w),
-                            height: gameEngine.getVal(entity.h),
-                            position: "absolute",
-                            left: clamp(
-                                window.innerWidth * (gameEngine.getVal(entity.x) * posFactor),
-                                0,
-                                gameBoard["width"]
-                            ),
-                            top: clamp(
-                                window.innerHeight * (gameEngine.getVal(entity.y) * posFactor),
-                                0,
-                                gameBoard["height"]
+                        style={
+                            entityDivStyle(
+                                debugToggle,
+                                gameEngine.getVal(entity.w),
+                                gameEngine.getVal(entity.h),
+                                gameEngine.getVal(entity.x),
+                                gameEngine.getVal(entity.y)
                             )
-                        }}>
+                        }>
                         <img
                             src={gameEngine.getVal(entity.img)}
                             alt="loading..."
