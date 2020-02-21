@@ -156,7 +156,7 @@ Extensions.register("col_dropdown", function(this: Block) {
     let es = () => {
         let options: string[][] = []
         entities().forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
-        if (options.length == 0) options = [["none", "DEFAULT_NONE"]]
+        if (options.length === 0) options = [["none", "DEFAULT_NONE"]]
         return options
     }
 
@@ -345,7 +345,7 @@ Extensions.register("img_dropdown", function(this: Block) {
 const newCustomDropdown = (values: Map<string, string>) =>
     new FieldDropdown(function() {
         let options: string[][] = []
-        if (values.size == 0) options = [["none", "DEFAULT_NONE"]]
+        if (values.size === 0) options = [["none", "DEFAULT_NONE"]]
         for (const [display, internal] of values) {
             options.push([display, internal])
         }
