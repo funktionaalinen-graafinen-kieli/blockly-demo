@@ -87,10 +87,11 @@ export default class GameEngine extends React.Component {
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
 
-        return renderGame(this)
+        return renderGame(this.props.debugToggle, this)
     }
 }
 GameEngine.propTypes = {
+    debugToggle: PropTypes.bool.isRequired,
     program: PropTypes.any.isRequired,
     toggle: PropTypes.bool.isRequired,
     updater: PropTypes.func.isRequired

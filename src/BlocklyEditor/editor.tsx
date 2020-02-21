@@ -5,7 +5,6 @@ import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
 import { Block } from "./BlocklyReact/blockly_jsx_wrappers"
-import CodeRenderer from "./code_renderer"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks = (
@@ -73,7 +72,6 @@ class Editor extends React.Component<{}> {
                 <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>
                     {editorBlocks}
                 </BlocklyComponent>
-                <CodeRenderer code={this.state.code} blockXml={this.state.blockXml} />
             </div>
         )
     }
