@@ -3,6 +3,7 @@ import breadoge from "./assets/breadoge.png"
 import dogedance from "./assets/dogedance.gif"
 import muscledoge from "./assets/muscledoge.png"
 import strangedoge from "./assets/strangedoge.png"
+import sininen from "./assets/sininen.svg"
 
 
 export const publicImages = new Map([
@@ -10,5 +11,6 @@ export const publicImages = new Map([
     ["muscle_doge", muscledoge],
     ["doge", doge],
     ["dancingdoge", dogedance],
-    ["strange_doge", strangedoge]
+    ["strange_doge", strangedoge],
+    ["sininen_palikka", sininen]
 ])
