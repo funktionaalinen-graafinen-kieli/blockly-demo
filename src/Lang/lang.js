@@ -30,10 +30,10 @@ export const cat = (...xs) => xs.reduce((x, y) => String(x) + String(y), "")
 
 export const id = x => x
 
-export const add = x => y => infix("+", x, y)
-export const sub = x => y => infix("-", x, y)
-export const mul = x => y => infix("*", x, y)
-export const div = x => y => infix("/", x, y)
+export const add = x => y => `Number(${infix("+", x, y)})`
+export const sub = x => y => `Number(${infix("-", x, y)})`
+export const mul = x => y => `Number(${infix("*", x, y)})`
+export const div = x => y => `Number(${infix("/", x, y)})`
 
 export const gt = x => y => infix(">", x, y)
 export const lt = x => y => infix("<", x, y)

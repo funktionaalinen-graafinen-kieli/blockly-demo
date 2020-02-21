@@ -176,6 +176,13 @@ const guiEntityJson = {
             name: "img"
         }
     ],
+    message4: "info: %1",
+    args4: [
+        {
+            type: "input_statement",
+            name: "text"
+        }
+    ],
 }
 
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
@@ -237,6 +244,7 @@ createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+            .concat(this.workspace.getBlocksByType("funkly_guientity", true))
 
     this.getInput("entity").appendField(new FieldDropdown(function() {
         let options: string[][] = [["none", "DEFAULT_NONE"]]
@@ -248,7 +256,10 @@ Extensions.register("entity_dropdown", function(this: Block) {
         newCustomDropdown(
             new Map([
                 ["x", "x"],
-                ["y", "y"]
+                ["y", "y"],
+                ["w", "w"],
+                ["h", "h"],
+                ["text", "text"]
             ])
         ),
         "property"
