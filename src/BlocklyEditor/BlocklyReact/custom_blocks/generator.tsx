@@ -2,6 +2,7 @@ import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import * as log from "loglevel"
 import { publicImages } from "../../../Gui/image_storage"
+import { entityDefaultSize } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
@@ -11,6 +12,7 @@ enum funklyBlockType {
     COL = "funkly_col",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
+    GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
     KEY = "funkly_key",
     BINDGET = "funkly_bindget",
@@ -23,6 +25,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
+    else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
@@ -115,21 +118,25 @@ function funklyCodegen(type: funklyBlockType) {
         const inity = block.getFieldValue("inity") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        let output = `"${id}": {`
-        output += `"x": ["pack(${x})", ${initx}],`
-        output += `"y": ["pack(${y})", ${inity}],`
-        //TODO add width and height to Block and render in Engine
-        output += `"w": ["packF(id)", 50],`
-        output += `"h": ["packF(id)", 50],`
-        const imgDefault = publicImages.entries().next().value[1]
-        if (img === "") {
-            output +=  `"img": ["packF(id)", "${imgDefault}"]`
-        } else {
-            output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
-        }
+        return entityCode(id, x, initx, y, inity, img,
+            entityDefaultSize["width"], entityDefaultSize["height"],
+            `'\\"\\"'`
+        )
+    }
 
-        output += "}"
-        return output
+    function funkly_guientity(block: Block) {
+        const id = block.getFieldValue("id") || "default_gui_id"
+        const initx     = block.getFieldValue("initx") || 0
+        const inity = block.getFieldValue("inity") || 0
+        const width = block.getFieldValue("width") || 0
+        const height = block.getFieldValue("height") || 0
+        const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
+        const text = BlocklyJS.statementToCode(block, "text", BlocklyJS.ORDER_RELATIONAL)
+
+        let x = "packF(id)"
+        let y = "packF(id)"
+
+        return entityCode(id, x, initx, y, inity, img, width, height, text)
     }
 
     function funkly_bind(block: Block) {
@@ -147,6 +154,30 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
         return `'\\"${strip(arg0)}\\"'`
     }
+}
+
+const entityCode = (
+    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number, text: string
+) => {
+
+    let output = `"${id}": {`
+    output += `"x": ["pack(${x})", ${initx}],`
+    output += `"y": ["pack(${y})", ${inity}],`
+
+    output += `"w": ["packF(id)", ${width}],`
+    output += `"h": ["packF(id)", ${height}],`
+    output += `"text": ["pack(${text})", ""],`
+
+    output += `"r": ["packF(id)", 30],`
+    const imgDefault = publicImages.entries().next().value[1]
+    if (img === "") {
+        output +=  `"img": ["packF(id)", "${imgDefault}"]`
+    } else {
+        output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
+    }
+
+    output += "}"
+    return output
 }
 
 const wrap = (x: string) => "("+x+")"

@@ -30,15 +30,17 @@ export const cat = (...xs) => xs.reduce((x, y) => String(x) + String(y), "")
 
 export const id = x => x
 
-export const add = x => y => infix("+", x, y)
-export const sub = x => y => infix("-", x, y)
-export const mul = x => y => infix("*", x, y)
-export const div = x => y => infix("/", x, y)
+export const add = x => y => `Number(${infix("+", x, y)})`
+export const sub = x => y => `Number(${infix("-", x, y)})`
+export const mul = x => y => `Number(${infix("*", x, y)})`
+export const div = x => y => `Number(${infix("/", x, y)})`
 
 export const gt = x => y => infix(">", x, y)
 export const lt = x => y => infix("<", x, y)
 export const geq = x => y => infix(">=", x, y)
 export const leq = x => y => infix("<=", x, y)
+export const eq = x => y => infix("==", x, y)
+export const neq = x => y => infix("!=", x, y)
 
 export const and = x => y => infix("&&", x, y)
 export const or = x => y => infix("||", x, y)
@@ -72,12 +74,25 @@ export const get = v => cat("s.get", wrap(quote(v)), "[1]")
 // TODO: document this func
 export const timer = x => (get("time") - x[1] >= x[2] ? [true, get("time"), x[2]] : [false, x[1], x[2]])
 
-//const col1 = ((x1,y1,h1,w1),(x2,y2,h2,w2)) => `${get(e1+"_x")}<${get(e2+"_x")}&&${get(e2+"_x")}<${get(e1+"_x")}+${get(e1+"_w")} ? ${get(e1+"_y")}<${get(e2+"_y")}&&${get(e2+"_y")}<${get(e1+"_y")}+${get(e1+"_h")}|| ${get(e1+"_y")}<${get(e2+"_y")}+${e2+"_h"}&&${get(e2+"_y")}+${get(e2+"_h")}<${get(e1+"_y")}+${get(e1+"_h")} : false`
-const col1 = (x1,y1,h1,w1,x2,y2,h2,w2) => `${x1}<${x2}&&${x2}<${x1}+${w1} ? ${y1}<${y2}&&${y2}<${y1}+${h1} || ${y1}<${y2}+${h2}&&${y2}+${h2}<${y1}+${h1} : ${y1}<${y2}&&${y2}<${y1}+${h1} || ${y1}<${y2}+${h2}&&${y2}+${h2}<${y1}+${h1}`
+//const col1 = (x1,y1,h1,w1,x2,y2,h2,w2) => `${x1}<${x2}&&${x2}<${x1}+${w1} ? ${y1}<${y2}&&${y2}<${y1}+${h1} || ${y1}<${y2}+${h2}&&${y2}+${h2}<${y1}+${h1} : ${y1}<${y2}&&${y2}<${y1}+${h1} || ${y1}<${y2}+${h2}&&${y2}+${h2}<${y1}+${h1}`
+//const colh = e1 => e2 => col1(get(e1+'_x'),get(e1+'_y'),get(e1+'_h'),get(e1+'_w'),get(e2+'_x'),get(e2+'_y'),get(e2+'_h'),get(e2+'_w'))
 
-const colh = e1 => e2 => col1(get(e1+'_x'),get(e1+'_y'),get(e1+'_h'),get(e1+'_w'),get(e2+'_x'),get(e2+'_y'),get(e2+'_h'),get(e2+'_w'))
+// tweak hitbox by adding offset based on height and width
+export const col = e1 => e2 => col1(
+    get(e1+'_x'),
+    //add(get(e1+'_y'))(div(get(e1+'_h'))(5)),
+    get(e1+'_y'),
+    get(e1+'_r'),
+    get(e2+'_x'),
+    //add(get(e2+'_y'))(div(get(e2+'_h'))(5)),
+    get(e2+'_y'),
+    get(e2+'_r')
+)
+// helper functions for col
+const col1 = (x1,y1,r1,x2,y2,r2) => `${disth(x1,y1,x2,y2)}<${r1}+${r2}`
 
-export const col = e1 => e2 => or(colh(e1)(e2))(colh(e2)(e1))
+export const dist = e1 => e2 => disth(get(e1+'_x'),get(e1+'_y'),get(e2+'_x'),get(e2+'_y'))
+const disth = (x1,y1,x2,y2) => `Math.sqrt(Math.pow(${x1}-${x2},2)+Math.pow(${y1}-${y2},2))`
 
 // packages a funklang function with all arguments
 export const pack = f => cat("(x,s) => ", f)

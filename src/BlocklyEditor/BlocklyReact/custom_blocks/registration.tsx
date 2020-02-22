@@ -130,6 +130,63 @@ const entityJson = {
 
 createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 
+const guiEntityJson = {
+    "type:": funklyBlockType.GUIENTITY,
+    inputsInline: true,
+    message0: "tietovekotin: %1",
+    args0: [
+        {
+            type: "field_input",
+            name: "id",
+            text: "default text",
+            spellcheck: false
+        }
+    ],
+    message1: "aloitusx ja leveys: %1 %2",
+    args1: [
+        {
+            type: "field_number",
+            name: "initx",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "width",
+            value: "50"
+        }
+
+    ],
+    message2: "aloitusy ja korkeus: %1 %2",
+    args2: [
+        {
+            type: "field_number",
+            name: "inity",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "height",
+            value: "50"
+        }
+    ],
+    message3: "img: %1",
+    args3: [
+        {
+            type: "input_statement",
+            name: "img"
+        }
+    ],
+    message4: "info: %1",
+    args4: [
+        {
+            type: "input_statement",
+            name: "text"
+        }
+    ],
+}
+
+createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
+
 const colJson = {
     "type:": funklyBlockType.COL,
     inputsInline: true,
@@ -156,7 +213,7 @@ Extensions.register("col_dropdown", function(this: Block) {
     let es = () => {
         let options: string[][] = []
         entities().forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
-        if (options.length == 0) options = [["none", "DEFAULT_NONE"]]
+        if (options.length === 0) options = [["none", "DEFAULT_NONE"]]
         return options
     }
 
@@ -187,6 +244,7 @@ createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+            .concat(this.workspace.getBlocksByType("funkly_guientity", true))
 
     this.getInput("entity").appendField(new FieldDropdown(function() {
         let options: string[][] = [["none", "DEFAULT_NONE"]]
@@ -198,7 +256,10 @@ Extensions.register("entity_dropdown", function(this: Block) {
         newCustomDropdown(
             new Map([
                 ["x", "x"],
-                ["y", "y"]
+                ["y", "y"],
+                ["w", "w"],
+                ["h", "h"],
+                ["text", "text"]
             ])
         ),
         "property"
@@ -345,7 +406,7 @@ Extensions.register("img_dropdown", function(this: Block) {
 const newCustomDropdown = (values: Map<string, string>) =>
     new FieldDropdown(function() {
         let options: string[][] = []
-        if (values.size == 0) options = [["none", "DEFAULT_NONE"]]
+        if (values.size === 0) options = [["none", "DEFAULT_NONE"]]
         for (const [display, internal] of values) {
             options.push([display, internal])
         }

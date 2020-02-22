@@ -16,6 +16,7 @@ const editorBlocks = (
         <Block type="funkly_cond" />
         <Block type="funkly_gt" />
         <Block type="funkly_entity" />
+        <Block type="funkly_guientity" />
         <Block type="funkly_key" />
         <Block type="funkly_bind" />
         <Block type="funkly_bindget" />
@@ -40,6 +41,8 @@ class Editor extends React.Component<{}> {
     generateCode = () => {
         const workspace = this.blocklyReactInstance.current!.workspace
         const entities = workspace.getBlocksByType("funkly_entity", true)
+            .concat(workspace.getBlocksByType("funkly_guientity", true))
+
 
         const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
 

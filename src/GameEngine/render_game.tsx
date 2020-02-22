@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { posFactor, imgSize, gameBoard, gameStyle} from "./config"
+import { posFactor, gameBoard, gameStyle } from "./config"
 import { clamp } from "./utils"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
@@ -26,10 +26,33 @@ function StateMap(props: { gameState: MapWithDefault }) {
     )
 }
 
+const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: number): React.CSSProperties  => {
+    let background
+    if (debug) background = "red"
+    else background = ""
+
+    return {
+        backgroundColor: background,
+        display: "flex",
+        width: width,
+        height: h,
+        position: "absolute",
+        left: clamp(
+            window.innerWidth * x * posFactor,
+            0,
+            gameBoard["width"]
+        ),
+        top: clamp(
+            window.innerHeight * y * posFactor,
+            0,
+            gameBoard["height"]
+        )
+    }
+}
 
 export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
     let stateMap
-    if (debugToggle) stateMap = <div style={{position: "absolute"}}>
+    if (debugToggle) stateMap = <div style={{ position: "absolute" }}>
         <StateMap gameState={gameEngine.state.gameState} />
     </div>
     else stateMap = null
@@ -44,29 +67,34 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                 tabIndex={0}
             >
                 {gameEngine.state.entities.map((entity: Entity, key) => (
-                    <div key={key}>
+                    <div key={key}
+                        style={
+                            entityDivStyle(
+                                debugToggle,
+                                gameEngine.getVal(entity.w),
+                                gameEngine.getVal(entity.h),
+                                gameEngine.getVal(entity.x),
+                                gameEngine.getVal(entity.y)
+                            )
+                        }>
                         <img
-                            style={{
-                                width: imgSize["width"],
-                                height: imgSize["height"],
-                                position: "absolute",
-                                left: clamp(
-                                    // @ts-ignore
-                                    window.innerWidth * (gameEngine.getVal(entity.x) * posFactor),
-                                    0,
-                                    gameBoard["width"]
-                                ),
-                                top: clamp(
-                                    // @ts-ignore
-                                    window.innerHeight * (gameEngine.getVal(entity.y) * posFactor),
-                                    0,
-                                    gameBoard["height"]
-                                )
-                            }}
-                            // @ts-ignore
+                            style={{ width: "100%" }}
                             src={gameEngine.getVal(entity.img)}
                             alt="loading..."
                         />
+                        <div
+                            style={{
+                                color: "white",
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                WebkitTextStroke: "1px black",
+                                marginLeft: "40%",
+                                marginTop: "10%",
+                                position: "absolute"
+                            }}>
+                            {gameEngine.getVal(entity.text)}
+                        </div>
+
                     </div>
                 ))}
             </div>
