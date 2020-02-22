@@ -13,7 +13,7 @@ export const gameBoard = {
 }
 
 export const gameStyle = {
-    backgroundColor: "green",
+    backgroundColor: "#0571f5",
     width: "500px",
     height: "500px"
 }

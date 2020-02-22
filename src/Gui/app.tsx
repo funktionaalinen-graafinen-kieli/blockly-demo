@@ -34,7 +34,7 @@ const headerStyle = {
 
 const charSelectionStyle = {
     marginLeft: "10px",
-    backgroundColor: "white",
+    backgroundColor: "blue",
     width: "500px",
     height: "500px"
 }
