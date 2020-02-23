@@ -287,6 +287,47 @@ Extensions.register("bind_dropdown", function(this: Block) {
     this.getInput("id").appendField(newCustomDropdown(new Map([["time","time"]])), "id")
 })
 
+const compJson = {
+    "type:": funklyBlockType.COMP,
+    inputsInline: true,
+    message0: "%1",
+    args0: [
+        {
+            type: "input_statement",
+            name: "NUMBER0"
+        }
+    ],
+    message1: "%1",
+    args1: [
+        {
+            type: "input_dummy",
+            name: "func"
+        }
+    ],
+    message2: "%1",
+    args2: [
+        {
+            type: "input_statement",
+            name: "NUMBER1"
+        }
+    ],
+    extensions: ["comp_dropdown"],
+    previousStatement: null
+}
+
+createCustomBlock(funklyBlockType.COMP, "logic_blocks", compJson)
+
+Extensions.register("comp_dropdown", function(this: Block) {
+    this.getInput("func").appendField(newCustomDropdown(new Map([
+        [">","gt"],
+        ["<","lt"],
+        ["==","eq"],
+        ["!=","neq"],
+        [">=","geq"],
+        ["<=","leq"]
+    ])), "func")
+})
+
 const mathJson = {
     "type:": funklyBlockType.MATH,
     inputsInline: true,

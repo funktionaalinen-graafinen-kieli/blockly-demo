@@ -15,6 +15,7 @@ const editorBlocks = (
         <Block type="funkly_number" />
         <Block type="funkly_cond" />
         <Block type="funkly_gt" />
+        <Block type="funkly_comp" />
         <Block type="funkly_entity" />
         <Block type="funkly_guientity" />
         <Block type="funkly_key" />
