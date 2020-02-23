@@ -30,6 +30,7 @@ const defaultBinds = `
 "binds": {
     "frameTime": ["packF(id)", 16],
     "time": ["pack(add(get('time'))(get('frameTime')))", 0],
+    "random": ["(x,s) => Math.random()", 0],
     "everySecond": ["packF(timer)", [false, 0, 1000]]
 }
 `
