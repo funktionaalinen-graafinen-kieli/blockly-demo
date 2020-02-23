@@ -6,7 +6,6 @@ import { entityDefaultSize } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
-    GT = "funkly_gt",
     COMP = "funkly_comp",
     MATH = "funkly_math",
     TRIG = "funkly_trig",
@@ -23,7 +22,6 @@ enum funklyBlockType {
 
 function funklyCodegen(type: funklyBlockType) {
     if (type === funklyBlockType.COND) return funkly_cond
-    else if (type === funklyBlockType.GT) return funkly_gt
     else if (type === funklyBlockType.COMP) return funkly_comp
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
@@ -83,13 +81,6 @@ function funklyCodegen(type: funklyBlockType) {
         const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
 
         return func + argwrap(arg0, arg1)
-    }
-
-    function funkly_gt(block: Block) {
-        const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
-        const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
-
-        return "gt" + argwrap(arg0, arg1)
     }
 
     function funkly_col(block: Block) {

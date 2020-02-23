@@ -48,27 +48,6 @@ const condJson = {
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
 
-const gtJson = {
-    "type:": funklyBlockType.GT,
-    message0: "tämä: %1",
-    args0: [
-        {
-            type: "input_statement",
-            name: "NUMBER0"
-        }
-    ],
-    message1: "on suurempi kuin: %1",
-    args1: [
-        {
-            type: "input_statement",
-            name: "NUMBER1"
-        }
-    ],
-    previousStatement: null
-}
-
-createCustomBlock(funklyBlockType.GT, "logic_blocks", gtJson)
-
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
     message0: "%1",
