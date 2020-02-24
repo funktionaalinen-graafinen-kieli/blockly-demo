@@ -19,9 +19,11 @@ const rowStyle = {
 
 const rowStyleButtons = { marginLeft: "0px" }
 
-const gameDivMargins = {
+const gameDiv = {
     marginLeft: "10px",
-    marginBottom: "15px"
+    marginBottom: "15px",
+    height: "500px",
+    width: "500px"
 }
 
 const backgroundStyle = { backgroundColor: "#fff0c5ff" }
@@ -124,8 +126,8 @@ export default class App extends React.Component<{}, {
                         <Col sm={8}>
                             <Editor ref={this.editorInstance} />
                         </Col>
-                        <Col sm={4}>
-                            <Row style={gameDivMargins}>
+                        <Col style={{width: "500", height: "500"}}>
+                            <Row style={gameDiv}>
                                 {gameEngine}
                             </Row>
                             <Row style={charSelectionStyle}/>

@@ -6,7 +6,7 @@ import { render, fireEvent, screen, cleanup } from "@testing-library/react"
 // import Editor from "../editor"
 afterEach(cleanup)
 
-test('test',()=>{
+test("default",()=>{
     expect(1).toEqual(1)
 })
 
