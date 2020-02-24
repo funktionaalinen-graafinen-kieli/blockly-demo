@@ -1,7 +1,6 @@
 import * as React from "react"
 
-import { posFactor, gameBoard, gameStyle } from "./config"
-import { clamp } from "./utils"
+import { gameStyle } from "./config"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
 
@@ -37,8 +36,8 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
         width: width,
         height: h,
         position: "absolute",
-        left: window.innerWidth * x * posFactor,
-        top: window.innerHeight * y * posFactor
+        left: x,
+        top: y
     }
 }
 

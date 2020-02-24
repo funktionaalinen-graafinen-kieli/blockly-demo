@@ -1,7 +1,8 @@
 import { langEval } from "./lang"
 
 export default function evalFunc(sourceCode) {
-    let js = JSON.parse(sourceCode)
+    // let js = JSON.parse(sourceCode)
+    let js = sourceCode
     const entities = js["entities"]
     Object.keys(entities).forEach(key => {
         Object.keys(entities[key]).forEach(v => {
