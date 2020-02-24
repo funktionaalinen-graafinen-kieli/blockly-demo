@@ -54,7 +54,6 @@ class Editor extends React.Component<{}> {
         const entities = workspace.getBlocksByType("funkly_entity", true)
             .concat(workspace.getBlocksByType("funkly_guientity", true))
 
-
         const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
 
         // Generate code for each entity and place commas
@@ -81,6 +80,7 @@ class Editor extends React.Component<{}> {
     }
 
     render = () => {
+        Blockly.Flyout.prototype.autoClose = false
         return (
             <div className="Editor">
                 <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>

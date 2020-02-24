@@ -30,6 +30,7 @@ interface BlocklyProps {
     name?: string
     is?: string
     colour?: number
+    expanded?: boolean
 }
 
 const createBlocklyElement = (type: string, props: BlocklyProps) => {
