@@ -5,23 +5,96 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
+      <div>
+        <div
+          class="container-fluid"
+        >
+          <div
+            class="row"
+          >
+            <header
+              style="align-items: left; text-indent: 15px;"
+            >
+              <h1>
+                FUNKLY
+              </h1>
+            </header>
+          </div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <button>
+              run
+            </button>
+            <button>
+              debug on
+            </button>
+            <button>
+              xml
+            </button>
+            <button>
+              SAVE
+            </button>
+            <button>
+              LOAD
+            </button>
+          </div>
+          <div
+            class="row"
+            style="height: 1080px; margin-right: 0px;"
+          >
+            <div
+              class="col-sm-8"
+            />
+            <div
+              class="col"
+            >
+              <div
+                class="row"
+                style="margin-left: 10px; margin-bottom: 15px; height: 500px; width: 500px;"
+              />
+              <div
+                class="row"
+                style="margin-left: 10px; background-color: blue; width: 500px; height: 500px;"
+              />
+            </div>
+          </div>
+          <div
+            class="row"
+          />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
       <div
         class="container-fluid"
       >
         <div
           class="row"
-          style="height: 500px;"
         >
-          <div
-            class="col"
-            style="width: 500px;"
-          />
+          <header
+            style="align-items: left; text-indent: 15px;"
+          >
+            <h1>
+              FUNKLY
+            </h1>
+          </header>
         </div>
         <div
           class="row"
+          style="margin-left: 0px;"
         >
           <button>
             run
+          </button>
+          <button>
+            debug on
+          </button>
+          <button>
+            xml
           </button>
           <button>
             SAVE
@@ -32,49 +105,26 @@ Object {
         </div>
         <div
           class="row"
-          style="height: 500px;"
+          style="height: 1080px; margin-right: 0px;"
         >
           <div
-            class="col"
-            style="width: 500px;"
+            class="col-sm-8"
           />
+          <div
+            class="col"
+          >
+            <div
+              class="row"
+              style="margin-left: 10px; margin-bottom: 15px; height: 500px; width: 500px;"
+            />
+            <div
+              class="row"
+              style="margin-left: 10px; background-color: blue; width: 500px; height: 500px;"
+            />
+          </div>
         </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="container-fluid"
-    >
-      <div
-        class="row"
-        style="height: 500px;"
-      >
         <div
-          class="col"
-          style="width: 500px;"
-        />
-      </div>
-      <div
-        class="row"
-      >
-        <button>
-          run
-        </button>
-        <button>
-          SAVE
-        </button>
-        <button>
-          LOAD
-        </button>
-      </div>
-      <div
-        class="row"
-        style="height: 500px;"
-      >
-        <div
-          class="col"
-          style="width: 500px;"
+          class="row"
         />
       </div>
     </div>
