@@ -4,6 +4,7 @@ export const frametime = 1000 / 60
 export const posFactor = 1 / 2000
 
 export const entityDefaultSize = {
+    radius: 50,
     width: 50,
     height: 50
 }

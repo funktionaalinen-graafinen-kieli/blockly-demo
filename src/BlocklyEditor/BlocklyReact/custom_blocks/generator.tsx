@@ -117,10 +117,13 @@ function funklyCodegen(type: funklyBlockType) {
         const initx = block.getFieldValue("initx") || 0
         const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
         const inity = block.getFieldValue("inity") || 0
+        const height = block.getFieldValue("height") || 50
+        const width = block.getFieldValue("width") || 50
+        const radius = block.getFieldValue("radius") || 50
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
         return entityCode(id, x, initx, y, inity, img,
-            entityDefaultSize["width"], entityDefaultSize["height"],
+            height, width, radius,
             `'\\"\\"'`
         )
     }
@@ -131,13 +134,14 @@ function funklyCodegen(type: funklyBlockType) {
         const inity = block.getFieldValue("inity") || 0
         const width = block.getFieldValue("width") || 0
         const height = block.getFieldValue("height") || 0
+        const radius = entityDefaultSize["radius"]
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
         const text = BlocklyJS.statementToCode(block, "text", BlocklyJS.ORDER_RELATIONAL)
 
         let x = "packF(id)"
         let y = "packF(id)"
 
-        return entityCode(id, x, initx, y, inity, img, width, height, text)
+        return entityCode(id, x, initx, y, inity, img, width, height, radius, text)
     }
 
     function funkly_bind(block: Block) {
@@ -158,7 +162,7 @@ function funklyCodegen(type: funklyBlockType) {
 }
 
 const entityCode = (
-    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number, text: string
+    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number, radius: number, text: string
 ) => {
 
     let output = `"${id}": {`
@@ -167,6 +171,7 @@ const entityCode = (
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
+    output += `"r": ["packF(id)", ${radius}],`
     output += `"text": ["pack(${text})", ""],`
 
     output += `"r": ["packF(id)", 30],`

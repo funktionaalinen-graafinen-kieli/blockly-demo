@@ -5,6 +5,7 @@ import log from "loglevel"
 
 import { publicImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
+import { entityDefaultSize } from "../../../GameEngine/config"
 
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
@@ -64,7 +65,7 @@ createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
-    inputsInline: true,
+    inputsInline: false,
     message0: "Hahmo: %1",
     args0: [
         {
@@ -98,11 +99,35 @@ const entityJson = {
             value: "1"
         }
     ],
-    message3: "img: %1",
+    message3: "kuva: %1",
     args3: [
         {
             type: "input_statement",
             name: "img"
+        }
+    ],
+    message4: "leveys: %1",
+    args4: [
+        {
+            type: "field_number",
+            name: "width",
+            value: `${entityDefaultSize["width"]}`
+        }
+    ],
+    message5: "korkeus: %1",
+    args5: [
+        {
+            type: "field_number",
+            name: "height",
+            value: `${entityDefaultSize["height"]}`
+        }
+    ],
+    message6: "r: %1",
+    args6: [
+        {
+            type: "field_number",
+            name: "radius",
+            value: `${entityDefaultSize["radius"]}`
         }
     ],
 }
