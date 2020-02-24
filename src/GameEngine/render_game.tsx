@@ -37,16 +37,8 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
         width: width,
         height: h,
         position: "absolute",
-        left: clamp(
-            window.innerWidth * x * posFactor,
-            0,
-            gameBoard["width"]
-        ),
-        top: clamp(
-            window.innerHeight * y * posFactor,
-            0,
-            gameBoard["height"]
-        )
+        left: window.innerWidth * x * posFactor,
+        top: window.innerHeight * y * posFactor
     }
 }
 
