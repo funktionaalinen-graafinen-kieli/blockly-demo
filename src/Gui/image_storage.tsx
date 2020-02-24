@@ -7,7 +7,8 @@ import plasticbag from "./assets/plasticbag.png"
 import turtle from "./assets/turtle.png"
 import jellyfish from "./assets/jellyfish.gif"
 import sininen from "./assets/sininen.svg"
-
+import score_100 from "./assets/pistemittari_100.jpg"
+import score_empty from "./assets/valkoinen_suorakulmio.jpg"
 
 export const publicImages = new Map([
     ["bread_doge", breadoge],
@@ -18,5 +19,7 @@ export const publicImages = new Map([
     ["plastic_bag", plasticbag],
     ["turtle", turtle],
     ["jellyfish", jellyfish],
-    ["sininen_palikka", sininen]
+    ["sininen_palikka", sininen],
+    ["pisteet_100", score_100],
+    ["pisteet_tyhja", score_empty]
 ])

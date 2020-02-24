@@ -204,7 +204,7 @@ Extensions.register("col_dropdown", function(this: Block) {
 const getJson = {
     "type:": funklyBlockType.GET,
     inputsInline: true,
-    message0: "get: %1 %2",
+    message0: "hae: %1 %2",
     args0: [
         {
             type: "input_dummy",
@@ -223,7 +223,7 @@ createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
-            .concat(this.workspace.getBlocksByType("funkly_guientity", true))
+        .concat(this.workspace.getBlocksByType("funkly_guientity", true))
 
     this.getInput("entity").appendField(new FieldDropdown(function() {
         let options: string[][] = [["none", "DEFAULT_NONE"]]
