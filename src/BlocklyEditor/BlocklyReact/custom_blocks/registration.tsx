@@ -27,7 +27,8 @@ const condJson = {
     args0: [
         {
             type: "input_statement",
-            name: "IF"
+            name: "IF",
+            check: ["Boolean"]
         }
     ],
     message1: "tee: %1",
@@ -44,10 +45,26 @@ const condJson = {
             name: "ELSE"
         }
     ],
+    extensions: ["cond_type"],
     previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
+
+//TODO change output also
+Extensions.register("cond_type", function(this: Block) {
+    this.setOnChange(() => {
+        const p = this.getParent()
+        if (p != null) {
+            const con = p.getInputWithBlock(this).connection
+            const check = con.getCheck()
+            this.getInput("DO").setCheck(check)
+            this.getInput("ELSE").setCheck(check)
+            console.trace(this.getInput("DO"))
+            console.trace(this.getInput("ELSE"))
+        }
+    })
+})
 
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
@@ -59,7 +76,7 @@ const numberJson = {
             value: "1"
         }
     ],
-    previousStatement: null
+    previousStatement: "Number"
 }
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
@@ -79,7 +96,8 @@ const entityJson = {
     args1: [
         {
             type: "input_statement",
-            name: "x"
+            name: "x",
+            check: "Number"
         },
         {
             type: "field_number",
@@ -91,7 +109,8 @@ const entityJson = {
     args2: [
         {
             type: "input_statement",
-            name: "y"
+            name: "y",
+            check: "Number"
         },
         {
             type: "field_number",
@@ -103,7 +122,8 @@ const entityJson = {
     args3: [
         {
             type: "input_statement",
-            name: "img"
+            name: "img",
+            check: ["String"]
         }
     ],
     message4: "leveys: %1",
@@ -177,14 +197,16 @@ const guiEntityJson = {
     args3: [
         {
             type: "input_statement",
-            name: "img"
+            name: "img",
+            check: ["String"]
         }
     ],
     message4: "info: %1",
     args4: [
         {
             type: "input_statement",
-            name: "text"
+            name: "text",
+            check: ["String"]
         }
     ],
 }
@@ -206,7 +228,7 @@ const colJson = {
         }
     ],
     extensions: ["col_dropdown"],
-    previousStatement: null
+    previousStatement: "Boolean"
 }
 
 createCustomBlock(funklyBlockType.COL, "logic_blocks", colJson)
@@ -298,7 +320,8 @@ const compJson = {
     args0: [
         {
             type: "input_statement",
-            name: "NUMBER0"
+            name: "NUMBER0",
+            check: "Number"
         }
     ],
     message1: "%1",
@@ -312,11 +335,12 @@ const compJson = {
     args2: [
         {
             type: "input_statement",
-            name: "NUMBER1"
+            name: "NUMBER1",
+            check: "Number"
         }
     ],
     extensions: ["comp_dropdown"],
-    previousStatement: null
+    previousStatement: "Boolean"
 }
 
 createCustomBlock(funklyBlockType.COMP, "logic_blocks", compJson)
@@ -339,7 +363,8 @@ const mathJson = {
     args0: [
         {
             type: "input_statement",
-            name: "NUMBER0"
+            name: "NUMBER0",
+            check: "Number"
         }
     ],
     message1: "%1",
@@ -353,11 +378,12 @@ const mathJson = {
     args2: [
         {
             type: "input_statement",
-            name: "NUMBER1"
+            name: "NUMBER1",
+            check: "Number"
         }
     ],
     extensions: ["math_dropdown"],
-    previousStatement: null
+    previousStatement: "Number"
 }
 
 createCustomBlock(funklyBlockType.MATH, "math_blocks", mathJson)
@@ -386,11 +412,12 @@ const trigJson = {
     args1: [
         {
             type: "input_statement",
-            name: "NUMBER0"
+            name: "NUMBER0",
+            check: "Number"
         }
     ],
     extensions: ["trig_dropdown"],
-    previousStatement: null
+    previousStatement: "Number"
 }
 
 createCustomBlock(funklyBlockType.TRIG, "math_blocks", trigJson)
@@ -414,7 +441,7 @@ const keyJson = {
         }
     ],
     extensions: ["key_dropdown"],
-    previousStatement: null
+    previousStatement: "Boolean"
 }
 
 createCustomBlock(funklyBlockType.KEY, "logic_blocks", keyJson)
@@ -435,7 +462,7 @@ const imgJson = {
         }
     ],
     extensions: ["img_dropdown"],
-    previousStatement: null
+    previousStatement: "Image"
 }
 
 createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
