@@ -123,7 +123,7 @@ const entityJson = {
         {
             type: "input_statement",
             name: "img",
-            check: ["String"]
+            check: ["Image"]
         }
     ],
     message4: "leveys: %1",
@@ -198,7 +198,7 @@ const guiEntityJson = {
         {
             type: "input_statement",
             name: "img",
-            check: ["String"]
+            check: ["Image"]
         }
     ],
     message4: "info: %1",
@@ -206,7 +206,8 @@ const guiEntityJson = {
         {
             type: "input_statement",
             name: "text",
-            check: ["String"]
+            //TODO implement block that allows users to construct strings
+            //check: ["String"]
         }
     ],
 }

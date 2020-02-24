@@ -109,8 +109,9 @@ export default class App extends React.Component<{}, {
                             {this.state.debugToggle ? "debug off" : "debug on"}
                         </button>
                         <button onClick={ () => download(
-                            "funkly-download.xml",
-                            this.editorInstance.current?.state.blockXml.toString())}>
+                            "funkly-download.js",
+                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
+                        )}>
                             xml
                         </button>
                         <button
