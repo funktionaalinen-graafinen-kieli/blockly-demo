@@ -17,7 +17,7 @@ function StateMap(props: { gameState: MapWithDefault }) {
     })
 
     return (
-        <div style={{ background: "orange", marginTop: "1200px" }}>
+        <div style={{ background: "orange", width: "500px", top: "1200px", position: "absolute" }}>
             <h3>State</h3>
 
             {table}
