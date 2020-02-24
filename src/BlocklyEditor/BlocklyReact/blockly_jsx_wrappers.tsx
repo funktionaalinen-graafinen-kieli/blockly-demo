@@ -29,6 +29,7 @@ interface BlocklyProps {
     disabled?: boolean
     name?: string
     is?: string
+    colour?: number
 }
 
 const createBlocklyElement = (type: string, props: BlocklyProps) => {
@@ -42,12 +43,12 @@ const createBlocklyElement = (type: string, props: BlocklyProps) => {
 const Block = (p: BlocklyProps) => {
     return createBlocklyElement("block", p)
 }
-/*
 const Category = (p: BlocklyProps) => { return createBlocklyElement("category", p) }
+/*
 const Value = (p: BlocklyProps) => { return createBlocklyElement("value", p) }
 const Field = (p: BlocklyProps) => { return createBlocklyElement("field", p) }
 const Shadow = (p: BlocklyProps) => { return createBlocklyElement("shadow", p) }
 export {Block, Category, Value, Field, Shadow}
- */
+*/
 
-export { Block }
+export { Block, Category }
