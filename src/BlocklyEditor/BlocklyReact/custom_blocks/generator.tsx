@@ -2,7 +2,7 @@ import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import * as log from "loglevel"
 import { publicImages } from "../../../Gui/image_storage"
-import { entityDefaultSize } from "../../../GameEngine/config"
+import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
@@ -166,8 +166,8 @@ const entityCode = (
 ) => {
 
     let output = `"${id}": {`
-    output += `"x": ["pack(${x})", ${initx}],`
-    output += `"y": ["pack(${y})", ${inity}],`
+    output += `"x": ["pack(clamp(${x})(0)(${gameBoard['width']}))", ${initx}],`
+    output += `"y": ["pack(clamp(${y})(0)(${gameBoard['height']}))", ${inity}],`
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`

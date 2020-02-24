@@ -48,6 +48,8 @@ export const neq = x => y => infix("!=", x, y)
 export const and = x => y => infix("&&", x, y)
 export const or = x => y => infix("||", x, y)
 
+export const clamp = num => min => max => `(${num} <= ${min} ? ${min} : ${num} >= ${max} ? ${max} : ${num})`
+
 /** Trig */
 export const sin = x => cat("Math.sin", wrap(x))
 export const cos = x => cat("Math.cos", wrap(x))
