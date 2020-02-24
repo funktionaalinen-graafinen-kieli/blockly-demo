@@ -111,7 +111,7 @@ createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 
 const guiEntityJson = {
     "type:": funklyBlockType.GUIENTITY,
-    inputsInline: true,
+    inputsInline: false,
     message0: "tietovekotin: %1",
     args0: [
         {
@@ -121,7 +121,7 @@ const guiEntityJson = {
             spellcheck: false
         }
     ],
-    message1: "aloitusx ja leveys: %1 %2",
+    message1: "aloitusx %1, \n leveys: %2",
     args1: [
         {
             type: "field_number",
@@ -135,7 +135,7 @@ const guiEntityJson = {
         }
 
     ],
-    message2: "aloitusy ja korkeus: %1 %2",
+    message2: "aloitusy %1, korkeus: %2",
     args2: [
         {
             type: "field_number",
