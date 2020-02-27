@@ -75,9 +75,11 @@ export default class App extends React.Component<{}, {
         this.setState({ debugToggle: !this.state.debugToggle })
     }
 
-    handleUpload = (event: React.FormEvent) => {
-        if (this.editorInstance.current) {
-            //this.editorInstance.current.blocklyReactInstance.current.workspace
+    handleUpload = (event: React.FormEvent<HTMLInputElement>) => {
+        const editor = this.editorInstance.current
+        if (editor) {
+            const uploaded = event.currentTarget.value
+            console.log(uploaded)
         }
 
     }
