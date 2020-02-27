@@ -1,0 +1,20 @@
+Materiaalit on lisensoitu Creative Commons BY-NC-SA-lisenssillä, eli materiaalin levittäminen ja muokkaaminen on sallittu, kunhan tekijöiden nimet säilyvät mukana ja jatkoversiot julkaistaan samalla lisenssillä. Kaupallinen käyttö kielletty.
+Alkuperäinen tekijä (2014): Jenna Tuominen
+Kilpikonnapelin ohje (2020): Hanna Vuorivirta
+
+Kilpikonnapeli
+
+Pelin toiminta: Pelin tarkoituksena on luoda pelihahmo, kilpikonna, jota pelaaja liikuttaa nuolinäppämillä. Kilpikonna syö toisia pelihahmoja, meduusoja. Meduusojen syömisestä saa pisteitä. Kilpikonna varoo syömästä muovipusseja. Muovipussin syöminen vie pisteet nollaan.
+
+Lisähaasteita: Muovipussi seuraa kilpikonnaa, useat muovipussit seuraavat kilpikonnaa, meduusa vaihtuu yllättäen muovipussiksi (vaihtuuko vain kuva vai saako nollille vieväksi?).
+
+Toteutus:
+
+- Luodaan hahmoja, jotka liikkuvat näppäimistösyötteillä tai itsenäisesti
+- Tutustutaan koordinaatistoihin ja suuntiin.
+- Opitaan luomaan eri hahmojen välisiä vuorovaikutuksia ja jakamaan ohjelman tehtäviä oikeille hahmoille.
+- Opitaan silmukoiden käyttöä ja ehdollisia tapahtumia.
+- Tutustutaan muuttujien käyttöön muistettavina arvoina.
+- Tutustutaan satunnaisuuteen.
+
+
