@@ -63,6 +63,10 @@ export default class App extends React.Component<{}, {
         this.state = { debugToggle: false, gameRunning: false }
     }
 
+    getCode = () => {
+        return this.editorInstance.current?.state.code
+    }
+
     toggleGame = () => {
         this.setState({ gameRunning: !this.state.gameRunning })
     }
@@ -71,19 +75,23 @@ export default class App extends React.Component<{}, {
         this.setState({ debugToggle: !this.state.debugToggle })
     }
 
+    handleUpload = (event: React.FormEvent) => {
+        if (this.editorInstance.current) {
+            //this.editorInstance.current.blocklyReactInstance.current.workspace
+        }
+
+    }
+
     render() {
         let editorInstance = this.editorInstance.current!
 
-        const getCode = () => {
-            return editorInstance.state.code
-        }
         let gameEngine
         if (this.state.gameRunning) {
             gameEngine = (
                 <GameEngine
                     debugToggle={this.state.debugToggle}
                     toggle={this.state.gameRunning}
-                    program={getCode()}
+                    program={this.getCode()}
                     updater={intervalUpdater}
                 />
             )
@@ -108,12 +116,6 @@ export default class App extends React.Component<{}, {
                             onClick={this.toggleDebug}>
                             {this.state.debugToggle ? "debug off" : "debug on"}
                         </button>
-                        <button onClick={ () => download(
-                            "funkly-download.js",
-                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
-                        )}>
-                            xml
-                        </button>
                         <button
                             onClick={() => saveProject(editorInstance!.state.blockXml.toString())}>
                             SAVE
@@ -122,6 +124,13 @@ export default class App extends React.Component<{}, {
                             onClick={() => loadProject(editorInstance!.blocklyReactInstance.current!)}>
                             LOAD
                         </button>
+                        <button onClick={() => download(
+                            "funkly-download.js",
+                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
+                        )}>
+                            xml
+                        </button>
+                        <input type="file" id="importedCode" name="importedCode" onInput={this.handleUpload}/>
                     </Row>
                     <Row style={rowStyle}>
                         <Col sm={8}>
