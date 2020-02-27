@@ -52,15 +52,18 @@ const intervalUpdater = async (updatee: { update(): void }) => {
 }
 
 export default class App extends React.Component<{}, {
-        debugToggle: boolean,
-        gameRunning: boolean
-    }> {
+    debugToggle: boolean,
+    gameRunning: boolean
+}> {
 
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
         super(props)
         this.state = { debugToggle: false, gameRunning: false }
+        setInterval(() => {
+            this.forceUpdate()
+        }, 1000)
     }
 
     toggleGame = () => {
@@ -73,10 +76,7 @@ export default class App extends React.Component<{}, {
 
     render() {
         let editorInstance = this.editorInstance.current!
-
-        const getCode = () => {
-            return editorInstance.state.code
-        }
+        const getCode = () => editorInstance.state.code
         let gameEngine
         if (this.state.gameRunning) {
             gameEngine = (
@@ -108,7 +108,7 @@ export default class App extends React.Component<{}, {
                             onClick={this.toggleDebug}>
                             {this.state.debugToggle ? "debug off" : "debug on"}
                         </button>
-                        <button onClick={ () => download(
+                        <button onClick={() => download(
                             "funkly-download.js",
                             `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
                         )}>
@@ -127,11 +127,11 @@ export default class App extends React.Component<{}, {
                         <Col sm={8}>
                             <Editor ref={this.editorInstance} />
                         </Col>
-                        <Col style={{width: "500", height: "500"}}>
+                        <Col style={{ width: "500", height: "500" }}>
                             <Row style={gameDiv}>
                                 {gameEngine}
                             </Row>
-                            <Row style={charSelectionStyle}/>
+                            <Row style={charSelectionStyle} />
                         </Col>
                     </Row>
                     <Row style={debugInfoStyle}>

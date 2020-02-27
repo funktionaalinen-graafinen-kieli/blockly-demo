@@ -23,10 +23,16 @@ export default class GameEngine extends React.Component {
         gameState: new MapWithDefault(false),
         entities: [],
         updater: null,
-        keymap: new Map()
+        keymap: new Map(),
+        code: null,
     }
 
     componentDidMount() {
+        this.setState({ updater: this.props.updater(this) })
+    }
+
+    renderCode() {
+        this.setState({code:this.props.program})
         let parsedObjectList
         try {
             parsedObjectList = evalFunc(this.props.program)
@@ -47,8 +53,6 @@ export default class GameEngine extends React.Component {
         Object.keys(binds).forEach(eventName => {
             this.state.gameState.set(eventName, binds[eventName])
         })
-
-        this.setState({ updater: this.props.updater(this) })
     }
 
     componentWillUnmount() {
@@ -83,7 +87,10 @@ export default class GameEngine extends React.Component {
     }
 
     render() {
-        // console.warn('gameboard:',gameboard)
+        if(this.state.code !== this.props.program){
+            console.warn('rerender')
+            this.renderCode()
+        }
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
 
