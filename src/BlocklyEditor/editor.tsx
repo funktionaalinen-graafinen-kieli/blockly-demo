@@ -43,12 +43,15 @@ class Editor extends React.Component<{}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
     readonly state = { code: "", blockXml: "" }
 
-    private generateCode = (): [string, string] => {
+    private generateXml = (): string => {
+        const workspace = this.blocklyReactInstance.current!.workspace
+        return Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+    }
+
+    private generateCode = (): string => {
         const workspace = this.blocklyReactInstance.current!.workspace
         const entities = workspace.getBlocksByType("funkly_entity", true)
             .concat(workspace.getBlocksByType("funkly_guientity", true))
-
-        const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
 
         // Generate code for each entity and place commas
         let engineCode = '{ "entities": {'
@@ -58,7 +61,7 @@ class Editor extends React.Component<{}> {
         engineCode += "}, "
         engineCode += defaultBinds + "}"
 
-        return [engineCode, xmlWorkspace]
+        return engineCode
     }
 
     setCode = (engineCode: string, xmlWorkspace: string) => {
@@ -68,8 +71,17 @@ class Editor extends React.Component<{}> {
         })
     }
 
+    importXml = (xmlInput: string) => {
+        const stripped = xmlInput.slice(26)
+        const stringed = decodeURI(eval(stripped))
+        const parsed = Blockly.Xml.textToDom(stringed)
+
+        const workspace = this.blocklyReactInstance.current!.workspace
+        Blockly.Xml.domToWorkspace(parsed, workspace)
+    }
+
     generateAndSetCode = () => {
-        this.setCode(...this.generateCode())
+        this.setCode(this.generateCode(), this.generateXml())
     }
 
     componentDidMount(): void {

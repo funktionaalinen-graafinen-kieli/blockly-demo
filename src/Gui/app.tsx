@@ -77,11 +77,12 @@ export default class App extends React.Component<{}, {
 
     handleUpload = (event: React.FormEvent<HTMLInputElement>) => {
         const editor = this.editorInstance.current
-        if (editor) {
-            const uploaded = event.currentTarget.value
-            console.log(uploaded)
+        if (editor && event.currentTarget.files) {
+            const uploaded = event.currentTarget.files.item(0)!
+            uploaded.text().then(it => {
+                editor.importXml(it)
+            })
         }
-
     }
 
     render() {
