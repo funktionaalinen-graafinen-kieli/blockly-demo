@@ -1,20 +1,13 @@
-import React, { CSSProperties } from "react"
+import React from "react"
 
-const codeStyle: CSSProperties = {
-    height: "100%",
-    width: "20%",
-    left: "82%",
-    position: "absolute"
-}
-
-function CodeRenderer(props: { code: string; blockXml: string }) {
+function CodeRenderer(props: { debugToggle: boolean, code?: string }) {
+    if (!props.debugToggle || !props.code) return null
     return (
-        <div style={codeStyle}>
+        <div>
             <h2>Generoitu JS</h2>
-            {props.code}
-            <h2>Palikka-xml</h2>
-
-            {props.blockXml.toString()}
+            <pre>
+                {JSON.stringify(JSON.parse(props.code), null, 4)}
+            </pre>
         </div>
     )
 }

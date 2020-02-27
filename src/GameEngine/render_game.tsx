@@ -1,26 +1,23 @@
 import * as React from "react"
-import { Row, Col } from "react-bootstrap"
 
-import { posFactor, imgSize, gameboard } from "./config"
-import { clamp } from "./utils"
+import { gameStyle } from "./config"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
 
-function StateMap(props: {gameState: MapWithDefault}) {
+function StateMap(props: { gameState: MapWithDefault }) {
     if (!props.gameState) return <></>
 
     const table: React.ReactElement[] = []
-    // @ts-ignore
     props.gameState.forEach((value, key) => {
         table.push(
             <p key={key}>
-                {key} =&gt; {value}
+                {key} :: {value.toString()}
             </p>
         )
     })
 
     return (
-        <div style={{ background: "orange" }}>
+        <div style={{ background: "orange", width: "500px", top: "1200px", position: "absolute" }}>
             <h3>State</h3>
 
             {table}
@@ -28,51 +25,72 @@ function StateMap(props: {gameState: MapWithDefault}) {
     )
 }
 
+const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: number): React.CSSProperties  => {
+    let background
+    if (debug) background = "red"
+    else background = ""
 
-export const renderGame = (gameEngine: GameEngine) => {
+    return {
+        backgroundColor: background,
+        display: "flex",
+        width: width,
+        height: h,
+        position: "absolute",
+        left: x,
+        top: y
+    }
+}
+
+export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
+    let stateMap
+    if (debugToggle) stateMap = <div style={{ position: "absolute" }}>
+        <StateMap gameState={gameEngine.state.gameState} />
+    </div>
+    else stateMap = null
 
     return (
-        <Row>
-            <Col>
-                <div
-                    style={gameboard["containerStyle"]}
-                    ref={gameEngine.gameArea}
-                    onKeyDown={gameEngine.handleKeyDown}
-                    onKeyUp={gameEngine.handleKeyUp}
-                    tabIndex={0}
-                >
-                    {gameEngine.state.entities.map((entity: Entity, key) => (
-                        <div key={key}>
-                            <img
-                                style={{
-                                    width: imgSize["width"],
-                                    height: imgSize["height"],
-                                    position: "absolute",
-                                    left: clamp(
-                                        // @ts-ignore
-                                        window.innerWidth * (gameEngine.getVal(entity.x) * posFactor),
-                                        0,
-                                        gameboard["size"]["width"]
-                                    ),
-                                    top: clamp(
-                                        // @ts-ignore
-                                        window.innerHeight * (gameEngine.getVal(entity.y) * posFactor),
-                                        0,
-                                        gameboard["size"]["height"]
-                                    )
-                                }}
-                                // @ts-ignore
-                                src={gameEngine.getVal(entity.img)}
-                                alt="loading..."
-                            />
+        <>
+            <div
+                style={gameStyle}
+                ref={gameEngine.gameArea}
+                onKeyDown={gameEngine.handleKeyDown}
+                onKeyUp={gameEngine.handleKeyUp}
+                tabIndex={0}
+            >
+                {gameEngine.state.entities.map((entity: Entity, key) => (
+                    <div key={key}
+                        style={
+                            entityDivStyle(
+                                debugToggle,
+                                gameEngine.getVal(entity.w),
+                                gameEngine.getVal(entity.h),
+                                gameEngine.getVal(entity.x),
+                                gameEngine.getVal(entity.y)
+                            )
+                        }>
+                        <img
+                            style={{ width: "100%" }}
+                            src={gameEngine.getVal(entity.img)}
+                            alt="loading..."
+                        />
+                        <div
+                            style={{
+                                color: "white",
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                WebkitTextStroke: "1px black",
+                                marginLeft: "40%",
+                                marginTop: "10%",
+                                position: "absolute"
+                            }}>
+                            {gameEngine.getVal(entity.text)}
                         </div>
-                    ))}
-                </div>
-            </Col>
-            <Col>
-                <StateMap gameState={gameEngine.state.gameState} />
-            </Col>
-        </Row>
+
+                    </div>
+                ))}
+            </div>
+            {stateMap}
+        </>
     )
 }
 

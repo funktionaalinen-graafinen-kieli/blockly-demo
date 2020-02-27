@@ -7,20 +7,20 @@ import { renderGame } from "./render_game"
 
 export class MapWithDefault extends Map {
     get(key) {
-        if (!this.has(key)) return this.default()
+        if (!this.has(key)) return this.defaultValue
         return super.get(key)
     }
 
-    constructor(defaultFunction, entries) {
+    constructor(defaultValue, entries) {
         super(entries)
-        this.default = defaultFunction
+        this.defaultValue = defaultValue
     }
 }
 
 export default class GameEngine extends React.Component {
     gameArea = React.createRef()
     state = {
-        gameState: new MapWithDefault(() => [(x, s) => x, false]),
+        gameState: new MapWithDefault(false),
         entities: [],
         updater: null,
         keymap: new Map()
@@ -71,20 +71,15 @@ export default class GameEngine extends React.Component {
     }
 
     update() {
+        let newState = new MapWithDefault(false, this.state.gameState)
+
         for (let [key, value] of this.state.gameState) {
-            this.saveKeysToState()
-            this.updateState(key, value)
+            newState.set(key, [value[0], this.applyF(key, this.state.gameState)])
         }
-    }
 
-    updateState = (k, v) => {
-        this.setState({
-            state: this.state.gameState.set(k, [v[0], this.applyF(k, this.state.gameState)])
-        })
-    }
+        Array.from(this.state.keymap, ([k, v]) => { newState.set("key_" + k, [(x, _) => x, v]) })
 
-    saveKeysToState = () => {
-        Array.from(this.state.keymap, ([k, v]) => this.state.gameState.set("key_" + k, [(x, s) => x, v]))
+        this.setState({ gameState: newState })
     }
 
     render() {
@@ -92,10 +87,11 @@ export default class GameEngine extends React.Component {
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
 
-        return renderGame(this)
+        return renderGame(this.props.debugToggle, this)
     }
 }
 GameEngine.propTypes = {
+    debugToggle: PropTypes.bool.isRequired,
     program: PropTypes.any.isRequired,
     toggle: PropTypes.bool.isRequired,
     updater: PropTypes.func.isRequired

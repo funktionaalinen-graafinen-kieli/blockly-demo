@@ -11,9 +11,8 @@ export default function evalFunc(sourceCode) {
     })
     const binds = js["binds"]
     Object.keys(binds).forEach(key => {
-        const event = binds[key]
-        event[0] = langEval(event[0])
+        const bind = binds[key]
+        bind[0] = langEval(bind[0])
     })
-    // console.log(js)
     return js
 }

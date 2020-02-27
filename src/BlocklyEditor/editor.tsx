@@ -4,23 +4,35 @@ import * as Blockly from "blockly"
 import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
-import { Block } from "./BlocklyReact/blockly_jsx_wrappers"
-import CodeRenderer from "./code_renderer"
+import { Block, Category } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks = (
     <React.Fragment>
-        <Block type="funkly_add" />
-        <Block type="funkly_number" />
-        <Block type="funkly_cond" />
-        <Block type="funkly_gt" />
-        <Block type="funkly_entity" />
-        <Block type="funkly_key" />
-        <Block type="funkly_bind" />
-        <Block type="funkly_bindget" />
-        <Block type="funkly_get" />
-        <Block type="funkly_img" />
-        <Block type="text" />
+        <Category name="Matikka" colour={230}>
+            <>
+                <Block type="funkly_col" />
+                <Block type="funkly_math" />
+                <Block type="funkly_trig" />
+                <Block type="funkly_number" />
+            </>
+        </Category>
+        <Category name="Logiikka" colour={200}>
+            <>
+                <Block type="funkly_cond" />
+                <Block type="funkly_comp" />
+            </>
+        </Category>
+        <Category name="Hahmopalikat" colour={140}>
+            <>
+                <Block type="funkly_entity" />
+                <Block type="funkly_guientity" />
+                <Block type="funkly_key" />
+                <Block type="funkly_bindget" />
+                <Block type="funkly_get" />
+                <Block type="funkly_img" />
+            </>
+        </Category>
     </React.Fragment>
 )
 
@@ -28,6 +40,7 @@ const defaultBinds = `
 "binds": {
     "frameTime": ["packF(id)", 16],
     "time": ["pack(add(get('time'))(get('frameTime')))", 0],
+    "random": ["(x,s) => Math.random()", 0],
     "everySecond": ["packF(timer)", [false, 0, 1000]]
 }
 `
@@ -39,6 +52,7 @@ class Editor extends React.Component<{}> {
     generateCode = () => {
         const workspace = this.blocklyReactInstance.current!.workspace
         const entities = workspace.getBlocksByType("funkly_entity", true)
+            .concat(workspace.getBlocksByType("funkly_guientity", true))
 
         const xmlWorkspace = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
 
@@ -66,12 +80,12 @@ class Editor extends React.Component<{}> {
     }
 
     render = () => {
+        Blockly.Flyout.prototype.autoClose = false
         return (
             <div className="Editor">
                 <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>
                     {editorBlocks}
                 </BlocklyComponent>
-                <CodeRenderer code={this.state.code} blockXml={this.state.blockXml} />
             </div>
         )
     }

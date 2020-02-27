@@ -2,13 +2,17 @@ import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import * as log from "loglevel"
 import { publicImages } from "../../../Gui/image_storage"
+import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
-    GT = "funkly_gt",
-    ADD = "funkly_add",
+    COMP = "funkly_comp",
+    MATH = "funkly_math",
+    TRIG = "funkly_trig",
+    COL = "funkly_col",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
+    GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
     KEY = "funkly_key",
     BINDGET = "funkly_bindget",
@@ -18,14 +22,17 @@ enum funklyBlockType {
 
 function funklyCodegen(type: funklyBlockType) {
     if (type === funklyBlockType.COND) return funkly_cond
-    else if (type === funklyBlockType.GT) return funkly_gt
+    else if (type === funklyBlockType.COMP) return funkly_comp
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
+    else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
+    else if (type === funklyBlockType.COL) return funkly_col
     else if (type === funklyBlockType.KEY) return funkly_key
-    else if (type === funklyBlockType.ADD) return funkly_arg2("add")
+    else if (type === funklyBlockType.MATH) return funkly_math
+    else if (type === funklyBlockType.TRIG) return funkly_trig
     else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
 
@@ -41,6 +48,18 @@ function funklyCodegen(type: funklyBlockType) {
         return "cond" + argwrap(conditionCode, doBranch, elseBranch)
     }
 
+    function funkly_trig(block: Block) {
+
+        const func = block.getFieldValue("func") || "sin"
+        return funkly_arg1(func)(block)
+    }
+
+    function funkly_math(block: Block) {
+
+        const func = block.getFieldValue("func") || "add"
+        return funkly_arg2(func)(block)
+    }
+
     function funkly_arg2(f: String){
         return (block: Block) => {
             const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
@@ -49,11 +68,25 @@ function funklyCodegen(type: funklyBlockType) {
         }
     }
 
-    function funkly_gt(block: Block) {
+    function funkly_arg1(f: String){
+        return (block: Block) => {
+            const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
+            return f + argwrap(arg0)
+        }
+    }
+
+    function funkly_comp(block: Block) {
+        const func = block.getFieldValue("func") || "gt"
         const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
         const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
 
-        return "gt" + argwrap(arg0, arg1)
+        return func + argwrap(arg0, arg1)
+    }
+
+    function funkly_col(block: Block) {
+        const arg0 = block.getFieldValue("e1") || "default_e1"
+        const arg1 = block.getFieldValue("e2") || "default_e2"
+        return "col" + argwrap(`'${arg0}'`,`'${arg1}'`)
     }
 
     function funkly_get(block: Block) {
@@ -84,20 +117,31 @@ function funklyCodegen(type: funklyBlockType) {
         const initx = block.getFieldValue("initx") || 0
         const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
         const inity = block.getFieldValue("inity") || 0
+        const height = block.getFieldValue("height") || 50
+        const width = block.getFieldValue("width") || 50
+        const radius = block.getFieldValue("radius") || 50
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        let output = `"${id}": {`
-        output += `"x": ["pack(${x})", ${initx}],`
-        output += `"y": ["pack(${y})", ${inity}],`
-        const imgDefault = publicImages.entries().next().value[1]
-        if (img === "") {
-            output +=  `"img": ["packF(id)", "${imgDefault}"]`
-        } else {
-            output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
-        }
+        return entityCode(id, x, initx, y, inity, img,
+            height, width, radius,
+            `'\\"\\"'`
+        )
+    }
 
-        output += "}"
-        return output
+    function funkly_guientity(block: Block) {
+        const id = block.getFieldValue("id") || "default_gui_id"
+        const initx     = block.getFieldValue("initx") || 0
+        const inity = block.getFieldValue("inity") || 0
+        const width = block.getFieldValue("width") || 0
+        const height = block.getFieldValue("height") || 0
+        const radius = entityDefaultSize["radius"]
+        const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
+        const text = BlocklyJS.statementToCode(block, "text", BlocklyJS.ORDER_RELATIONAL)
+
+        let x = "packF(id)"
+        let y = "packF(id)"
+
+        return entityCode(id, x, initx, y, inity, img, width, height, radius, text)
     }
 
     function funkly_bind(block: Block) {
@@ -115,6 +159,31 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
         return `'\\"${strip(arg0)}\\"'`
     }
+}
+
+const entityCode = (
+    id: string, x: string, initx: number, y: string, inity: number, img: string, width: number, height: number, radius: number, text: string
+) => {
+
+    let output = `"${id}": {`
+    output += `"x": ["pack(clamp(${x})(0)(${gameBoard['width']}))", ${initx}],`
+    output += `"y": ["pack(clamp(${y})(0)(${gameBoard['height']}))", ${inity}],`
+
+    output += `"w": ["packF(id)", ${width}],`
+    output += `"h": ["packF(id)", ${height}],`
+    output += `"r": ["packF(id)", ${radius}],`
+    output += `"text": ["pack(${text})", ""],`
+
+    output += `"r": ["packF(id)", 30],`
+    const imgDefault = publicImages.entries().next().value[1]
+    if (img === "") {
+        output +=  `"img": ["packF(id)", "${imgDefault}"]`
+    } else {
+        output +=  `"img": ["pack(${(img)})", "${imgDefault}"]`
+    }
+
+    output += "}"
+    return output
 }
 
 const wrap = (x: string) => "("+x+")"
