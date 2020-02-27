@@ -9,6 +9,7 @@ import jellyfish from "./assets/jellyfish.gif"
 import sininen from "./assets/sininen.svg"
 import score_100 from "./assets/pistemittari_100.jpg"
 import score_empty from "./assets/valkoinen_suorakulmio.jpg"
+import animatedjellyfish from "./assets/animatedjellyfish.png"
 
 export const publicImages = new Map([
     ["bread_doge", breadoge],
@@ -21,5 +22,6 @@ export const publicImages = new Map([
     ["jellyfish", jellyfish],
     ["sininen_palikka", sininen],
     ["pisteet_100", score_100],
-    ["pisteet_tyhja", score_empty]
+    ["pisteet_tyhja", score_empty],
+    ["animatedjellyfish", animatedjellyfish]
 ])
