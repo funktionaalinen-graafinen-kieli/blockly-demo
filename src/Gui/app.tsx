@@ -14,7 +14,7 @@ log.setLevel("trace")
 
 const rowStyle = {
     height: "1080px",
-    marginRight: "0px"
+    marginRight: "10px"
 }
 
 const rowStyleButtons = { marginLeft: "0px" }
@@ -71,11 +71,13 @@ export default class App extends React.Component<{}, {
         this.setState({ debugToggle: !this.state.debugToggle })
     }
 
+
     render() {
-        let editorInstance = this.editorInstance.current!
+        let editorInstance = this.editorInstance.current
 
         const getCode = () => {
-            return editorInstance.state.code
+            //tarvitaanko kysymysmerkki?
+            return editorInstance?.state.code
         }
         let gameEngine
         if (this.state.gameRunning) {
@@ -115,11 +117,15 @@ export default class App extends React.Component<{}, {
                             xml
                         </button>
                         <button
-                            onClick={() => saveProject(editorInstance!.state.blockXml.toString())}>
+                            onClick={() => {
+                                saveProject(editorInstance?.state.blockXml.toString())} 
+                            }>
                             SAVE
                         </button>
                         <button
-                            onClick={() => loadProject(editorInstance!.blocklyReactInstance.current!)}>
+                            onClick={() => { 
+                                loadProject(editorInstance?.blocklyReactInstance.current)}
+                            }>
                             LOAD
                         </button>
                     </Row>

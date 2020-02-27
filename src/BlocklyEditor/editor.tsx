@@ -91,11 +91,19 @@ class Editor extends React.Component<{}> {
     }
 }
 
-function saveProject(blockXml: string): void {
+function saveProject(blockXml: string |undefined): void {
+    if (!blockXml) {
+        console.debug("Editor is null")
+        return
+    }
     localStorage.setItem("defaultProject", blockXml)
 }
 
-function loadProject(blocklyComponent: BlocklyComponent): void {
+function loadProject(blocklyComponent: BlocklyComponent |undefined| null ): void {
+    if (!blocklyComponent) {
+        console.debug("Editor is null")
+        return
+    } 
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
     Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.workspace)
 }
