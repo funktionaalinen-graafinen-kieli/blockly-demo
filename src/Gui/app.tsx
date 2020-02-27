@@ -127,7 +127,7 @@ export default class App extends React.Component<{}, {
                         <Col sm={8}>
                             <Editor ref={this.editorInstance} />
                         </Col>
-                        <Col style={{width: "500", height: "500"}}>
+                        <Col sm={4}>
                             <Row style={gameDiv}>
                                 {gameEngine}
                             </Row>
