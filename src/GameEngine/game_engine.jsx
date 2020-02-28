@@ -88,8 +88,11 @@ export default class GameEngine extends React.Component {
 
     render() {
         if(this.state.code !== this.props.program){
-            console.warn('rerender')
-            this.renderCode()
+            this.setState({gameState: new MapWithDefault(false),
+                entities: [],
+                updater: null,
+                keymap: new Map(),
+                code: null,},()=>this.renderCode())
         }
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
