@@ -41,9 +41,7 @@ const charSelectionStyle = {
     height: "500px"
 }
 
-const debugInfoStyle = {
-
-}
+const debugInfoStyle = { }
 
 const intervalUpdater = async (updatee: { update(): void }) => {
     return setInterval(() => {
@@ -61,10 +59,6 @@ export default class App extends React.Component<{}, {
     constructor(props: {}) {
         super(props)
         this.state = { debugToggle: false, gameRunning: false }
-    }
-
-    getCode = () => {
-        return this.editorInstance.current?.state.code
     }
 
     toggleGame = () => {
@@ -98,7 +92,7 @@ export default class App extends React.Component<{}, {
                 <GameEngine
                     debugToggle={this.state.debugToggle}
                     toggle={this.state.gameRunning}
-                    program={this.getCode()}
+                    program={getCode()}
                     updater={intervalUpdater}
                 />
             )

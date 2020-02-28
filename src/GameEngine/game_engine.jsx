@@ -78,7 +78,6 @@ export default class GameEngine extends React.Component {
         }
 
         Array.from(this.state.keymap, ([k, v]) => { newState.set("key_" + k, [(x, _) => x, v]) })
-
         this.setState({ gameState: newState })
     }
 
