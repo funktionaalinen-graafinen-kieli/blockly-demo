@@ -25,7 +25,7 @@ function StateMap(props: { gameState: MapWithDefault }) {
     )
 }
 
-const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: number): React.CSSProperties  => {
+const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: number): React.CSSProperties => {
     let background
     if (debug) background = "red"
     else background = ""
