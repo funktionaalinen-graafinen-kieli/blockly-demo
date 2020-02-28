@@ -60,8 +60,11 @@ Extensions.register("cond_type", function(this: Block) {
             const check = con.getCheck()
             this.getInput("DO").setCheck(check)
             this.getInput("ELSE").setCheck(check)
-            console.trace(this.getInput("DO"))
-            console.trace(this.getInput("ELSE"))
+            this.setPreviousStatement(true, check)
+        } else {
+            this.getInput("DO").setCheck(null)
+            this.getInput("ELSE").setCheck(null)
+            this.setPreviousStatement(true, null)
         }
     })
 })

@@ -24,7 +24,7 @@
 import React, { ReactElement } from "react"
 
 interface BlocklyProps {
-    children?: ReactElement | string
+    children?: ReactElement[] | ReactElement
     type?: string
     disabled?: boolean
     name?: string
@@ -41,10 +41,10 @@ const createBlocklyElement = (type: string, props: BlocklyProps) => {
     else return React.createElement(type, props)
 }
 
-const Block = (p: BlocklyProps) => {
-    return createBlocklyElement("block", p)
+const Block = (props: BlocklyProps) => {
+    return createBlocklyElement("block", props)
 }
-const Category = (p: BlocklyProps) => { return createBlocklyElement("category", p) }
+const Category = (props: BlocklyProps) => { return createBlocklyElement("category", props) }
 /*
 const Value = (p: BlocklyProps) => { return createBlocklyElement("value", p) }
 const Field = (p: BlocklyProps) => { return createBlocklyElement("field", p) }

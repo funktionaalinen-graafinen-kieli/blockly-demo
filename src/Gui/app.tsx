@@ -14,7 +14,7 @@ log.setLevel("trace")
 
 const rowStyle = {
     height: "1080px",
-    marginRight: "0px"
+    marginRight: "10px"
 }
 
 const rowStyleButtons = { marginLeft: "0px" }
@@ -41,9 +41,7 @@ const charSelectionStyle = {
     height: "500px"
 }
 
-const debugInfoStyle = {
-
-}
+const debugInfoStyle = { }
 
 const intervalUpdater = async (updatee: { update(): void }) => {
     return setInterval(() => {
@@ -72,6 +70,16 @@ export default class App extends React.Component<{}, {
 
     toggleDebug = () => {
         this.setState({ debugToggle: !this.state.debugToggle })
+    }
+
+    handleUpload = (event: React.FormEvent<HTMLInputElement>) => {
+        const editor = this.editorInstance.current
+        if (editor && event.currentTarget.files) {
+            const uploaded = event.currentTarget.files.item(0)!
+            uploaded.text().then(it => {
+                editor.importXml(it)
+            })
+        }
     }
 
     render() {
@@ -115,19 +123,30 @@ export default class App extends React.Component<{}, {
                             xml
                         </button>
                         <button
-                            onClick={() => saveProject(editorInstance!.state.blockXml.toString())}>
+                            onClick={() => {
+                                saveProject(editorInstance?.state.blockXml.toString())} 
+                            }>
                             SAVE
                         </button>
                         <button
-                            onClick={() => loadProject(editorInstance!.blocklyReactInstance.current!)}>
+                            onClick={() => { 
+                                loadProject(editorInstance?.blocklyReactInstance.current)}
+                            }>
                             LOAD
                         </button>
+                        <button onClick={() => download(
+                            "funkly-download.js",
+                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
+                        )}>
+                            xml
+                        </button>
+                        <input type="file" id="importedCode" name="importedCode" onInput={this.handleUpload}/>
                     </Row>
                     <Row style={rowStyle}>
                         <Col sm={8}>
                             <Editor ref={this.editorInstance} />
                         </Col>
-                        <Col style={{ width: "500", height: "500" }}>
+                        <Col sm={4}>
                             <Row style={gameDiv}>
                                 {gameEngine}
                             </Row>
