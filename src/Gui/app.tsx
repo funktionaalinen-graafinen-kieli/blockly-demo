@@ -4,11 +4,9 @@ import * as log from "loglevel"
 
 import GameEngine from "../GameEngine/game_engine"
 import { frametime } from "../GameEngine/config"
-import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
+import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
-import { download } from "../GameEngine/utils"
-
-log.setLevel("trace")
+import { ButtonRow } from "./button_row"
 
 log.setLevel("trace")
 
@@ -18,8 +16,7 @@ const rowStyle = {
     marginBottom: "15px"
 }
 
-const rowStyleButtons = { marginLeft: "0px" }
-
+const buttonStyle = { marginLeft: "0px" }
 const gameDiv = {
     marginLeft: "10px",
     marginBottom: "13px",
@@ -29,7 +26,8 @@ const gameDiv = {
 
 const backgroundStyle = { 
     height: "100%",
-    backgroundColor: "#fff0c5ff" }
+    backgroundColor: "#fff0c5ff"
+}
 
 const headerStyle = {
     alignItems: "left",
@@ -76,16 +74,6 @@ export default class App extends React.Component<{}, {
         this.setState({ debugToggle: !this.state.debugToggle })
     }
 
-    handleUpload = (event: React.FormEvent<HTMLInputElement>) => {
-        const editor = this.editorInstance.current
-        if (editor && event.currentTarget.files) {
-            const uploaded = event.currentTarget.files.item(0)!
-            uploaded.text().then(it => {
-                editor.importXml(it)
-            })
-        }
-    }
-
     render() {
         let editorInstance = this.editorInstance.current!
         const getCode = () => editorInstance.state.code
@@ -111,52 +99,24 @@ export default class App extends React.Component<{}, {
                             <h1>FUNKLY</h1>
                         </header>
                     </Row>
-                    <Row style={rowStyleButtons}>
-                        <button
-                            onClick={this.toggleGame}>
-                            {this.state.gameRunning ? "stop" : "run"}
-                        </button>
-                        <button
-                            onClick={this.toggleDebug}>
-                            {this.state.debugToggle ? "debug off" : "debug on"}
-                        </button>
-                        <button onClick={() => download(
-                            "funkly-download.js",
-                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
-                        )}>
-                            xml
-                        </button>
-                        <button
-                            onClick={() => {
-                                saveProject(editorInstance?.state.blockXml.toString())
-                            }
-                            }>
-                            SAVE
-                        </button>
-                        <button
-                            onClick={() => {
-                                loadProject(editorInstance?.blocklyReactInstance.current)
-                            }
-                            }>
-                            LOAD
-                        </button>
-                        <button onClick={() => download(
-                            "funkly-download.js",
-                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
-                        )}>
-                            xml
-                        </button>
-                        <input type="file" id="importedCode" name="importedCode" onInput={this.handleUpload} />
+                    <Row style={buttonStyle}>
+                        <ButtonRow
+                            editor={editorInstance}
+                            gameRunning={this.state.gameRunning}
+                            debugToggle={this.state.debugToggle}
+                            toggleGame={this.toggleGame}
+                            toggleDebug={this.toggleDebug}
+                        />
                     </Row>
                     <Row style={rowStyle}>
                         <Col lg={7}>
-                            <Editor ref={this.editorInstance} />
+                            <Editor ref={this.editorInstance}/>
                         </Col>
                         <Col lg={4}>
                             <Row style={gameDiv}>
                                 {gameEngine}
                             </Row>
-                            <Row style={charSelectionStyle} />
+                            <Row style={charSelectionStyle}/>
                         </Col>
                     </Row>
                     <Row style={debugInfoStyle}>
