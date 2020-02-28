@@ -5,88 +5,14 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div>
-        <div
-          class="container-fluid"
-          style="height: 100%;"
-        >
-          <div
-            class="row"
-          >
-            <header
-              style="align-items: left; text-indent: 15px;"
-            >
-              <h1>
-                FUNKLY
-              </h1>
-            </header>
-          </div>
-          <div
-            class="row"
-            style="margin-left: 0px;"
-          >
-            <button>
-              run
-            </button>
-            <button>
-              debug on
-            </button>
-            <button>
-              xml
-            </button>
-            <button>
-              SAVE
-            </button>
-            <button>
-              LOAD
-            </button>
-            <button>
-              xml
-            </button>
-            <input
-              id="importedCode"
-              name="importedCode"
-              type="file"
-            />
-          </div>
-          <div
-            class="row"
-            style="height: 720px; margin-right: 15px; margin-bottom: 15px;"
-          >
-            <div
-              class="col-lg-7"
-            />
-            <div
-              class="col-lg-4"
-            >
-              <div
-                class="row"
-                style="margin-left: 10px; margin-bottom: 13px; width: 575px; height: 405px;"
-              />
-              <div
-                class="row"
-                style="margin-left: 10px; background-color: rgb(124, 220, 235); width: 575px; height: 300px;"
-              />
-            </div>
-          </div>
-          <div
-            class="row"
-          />
-        </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div>
       <div
-        class="container-fluid"
-        style="height: 100%;"
+        class="funkly-container-background container-fluid"
       >
         <div
           class="row"
         >
           <header
-            style="align-items: left; text-indent: 15px;"
+            class="funkly-header"
           >
             <h1>
               FUNKLY
@@ -94,8 +20,7 @@ Object {
           </header>
         </div>
         <div
-          class="row"
-          style="margin-left: 0px;"
+          class="funkly-button-row row"
         >
           <button>
             run
@@ -122,8 +47,7 @@ Object {
           />
         </div>
         <div
-          class="row"
-          style="height: 720px; margin-right: 15px; margin-bottom: 15px;"
+          class="funkly-content-row row"
         >
           <div
             class="col-lg-7"
@@ -132,19 +56,81 @@ Object {
             class="col-lg-4"
           >
             <div
-              class="row"
-              style="margin-left: 10px; margin-bottom: 13px; width: 575px; height: 405px;"
+              class="funkly-game-div row"
             />
             <div
-              class="row"
-              style="margin-left: 10px; background-color: rgb(124, 220, 235); width: 575px; height: 300px;"
+              class="funkly-char-selection row"
             />
           </div>
         </div>
         <div
-          class="row"
+          class="funkly-debug row"
         />
       </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="funkly-container-background container-fluid"
+    >
+      <div
+        class="row"
+      >
+        <header
+          class="funkly-header"
+        >
+          <h1>
+            FUNKLY
+          </h1>
+        </header>
+      </div>
+      <div
+        class="funkly-button-row row"
+      >
+        <button>
+          run
+        </button>
+        <button>
+          debug on
+        </button>
+        <button>
+          xml
+        </button>
+        <button>
+          SAVE
+        </button>
+        <button>
+          LOAD
+        </button>
+        <button>
+          xml
+        </button>
+        <input
+          id="importedCode"
+          name="importedCode"
+          type="file"
+        />
+      </div>
+      <div
+        class="funkly-content-row row"
+      >
+        <div
+          class="col-lg-7"
+        />
+        <div
+          class="col-lg-4"
+        >
+          <div
+            class="funkly-game-div row"
+          />
+          <div
+            class="funkly-char-selection row"
+          />
+        </div>
+      </div>
+      <div
+        class="funkly-debug row"
+      />
     </div>
   </div>,
   "debug": [Function],
