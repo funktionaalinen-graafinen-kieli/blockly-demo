@@ -41,7 +41,7 @@ const charSelectionStyle = {
     height: "500px"
 }
 
-const debugInfoStyle = { }
+const debugInfoStyle = {}
 
 const intervalUpdater = async (updatee: { update(): void }) => {
     return setInterval(() => {
@@ -124,13 +124,15 @@ export default class App extends React.Component<{}, {
                         </button>
                         <button
                             onClick={() => {
-                                saveProject(editorInstance?.state.blockXml.toString())} 
+                                saveProject(editorInstance?.state.blockXml.toString())
+                            }
                             }>
                             SAVE
                         </button>
                         <button
-                            onClick={() => { 
-                                loadProject(editorInstance?.blocklyReactInstance.current)}
+                            onClick={() => {
+                                loadProject(editorInstance?.blocklyReactInstance.current)
+                            }
                             }>
                             LOAD
                         </button>
@@ -140,7 +142,7 @@ export default class App extends React.Component<{}, {
                         )}>
                             xml
                         </button>
-                        <input type="file" id="importedCode" name="importedCode" onInput={this.handleUpload}/>
+                        <input type="file" id="importedCode" name="importedCode" onInput={this.handleUpload} />
                     </Row>
                     <Row style={rowStyle}>
                         <Col sm={8}>
