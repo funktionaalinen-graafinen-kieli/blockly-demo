@@ -13,32 +13,36 @@ log.setLevel("trace")
 log.setLevel("trace")
 
 const rowStyle = {
-    height: "1080px",
-    marginRight: "10px"
+    height: "720px",
+    marginRight: "15px",
+    marginBottom: "15px"
 }
 
 const rowStyleButtons = { marginLeft: "0px" }
 
 const gameDiv = {
     marginLeft: "10px",
-    marginBottom: "15px",
-    height: "500px",
-    width: "500px"
+    marginBottom: "13px",
+    width: "575px",
+    height: "405px"
 }
 
-const backgroundStyle = { backgroundColor: "#fff0c5ff" }
+const backgroundStyle = { 
+    height: "100%",
+    backgroundColor: "#fff0c5ff" }
 
 const headerStyle = {
     alignItems: "left",
     backgroundColor: "#fff0c5ff",
     textIndent: "15px"
+
 }
 
 const charSelectionStyle = {
     marginLeft: "10px",
-    backgroundColor: "blue",
-    width: "500px",
-    height: "500px"
+    backgroundColor: "#7cdceb",
+    width: "575px",
+    height: "300px"
 }
 
 const debugInfoStyle = {}
@@ -145,10 +149,10 @@ export default class App extends React.Component<{}, {
                         <input type="file" id="importedCode" name="importedCode" onInput={this.handleUpload} />
                     </Row>
                     <Row style={rowStyle}>
-                        <Col sm={8}>
+                        <Col lg={7}>
                             <Editor ref={this.editorInstance} />
                         </Col>
-                        <Col sm={4}>
+                        <Col lg={4}>
                             <Row style={gameDiv}>
                                 {gameEngine}
                             </Row>
