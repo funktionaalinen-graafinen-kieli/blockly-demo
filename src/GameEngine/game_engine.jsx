@@ -27,10 +27,6 @@ export default class GameEngine extends React.Component {
         code: null,
     }
 
-    componentDidMount() {
-        this.setState({ updater: this.props.updater(this) })
-    }
-
     renderCode() {
         this.setState({code:this.props.program})
         let parsedObjectList
@@ -55,9 +51,15 @@ export default class GameEngine extends React.Component {
         })
     }
 
-    componentWillUnmount() {
-        this.state.updater.then(val => clearInterval(val))
+
+    componentDidMount() {
+        this.setState({ updater: this.props.updater(this) })
     }
+
+    //FIXME: This doesn't actually unmount the timer
+    /*componentWillUnmount() {
+        clearInterval(this.props.updater(this))
+    }*/
 
     getVal = name => this.state.gameState.get(name)[1]
 
