@@ -1,0 +1,44 @@
+html {
+    background: #fff0c5ff;
+    background-size: cover;
+}
+
+/*
+ Start all funkly specific css class names funkly- to avoid collision with bootstrap and blockly css naming schemes
+ */
+
+.funkly-container-background {
+    background: #fff0c5ff;
+}
+
+.funkly-header {
+    background-color: #fff0c5ff;
+    text-indent: 15px;
+}
+
+.funkly-button-row {
+    margin-left: 0;
+}
+
+.funkly-content-row {
+    height: 720px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.funkly-game-div {
+    margin-left: 10px;
+    margin-bottom: 13px;
+    width: 575px;
+    height: 405px;
+}
+
+.funkly-char-selection {
+    margin-left: 10px;
+    background-color: #7cdceb;
+    width: 575px;
+    height: 300px;
+}
+
+.funkly-debug {
+}

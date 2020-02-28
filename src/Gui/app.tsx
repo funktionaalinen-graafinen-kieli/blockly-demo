@@ -8,42 +8,8 @@ import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
 
+import "./app.css"
 log.setLevel("trace")
-
-const rowStyle = {
-    height: "720px",
-    marginRight: "15px",
-    marginBottom: "15px"
-}
-
-const buttonStyle = { marginLeft: "0px" }
-const gameDiv = {
-    marginLeft: "10px",
-    marginBottom: "13px",
-    width: "575px",
-    height: "405px"
-}
-
-const backgroundStyle = { 
-    height: "100%",
-    backgroundColor: "#fff0c5ff"
-}
-
-const headerStyle = {
-    alignItems: "left",
-    backgroundColor: "#fff0c5ff",
-    textIndent: "15px"
-
-}
-
-const charSelectionStyle = {
-    marginLeft: "10px",
-    backgroundColor: "#7cdceb",
-    width: "575px",
-    height: "300px"
-}
-
-const debugInfoStyle = {}
 
 const intervalUpdater = async (updatee: { update(): void }) => {
     return setInterval(() => {
@@ -51,11 +17,13 @@ const intervalUpdater = async (updatee: { update(): void }) => {
     }, frametime)
 }
 
-export default class App extends React.Component<{}, {
-    debugToggle: boolean,
-    gameRunning: boolean
-}> {
-
+export default class App extends React.Component<
+    {},
+    {
+        debugToggle: boolean
+        gameRunning: boolean
+    }
+> {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
@@ -92,41 +60,34 @@ export default class App extends React.Component<{}, {
         }
 
         return (
-            <div>
-                <Container fluid style={backgroundStyle}>
-                    <Row>
-                        <header style={headerStyle}>
-                            <h1>FUNKLY</h1>
-                        </header>
-                    </Row>
-                    <Row style={buttonStyle}>
-                        <ButtonRow
-                            editor={editorInstance}
-                            gameRunning={this.state.gameRunning}
-                            debugToggle={this.state.debugToggle}
-                            toggleGame={this.toggleGame}
-                            toggleDebug={this.toggleDebug}
-                        />
-                    </Row>
-                    <Row style={rowStyle}>
-                        <Col lg={7}>
-                            <Editor ref={this.editorInstance}/>
-                        </Col>
-                        <Col lg={4}>
-                            <Row style={gameDiv}>
-                                {gameEngine}
-                            </Row>
-                            <Row style={charSelectionStyle}/>
-                        </Col>
-                    </Row>
-                    <Row style={debugInfoStyle}>
-                        <CodeRenderer
-                            debugToggle={this.state.debugToggle}
-                            code={this.editorInstance.current?.state.code}
-                        />
-                    </Row>
-                </Container>
-            </div>
+            <Container fluid className="funkly-container-background">
+                <Row>
+                    <header className="funkly-header">
+                        <h1>FUNKLY</h1>
+                    </header>
+                </Row>
+                <Row className="funkly-button-row">
+                    <ButtonRow
+                        editor={editorInstance}
+                        gameRunning={this.state.gameRunning}
+                        debugToggle={this.state.debugToggle}
+                        toggleGame={this.toggleGame}
+                        toggleDebug={this.toggleDebug}
+                    />
+                </Row>
+                <Row className="funkly-content-row">
+                    <Col lg={7}>
+                        <Editor ref={this.editorInstance} />
+                    </Col>
+                    <Col lg={4}>
+                        <Row className="funkly-game-div">{gameEngine}</Row>
+                        <Row className="funkly-char-selection" />
+                    </Col>
+                </Row>
+                <Row className="funkly-debug">
+                    <CodeRenderer debugToggle={this.state.debugToggle} code={this.editorInstance.current?.state.code} />
+                </Row>
+            </Container>
         )
     }
 }
