@@ -9,16 +9,16 @@ import GameEngine, { MapWithDefault } from "../game_engine"
 afterEach(cleanup)
 
 test("MapWithDefault",()=>{
-    const defaultFunc = () => [(x, s) => x, false]
-    const testMap = new MapWithDefault(defaultFunc)
-    testMap.set("a","hello world")
-    testMap.set("b","abc")
+    const testMap = new MapWithDefault(false, [
+        ["a","hello world"],
+        ["b", () => "test fn return val"]
+    ])
     expect(testMap.get("a")).toEqual("hello world")
-    // expect(testMap.get("c")[0](1,0)).toEqual(1)
-    // expect(testMap.get("c")[1]).toEqual(false)
+    expect(testMap.get("b")()).toEqual("test fn return val")
+    expect(testMap.get("c")).toEqual(false)
 })
 
-test("GameEngine",() => {
+test("GameEngine", () => {
     const gameEngine = React.createRef()
     render(
         <GameEngine ref={gameEngine}
