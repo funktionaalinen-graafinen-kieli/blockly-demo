@@ -29,9 +29,16 @@ test("GameEngine", () => {
                 {
                     "entities": {
                         "e1": {
-                            "x": ["pack(add((1))(get('e1_x')))", 1],
-                            "y": ["pack((0))", 1],
-                            "img": ["pack(\"dogedance.4f5ec440.gif\")", "breadoge.e7c76454.png"]
+                            "x": ["pack(clamp((1))(0)(575))", 0],
+                            "y": ["pack(clamp((1))(0)(405))", 0],
+                            "w": ["packF(id)", 70],
+                            "h": ["packF(id)", 70],
+                            "r": ["packF(id)", 30],
+                            "text": ["pack('\"\"')", ""],
+                            "img": [
+                                "pack('\"/static/media/jellyfish.ea4c89ba.gif\"')",
+                                "/static/media/breadoge.e7c76454.png"
+                            ]
                         }
                     },
                     "binds": {
@@ -43,7 +50,8 @@ test("GameEngine", () => {
             }
         />
     )
-    gameEngine.current.applyF("a", gameEngine.current.state.gameState)
-    expect(gameEngine.current.getVal("abc")).toBe(false)
+    //gameEngine.current.applyF("a", gameEngine.current.state.gameState)
+    expect(gameEngine.current.getVal("e1")).toBe(true)
+    expect(gameEngine.current.getVal("abc")).toBe(undefined)
 })
 
