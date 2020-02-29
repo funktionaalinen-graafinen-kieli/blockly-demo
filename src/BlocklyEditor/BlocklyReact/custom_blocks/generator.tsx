@@ -60,7 +60,7 @@ function funklyCodegen(type: funklyBlockType) {
         return funkly_arg2(func)(block)
     }
 
-    function funkly_arg2(f: String){
+    function funkly_arg2(f: string){
         return (block: Block) => {
             const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
             const arg1 = BlocklyJS.statementToCode(block, "NUMBER1", BlocklyJS.ORDER_RELATIONAL)
@@ -68,7 +68,7 @@ function funklyCodegen(type: funklyBlockType) {
         }
     }
 
-    function funkly_arg1(f: String){
+    function funkly_arg1(f: string){
         return (block: Block) => {
             const arg0 = BlocklyJS.statementToCode(block, "NUMBER0", BlocklyJS.ORDER_RELATIONAL)
             return f + argwrap(arg0)
@@ -124,13 +124,13 @@ function funklyCodegen(type: funklyBlockType) {
 
         return entityCode(id, x, initx, y, inity, img,
             height, width, radius,
-            `'\\"\\"'`
+            "'\\\"\\\"'"
         )
     }
 
     function funkly_guientity(block: Block) {
         const id = block.getFieldValue("id") || "default_gui_id"
-        const initx     = block.getFieldValue("initx") || 0
+        const initx = block.getFieldValue("initx") || 0
         const inity = block.getFieldValue("inity") || 0
         const width = block.getFieldValue("width") || 0
         const height = block.getFieldValue("height") || 0
@@ -166,15 +166,15 @@ const entityCode = (
 ) => {
 
     let output = `"${id}": {`
-    output += `"x": ["pack(clamp(${x})(0)(${gameBoard['width']}))", ${initx}],`
-    output += `"y": ["pack(clamp(${y})(0)(${gameBoard['height']}))", ${inity}],`
+    output += `"x": ["pack(clamp(${x})(0)(${gameBoard["width"]}))", ${initx}],`
+    output += `"y": ["pack(clamp(${y})(0)(${gameBoard["height"]}))", ${inity}],`
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
     output += `"r": ["packF(id)", ${radius}],`
     output += `"text": ["pack(${text})", ""],`
 
-    output += `"r": ["packF(id)", 30],`
+    output += "\"r\": [\"packF(id)\", 30],"
     const imgDefault = publicImages.entries().next().value[1]
     if (img === "") {
         output +=  `"img": ["packF(id)", "${imgDefault}"]`

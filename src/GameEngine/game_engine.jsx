@@ -28,7 +28,7 @@ export default class GameEngine extends React.Component {
     }
 
     renderCode() {
-        this.setState({code:this.props.program})
+        this.setState({ code:this.props.program })
         let parsedObjectList
         try {
             parsedObjectList = evalFunc(this.props.program)
@@ -89,11 +89,13 @@ export default class GameEngine extends React.Component {
 
     render() {
         if(this.state.code !== this.props.program){
-            this.setState({gameState: new MapWithDefault(false),
+            this.setState({
+                gameState: new MapWithDefault(false),
                 entities: [],
                 updater: null,
                 keymap: new Map(),
-                code: null,},()=>this.renderCode())
+                code: null
+            },()=>this.renderCode())
         }
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null

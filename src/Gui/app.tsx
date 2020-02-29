@@ -11,7 +11,7 @@ import { ButtonRow } from "./button_row"
 import "./app.css"
 log.setLevel("trace")
 
-const intervalUpdater = async (updatee: { update(): void }) => {
+export const intervalUpdater = async (updatee: { update(): void }) => {
     return setInterval(() => {
         updatee.update()
     }, frametime)
