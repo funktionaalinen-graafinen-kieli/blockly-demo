@@ -44,12 +44,12 @@ class Editor extends React.Component<{}> {
     readonly state = { code: "", blockXml: "" }
 
     private generateXml = (): string => {
-        const workspace = this.blocklyReactInstance.current!.workspace
+        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
         return Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
     }
 
     private generateCode = (): string => {
-        const workspace = this.blocklyReactInstance.current!.workspace
+        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
         const entities = workspace.getBlocksByType("funkly_entity", true)
             .concat(workspace.getBlocksByType("funkly_guientity", true))
 
@@ -76,7 +76,7 @@ class Editor extends React.Component<{}> {
         const stringed = decodeURI(eval(stripped))
         const parsed = Blockly.Xml.textToDom(stringed)
 
-        const workspace = this.blocklyReactInstance.current!.workspace
+        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
         Blockly.Xml.domToWorkspace(parsed, workspace)
     }
 
@@ -85,12 +85,12 @@ class Editor extends React.Component<{}> {
     }
 
     componentDidMount(): void {
-        this.blocklyReactInstance.current!.workspace.addChangeListener(this.generateAndSetCode)
+        this.blocklyReactInstance.current!.primaryWorkspace.addChangeListener(this.generateAndSetCode)
         log.debug("Mounted change listener on workspace")
     }
 
     componentWillUnmount(): void {
-        this.blocklyReactInstance.current!.workspace.removeChangeListener(this.generateAndSetCode)
+        this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
     render = () => {
@@ -119,7 +119,7 @@ function loadProject(blocklyComponent: BlocklyComponent |undefined| null ): void
         return
     } 
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.workspace)
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
 }
 
 export default Editor

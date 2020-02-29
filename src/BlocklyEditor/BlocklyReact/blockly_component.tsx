@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Blockly React Component.
- * @author samelh@google.com (Sam El-Husseini)
- */
 import * as React from "react"
 import * as Blockly from "blockly"
 import locale from "blockly/msg/en"
@@ -35,43 +31,32 @@ const blocklyDivStyle: React.CSSProperties = {
 
 Blockly.setLocale(locale)
 export class BlocklyComponent extends React.Component<{ initialXml: string }> {
-    private toolbox!: HTMLElement
-    private primaryWorkspace!: Blockly.Workspace
-    private blocklyDiv: HTMLElement | null = null
+    private toolbox = React.createRef<HTMLElement>()
+    private blocklyDiv = React.createRef<HTMLDivElement>()
+    primaryWorkspace!: Blockly.Workspace
 
     componentDidMount() {
         const { initialXml, children, ...rest } = this.props
 
-        if (this.blocklyDiv) {
-            this.primaryWorkspace = Blockly.inject(this.blocklyDiv, {
-                toolbox: this.toolbox,
-                ...rest
-            })
-        }
-
-        if (initialXml) {
-            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
-        }
-    }
-
-    get workspace() {
-        return this.primaryWorkspace
+        this.primaryWorkspace = Blockly.inject(this.blocklyDiv.current!, {
+            toolbox: this.toolbox.current!,
+            ...rest
+        })
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
     }
 
     render() {
         const { children } = this.props
         return (
             <React.Fragment>
-                <div ref={e => (this.blocklyDiv = e)} id="blocklyDiv" style={blocklyDivStyle} />
+                <div ref={this.blocklyDiv} id="blocklyDiv" style={blocklyDivStyle} />
                 {/* Needed to ignore xml error
                 //@ts-ignore */}
                 <xml
                     xmlns="https://developers.google.com/blockly/xml"
                     is="blockly"
                     style={{ display: "none" }}
-                    ref={(toolbox: HTMLElement) => {
-                        this.toolbox = toolbox
-                    }}
+                    ref={this.toolbox}
                 >
                     {children}
                     {/* Needed to ignore xml error

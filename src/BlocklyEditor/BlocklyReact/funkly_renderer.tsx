@@ -38,10 +38,11 @@ CustomNotchProvider.prototype.makeNotch = function() {
     let width = this.NOTCH_WIDTH
     let height = this.NOTCH_HEIGHT
     function makeMainPath(horizontal_direction: number) {
-        return Blockly.utils.svgPaths.line([
-            Blockly.utils.svgPaths.point(0, height),
-            Blockly.utils.svgPaths.point(horizontal_direction * width, 0),
-            Blockly.utils.svgPaths.point(0, -height)
+        const { point, line } = Blockly.utils.svgPaths
+        return line([
+            point(0, height),
+            point(horizontal_direction * width, 0),
+            point(0, -height)
         ])
     }
     let pathLeft = makeMainPath(1)
@@ -60,10 +61,11 @@ CustomNotchProvider.prototype.makePuzzleTab = function() {
     let height = this.TAB_HEIGHT
 
     function makeMainPath(vertical_direction: number) {
-        return Blockly.utils.svgPaths.line([
-            Blockly.utils.svgPaths.point(-width, 0),
-            Blockly.utils.svgPaths.point(0, -1 * vertical_direction * height),
-            Blockly.utils.svgPaths.point(width, 0)
+        const { point, line } = Blockly.utils.svgPaths
+        return line([
+            point(-width, 0),
+            point(0, -1 * vertical_direction * height),
+            point(width, 0)
         ])
     }
 
