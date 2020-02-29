@@ -14,8 +14,5 @@ log.setLevel("trace")
 blockRendering.register("funkly_renderer", FunklyRenderer)
 
 ReactDOM.render(
-    <React.Fragment>
-        <App />
-    </React.Fragment>,
-    document.getElementById("root")
+    <App />, document.getElementById("root")
 )

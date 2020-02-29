@@ -21,9 +21,15 @@ html {
 }
 
 .funkly-content-row {
-    height: 720px;
+    height: 100%px;
     margin-right: 15px;
     margin-bottom: 15px;
+}
+
+.funkly-blockly-div {
+    height: 720px;
+    width: 100%;
+    position: absolute;
 }
 
 .funkly-game-div {
