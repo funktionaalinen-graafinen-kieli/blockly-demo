@@ -11,7 +11,7 @@ jobs:
 
     - uses: actions/setup-node@v1.1.0
       with:
-        node-version: '10.x'
+        node-version: '12.x'
     
     - run: npm install
-    - run: npm test
+    - run: CI=true npm test
