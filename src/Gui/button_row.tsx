@@ -1,6 +1,7 @@
 import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
 import { download } from "../GameEngine/utils"
 import React from "react"
+import { guiImages } from "./image_storage"
 
 const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElement>) => {
     if (editor && event.currentTarget.files) {
@@ -22,21 +23,23 @@ interface buttonProps {
 export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
     return (
         <>
-            <button onClick={props.toggleGame}>{props.gameRunning ? "stop" : "run"}</button>
-            <button onClick={props.toggleDebug}>{props.debugToggle ? "debug off" : "debug on"}</button>
+            <button onClick={props.toggleGame}>
+               {props.gameRunning ? <img width={50} height={50} src={guiImages.get("stop")}></img> : <img width={50} height={50} src={guiImages.get("play")}></img>}
+            </button>
+            <button onClick={props.toggleDebug}>{props.debugToggle ? "debug pois" : "debug päälle"}</button>
             <button
                 onClick={() => {
                     saveProject(props.editor?.state.blockXml.toString())
                 }}
             >
-                SAVE
+                TALLENNA
             </button>
             <button
                 onClick={() => {
                     loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                LOAD
+                LATAA
             </button>
             <button
                 onClick={() =>

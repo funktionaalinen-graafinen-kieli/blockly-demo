@@ -18,6 +18,7 @@ html {
 
 .funkly-button-row {
     margin-left: 0;
+    margin-bottom: 10px
 }
 
 .funkly-content-row {
@@ -47,4 +48,14 @@ html {
 }
 
 .funkly-debug {
+}
+
+.funkly-icon-button{
+    width: 50xp;
+    height: 50px
+}
+
+button {
+    border-color: #fff0c5ff;
+    background-color: #fff0c5ff
 }
