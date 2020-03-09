@@ -25,16 +25,6 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
             <button onClick={props.toggleGame}>{props.gameRunning ? "stop" : "run"}</button>
             <button onClick={props.toggleDebug}>{props.debugToggle ? "debug off" : "debug on"}</button>
             <button
-                onClick={() =>
-                    download(
-                        "funkly-download.js",
-                        `export const initialXml = "${encodeURI(props.editor.state.blockXml.toString()!)}"`
-                    )
-                }
-            >
-                xml
-            </button>
-            <button
                 onClick={() => {
                     saveProject(props.editor?.state.blockXml.toString())
                 }}
