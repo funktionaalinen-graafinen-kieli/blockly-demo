@@ -43,9 +43,12 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
 
 export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
     let stateMap
-    if (debugToggle) stateMap = <div style={{ position: "absolute" }}>
-        <StateMap gameState={gameEngine.state.gameState} />
-    </div>
+    if (debugToggle)
+        stateMap = (
+            <div style={{ position: "absolute" }}>
+                <StateMap gameState={gameEngine.state.gameState} />
+            </div>
+        )
     else stateMap = null
 
     return (
@@ -58,21 +61,17 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                 tabIndex={0}
             >
                 {gameEngine.state.entities.map((entity: Entity, key) => (
-                    <div key={key}
-                        style={
-                            entityDivStyle(
-                                debugToggle,
-                                gameEngine.getVal(entity.w),
-                                gameEngine.getVal(entity.h),
-                                gameEngine.getVal(entity.x),
-                                gameEngine.getVal(entity.y)
-                            )
-                        }>
-                        <img
-                            style={{ width: "100%" }}
-                            src={gameEngine.getVal(entity.img)}
-                            alt="loading..."
-                        />
+                    <div
+                        key={key}
+                        style={entityDivStyle(
+                            debugToggle,
+                            gameEngine.getVal(entity.w),
+                            gameEngine.getVal(entity.h),
+                            gameEngine.getVal(entity.x),
+                            gameEngine.getVal(entity.y)
+                        )}
+                    >
+                        <img style={{ width: "100%" }} src={gameEngine.getVal(entity.img)} alt="loading..." />
                         <div
                             style={{
                                 color: "white",
@@ -82,10 +81,10 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                                 marginLeft: "40%",
                                 marginTop: "10%",
                                 position: "absolute"
-                            }}>
+                            }}
+                        >
                             {gameEngine.getVal(entity.text)}
                         </div>
-
                     </div>
                 ))}
             </div>
@@ -93,5 +92,3 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
         </>
     )
 }
-
-
