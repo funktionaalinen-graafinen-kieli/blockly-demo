@@ -108,6 +108,7 @@ function funklyCodegen(type: funklyBlockType) {
 
     function funkly_entity(block: Block) {
         const id = block.getFieldValue("id") || "default_entity"
+        const name = block.getFieldValue("name") || "default_name"
         const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
         const initx = block.getFieldValue("initx") || 0
         const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
@@ -117,11 +118,12 @@ function funklyCodegen(type: funklyBlockType) {
         const radius = block.getFieldValue("radius") || 50
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        return entityCode(id, x, initx, y, inity, img, height, width, radius, "'\\\"\\\"'")
+        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, "'\\\"\\\"'")
     }
 
     function funkly_guientity(block: Block) {
         const id = block.getFieldValue("id") || "default_gui_id"
+        const name = block.getFieldValue("name") || "default_name"
         const initx = block.getFieldValue("initx") || 0
         const inity = block.getFieldValue("inity") || 0
         const width = block.getFieldValue("width") || 0
@@ -133,7 +135,7 @@ function funklyCodegen(type: funklyBlockType) {
         let x = "packF(id)"
         let y = "packF(id)"
 
-        return entityCode(id, x, initx, y, inity, img, width, height, radius, text)
+        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, text)
     }
 
     function funkly_bind(block: Block) {
@@ -155,6 +157,7 @@ function funklyCodegen(type: funklyBlockType) {
 
 const entityCode = (
     id: string,
+    name: string,
     x: string,
     initx: number,
     y: string,
@@ -166,6 +169,8 @@ const entityCode = (
     text: string
 ) => {
     let output = `"${id}": {`
+    output += `"name": ["packF(id)", ${name}]`
+
     output += `"x": ["pack(clamp(${x})(0)(${gameBoard["width"]}))", ${initx}],`
     output += `"y": ["pack(clamp(${y})(0)(${gameBoard["height"]}))", ${inity}],`
 

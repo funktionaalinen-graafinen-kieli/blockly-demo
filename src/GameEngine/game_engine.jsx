@@ -39,16 +39,15 @@ export default class GameEngine extends React.Component {
             this.setState({ updater: this.props.updater(this) })
             return
         }
-        console.warn("parsedObjectList:",parsedObjectList)
-        // const entities = parsedObjectList["entities"]
-        // Object.keys(entities).forEach(entityId => {
-        //     this.state.entities.push(new Entity(this.state.gameState, entityId, entities[entityId]))
-        // })
+        const entities = parsedObjectList["entities"]
+        Object.keys(entities).forEach(entityId => {
+            this.state.entities.push(new Entity(this.state.gameState, entityId, entities[entityId]))
+        })
 
-        // const binds = parsedObjectList["binds"]
-        // Object.keys(binds).forEach(eventName => {
-        //     this.state.gameState.set(eventName, binds[eventName])
-        // })
+        const binds = parsedObjectList["binds"]
+        Object.keys(binds).forEach(eventName => {
+            this.state.gameState.set(eventName, binds[eventName])
+        })
     }
 
 

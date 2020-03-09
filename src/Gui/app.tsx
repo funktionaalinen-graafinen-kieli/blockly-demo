@@ -23,7 +23,7 @@ export default class App extends React.Component<
         debugToggle: boolean
         gameRunning: boolean
     }
-> {
+    > {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
