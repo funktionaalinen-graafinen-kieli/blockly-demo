@@ -1,1 +1,1 @@
-export const initialXml = ""
+export const initialXml = "<xml></xml>"

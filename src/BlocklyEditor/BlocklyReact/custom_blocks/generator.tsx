@@ -107,7 +107,7 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_entity(block: Block) {
-        const id = block.getFieldValue("id") || "default_entity"
+        const id = block.id
         const name = block.getFieldValue("name") || "default_name"
         const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
         const initx = block.getFieldValue("initx") || 0
@@ -122,7 +122,7 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_guientity(block: Block) {
-        const id = block.getFieldValue("id") || "default_gui_id"
+        const id = block.id
         const name = block.getFieldValue("name") || "default_name"
         const initx = block.getFieldValue("initx") || 0
         const inity = block.getFieldValue("inity") || 0

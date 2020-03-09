@@ -242,7 +242,9 @@ Extensions.register("col_dropdown", function (this: Block) {
 
     let es = () => {
         let options: string[][] = []
-        entities().forEach(e => options.push([e.getFieldValue("id"), e.getFieldValue("id")]))
+        entities().forEach(e =>
+            options.push([e.getFieldValue("id"), e.getFieldValue("id")])
+        )
         if (options.length === 0) options = [["none", "DEFAULT_NONE"]]
         return options
     }
@@ -278,7 +280,7 @@ Extensions.register("entity_dropdown", function (this: Block) {
 
     this.getInput("entity").appendField(new FieldDropdown(function () {
         let options: string[][] = [["none", "DEFAULT_NONE"]]
-        entities().forEach(e => options.push([e.getFieldValue("id"), e.getFieldValue("id")]))
+        entities().forEach(e => options.push([e.id, e.id]))
         return options
     }), "entity")
 
