@@ -98,7 +98,7 @@ export default class GameEngine extends React.Component {
         }
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
-
+        
         return renderGame(this.props.debugToggle, this)
     }
 }

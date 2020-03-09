@@ -280,7 +280,7 @@ Extensions.register("entity_dropdown", function (this: Block) {
 
     this.getInput("entity").appendField(new FieldDropdown(function () {
         let options: string[][] = [["none", "DEFAULT_NONE"]]
-        entities().forEach(e => options.push([e.id, e.id]))
+        entities().forEach(e => options.push([e.getFieldValue("name"), e.id]))
         return options
     }), "entity")
 

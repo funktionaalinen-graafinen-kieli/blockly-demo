@@ -169,7 +169,7 @@ const entityCode = (
     text: string
 ) => {
     let output = `"${id}": {`
-    output += `"name": ["packF(id)", ${name}]`
+    output += `"name": ["packF(id)", "${name}"],`
 
     output += `"x": ["pack(clamp(${x})(0)(${gameBoard["width"]}))", ${initx}],`
     output += `"y": ["pack(clamp(${y})(0)(${gameBoard["height"]}))", ${inity}],`
