@@ -46,6 +46,8 @@ const condJson = {
         }
     ],
     extensions: ["cond_type"],
+    tooltip: "Tooltip here",
+    helpUrl: "https://google.com",
     previousStatement: null
 }
 
@@ -58,6 +60,7 @@ Extensions.register("cond_type", function(this: Block) {
         if (p != null) {
             const con = p.getInputWithBlock(this).connection
             const check = con.getCheck()
+            this.setOutputShape(5)
             this.getInput("DO").setCheck(check)
             this.getInput("ELSE").setCheck(check)
             this.setPreviousStatement(true, check)
