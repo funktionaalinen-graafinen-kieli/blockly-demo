@@ -22,21 +22,21 @@ interface buttonProps {
 export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
     return (
         <>
-            <button onClick={props.toggleGame}>{props.gameRunning ? "stop" : "run"}</button>
-            <button onClick={props.toggleDebug}>{props.debugToggle ? "debug off" : "debug on"}</button>
+            <button onClick={props.toggleGame}>{props.gameRunning ? "Pysäytä" : "Käynnistä"}</button>
+            <button onClick={props.toggleDebug}>{props.debugToggle ? "debug pois" : "debug päälle"}</button>
             <button
                 onClick={() => {
                     saveProject(props.editor?.state.blockXml.toString())
                 }}
             >
-                SAVE
+                TALLENNA
             </button>
             <button
                 onClick={() => {
                     loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                LOAD
+                LATAA
             </button>
             <button
                 onClick={() =>
