@@ -46,6 +46,8 @@ const condJson = {
         }
     ],
     extensions: ["cond_type"],
+    tooltip: "Tooltip here",
+    helpUrl: "https://google.com",
     previousStatement: null
 }
 
