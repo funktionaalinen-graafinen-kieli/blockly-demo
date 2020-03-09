@@ -14,7 +14,7 @@ enum funklyBlockType {
     ENTITY = "funkly_entity",
     GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
-    KEY = "funkly_key",
+    KEY = "funkly_keyboard_input",
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
     IMG = "funkly_img"
@@ -30,7 +30,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
     else if (type === funklyBlockType.COL) return funkly_col
-    else if (type === funklyBlockType.KEY) return funkly_key
+    else if (type === funklyBlockType.KEY) return funkly_keyboard_input
     else if (type === funklyBlockType.MATH) return funkly_math
     else if (type === funklyBlockType.TRIG) return funkly_trig
     else if (type === funklyBlockType.IMG) return funkly_img
@@ -100,7 +100,7 @@ function funklyCodegen(type: funklyBlockType) {
         return "get" + argwrap("'" + arg0 + "'")
     }
 
-    function funkly_key(block: Block) {
+    function funkly_keyboard_input(block: Block) {
         const arg0 = block.getFieldValue("key") || "default_key"
         return "get" + argwrap("'key_" + arg0 + "'")
     }
