@@ -9,7 +9,7 @@ import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks = (
     <React.Fragment>
-        <Category name="Matikka" colour={230}>
+        <Category name="Matematiikka" colour={230}>
             <Block type="funkly_col" />
             <Block type="funkly_math" />
             <Block type="funkly_trig" />
@@ -94,7 +94,6 @@ class Editor extends React.Component<{}> {
     }
 
     render = () => {
-        Blockly.Flyout.prototype.autoClose = false
         return (
             <div className="Editor">
                 <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>

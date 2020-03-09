@@ -59,9 +59,14 @@ button {
 
 .blocklyToolboxDiv {
     background-color: #fff0c5ff;
+    margin-right: 10px;
 }
 
 .align-right {
     position: absolute;
     right: 0px;
+}
+
+.blocklyTreeRow {
+    margin-bottom: 7px;
 }
