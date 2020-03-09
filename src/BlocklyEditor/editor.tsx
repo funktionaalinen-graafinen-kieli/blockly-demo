@@ -4,25 +4,62 @@ import * as Blockly from "blockly"
 import * as log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
-import { Block, Category } from "./BlocklyReact/blockly_jsx_wrappers"
+import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks = (
     <React.Fragment>
         <Category name="Matikka" colour={230}>
             <Block type="funkly_col" />
-            <Block type="funkly_math" />
-            <Block type="funkly_trig" />
+            <Block type="funkly_math" >
+                <Value name="NUMBER0">
+                    <Shadow type="funkly_number" />
+                </Value>
+                <Value name="NUMBER1">
+                    <Shadow type="funkly_number" />
+                </Value>
+            </Block>
+            <Block type="funkly_trig">
+                <Value name="NUMBER0">
+                    <Shadow type="funkly_number" />
+                </Value>
+            </Block>
             <Block type="funkly_number" />
         </Category>
         <Category name="Logiikka" colour={200}>
             <Block type="funkly_cond" />
-            <Block type="funkly_comp" />
+            <Block type="funkly_comp">
+                <Value name="NUMBER0">
+                    <Shadow type="funkly_number" />
+                </Value>
+                <Value name="NUMBER1">
+                    <Shadow type="funkly_number" />
+                </Value>
+            </Block>
         </Category>
         <Category name="Hahmopalikat" colour={140}>
-            <Block type="funkly_entity" />
-            <Block type="funkly_guientity" />
-            <Block type="funkly_key" />
+            <Block type="funkly_entity">
+                <Value name="x">
+                    <Shadow type="funkly_get" />
+                </Value>
+                <Value name="y">
+                    <Shadow type="funkly_get" />
+                </Value>
+                <Value name="img">
+                    <Shadow type="funkly_img" />
+                </Value>
+            </Block>
+            <Block type="funkly_guientity">
+                <Value name="img">
+                    <Shadow type="funkly_img" />
+                </Value>
+                <Value name="text">
+                    <Shadow type="funkly_bindget">
+                        <Field name="id">time</Field>
+                    </Shadow>
+                </Value>
+            </Block>
+            <Block type="funkly_keyboard_input"/>
             <Block type="funkly_bindget" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
