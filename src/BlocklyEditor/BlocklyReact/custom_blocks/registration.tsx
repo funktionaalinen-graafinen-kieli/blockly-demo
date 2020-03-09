@@ -3,7 +3,7 @@ import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
 import log from "loglevel"
 
-import { publicImages } from "../../../Gui/image_storage"
+import { entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
@@ -472,7 +472,7 @@ const imgJson = {
 createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
 
 Extensions.register("img_dropdown", function(this: Block) {
-    this.getInput("IMAGE").appendField(newCustomDropdown(publicImages), "IMAGE")
+    this.getInput("IMAGE").appendField(newCustomDropdown(entityImages), "IMAGE")
 })
 
 /**

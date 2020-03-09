@@ -1,7 +1,7 @@
 import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import * as log from "loglevel"
-import { publicImages } from "../../../Gui/image_storage"
+import { entityImages } from "../../../Gui/image_storage"
 import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
 
 enum funklyBlockType {
@@ -175,7 +175,7 @@ const entityCode = (
     output += `"text": ["pack(${text})", ""],`
 
     output += "\"r\": [\"packF(id)\", 30],"
-    const imgDefault = publicImages.entries().next().value[1]
+    const imgDefault = entityImages.entries().next().value[1]
     if (img === "") {
         output +=  `"img": ["packF(id)", "${imgDefault}"]`
     } else {
