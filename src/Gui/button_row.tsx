@@ -32,14 +32,14 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                     saveProject(props.editor?.state.blockXml.toString())
                 }}
             >
-                TALLENNA
+                <img width={50} height={50} src={guiImages.get("save")}></img>
             </button>
             <button
                 onClick={() => {
                     loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                LATAA
+                <img width={50} height={50} src={guiImages.get("load")}></img>
             </button>
             <button
                 onClick={() =>

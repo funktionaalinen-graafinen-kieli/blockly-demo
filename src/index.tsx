@@ -9,7 +9,7 @@ import Blockly from "blockly"
 log.setLevel("trace")
 Blockly.Flyout.prototype.autoClose = false
 //@ts-ignore
-Blockly.HSV_SATURATION = 0.8
+Blockly.HSV_SATURATION = 0.85
 
 ReactDOM.render(
     <App />, document.getElementById("root")
