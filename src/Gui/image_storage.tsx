@@ -10,6 +10,7 @@ import sininen from "./assets/entity_images/sininen.svg"
 import score_100 from "./assets/entity_images/pistemittari_100.jpg"
 import score_empty from "./assets/entity_images/valkoinen_suorakulmio.jpg"
 import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
+import default_image from "./assets/entity_images/default_image.png"
 import playbutton from "./assets/gui_images/playbutton.png"
 import stopbutton from "./assets/gui_images/stopbutton.png"
 import savebutton from "./assets/gui_images/savebutton.png"
@@ -20,6 +21,7 @@ import xmlbutton from "./assets/gui_images/xmlbutton.png"
 import choosefile from "./assets/gui_images/choosefile.png"
 
 export const entityImages = new Map([
+    ["default_image", default_image],
     ["bread_doge", breadoge],
     ["muscle_doge", muscledoge],
     ["doge", doge],
