@@ -40,14 +40,14 @@ Object {
             <button>
               <img
                 height="50"
-                src="save_colour.png"
+                src="savebutton.png"
                 width="50"
               />
             </button>
             <button>
               <img
                 height="50"
-                src="load_colour.png"
+                src="loadbutton.png"
                 width="50"
               />
             </button>
@@ -134,14 +134,14 @@ Object {
           <button>
             <img
               height="50"
-              src="save_colour.png"
+              src="savebutton.png"
               width="50"
             />
           </button>
           <button>
             <img
               height="50"
-              src="load_colour.png"
+              src="loadbutton.png"
               width="50"
             />
           </button>
