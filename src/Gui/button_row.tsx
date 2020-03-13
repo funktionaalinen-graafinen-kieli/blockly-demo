@@ -24,7 +24,10 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
     return (
         <>
             <button onClick={props.toggleGame}>
-               {props.gameRunning ? <img width={50} height={50} src={guiImages.get("stop")}></img> : <img width={50} height={50} src={guiImages.get("play")}></img>}
+                {props.gameRunning 
+                    ? <img width={50} height={50} src={guiImages.get("stop")}/>
+                    : <img width={50} height={50} src={guiImages.get("play")}/>
+                }
             </button>
             <button onClick={props.toggleDebug}>
                 {props.debugToggle ? <img width={50} height={50} src={guiImages.get("debugoff")}></img> : <img width={50} height={50} src={guiImages.get("debugon")}></img>}
@@ -34,14 +37,14 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                     saveProject(props.editor?.state.blockXml.toString())
                 }}
             >
-                <img width={50} height={50} src={guiImages.get("save")}></img>
+                <img width={50} height={50} src={guiImages.get("save")}/>
             </button>
             <button
                 onClick={() => {
                     loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                <img width={50} height={50} src={guiImages.get("load")}></img>
+                <img width={50} height={50} src={guiImages.get("load")}/>
             </button>
             <button
                 onClick={() =>

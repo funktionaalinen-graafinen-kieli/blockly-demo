@@ -23,14 +23,16 @@ export default class App extends React.Component<
         debugToggle: boolean
         gameRunning: boolean
     }
-> {
+    > {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
         this.state = { debugToggle: false, gameRunning: false }
-        setInterval(() => {this.forceUpdate()}, 1000)
+        setInterval(() => {
+            this.forceUpdate()
+        }, 1000)
     }
 
     toggleGame = () => {

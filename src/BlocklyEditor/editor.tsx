@@ -10,7 +10,7 @@ import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka" colour={230}>
-            <Block type="funkly_col" />
+            <Block type="funkly_collide" />
             <Block type="funkly_math" >
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />
@@ -141,7 +141,7 @@ class Editor extends React.Component<{}> {
     }
 }
 
-function saveProject(blockXml: string |undefined): void {
+function saveProject(blockXml: string | undefined): void {
     if (!blockXml) {
         console.debug("Editor is null")
         return
@@ -149,11 +149,11 @@ function saveProject(blockXml: string |undefined): void {
     localStorage.setItem("defaultProject", blockXml)
 }
 
-function loadProject(blocklyComponent: BlocklyComponent |undefined| null ): void {
+function loadProject(blocklyComponent: BlocklyComponent | undefined | null): void {
     if (!blocklyComponent) {
         console.debug("Editor is null")
         return
-    } 
+    }
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
     Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
 }

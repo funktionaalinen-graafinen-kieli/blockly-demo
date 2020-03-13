@@ -39,10 +39,9 @@ export default class GameEngine extends React.Component {
             this.setState({ updater: this.props.updater(this) })
             return
         }
-
         const entities = parsedObjectList["entities"]
-        Object.keys(entities).forEach(entityName => {
-            this.state.entities.push(new Entity(this.state.gameState, entityName, entities[entityName]))
+        Object.keys(entities).forEach(entityId => {
+            this.state.entities.push(new Entity(this.state.gameState, entityId, entities[entityId]))
         })
 
         const binds = parsedObjectList["binds"]
@@ -99,7 +98,7 @@ export default class GameEngine extends React.Component {
         }
         if (!this.props.toggle) return null
         if (!this.state.entities.length) return null
-
+        
         return renderGame(this.props.debugToggle, this)
     }
 }
