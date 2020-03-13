@@ -57,9 +57,9 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                 <img width={50} height={50} src={guiImages.get("xml")}></img>
             </button>
             <label htmlFor="importedCode">
-                <img width={50} height={50} src={guiImages.get("choosefile")}></img>
+                <img width={50} height={50} src={guiImages.get("choosefile")} />
             </label>
-            <input type="file" id="importedCode" name="importedCode" onInput={handleUpload(props.editor)} />
+            <input className="hidden" type="file" id="importedCode" name="importedCode" onInput={handleUpload(props.editor)} />
         </>
     )
 }

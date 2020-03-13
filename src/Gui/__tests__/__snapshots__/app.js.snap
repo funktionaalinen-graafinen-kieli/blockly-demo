@@ -26,12 +26,16 @@ Object {
             <button>
               <img
                 height="50"
-                src="play_colour.png"
+                src="playbutton.png"
                 width="50"
               />
             </button>
             <button>
-              debug päälle
+              <img
+                height="50"
+                src="debugon.png"
+                width="50"
+              />
             </button>
             <button>
               <img
@@ -48,9 +52,23 @@ Object {
               />
             </button>
             <button>
-              xml
+              <img
+                height="50"
+                src="xmlbutton.png"
+                width="50"
+              />
             </button>
+            <label
+              for="importedCode"
+            >
+              <img
+                height="50"
+                src="choosefile.png"
+                width="50"
+              />
+            </label>
             <input
+              class="hidden"
               id="importedCode"
               name="importedCode"
               type="file"
@@ -102,12 +120,16 @@ Object {
           <button>
             <img
               height="50"
-              src="play_colour.png"
+              src="playbutton.png"
               width="50"
             />
           </button>
           <button>
-            debug päälle
+            <img
+              height="50"
+              src="debugon.png"
+              width="50"
+            />
           </button>
           <button>
             <img
@@ -124,9 +146,23 @@ Object {
             />
           </button>
           <button>
-            xml
+            <img
+              height="50"
+              src="xmlbutton.png"
+              width="50"
+            />
           </button>
+          <label
+            for="importedCode"
+          >
+            <img
+              height="50"
+              src="choosefile.png"
+              width="50"
+            />
+          </label>
           <input
+            class="hidden"
             id="importedCode"
             name="importedCode"
             type="file"

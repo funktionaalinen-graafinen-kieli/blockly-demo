@@ -88,3 +88,7 @@ button {
     fill: #ededed;
     fill-opacity: .8;
 }
+
+.hidden {
+    display: none;
+}
