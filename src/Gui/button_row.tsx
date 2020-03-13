@@ -26,7 +26,9 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
             <button onClick={props.toggleGame}>
                {props.gameRunning ? <img width={50} height={50} src={guiImages.get("stop")}></img> : <img width={50} height={50} src={guiImages.get("play")}></img>}
             </button>
-            <button onClick={props.toggleDebug}>{props.debugToggle ? "debug pois" : "debug päälle"}</button>
+            <button onClick={props.toggleDebug}>
+                {props.debugToggle ? <img width={50} height={50} src={guiImages.get("debugoff")}></img> : <img width={50} height={50} src={guiImages.get("debugon")}></img>}
+            </button>
             <button
                 onClick={() => {
                     saveProject(props.editor?.state.blockXml.toString())
@@ -49,8 +51,11 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                     )
                 }
             >
-                xml
+                <img width={50} height={50} src={guiImages.get("xml")}></img>
             </button>
+            <label htmlFor="importedCode">
+                <img width={50} height={50} src={guiImages.get("choosefile")}></img>
+            </label>
             <input type="file" id="importedCode" name="importedCode" onInput={handleUpload(props.editor)} />
         </>
     )
