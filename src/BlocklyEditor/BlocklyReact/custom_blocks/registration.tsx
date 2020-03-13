@@ -7,6 +7,12 @@ import { entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
+function parent_entity(block: Block) {
+    const root_parent = block.getRootBlock()
+    if (root_parent.type === "funkly_entity") return root_parent.getFieldValue("id")
+    else return undefined
+}
+
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
         log.debug("Non-enabled blockly style!")
@@ -245,10 +251,11 @@ Extensions.register("col_dropdown", function (this: Block) {
 
     let es = () => {
         let options: string[][] = []
-        entities().forEach(e =>
-            options.push([e.getFieldValue("id"), e.getFieldValue("id")])
-        )
-        if (options.length === 0) options = [["?", "DEFAULT_NONE"]]
+        const parent = parent_entity(this)
+        if (parent) options.push(["tämä", parent])
+        entities()
+            .filter(it => it.getFieldValue("id") != parent)
+            .forEach(e => options.push([e.getFieldValue("id"), e.getFieldValue("id")]))
         return options
     }
 
