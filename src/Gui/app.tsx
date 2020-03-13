@@ -1,5 +1,4 @@
 import React from "react"
-import { Container, Row, Col } from "react-bootstrap"
 import * as log from "loglevel"
 
 import GameEngine from "../GameEngine/game_engine"
@@ -61,36 +60,26 @@ export default class App extends React.Component<
         }
 
         return (
-            <Container fluid className="funkly-container-background">
-                <Row className="funkly-button-row">
-                    <div>
-                        <header className="funkly-header">
-                            <h1>FUNKLY</h1>
-                        </header>
-                    </div>
-                    <div className="align-right">
-                        <ButtonRow
-                            editor={editorInstance}
-                            gameRunning={this.state.gameRunning}
-                            debugToggle={this.state.debugToggle}
-                            toggleGame={this.toggleGame}
-                            toggleDebug={this.toggleDebug}
-                        />
-                    </div>
-                </Row>
-                <Row className="funkly-content-row">
-                    <Col lg={7}>
-                        <Editor ref={this.editorInstance} />
-                    </Col>
-                    <Col lg={4}>
-                        <Row className="funkly-game-div">{gameEngine}</Row>
-                        <Row className="funkly-char-selection" />
-                    </Col>
-                </Row>
-                <Row className="funkly-debug">
+            <div className="funkly-container">
+                <h1 className="funkly-title">FUNKLY</h1>
+                <div className="funkly-buttons">
+                    <ButtonRow
+                        editor={editorInstance}
+                        gameRunning={this.state.gameRunning}
+                        debugToggle={this.state.debugToggle}
+                        toggleGame={this.toggleGame}
+                        toggleDebug={this.toggleDebug}
+                    />
+                </div>
+                <div className="blockly-editor-column">
+                    <Editor ref={this.editorInstance} />
+                </div>
+                <div className="funkly-engine">{gameEngine}</div>
+                <div className="funkly-char-selection" />
+                <div className="funkly-debug-row">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.editorInstance.current?.state.code} />
-                </Row>
-            </Container>
+                </div>
+            </div>
         )
     }
 }

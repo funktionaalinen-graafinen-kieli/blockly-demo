@@ -7,48 +7,46 @@ html {
  Start all funkly specific css class names funkly- to avoid collision with bootstrap and blockly css naming schemes
  */
 
-.funkly-container-background {
+.funkly-container {
     background: #fff0c5ff;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
-.funkly-header {
-    background-color: #fff0c5ff;
+.funkly-title {
+    grid-area: 1 / 1 / 2 / 2; 
 }
 
-.funkly-button-row {
-    margin-left: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
+
+.funkly-buttons {
+    grid-area: 1 / 3 / 2 / 4;
 }
 
-.funkly-content-row {
-    height: 100%px;
-    margin-right: 15px;
-    margin-bottom: 15px;
+.blockly-editor {
+    grid-area: 2 / 1 / 11 / 3; 
 }
 
 .funkly-blockly-div {
-    height: 720px;
-    width: 100%;
     position: absolute;
+    grid-area: 2 / 1 / 11 / 3; 
+    height: 9fr;
+    width: 2fr;
 }
 
-.funkly-game-div {
-    margin-left: 10px;
-    margin-bottom: 13px;
-    width: 575px;
-    height: 405px;
+.funkly-engine {
+    grid-area: 2 / 3 / 7 / 4;
 }
 
 .funkly-char-selection {
-    margin-left: 10px;
+    grid-area: 7 / 3 / 11 / 4;
     background-color: #7cdceb;
-    width: 575px;
-    height: 300px;
 }
 
 .funkly-icon-button{
-    width: 50xp;
+    width: 50px;
     height: 50px;
 }
 
@@ -60,11 +58,6 @@ button {
 .blocklyToolboxDiv {
     background-color: #fff0c5ff;
     /*mistä saa mouse hover harmaan sävyn vaihdettua*/
-}
-
-.align-right {
-    position: absolute;
-    right: 0px;
 }
 
 .blocklyTreeRow {
