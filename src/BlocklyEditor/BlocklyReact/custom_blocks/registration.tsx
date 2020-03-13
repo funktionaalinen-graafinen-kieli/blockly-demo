@@ -221,7 +221,7 @@ const guiEntityJson = {
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
 
 const colJson = {
-    "type:": funklyBlockType.COL,
+    "type:": funklyBlockType.COLLIDE,
     inputsInline: true,
     message0: "törmääkö: %1 %2",
     args0: [
@@ -238,7 +238,7 @@ const colJson = {
     previousStatement: "Boolean"
 }
 
-createCustomBlock(funklyBlockType.COL, "logic_blocks", colJson)
+createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
@@ -248,7 +248,7 @@ Extensions.register("col_dropdown", function (this: Block) {
         entities().forEach(e =>
             options.push([e.getFieldValue("id"), e.getFieldValue("id")])
         )
-        if (options.length === 0) options = [["?", "DEFAULT_NONE"]]
+        if (options.length === 0) options = [["tämä", "DEFAULT_NONE"]]
         return options
     }
 
@@ -282,7 +282,7 @@ Extensions.register("entity_dropdown", function (this: Block) {
         .concat(this.workspace.getBlocksByType("funkly_guientity", true))
 
     this.getInput("entity").appendField(new FieldDropdown(function () {
-        let options: string[][] = [["?", "DEFAULT_NONE"]]
+        let options: string[][] = [["tämä", "this"]]
         entities().forEach(e => options.push([e.getFieldValue("name"), e.id]))
         return options
     }), "entity")
@@ -489,7 +489,7 @@ Extensions.register("img_dropdown", function (this: Block) {
 const newCustomDropdown = (values: Map<string, string>) =>
     new FieldDropdown(function () {
         let options: string[][] = []
-        if (values.size === 0) options = [["?", "DEFAULT_NONE"]]
+        if (values.size === 0) options = [["tämä", "this"]]
         for (const [display, internal] of values) {
             options.push([display, internal])
         }

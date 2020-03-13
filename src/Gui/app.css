@@ -13,12 +13,12 @@ html {
 
 .funkly-header {
     background-color: #fff0c5ff;
-    text-indent: 15px;
 }
 
 .funkly-button-row {
     margin-left: 0;
-    margin-bottom: 10px
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .funkly-content-row {
@@ -47,15 +47,44 @@ html {
     height: 300px;
 }
 
-.funkly-debug {
-}
-
 .funkly-icon-button{
     width: 50xp;
-    height: 50px
+    height: 50px;
 }
 
 button {
-    border-color: #fff0c5ff;
-    background-color: #fff0c5ff
+    background-color: #fff0c5ff;
+    border-style: none;
+}
+
+.blocklyToolboxDiv {
+    background-color: #fff0c5ff;
+    /*mistä saa mouse hover harmaan sävyn vaihdettua*/
+}
+
+.align-right {
+    position: absolute;
+    right: 0px;
+}
+
+.blocklyTreeRow {
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
+
+.blocklyTreeLabel {
+    /*cursor: default;
+    font-family: sans-serif;*/
+    font-size: 18px; /*alle 20 oikealle tulee rako??*/
+    /*padding: 0 6px;*/
+    padding-top: 0px;
+    padding-right: 5px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    /*vertical-align: middle;*/
+}
+    
+.blocklyFlyoutBackground {
+    fill: #ededed;
+    fill-opacity: .8;
 }

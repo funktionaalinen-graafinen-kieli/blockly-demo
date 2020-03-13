@@ -24,7 +24,10 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
     return (
         <>
             <button onClick={props.toggleGame}>
-               {props.gameRunning ? <img width={50} height={50} src={guiImages.get("stop")}></img> : <img width={50} height={50} src={guiImages.get("play")}></img>}
+                {props.gameRunning 
+                    ? <img width={50} height={50} src={guiImages.get("stop")}/>
+                    : <img width={50} height={50} src={guiImages.get("play")}/>
+                }
             </button>
             <button onClick={props.toggleDebug}>{props.debugToggle ? "debug pois" : "debug päälle"}</button>
             <button
@@ -32,14 +35,14 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                     saveProject(props.editor?.state.blockXml.toString())
                 }}
             >
-                TALLENNA
+                <img width={50} height={50} src={guiImages.get("save")}/>
             </button>
             <button
                 onClick={() => {
                     loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                LATAA
+                <img width={50} height={50} src={guiImages.get("load")}/>
             </button>
             <button
                 onClick={() =>

@@ -10,8 +10,12 @@ import sininen from "./assets/entity_images/sininen.svg"
 import score_100 from "./assets/entity_images/pistemittari_100.jpg"
 import score_empty from "./assets/entity_images/valkoinen_suorakulmio.jpg"
 import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
-import playbutton from "./assets/gui_images/playbutton.png"
-import stopbutton from "./assets/gui_images/stopbutton.png"
+import play_colour from "./assets/gui_images/play_colour.png"
+import stop_colour from "./assets/gui_images/stop_colour.png"
+import save_colour from "./assets/gui_images/save_colour.png"
+import load_colour from "./assets/gui_images/load_colour.png"
+import save_colour2 from "./assets/gui_images/save_colour2.png"
+import load_colour2 from "./assets/gui_images/load_colour2.png"
 
 export const entityImages = new Map([
     ["bread_doge", breadoge],
@@ -29,6 +33,10 @@ export const entityImages = new Map([
 ])
 
 export const guiImages = new Map([
-    ["play", playbutton],
-    ["stop", stopbutton]
+    ["play", play_colour],
+    ["stop", stop_colour],
+    ["save", save_colour],
+    ["load", load_colour],
+    ["save2", save_colour2],
+    ["load2", load_colour2]
 ])

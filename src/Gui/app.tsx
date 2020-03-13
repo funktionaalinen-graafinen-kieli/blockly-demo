@@ -62,19 +62,21 @@ export default class App extends React.Component<
 
         return (
             <Container fluid className="funkly-container-background">
-                <Row>
-                    <header className="funkly-header">
-                        <h1>FUNKLY</h1>
-                    </header>
-                </Row>
                 <Row className="funkly-button-row">
-                    <ButtonRow
-                        editor={editorInstance}
-                        gameRunning={this.state.gameRunning}
-                        debugToggle={this.state.debugToggle}
-                        toggleGame={this.toggleGame}
-                        toggleDebug={this.toggleDebug}
-                    />
+                    <div>
+                        <header className="funkly-header">
+                            <h1>FUNKLY</h1>
+                        </header>
+                    </div>
+                    <div className="align-right">
+                        <ButtonRow
+                            editor={editorInstance}
+                            gameRunning={this.state.gameRunning}
+                            debugToggle={this.state.debugToggle}
+                            toggleGame={this.toggleGame}
+                            toggleDebug={this.toggleDebug}
+                        />
+                    </div>
                 </Row>
                 <Row className="funkly-content-row">
                     <Col lg={7}>
