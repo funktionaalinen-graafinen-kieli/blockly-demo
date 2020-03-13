@@ -6,6 +6,6 @@ export const entityDefaultSize = {
     height: 60
 }
 export const gameBoard = {
-    width: 575,
-    height: 405
+    width: 600,
+    height: 400
 }

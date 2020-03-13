@@ -18,7 +18,6 @@ function StateMap(props: { gameState: MapWithDefault }) {
     return (
         <div className="funkly-statemap">
             <h3>State</h3>
-
             {table}
         </div>
     )
@@ -44,16 +43,14 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
     let stateMap
     if (debugToggle)
         stateMap = (
-            <div style={{ position: "absolute" }}>
-                <StateMap gameState={gameEngine.state.gameState} />
-            </div>
+            <StateMap gameState={gameEngine.state.gameState} />
         )
     else stateMap = null
 
     return (
         <>
             <div
-                className="game-area"
+                className="funkly-game-area"
                 ref={gameEngine.gameArea}
                 onKeyDown={gameEngine.handleKeyDown}
                 onKeyUp={gameEngine.handleKeyUp}
