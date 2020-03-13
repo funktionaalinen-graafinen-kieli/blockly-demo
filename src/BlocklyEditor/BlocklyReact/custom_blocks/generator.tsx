@@ -9,7 +9,7 @@ enum funklyBlockType {
     COMP = "funkly_comp",
     MATH = "funkly_math",
     TRIG = "funkly_trig",
-    COL = "funkly_col",
+    COLLIDE = "funkly_collide",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
     GUIENTITY = "funkly_guientity",
@@ -29,7 +29,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
-    else if (type === funklyBlockType.COL) return funkly_col
+    else if (type === funklyBlockType.COLLIDE) return funkly_collide
     else if (type === funklyBlockType.KEY) return funkly_keyboard_input
     else if (type === funklyBlockType.MATH) return funkly_math
     else if (type === funklyBlockType.TRIG) return funkly_trig
@@ -83,7 +83,7 @@ function funklyCodegen(type: funklyBlockType) {
         return func + argwrap(arg0, arg1)
     }
 
-    function funkly_col(block: Block) {
+    function funkly_collide(block: Block) {
         const arg0 = block.getFieldValue("e1") || "default_e1"
         const arg1 = block.getFieldValue("e2") || "default_e2"
         return "col" + argwrap(`'${arg0}'`,`'${arg1}'`)

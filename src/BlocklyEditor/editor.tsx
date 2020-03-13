@@ -10,7 +10,7 @@ import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka" colour={230}>
-            <Block type="funkly_col" />
+            <Block type="funkly_collide" />
             <Block type="funkly_math" >
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />
