@@ -11,11 +11,9 @@ import score_100 from "./assets/entity_images/pistemittari_100.jpg"
 import score_empty from "./assets/entity_images/valkoinen_suorakulmio.jpg"
 import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
 import playbutton from "./assets/gui_images/playbutton.png"
-import stop_colour from "./assets/gui_images/stop_colour.png"
-import save_colour from "./assets/gui_images/save_colour.png"
-import load_colour from "./assets/gui_images/load_colour.png"
-import save_colour2 from "./assets/gui_images/save_colour2.png"
-import load_colour2 from "./assets/gui_images/load_colour2.png"
+import stopbutton from "./assets/gui_images/stopbutton.png"
+import savebutton from "./assets/gui_images/savebutton.png"
+import loadbutton from "./assets/gui_images/loadbutton.png"
 import debugon from "./assets/gui_images/debugon.png"
 import debugoff from "./assets/gui_images/debugoff.png"
 import xmlbutton from "./assets/gui_images/xmlbutton.png"
@@ -38,11 +36,9 @@ export const entityImages = new Map([
 
 export const guiImages = new Map([
     ["play", playbutton],
-    ["stop", stop_colour],
-    ["save", save_colour],
-    ["load", load_colour],
-    ["save2", save_colour2],
-    ["load2", load_colour2],
+    ["stop", stopbutton],
+    ["save", savebutton],
+    ["load", loadbutton],
     ["debugon", debugon],
     ["debugoff", debugoff],
     ["xml", xmlbutton],
