@@ -248,7 +248,7 @@ Extensions.register("col_dropdown", function (this: Block) {
         entities().forEach(e =>
             options.push([e.getFieldValue("id"), e.getFieldValue("id")])
         )
-        if (options.length === 0) options = [["tämä", "DEFAULT_NONE"]]
+        if (options.length === 0) options = [["?", "DEFAULT_NONE"]]
         return options
     }
 
@@ -282,7 +282,7 @@ Extensions.register("entity_dropdown", function (this: Block) {
         .concat(this.workspace.getBlocksByType("funkly_guientity", true))
 
     this.getInput("entity").appendField(new FieldDropdown(function () {
-        let options: string[][] = [["tämä", "this"]]
+        let options: string[][] = []
         entities().forEach(e => options.push([e.getFieldValue("name"), e.id]))
         return options
     }), "entity")
