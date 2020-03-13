@@ -9,9 +9,3 @@ export const gameBoard = {
     width: 575,
     height: 405
 }
-
-export const gameStyle = {
-    backgroundColor: "#0571f5",
-    width: "575px",
-    height: "405px"
-}

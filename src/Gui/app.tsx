@@ -71,12 +71,12 @@ export default class App extends React.Component<
                         toggleDebug={this.toggleDebug}
                     />
                 </div>
-                <div className="blockly-editor-column">
+                <div className="funkly-blockly-editor">
                     <Editor ref={this.editorInstance} />
                 </div>
                 <div className="funkly-engine">{gameEngine}</div>
                 <div className="funkly-char-selection" />
-                <div className="funkly-debug-row">
+                <div className="funkly-debug">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.editorInstance.current?.state.code} />
                 </div>
             </div>

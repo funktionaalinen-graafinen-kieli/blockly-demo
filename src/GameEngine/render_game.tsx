@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import { gameStyle } from "./config"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
 
@@ -17,7 +16,7 @@ function StateMap(props: { gameState: MapWithDefault }) {
     })
 
     return (
-        <div style={{ background: "orange", width: "500px", top: "1200px", position: "absolute" }}>
+        <div className="funkly-statemap">
             <h3>State</h3>
 
             {table}
@@ -54,7 +53,7 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
     return (
         <>
             <div
-                style={gameStyle}
+                className="game-area"
                 ref={gameEngine.gameArea}
                 onKeyDown={gameEngine.handleKeyDown}
                 onKeyUp={gameEngine.handleKeyUp}

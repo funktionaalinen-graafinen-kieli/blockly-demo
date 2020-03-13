@@ -3,41 +3,65 @@ html {
     background-size: cover;
 }
 
+button {
+    background-color: #fff0c5ff;
+    border-style: none;
+}
+
+.hidden {
+    display: none;
+}
+
 /*
  Start all funkly specific css class names funkly- to avoid collision with bootstrap and blockly css naming schemes
  */
 
 .funkly-container {
+    height: 100%;
+    width: 100%;
     background: #fff0c5ff;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    grid-template-columns: repeat(3, 33vw);
+    grid-template-rows: repeat(10, 10vh);
+    grid-column-gap: 0.5vw;
+    grid-row-gap: 0.5vh;
 }
 
 .funkly-title {
     grid-area: 1 / 1 / 2 / 2; 
 }
 
-
 .funkly-buttons {
     grid-area: 1 / 3 / 2 / 4;
+    display: flex;
 }
 
-.blockly-editor {
+.funkly-button-icon {
+    width: 100%;
+    height: auto;
+}
+
+.funkly-blockly-editor {
+    position:relative;
     grid-area: 2 / 1 / 11 / 3; 
 }
 
 .funkly-blockly-div {
     position: absolute;
-    grid-area: 2 / 1 / 11 / 3; 
-    height: 9fr;
-    width: 2fr;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .funkly-engine {
     grid-area: 2 / 3 / 7 / 4;
+}
+
+.game-area {
+    background-color: #0571f5;
+    width: 575px;
+    height: 405px;
 }
 
 .funkly-char-selection {
@@ -45,24 +69,27 @@ html {
     background-color: #7cdceb;
 }
 
-.funkly-icon-button{
-    width: 50px;
-    height: 50px;
+.funkly-debug {
+    /* TODO: get this to place _under_ the main blockly view*/
+    top: 100vh;
+    position: absolute;
+}
+.funkly-statemap{
+    background: orange;
+    width: 500px;
+    top: 100vh; 
+    position: absolute;
 }
 
-button {
-    background-color: #fff0c5ff;
-    border-style: none;
-}
 
 .blocklyToolboxDiv {
     background-color: #fff0c5ff;
-    /*mistä saa mouse hover harmaan sävyn vaihdettua*/
 }
+
 
 .blocklyTreeRow {
     margin-bottom: 0px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .blocklyTreeLabel {
@@ -76,12 +103,13 @@ button {
     padding-left: 5px;
     /*vertical-align: middle;*/
 }
+
+/* Tällä vaihdetaan blockly kategorioiden hover väriä */ 
+.blocklyTreeRow:not(.blocklyTreeSelected):hover {
+   background-color: #ededed;
+}
     
 .blocklyFlyoutBackground {
     fill: #ededed;
     fill-opacity: .8;
-}
-
-.hidden {
-    display: none;
 }
