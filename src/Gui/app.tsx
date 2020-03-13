@@ -7,6 +7,7 @@ import { frametime } from "../GameEngine/config"
 import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
+import { ThemeContextConsumer } from "../themeContext"
 
 import "./app.css"
 log.setLevel("trace")
@@ -23,7 +24,7 @@ export default class App extends React.Component<
         debugToggle: boolean
         gameRunning: boolean
     }
-    > {
+> {
     editorInstance = React.createRef<Editor>()
 
     constructor(props: {}) {
@@ -44,17 +45,19 @@ export default class App extends React.Component<
     }
 
     render() {
-        let editorInstance = this.editorInstance.current!
-        const getCode = () => editorInstance.state.code
         let gameEngine
         if (this.state.gameRunning) {
             gameEngine = (
-                <GameEngine
-                    debugToggle={this.state.debugToggle}
-                    toggle={this.state.gameRunning}
-                    program={getCode()}
-                    updater={intervalUpdater}
-                />
+                <ThemeContextConsumer>
+                    {(context: any) => (
+                        <GameEngine
+                            debugToggle={this.state.debugToggle}
+                            toggle={this.state.gameRunning}
+                            program={context.editorState.code}
+                            updater={intervalUpdater}
+                        />
+                    )}
+                </ThemeContextConsumer>
             )
         } else {
             gameEngine = null
@@ -69,13 +72,17 @@ export default class App extends React.Component<
                         </header>
                     </div>
                     <div className="align-right">
-                        <ButtonRow
-                            editor={editorInstance}
-                            gameRunning={this.state.gameRunning}
-                            debugToggle={this.state.debugToggle}
-                            toggleGame={this.toggleGame}
-                            toggleDebug={this.toggleDebug}
-                        />
+                        <ThemeContextConsumer>
+                            {(context: any) => (
+                                <ButtonRow
+                                    editor={context}
+                                    gameRunning={this.state.gameRunning}
+                                    debugToggle={this.state.debugToggle}
+                                    toggleGame={this.toggleGame}
+                                    toggleDebug={this.toggleDebug}
+                                />
+                            )}
+                        </ThemeContextConsumer>
                     </div>
                 </Row>
                 <Row className="funkly-content-row">
@@ -88,9 +95,15 @@ export default class App extends React.Component<
                     </Col>
                 </Row>
                 <Row className="funkly-debug">
-                    <CodeRenderer debugToggle={this.state.debugToggle} code={this.editorInstance.current?.state.code} />
+                    <ThemeContextConsumer>
+                        {(context: any) => (
+                            <CodeRenderer debugToggle={this.state.debugToggle} code={context.editorState} />
+                        )}
+                    </ThemeContextConsumer>
                 </Row>
             </Container>
         )
     }
 }
+
+App.contextType = ThemeContextConsumer

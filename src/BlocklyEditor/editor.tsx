@@ -11,7 +11,7 @@ const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka" colour={230}>
             <Block type="funkly_collide" />
-            <Block type="funkly_math" >
+            <Block type="funkly_math">
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />
                 </Value>
@@ -59,7 +59,7 @@ const editorBlocks = (
                     </Shadow>
                 </Value>
             </Block>
-            <Block type="funkly_keyboard_input"/>
+            <Block type="funkly_keyboard_input" />
             <Block type="funkly_bindget" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
@@ -87,7 +87,8 @@ class Editor extends React.Component<{}> {
 
     private generateCode = (): string => {
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        const entities = workspace.getBlocksByType("funkly_entity", true)
+        const entities = workspace
+            .getBlocksByType("funkly_entity", true)
             .concat(workspace.getBlocksByType("funkly_guientity", true))
 
         // Generate code for each entity and place commas
