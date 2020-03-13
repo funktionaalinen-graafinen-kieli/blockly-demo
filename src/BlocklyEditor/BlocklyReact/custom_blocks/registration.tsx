@@ -253,6 +253,7 @@ Extensions.register("col_dropdown", function (this: Block) {
         let options: string[][] = []
         const parent = parent_entity(this)
         if (parent) options.push(["tämä", parent])
+        else options.push(["?", "?"])
         entities()
             .filter(it => it.getFieldValue("id") != parent)
             .forEach(e => options.push([e.getFieldValue("id"), e.getFieldValue("id")]))
@@ -284,13 +285,19 @@ const getJson = {
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
-Extensions.register("entity_dropdown", function (this: Block) {
+Extensions.register("entity_dropdown", function(this: Block) {
+    const block = this
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
         .concat(this.workspace.getBlocksByType("funkly_guientity", true))
 
-    this.getInput("entity").appendField(new FieldDropdown(function () {
+    this.getInput("entity").appendField(new FieldDropdown(function() {
         let options: string[][] = []
-        entities().forEach(e => options.push([e.getFieldValue("name"), e.id]))
+        const parent = parent_entity(block)
+        if (parent) options.push(["tämä", parent])
+        else options.push(["?", "?"])
+        entities()
+            .filter(it => it.getFieldValue("id") != parent)
+            .forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
         return options
     }), "entity")
 
@@ -496,10 +503,10 @@ Extensions.register("img_dropdown", function (this: Block) {
 const newCustomDropdown = (values: Map<string, string>) =>
     new FieldDropdown(function () {
         let options: string[][] = []
-        if (values.size === 0) options = [["tämä", "this"]]
         for (const [display, internal] of values) {
             options.push([display, internal])
         }
+        if (options.length === 0) options.push(["?", "?"])
         return options
     })
 
