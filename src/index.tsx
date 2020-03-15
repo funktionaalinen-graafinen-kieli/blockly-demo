@@ -4,14 +4,14 @@ import ReactDOM from "react-dom"
 import * as log from "loglevel"
 import { blockRendering } from "blockly"
 
-import { FunklyRenderer } from "./BlocklyEditor/BlocklyReact/funkly_renderer"
+import { TypedConnectionShapeRenderer } from "./BlocklyEditor/BlocklyReact/funkly_renderer"
 
 import App from "./Gui/app"
 
 log.setLevel("trace")
 
 //blockRendering.unregister("geras")
-blockRendering.register("funkly_renderer", FunklyRenderer)
+blockRendering.register("funkly_renderer", TypedConnectionShapeRenderer)
 
 ReactDOM.render(
     <App />, document.getElementById("root")
