@@ -40,10 +40,14 @@ const editorBlocks = (
         <Category name="Hahmopalikat" colour={140}>
             <Block type="funkly_entity">
                 <Value name="x">
-                    <Shadow type="funkly_get" />
+                    <Shadow type="funkly_get">
+                        <Field name="property">x</Field>
+                    </Shadow>
                 </Value>
                 <Value name="y">
-                    <Shadow type="funkly_get" />
+                    <Shadow type="funkly_get">
+                        <Field name="property">y</Field>
+                    </Shadow>
                 </Value>
                 <Value name="img">
                     <Shadow type="funkly_img" />
