@@ -67,7 +67,12 @@ Object {
         />
         <div
           class="funkly-engine"
-        />
+        >
+          Hiiren sijainti: 
+          -1
+          , 
+          -1
+        </div>
         <div
           class="funkly-char-selection"
         />
@@ -140,7 +145,12 @@ Object {
       />
       <div
         class="funkly-engine"
-      />
+      >
+        Hiiren sijainti: 
+        -1
+        , 
+        -1
+      </div>
       <div
         class="funkly-char-selection"
       />

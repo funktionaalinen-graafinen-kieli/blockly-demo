@@ -39,9 +39,11 @@ button {
 }
 
 .funkly-button-icon {
-    width: 100%;
     height: auto;
+    /* Jostain syystä napit ovat oikein kokoisia 80%, ei 100%*/
+    width: 80%;
 }
+
 .funkly-file-load {
     margin: auto;
 }

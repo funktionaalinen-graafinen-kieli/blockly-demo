@@ -39,7 +39,10 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
     }
 }
 
-export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
+export const renderGame = (
+    debugToggle: boolean, 
+    gameEngine: GameEngine, 
+) => {
     let stateMap
     if (debugToggle)
         stateMap = (
