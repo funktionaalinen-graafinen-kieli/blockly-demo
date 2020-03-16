@@ -91,7 +91,7 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_bindget(block: Block) {
-        const arg0 = block.getFieldValue("id") || "default_bind"
+        const arg0 = block.id || "default_bind"
         return "get" + argwrap("'" + arg0 + "'")
     }
 

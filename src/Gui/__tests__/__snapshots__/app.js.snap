@@ -6,152 +6,146 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="funkly-container-background container-fluid"
+        class="funkly-container"
       >
-        <div
-          class="funkly-button-row row"
+        <h1
+          class="funkly-title"
         >
-          <div>
-            <header
-              class="funkly-header"
-            >
-              <h1>
-                FUNKLY
-              </h1>
-            </header>
-          </div>
-          <div
-            class="align-right"
-          >
-            <button>
-              <img
-                height="50"
-                src="play_colour.png"
-                width="50"
-              />
-            </button>
-            <button>
-              debug päälle
-            </button>
-            <button>
-              <img
-                height="50"
-                src="save_colour.png"
-                width="50"
-              />
-            </button>
-            <button>
-              <img
-                height="50"
-                src="load_colour.png"
-                width="50"
-              />
-            </button>
-            <button>
-              xml
-            </button>
-            <input
-              id="importedCode"
-              name="importedCode"
-              type="file"
+          FUNKLY
+        </h1>
+        <div
+          class="funkly-buttons"
+        >
+          <button>
+            <img
+              class="funkly-button-icon"
+              src="playbutton.png"
             />
-          </div>
-        </div>
-        <div
-          class="funkly-content-row row"
-        >
-          <div
-            class="col-lg-7"
+          </button>
+          <button>
+            <img
+              class="funkly-button-icon"
+              src="debugon.png"
+            />
+          </button>
+          <button>
+            <img
+              class="funkly-button-icon"
+              src="savebutton.png"
+            />
+          </button>
+          <button>
+            <img
+              class="funkly-button-icon"
+              src="loadbutton.png"
+            />
+          </button>
+          <button>
+            <img
+              class="funkly-button-icon"
+              src="xmlbutton.png"
+            />
+          </button>
+          <label
+            class="funkly-file-load"
+            for="importedCode"
+          >
+            <img
+              class="funkly-button-icon"
+              src="choosefile.png"
+            />
+          </label>
+          <input
+            class="hidden"
+            id="importedCode"
+            name="importedCode"
+            type="file"
           />
-          <div
-            class="col-lg-4"
-          >
-            <div
-              class="funkly-game-div row"
-            />
-            <div
-              class="funkly-char-selection row"
-            />
-          </div>
         </div>
         <div
-          class="funkly-debug row"
+          class="funkly-blockly-editor"
+        />
+        <div
+          class="funkly-engine"
+        />
+        <div
+          class="funkly-char-selection"
+        />
+        <div
+          class="funkly-debug"
         />
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="funkly-container-background container-fluid"
+      class="funkly-container"
     >
-      <div
-        class="funkly-button-row row"
+      <h1
+        class="funkly-title"
       >
-        <div>
-          <header
-            class="funkly-header"
-          >
-            <h1>
-              FUNKLY
-            </h1>
-          </header>
-        </div>
-        <div
-          class="align-right"
-        >
-          <button>
-            <img
-              height="50"
-              src="play_colour.png"
-              width="50"
-            />
-          </button>
-          <button>
-            debug päälle
-          </button>
-          <button>
-            <img
-              height="50"
-              src="save_colour.png"
-              width="50"
-            />
-          </button>
-          <button>
-            <img
-              height="50"
-              src="load_colour.png"
-              width="50"
-            />
-          </button>
-          <button>
-            xml
-          </button>
-          <input
-            id="importedCode"
-            name="importedCode"
-            type="file"
+        FUNKLY
+      </h1>
+      <div
+        class="funkly-buttons"
+      >
+        <button>
+          <img
+            class="funkly-button-icon"
+            src="playbutton.png"
           />
-        </div>
-      </div>
-      <div
-        class="funkly-content-row row"
-      >
-        <div
-          class="col-lg-7"
+        </button>
+        <button>
+          <img
+            class="funkly-button-icon"
+            src="debugon.png"
+          />
+        </button>
+        <button>
+          <img
+            class="funkly-button-icon"
+            src="savebutton.png"
+          />
+        </button>
+        <button>
+          <img
+            class="funkly-button-icon"
+            src="loadbutton.png"
+          />
+        </button>
+        <button>
+          <img
+            class="funkly-button-icon"
+            src="xmlbutton.png"
+          />
+        </button>
+        <label
+          class="funkly-file-load"
+          for="importedCode"
+        >
+          <img
+            class="funkly-button-icon"
+            src="choosefile.png"
+          />
+        </label>
+        <input
+          class="hidden"
+          id="importedCode"
+          name="importedCode"
+          type="file"
         />
-        <div
-          class="col-lg-4"
-        >
-          <div
-            class="funkly-game-div row"
-          />
-          <div
-            class="funkly-char-selection row"
-          />
-        </div>
       </div>
       <div
-        class="funkly-debug row"
+        class="funkly-blockly-editor"
+      />
+      <div
+        class="funkly-engine"
+      />
+      <div
+        class="funkly-char-selection"
+      />
+      <div
+        class="funkly-debug"
       />
     </div>
   </div>,

@@ -23,20 +23,22 @@ interface buttonProps {
 export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
     return (
         <>
-            <button onClick={props.toggleGame}>
-                {props.gameRunning ? (
-                    <img width={50} height={50} src={guiImages.get("stop")} />
-                ) : (
-                    <img width={50} height={50} src={guiImages.get("play")} />
-                )}
+            <button onClick={props.toggleGame}>{
+                props.gameRunning 
+                    ? <img className="funkly-button-icon" src={guiImages.get("stop")}/>
+                    : <img className="funkly-button-icon" src={guiImages.get("play")}/>
+            } </button>
+            <button onClick={props.toggleDebug}>
+                {props.debugToggle 
+                    ? <img className="funkly-button-icon" src={guiImages.get("debugoff")}/> 
+                    : <img className="funkly-button-icon"  src={guiImages.get("debugon")}/> }
             </button>
-            <button onClick={props.toggleDebug}>{props.debugToggle ? "debug pois" : "debug päälle"}</button>
             <button
                 onClick={() => {
                     saveProject(props.editor.editorState.blockXml.toString())
                 }}
             >
-                <img width={50} height={50} src={guiImages.get("save")} />
+                <img className="funkly-button-icon" src={guiImages.get("save")}/>
             </button>
             <button
                 onClick={() => {
@@ -44,7 +46,7 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                     // loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                <img width={50} height={50} src={guiImages.get("load")} />
+                <img className="funkly-button-icon" src={guiImages.get("load")}/>
             </button>
             <button
                 onClick={() =>
@@ -54,7 +56,7 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                     )
                 }
             >
-                xml
+                <img className="funkly-button-icon" src={guiImages.get("xml")}/>
             </button>
             <input
                 type="file"
@@ -62,6 +64,9 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                 name="importedCode"
                 onInput={handleUpload(null /* TODO: Add editor */)}
             />
+            <label className="funkly-file-load" htmlFor="importedCode">
+                <img className="funkly-button-icon" src={guiImages.get("choosefile")} />
+            </label>
         </>
     )
 }

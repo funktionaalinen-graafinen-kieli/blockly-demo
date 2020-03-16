@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import { gameStyle } from "./config"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
 
@@ -17,9 +16,8 @@ function StateMap(props: { gameState: MapWithDefault }) {
     })
 
     return (
-        <div style={{ background: "orange", width: "500px", top: "1200px", position: "absolute" }}>
+        <div className="funkly-statemap">
             <h3>State</h3>
-
             {table}
         </div>
     )
@@ -35,7 +33,7 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
         display: "flex",
         width: width,
         height: h,
-        position: "absolute",
+        position: "relative",
         left: x,
         top: y
     }
@@ -45,16 +43,14 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
     let stateMap
     if (debugToggle)
         stateMap = (
-            <div style={{ position: "absolute" }}>
-                <StateMap gameState={gameEngine.state.gameState} />
-            </div>
+            <StateMap gameState={gameEngine.state.gameState} />
         )
     else stateMap = null
 
     return (
         <>
             <div
-                style={gameStyle}
+                className="funkly-game-area"
                 ref={gameEngine.gameArea}
                 onKeyDown={gameEngine.handleKeyDown}
                 onKeyUp={gameEngine.handleKeyUp}

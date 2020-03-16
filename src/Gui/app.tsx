@@ -1,5 +1,4 @@
 import React from "react"
-import { Container, Row, Col } from "react-bootstrap"
 import * as log from "loglevel"
 
 import GameEngine from "../GameEngine/game_engine"
@@ -46,59 +45,50 @@ export default class App extends React.Component<
 
     render() {
         return (
-            <Container fluid className="funkly-container-background">
-                <Row className="funkly-button-row">
-                    <div>
-                        <header className="funkly-header">
-                            <h1>FUNKLY</h1>
-                        </header>
-                    </div>
-                    <div className="align-right">
+            <div className="funkly-container">
+                <h1 className="funkly-title">FUNKLY</h1>
+                <div className="funkly-buttons">
+                    <ThemeContextConsumer>
+                        {(context: any) => (
+                            <ButtonRow
+                                editor={context}
+                                gameRunning={this.state.gameRunning}
+                                debugToggle={this.state.debugToggle}
+                                toggleGame={this.toggleGame}
+                                toggleDebug={this.toggleDebug}
+                            />
+                        )}
+                    </ThemeContextConsumer>
+                </div>
+                <div className="funkly-blockly-editor">
+                    <ThemeContextConsumer>
+                        {(context: any) => <Editor contextState={context} />}
+                    </ThemeContextConsumer>
+                    <Editor ref={this.editorInstance} />
+                </div>
+                <div className="funkly-engine">
+                    {this.state.gameRunning && (
                         <ThemeContextConsumer>
                             {(context: any) => (
-                                <ButtonRow
-                                    editor={context}
-                                    gameRunning={this.state.gameRunning}
+                                <GameEngine
                                     debugToggle={this.state.debugToggle}
-                                    toggleGame={this.toggleGame}
-                                    toggleDebug={this.toggleDebug}
+                                    toggle={this.state.gameRunning}
+                                    program={context.editorState.code}
+                                    updater={intervalUpdater}
                                 />
                             )}
                         </ThemeContextConsumer>
-                    </div>
-                </Row>
-                <Row className="funkly-content-row">
-                    <Col lg={7}>
-                        <ThemeContextConsumer>
-                            {(context: any) => <Editor contextState={context} />}
-                        </ThemeContextConsumer>
-                    </Col>
-                    <Col lg={4}>
-                        <Row className="funkly-game-div">
-                            {this.state.gameRunning && (
-                                <ThemeContextConsumer>
-                                    {(context: any) => (
-                                        <GameEngine
-                                            debugToggle={this.state.debugToggle}
-                                            toggle={this.state.gameRunning}
-                                            program={context.editorState.code}
-                                            updater={intervalUpdater}
-                                        />
-                                    )}
-                                </ThemeContextConsumer>
-                            )}
-                        </Row>
-                        <Row className="funkly-char-selection" />
-                    </Col>
-                </Row>
-                <Row className="funkly-debug">
+                    )}
+                </div>
+                <div className="funkly-char-selection" />
+                <div className="funkly-debug">
                     <ThemeContextConsumer>
                         {(context: any) => (
                             <CodeRenderer debugToggle={this.state.debugToggle} code={context.editorState} />
                         )}
                     </ThemeContextConsumer>
-                </Row>
-            </Container>
+                </div>
+            </div>
         )
     }
 }
