@@ -6,7 +6,7 @@ import { frametime } from "../GameEngine/config"
 import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
-import { ThemeContextConsumer } from "../themeContext"
+import { FunklyContextConsumer } from "../funklyContext"
 
 import "./app.css"
 log.setLevel("trace")
@@ -44,11 +44,12 @@ export default class App extends React.Component<
     }
 
     render() {
+        const editorInstance = this.editorInstance.current!
         return (
             <div className="funkly-container">
                 <h1 className="funkly-title">FUNKLY</h1>
                 <div className="funkly-buttons">
-                    <ThemeContextConsumer>
+                    <FunklyContextConsumer>
                         {(context: any) => (
                             <ButtonRow
                                 editor={context}
@@ -58,17 +59,14 @@ export default class App extends React.Component<
                                 toggleDebug={this.toggleDebug}
                             />
                         )}
-                    </ThemeContextConsumer>
+                    </FunklyContextConsumer>
                 </div>
                 <div className="funkly-blockly-editor">
-                    <ThemeContextConsumer>
-                        {(context: any) => <Editor contextState={context} />}
-                    </ThemeContextConsumer>
-                    <Editor ref={this.editorInstance} />
+                    <FunklyContextConsumer>{(context: any) => <Editor contextState={context} />}</FunklyContextConsumer>
                 </div>
                 <div className="funkly-engine">
                     {this.state.gameRunning && (
-                        <ThemeContextConsumer>
+                        <FunklyContextConsumer>
                             {(context: any) => (
                                 <GameEngine
                                     debugToggle={this.state.debugToggle}
@@ -77,20 +75,20 @@ export default class App extends React.Component<
                                     updater={intervalUpdater}
                                 />
                             )}
-                        </ThemeContextConsumer>
+                        </FunklyContextConsumer>
                     )}
                 </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">
-                    <ThemeContextConsumer>
+                    <FunklyContextConsumer>
                         {(context: any) => (
                             <CodeRenderer debugToggle={this.state.debugToggle} code={context.editorState} />
                         )}
-                    </ThemeContextConsumer>
+                    </FunklyContextConsumer>
                 </div>
             </div>
         )
     }
 }
 
-App.contextType = ThemeContextConsumer
+App.contextType = FunklyContextConsumer

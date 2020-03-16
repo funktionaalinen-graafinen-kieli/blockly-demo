@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 const { Provider, Consumer } = React.createContext()
 
-class ThemeContextProvider extends Component {
+class FunklyContextProvider extends Component {
   state = { code: "", blockXml: "" };
 
   render() {
@@ -15,4 +15,4 @@ class ThemeContextProvider extends Component {
   }
 }
 
-export { ThemeContextProvider, Consumer as ThemeContextConsumer }
+export { FunklyContextProvider, Consumer as FunklyContextConsumer }

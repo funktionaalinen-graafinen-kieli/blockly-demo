@@ -136,6 +136,7 @@ class Editor extends React.Component<{ contextState: any }> {
     }
 
     render = () => {
+        console.warn("contextState:", typeof this.props.contextState)
         return (
             <div className="Editor">
                 <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>

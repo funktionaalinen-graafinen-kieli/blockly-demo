@@ -8,7 +8,7 @@ import { TypedConnectionShapeRenderer } from "./BlocklyEditor/BlocklyReact/funkl
 
 import App from "./Gui/app"
 import Blockly from "blockly"
-import { ThemeContextProvider } from "./themeContext"
+import { FunklyContextProvider } from "./funklyContext"
 
 log.setLevel("trace")
 
@@ -19,8 +19,8 @@ Blockly.HSV_SATURATION = 0.85
 blockRendering.register("funkly_renderer", TypedConnectionShapeRenderer)
 
 ReactDOM.render(
-    <ThemeContextProvider>
+    <FunklyContextProvider>
         <App />
-    </ThemeContextProvider>,
+    </FunklyContextProvider>,
     document.getElementById("root")
 )
