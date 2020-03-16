@@ -45,24 +45,6 @@ export default class App extends React.Component<
     }
 
     render() {
-        let gameEngine
-        if (this.state.gameRunning) {
-            gameEngine = (
-                <ThemeContextConsumer>
-                    {(context: any) => (
-                        <GameEngine
-                            debugToggle={this.state.debugToggle}
-                            toggle={this.state.gameRunning}
-                            program={context.editorState.code}
-                            updater={intervalUpdater}
-                        />
-                    )}
-                </ThemeContextConsumer>
-            )
-        } else {
-            gameEngine = null
-        }
-
         return (
             <Container fluid className="funkly-container-background">
                 <Row className="funkly-button-row">
@@ -87,10 +69,25 @@ export default class App extends React.Component<
                 </Row>
                 <Row className="funkly-content-row">
                     <Col lg={7}>
-                        <Editor ref={this.editorInstance} />
+                        <ThemeContextConsumer>
+                            {(context: any) => <Editor contextState={context} />}
+                        </ThemeContextConsumer>
                     </Col>
                     <Col lg={4}>
-                        <Row className="funkly-game-div">{gameEngine}</Row>
+                        <Row className="funkly-game-div">
+                            {this.state.gameRunning && (
+                                <ThemeContextConsumer>
+                                    {(context: any) => (
+                                        <GameEngine
+                                            debugToggle={this.state.debugToggle}
+                                            toggle={this.state.gameRunning}
+                                            program={context.editorState.code}
+                                            updater={intervalUpdater}
+                                        />
+                                    )}
+                                </ThemeContextConsumer>
+                            )}
+                        </Row>
                         <Row className="funkly-char-selection" />
                     </Col>
                 </Row>
