@@ -58,7 +58,7 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
             >
                 <img className="funkly-button-icon" src={guiImages.get("xml")}/>
             </button>
-            <label htmlFor="importedCode">
+            <label className="funkly-file-load" htmlFor="importedCode">
                 <img className="funkly-button-icon" src={guiImages.get("choosefile")} />
             </label>
             <input
