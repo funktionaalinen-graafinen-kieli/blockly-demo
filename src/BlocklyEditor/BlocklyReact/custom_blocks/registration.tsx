@@ -246,9 +246,9 @@ Extensions.register("col_dropdown", function (this: Block) {
     let es = () => {
         let options: string[][] = []
         entities().forEach(e =>
-            options.push([e.getFieldValue("id"), e.getFieldValue("id")])
+            options.push([e.getFieldValue("name"), e.id])
         )
-        if (options.length === 0) options = [["?", "DEFAULT_NONE"]]
+        if (options.length === 0) options = [["?", "?"]]
         return options
     }
 
