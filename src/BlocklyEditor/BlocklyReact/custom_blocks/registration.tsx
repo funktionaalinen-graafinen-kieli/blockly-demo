@@ -7,11 +7,27 @@ import { entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
-function parent_entity(block: Block) {
+function parent_entity(block: Block): Block | undefined {
     const root_parent = block.getRootBlock()
-    if (root_parent.type === "funkly_entity") return root_parent.getFieldValue("id")
+    if (root_parent.type === "funkly_entity") return root_parent
     else return undefined
 }
+
+/* Dropdown with the block being passed treated as a special entry named "tämä" */
+function dropdownWithThis(block: Block, entities: () => Block[]) {
+    if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
+
+    const options: string[][] = []
+    const parent = parent_entity(block)
+    if (parent) options.push(["tämä", parent.id])
+    else options.push(["?", "NOT_SELECTED"])
+
+    entities()
+        .filter(e => e != parent)
+        .forEach(e => options.push([e.getFieldValue("name"), e.id]))
+    return options
+}
+
 
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
@@ -248,21 +264,10 @@ createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+    const dropdownOptions = () => dropdownWithThis(this, entities)
 
-    let es = () => {
-        let options: string[][] = []
-        const parent = parent_entity(this)
-        if (parent) options.push(["tämä", parent])
-        else options.push(["?", "?"])
-        entities()
-            .filter(it => it.getFieldValue("id") != parent)
-            .forEach(e => options.push([e.getFieldValue("id"), e.getFieldValue("id")]))
-        return options
-    }
-
-    this.getInput("e1").appendField(new FieldDropdown(es), "e1")
-    this.getInput("e2").appendField(new FieldDropdown(es), "e2")
-
+    this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
+    this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
 })
 
 const getJson = {
@@ -286,20 +291,11 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-    const block = this
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
         .concat(this.workspace.getBlocksByType("funkly_guientity", true))
+    const dropdownOptions = () => dropdownWithThis(this, entities)
 
-    this.getInput("entity").appendField(new FieldDropdown(function() {
-        let options: string[][] = []
-        const parent = parent_entity(block)
-        if (parent) options.push(["tämä", parent])
-        else options.push(["?", "?"])
-        entities()
-            .filter(it => it.getFieldValue("id") != parent)
-            .forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
-        return options
-    }), "entity")
+    this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
     this.getInput("property").appendField(
         newCustomDropdown(
