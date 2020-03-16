@@ -90,8 +90,8 @@ TypedConnectionShapeProvider.prototype.makeVNotch = function() {
             point(horizontal_direction * width / 2, -height)
         ])
     }
-    let pathLeft = makeMainPath(-1)
-    let pathRight = makeMainPath(1)
+    let pathLeft = makeMainPath(1)
+    let pathRight = makeMainPath(-1)
 
     return {
         width: width,
@@ -172,7 +172,7 @@ TypedConnectionShapeProvider.prototype.init = function() {
   this.SQUARED = this.makeSquared();
   this.ROUNDED = this.makeRounded();
   this.SQUAREWAVE = this.makeSquareWave();
-  this.VNOTCH = this.makeTriangleWave();
+  this.VNOTCH = this.makeVNotch();
   this.NOTCH = this.makeTriangleWave();
 };
 
@@ -200,6 +200,6 @@ TypedConnectionShapeProvider.prototype.shapeFor = function(connection) {
       }
       return this.NOTCH;
     default:
-      return this.NOTCH;
+      return this.VNOTCH;
   }
 };
