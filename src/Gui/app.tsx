@@ -21,6 +21,8 @@ export default class App extends React.Component<
     {
         debugToggle: boolean
         gameRunning: boolean
+        mouse_x: number
+        mouse_y: number
     }
     > {
     editorInstance = React.createRef<Editor>()
@@ -28,7 +30,7 @@ export default class App extends React.Component<
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
-        this.state = { debugToggle: false, gameRunning: false }
+        this.state = { debugToggle: false, gameRunning: false, mouse_x: -1, mouse_y: -1 }
         setInterval(() => {
             this.forceUpdate()
         }, 1000)
@@ -41,6 +43,14 @@ export default class App extends React.Component<
     toggleDebug = () => {
         this.setState(prevState => ({ debugToggle: !prevState.debugToggle }))
     }
+
+    hoverAction = (event: React.MouseEvent<HTMLDivElement>) => {
+        const mouse_x = event.nativeEvent.offsetX
+        const mouse_y = event.nativeEvent.offsetY
+        
+        this.setState({ mouse_x, mouse_y })
+    }
+
 
     render() {
         let editorInstance = this.editorInstance.current!
@@ -74,7 +84,10 @@ export default class App extends React.Component<
                 <div className="funkly-blockly-editor">
                     <Editor ref={this.editorInstance} />
                 </div>
-                <div className="funkly-engine">{gameEngine}</div>
+                <div className="funkly-engine" onMouseMove={this.hoverAction}>
+                    Hiiren sijainti: {this.state.mouse_x}, {this.state.mouse_y}
+                    {gameEngine}
+                </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.editorInstance.current?.state.code} />
