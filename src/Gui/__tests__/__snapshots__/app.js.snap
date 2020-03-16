@@ -47,6 +47,7 @@ Object {
             />
           </button>
           <label
+            class="funkly-file-load"
             for="importedCode"
           >
             <img
@@ -119,6 +120,7 @@ Object {
           />
         </button>
         <label
+          class="funkly-file-load"
           for="importedCode"
         >
           <img
