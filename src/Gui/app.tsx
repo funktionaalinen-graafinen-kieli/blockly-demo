@@ -6,7 +6,7 @@ import { frametime } from "../GameEngine/config"
 import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
-import { FunklyContextConsumer } from "../funklyContext"
+import { FunklyState } from "../Store/funkly_store"
 
 import "./app.css"
 log.setLevel("trace")
@@ -22,6 +22,7 @@ export default class App extends React.Component<
     {
         debugToggle: boolean
         gameRunning: boolean
+        funklyState: FunklyState
     }
 > {
     editorInstance = React.createRef<Editor>()
@@ -29,7 +30,7 @@ export default class App extends React.Component<
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
-        this.state = { debugToggle: false, gameRunning: false }
+        this.state = { debugToggle: false, gameRunning: false, funklyState: new FunklyState() }
         setInterval(() => {
             this.forceUpdate()
         }, 1000)
@@ -45,50 +46,37 @@ export default class App extends React.Component<
 
     render() {
         const editorInstance = this.editorInstance.current!
+        const funklyState = this.state.funklyState
         return (
             <div className="funkly-container">
                 <h1 className="funkly-title">FUNKLY</h1>
                 <div className="funkly-buttons">
-                    <FunklyContextConsumer>
-                        {(context: any) => (
-                            <ButtonRow
-                                editor={context}
-                                gameRunning={this.state.gameRunning}
-                                debugToggle={this.state.debugToggle}
-                                toggleGame={this.toggleGame}
-                                toggleDebug={this.toggleDebug}
-                            />
-                        )}
-                    </FunklyContextConsumer>
+                    <ButtonRow
+                        editor={editorInstance}
+                        gameRunning={this.state.gameRunning}
+                        debugToggle={this.state.debugToggle}
+                        toggleGame={this.toggleGame}
+                        toggleDebug={this.toggleDebug}
+                    />
                 </div>
                 <div className="funkly-blockly-editor">
-                    <FunklyContextConsumer>{(context: any) => <Editor contextState={context} />}</FunklyContextConsumer>
+                    <Editor setCode={funklyState.setCode} setBlockXml={funklyState.setBlockXml} /> 
                 </div>
                 <div className="funkly-engine">
                     {this.state.gameRunning && (
-                        <FunklyContextConsumer>
-                            {(context: any) => (
-                                <GameEngine
-                                    debugToggle={this.state.debugToggle}
-                                    toggle={this.state.gameRunning}
-                                    program={context.editorState.code}
-                                    updater={intervalUpdater}
-                                />
-                            )}
-                        </FunklyContextConsumer>
+                        <GameEngine
+                            debugToggle={this.state.debugToggle}
+                            toggle={this.state.gameRunning}
+                            program={funklyState.code}
+                            updater={intervalUpdater}
+                        />
                     )}
                 </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">
-                    <FunklyContextConsumer>
-                        {(context: any) => (
-                            <CodeRenderer debugToggle={this.state.debugToggle} code={context.editorState} />
-                        )}
-                    </FunklyContextConsumer>
+                    <CodeRenderer debugToggle={this.state.debugToggle} code={funklyState.code} />
                 </div>
             </div>
         )
     }
 }
-
-App.contextType = FunklyContextConsumer

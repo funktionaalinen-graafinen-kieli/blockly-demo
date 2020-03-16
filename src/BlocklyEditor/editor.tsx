@@ -80,11 +80,8 @@ const defaultBinds = `
 }
 `
 
-class Editor extends React.Component<{ contextState: any }> {
+class Editor extends React.Component<{ setCode: (_: string) => void, setBlockXml: (_: string) => void}, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    constructor(props: any) {
-        super(props)
-    }
 
     private generateXml = (): string => {
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
@@ -109,8 +106,8 @@ class Editor extends React.Component<{ contextState: any }> {
     }
 
     setCode = (engineCode: string, xmlWorkspace: string) => {
-        this.props.contextState.setCode(engineCode)
-        this.props.contextState.setBlockXml(xmlWorkspace)
+        this.props.setCode(engineCode)
+        this.props.setBlockXml(xmlWorkspace)
     }
 
     importXml = (xmlInput: string) => {
@@ -136,7 +133,6 @@ class Editor extends React.Component<{ contextState: any }> {
     }
 
     render = () => {
-        console.warn("contextState:", typeof this.props.contextState)
         return (
             <div className="Editor">
                 <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>
