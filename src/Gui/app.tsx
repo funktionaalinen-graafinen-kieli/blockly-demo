@@ -53,6 +53,7 @@ export default class App extends React.Component<
                 <div className="funkly-buttons">
                     <ButtonRow
                         editor={editorInstance}
+                        blockXml={this.state.funklyState.blockXml}
                         gameRunning={this.state.gameRunning}
                         debugToggle={this.state.debugToggle}
                         toggleGame={this.toggleGame}

@@ -143,7 +143,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void, setBlockXml
     }
 }
 
-function saveProject(blockXml: string | undefined): void {
+function saveProject(blockXml: string): void {
     if (!blockXml) {
         console.debug("Editor is null")
         return

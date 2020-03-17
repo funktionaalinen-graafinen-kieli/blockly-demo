@@ -3,7 +3,7 @@ import { download } from "../GameEngine/utils"
 import React from "react"
 import { guiImages } from "./image_storage"
 
-const handleUpload = (editor: any) => (event: React.FormEvent<HTMLInputElement>) => {
+const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElement>) => {
     if (editor && event.currentTarget.files) {
         const uploaded = event.currentTarget.files.item(0)!
         uploaded.text().then(it => {
@@ -13,7 +13,8 @@ const handleUpload = (editor: any) => (event: React.FormEvent<HTMLInputElement>)
 }
 
 interface buttonProps {
-    editor: any
+    editor: Editor
+    blockXml: string
     gameRunning: boolean
     debugToggle: boolean
     toggleGame: () => void
@@ -35,15 +36,14 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
             </button>
             <button
                 onClick={() => {
-                    saveProject(props.editor.editorState.blockXml.toString())
+                    saveProject(props.blockXml)
                 }}
             >
                 <img className="funkly-button-icon" src={guiImages.get("save")}/>
             </button>
             <button
                 onClick={() => {
-                    // TODO: FIX THIS
-                    // loadProject(props.editor.blocklyReactInstance.current)
+                    loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
                 <img className="funkly-button-icon" src={guiImages.get("load")}/>
@@ -52,7 +52,7 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                 onClick={() =>
                     download(
                         "funkly-download.js",
-                        `export const initialXml = "${encodeURI(props.editor.editorState.blockXml.toString()!)}"`
+                        `export const initialXml = "${encodeURI(props.blockXml)}"`
                     )
                 }
             >
@@ -62,7 +62,7 @@ export const ButtonRow: React.FC<buttonProps> = (props: buttonProps) => {
                 type="file"
                 id="importedCode"
                 name="importedCode"
-                onInput={handleUpload(null /* TODO: Add editor */)}
+                onInput={handleUpload(props.editor)}
             />
             <label className="funkly-file-load" htmlFor="importedCode">
                 <img className="funkly-button-icon" src={guiImages.get("choosefile")} />
