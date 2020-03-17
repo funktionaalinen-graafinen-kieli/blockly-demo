@@ -39,14 +39,8 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
     }
 }
 
-export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
-    let stateMap
-    if (debugToggle)
-        stateMap = (
-            <StateMap gameState={gameEngine.state.gameState} />
-        )
-    else stateMap = null
-
+export const renderGame: React.FC<{debugToggle: boolean, gameEngine: GameEngine}> = (props) => {
+    const gameEngine = props.gameEngine
     return (
         <>
             <div
@@ -56,11 +50,11 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                 onKeyUp={gameEngine.handleKeyUp}
                 tabIndex={0}
             >
-                {gameEngine.state.entities.map((entity: Entity, key) => (
+                {props.gameEngine.state.entities.map((entity: Entity, key) => (
                     <div
                         key={key}
                         style={entityDivStyle(
-                            debugToggle,
+                            props.debugToggle,
                             gameEngine.getVal(entity.w),
                             gameEngine.getVal(entity.h),
                             gameEngine.getVal(entity.x),
@@ -84,7 +78,7 @@ export const renderGame = (debugToggle: boolean, gameEngine: GameEngine) => {
                     </div>
                 ))}
             </div>
-            {stateMap}
+            {props.debugToggle && <StateMap gameState={gameEngine.state.gameState} />}
         </>
     )
 }
