@@ -3,7 +3,7 @@ import * as React from "react"
 import GameEngine, { MapWithDefault } from "./game_engine"
 import Entity from "./entity"
 
-function StateMap(props: { gameState: MapWithDefault }) {
+const StateMap: React.FC<{gameState: MapWithDefault}> = (props: { gameState: MapWithDefault }) => {
     if (!props.gameState) return <></>
 
     const table: React.ReactElement[] = []
@@ -39,9 +39,9 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
     }
 }
 
-export const renderGame: React.FC<{debugToggle: boolean, gameEngine: GameEngine}> = (props) => {
-    const gameEngine = props.gameEngine
-    
+export const RenderGame: React.FC<{debugToggle: boolean, gameEngine: GameEngine}> = (props) => {
+    const gameEngine = props.gameEngine!
+    const debugToggle = props.debugToggle!
     return (
         <>
             <div
@@ -51,11 +51,13 @@ export const renderGame: React.FC<{debugToggle: boolean, gameEngine: GameEngine}
                 onKeyUp={gameEngine.handleKeyUp}
                 tabIndex={0}
             >
-                {props.gameEngine.state.entities.map((entity: Entity, key) => (
+                {/*
+                //@ts-ignore */}
+                {gameEngine.state.entities.map((entity: Entity, key) => (
                     <div
                         key={key}
                         style={entityDivStyle(
-                            props.debugToggle,
+                            debugToggle,
                             gameEngine.getVal(entity.w),
                             gameEngine.getVal(entity.h),
                             gameEngine.getVal(entity.x),
@@ -79,7 +81,9 @@ export const renderGame: React.FC<{debugToggle: boolean, gameEngine: GameEngine}
                     </div>
                 ))}
             </div>
-            {props.debugToggle && <StateMap gameState={gameEngine.state.gameState} />}
+            {/*
+              //@ts-ignore*/}
+            {debugToggle && <StateMap gameState={ gameEngine.state.gameState } />}
         </>
     )
 }

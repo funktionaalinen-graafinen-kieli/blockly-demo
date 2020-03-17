@@ -46,6 +46,7 @@ export default class App extends React.Component<
 
     render() {
         const editorInstance = this.editorInstance.current!
+
         return (
             <div className="funkly-container">
                 <h1 className="funkly-title">FUNKLY</h1>

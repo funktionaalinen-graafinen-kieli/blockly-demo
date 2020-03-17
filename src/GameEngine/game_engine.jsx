@@ -1,8 +1,9 @@
 import React from "react"
+import PropTypes from "prop-types"
 
 import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
-import { renderGame } from "./render_game"
+import { RenderGame } from "./render_game"
 import { FunklyContext } from "../Store/funkly_store"
 
 export class MapWithDefault extends Map {
@@ -17,24 +18,51 @@ export class MapWithDefault extends Map {
     }
 }
 
+
+export const evalProgram = (program) => {
+    const gameState = new MapWithDefault(false, [])
+    let parsedObjectList
+    try {
+        parsedObjectList = evalFunc(program)
+    } catch (error) {
+        console.debug("Program for game was invalid JSON")
+        console.debug(program)
+        console.debug("This should never happen with the blocks generating the json")
+        console.debug(error)
+        return [[], []]
+    }
+    const parsedEntities = parsedObjectList["entities"]
+    const entities = []
+    Object.keys(entities).forEach(entityId => {
+        entities.push(new Entity(gameState, entityId, parsedEntities[entityId]))
+    })
+
+    const binds = parsedObjectList["binds"]
+    Object.keys(binds).forEach(eventName => {
+        gameState.set(eventName, binds[eventName])
+    })
+    return [entities, gameState]
+}
+
 export default class GameEngine extends React.Component {
-    gameArea = React.createRef()
-    state = {
-        gameState: new MapWithDefault(false),
-        entities: [],
-        updater: null,
-        keymap: new Map(),
-        code: null,
+    constructor(props) {
+        super(props)
+        this.gameArea = React.createRef()
+
+        console.info(props.program)
+        const [entities, gameState] = evalProgram(props.program)
+
+        this.state = {
+            entities: entities,
+            gameState: gameState, 
+            updater: this.props.updater(this),
+            keymap: new Map(),
+        }
     }
 
-    componentDidMount() {
-        this.setState({ updater: this.props.updater(this) })
+    componentWillUnmount() {
+        clearInterval(this.state.updater)
     }
-
-    //FIXME: This doesn't actually unmount the timer
-    /*componentWillUnmount() {
-        clearInterval(this.props.updater(this))
-    }*/
 
     getVal = name => this.state.gameState.get(name)[1]
 
@@ -51,30 +79,6 @@ export default class GameEngine extends React.Component {
         this.state.keymap.set(e.key, false)
     }
 
-    evalProgram(program) {
-        this.setState({ code: program })
-        let parsedObjectList
-        try {
-            parsedObjectList = evalFunc(program)
-        } catch (error) {
-            console.debug("This should never happen with the blocks generating the json")
-            console.debug("Caught error in parsing block json")
-            console.debug(error)
-            this.setState({ updater: this.props.updater(this) })
-            return
-        }
-        const entities = parsedObjectList["entities"]
-        Object.keys(entities).forEach(entityId => {
-            this.state.entities.push(new Entity(this.state.gameState, entityId, entities[entityId]))
-        })
-
-        const binds = parsedObjectList["binds"]
-        Object.keys(binds).forEach(eventName => {
-            this.state.gameState.set(eventName, binds[eventName])
-        })
-    }
-
-    
     update() {
         let newState = new MapWithDefault(false, this.state.gameState)
 
@@ -87,15 +91,16 @@ export default class GameEngine extends React.Component {
     }
 
     render() {
-
-        if (!this.props.gameRunning) return null
-        if (!this.state.entities.length) return null
-        this.evalProgram(this.props.program)
-        return renderGame(
-            <FunklyContext.Consumer>
-                renderGame(this.props.debugToggle, this)
-
-            </FunklyContext.Consumer>
-        )
+        const engine = this
+        return <FunklyContext.Consumer>
+            {({ debugToggle, gameRunning }) => (
+                gameRunning && <RenderGame debugToggle={debugToggle} gameEngine={engine}/>
+            )}
+        </FunklyContext.Consumer>
     }
+}
+
+GameEngine.propTypes = {
+    program: PropTypes.string.isRequired,
+    updater: PropTypes.func.isRequired
 }
