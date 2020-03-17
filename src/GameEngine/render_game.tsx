@@ -41,6 +41,7 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
 
 export const renderGame: React.FC<{debugToggle: boolean, gameEngine: GameEngine}> = (props) => {
     const gameEngine = props.gameEngine
+    
     return (
         <>
             <div

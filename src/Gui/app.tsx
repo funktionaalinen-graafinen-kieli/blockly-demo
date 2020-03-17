@@ -21,6 +21,8 @@ export default class App extends React.Component<
     {},
     {
         funklyState: FunklyState
+        mouse_x: number
+        mouse_y: number
     }
 > {
     editorInstance = React.createRef<Editor>()
@@ -28,11 +30,19 @@ export default class App extends React.Component<
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
-        this.state = { funklyState: new FunklyState() }
+        this.state = { funklyState: new FunklyState(), mouse_x: 0, mouse_y: 0 }
         setInterval(() => {
             this.forceUpdate()
         }, 1000)
     }
+
+    hoverAction = (event: React.MouseEvent<HTMLDivElement>) => {
+        const mouse_x = event.nativeEvent.offsetX
+        const mouse_y = event.nativeEvent.offsetY
+        
+        this.setState({ mouse_x, mouse_y })
+    }
+
 
     render() {
         const editorInstance = this.editorInstance.current!
@@ -55,6 +65,7 @@ export default class App extends React.Component<
                     </FunklyContext.Provider>
                 </div>
                 <div className="funkly-engine">
+                    Hiiren sijainti: {this.state.mouse_x}, {this.state.mouse_y}
                     <FunklyContext.Provider value={this.state.funklyState}>
                         <GameEngine updater={intervalUpdater} />
                     </FunklyContext.Provider>
