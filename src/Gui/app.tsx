@@ -1,48 +1,51 @@
 import React from "react"
 import * as log from "loglevel"
 
-import GameEngine from "../GameEngine/game_engine"
-import { frametime } from "../GameEngine/config"
 import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
-import { FunklyState, FunklyContext } from "../Store/funkly_store"
+import { GameComponent } from "../GameEngine/game_component"
 
 import "./app.css"
 log.setLevel("trace")
 
-export const intervalUpdater = async (updatee: { update(): void }) => {
-    return setInterval(() => {
-        updatee.update()
-    }, frametime)
-}
-
 export default class App extends React.Component<
     {},
     {
-        funklyState: FunklyState
+        code: string
+        blockXml: string
+        debugToggle: boolean
+        gameRunning: boolean 
         mouse_x: number
         mouse_y: number
     }
 > {
     editorInstance = React.createRef<Editor>()
 
+   
+    setCode = (code: string) => {this.setState({code})}
+    setBlockXml = (blockXml: string) => {this.setState({ blockXml })}
+    toggleGame = () => { this.setState({ gameRunning: !this.state.gameRunning }) }
+    toggleDebug = () => { this.setState({ debugToggle: !this.state.debugToggle }) }
+
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
-        this.state = { funklyState: new FunklyState(), mouse_x: 0, mouse_y: 0 }
-        setInterval(() => {
-            this.forceUpdate()
-        }, 1000)
+        this.state = { 
+            code: "", 
+            blockXml: "",
+            debugToggle: false, 
+            gameRunning: false, 
+            mouse_x: 0, 
+            mouse_y: 0 
+        }
     }
 
     hoverAction = (event: React.MouseEvent<HTMLDivElement>) => {
         const mouse_x = event.nativeEvent.offsetX
         const mouse_y = event.nativeEvent.offsetY
-        
         this.setState({ mouse_x, mouse_y })
     }
-
 
     render() {
         const editorInstance = this.editorInstance.current!
@@ -51,31 +54,32 @@ export default class App extends React.Component<
             <div className="funkly-container">
                 <h1 className="funkly-title">FUNKLY</h1>
                 <div className="funkly-buttons">
-                    <FunklyContext.Provider value={this.state.funklyState}>
-                        <ButtonRow
-                            editor={editorInstance}
-                        />
-                    </FunklyContext.Provider>
+                    <ButtonRow
+                        gameRunning={this.state.gameRunning}
+                        debugToggle={this.state.debugToggle}
+                        toggleGame={this.toggleGame}
+                        toggleDebug={this.toggleDebug}
+                        editor={editorInstance}
+                        blockXml={this.state.blockXml}
+                    />
                 </div>
                 <div className="funkly-blockly-editor">
-                    <FunklyContext.Provider value={this.state.funklyState}>
-                        <Editor 
-                            setBlockXml={this.state.funklyState.setBlockXml} 
-                            setCode={this.state.funklyState.setCode} 
-                        />
-                    </FunklyContext.Provider>
+                    <Editor 
+                        setBlockXml={this.setBlockXml} 
+                        setCode={this.setCode} 
+                    />
                 </div>
                 <div className="funkly-engine">
                     Hiiren sijainti: {this.state.mouse_x}, {this.state.mouse_y}
-                    <FunklyContext.Provider value={this.state.funklyState}>
-                        <GameEngine updater={intervalUpdater} />
-                    </FunklyContext.Provider>
+                    <GameComponent 
+                        gameRunning={this.state.gameRunning} 
+                        debugToggle={this.state.debugToggle} 
+                        program={this.state.code} 
+                    />
                 </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">
-                    <FunklyContext.Provider value={this.state.funklyState}>
-                        <CodeRenderer />
-                    </FunklyContext.Provider>
+                    <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code}/>
                 </div>
             </div>
         )

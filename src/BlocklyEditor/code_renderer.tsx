@@ -1,20 +1,19 @@
 import React from "react"
-import { FunklyContext } from "../Store/funkly_store"
 
-const CodeRenderer: React.FC = (props) => {
+interface CodeRendererProps {
+    debugToggle: boolean, code: string
+}
+
+const CodeRenderer: React.FC<CodeRendererProps> = (props: CodeRendererProps) => {
     return (
-        <FunklyContext.Consumer>
-            {({code, debugToggle}) => (
-                <div>
-                    { debugToggle && code && <><h2>Generoitu JS</h2>
-                        <pre>
-                            {JSON.stringify(JSON.parse(code), null, 4)}
-                        </pre>
-                    </>
-                    }
-                </div>
-            )}
-        </FunklyContext.Consumer>
+        <div>
+            { props.debugToggle && props.code && <><h2>Generoitu JS</h2>
+                <pre>
+                    {JSON.stringify(JSON.parse(props.code), null, 4)}
+                </pre>
+            </>
+            }
+        </div>
     )
 }
 
