@@ -3,8 +3,32 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { render, cleanup } from "@testing-library/react"
 
-import { intervalUpdater } from "../../Gui/app"
-import GameEngine, { MapWithDefault } from "../game_engine"
+import GameEngine from "../game_engine"
+import GameComponent from "../game_component"
+import { MapWithDefault } from "../utils"
+
+
+const testProgram = `{
+    "entities": {
+        "4pId7|LK3WY)AhASlRE": {
+            "name": [ "packF(id)", "esimerkkinimi" ],
+            "x": [ "pack(clamp(  get('4pId7|LK3WY)AhASlRE_x'))(0)(600))", 1 ],
+            "y": [ "pack(clamp(  get('4pId7|LK3WY)AhASlRE_y'))(0)(400))", 1 ],
+            "w": [ "packF(id)", 60 ],
+            "h": [ "packF(id)", 60 ],
+            "r": [ "packF(id)", 30 ],
+            "text": [ "pack('\"\"')", "" ],
+            "img": ["pack('\"/static/media/default_image.5d478a5d.png\"')","/static/media/default_image.5d478a5d.png"]
+        }
+    },
+    "binds": {
+        "frameTime": [ "packF(id)", 16 ],
+        "time": [ "pack(add(get('time'))(get('frameTime')))", 0 ],
+        "random": [ "(x,s) => Math.random()", 0 ],
+        "everySecond": [ "packF(timer)", [ false, 0, 1000 ] ]
+    }
+}
+`
 
 afterEach(cleanup)
 
@@ -19,40 +43,21 @@ test("MapWithDefault",()=>{
 })
 
 test("GameEngine", () => {
-    const gameEngine = React.createRef()
+    const gameEngine = new GameEngine(testProgram)
+    // TODO: make some actual assertions pass
+    //gameEngine.applyF("a", gameEngine.current.state.gameState)
+    // expect(gameEngine.getVal("e1")).toBe(true)
+    expect(gameEngine.gameState.get("e1")[1]).toBe(undefined)
+})
+
+test("GameComponent", () => {
     render(
-        <GameEngine ref={gameEngine}
-            updater={intervalUpdater}
+        <GameComponent
             debugToggle={true}
-            toggle={true}
-            program={
-                {
-                    "entities": {
-                        "e1": {
-                            "x": ["pack(clamp((1))(0)(575))", 0],
-                            "y": ["pack(clamp((1))(0)(405))", 0],
-                            "w": ["packF(id)", 70],
-                            "h": ["packF(id)", 70],
-                            "r": ["packF(id)", 30],
-                            "text": ["pack('\"\"')", ""],
-                            "img": [
-                                "pack('\"/static/media/jellyfish.ea4c89ba.gif\"')",
-                                "/static/media/breadoge.e7c76454.png"
-                            ]
-                        }
-                    },
-                    "binds": {
-                        "frameTime": ["packF(id)", 16],
-                        "time": ["pack(add(get('time'))(get('frameTime')))", 0],
-                        "everySecond": ["packF(timer)", [false, 0, 1000]]
-                    }
-                }
-            }
+            gameRunning={true}
+            program={testProgram}
         />
     )
-    //gameEngine.current.applyF("a", gameEngine.current.state.gameState)
-    // TODO: Fix this expection to actually pass
-    // expect(gameEngine.current.getVal("e1")).toBe(true)
-    expect(gameEngine.current.getVal("abc")).toBe(undefined)
+    // TODO: Expect the component to have rendered here
 })
 

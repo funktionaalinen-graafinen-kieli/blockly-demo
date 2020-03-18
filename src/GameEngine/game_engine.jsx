@@ -1,9 +1,10 @@
-import { mapWithDefault } from "./utils"
+import { MapWithDefault } from "./utils"
 import Entity from "./entity.js"
 import evalFunc from "../Lang/eval_func"
 
+
 const evalProgram = (program) => {
-    const gameState = new mapWithDefault(false, [])
+    const gameState = new MapWithDefault(false, [])
     let parsedObjectList
     try {
         parsedObjectList = evalFunc(program)
@@ -31,8 +32,6 @@ const evalProgram = (program) => {
 export default class GameEngine {
     constructor(program) {
         const [entities, gameState] = evalProgram(program)
-        console.debug(entities)
-        console.debug(gameState)
         this.entities = entities
         this.gameState = gameState 
         this.keymap = new Map()
@@ -52,7 +51,7 @@ export default class GameEngine {
     }
 
     update() {
-        let newState = new mapWithDefault(false, this.gameState)
+        let newState = new MapWithDefault(false, this.gameState)
 
         for (let [key, value] of this.gameState) {
             newState.set(key, [value[0], this.applyF(key, this.gameState)])

@@ -5,8 +5,9 @@ import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
 import { GameComponent } from "../GameEngine/game_component"
-
 import "./app.css"
+
+
 log.setLevel("trace")
 
 export default class App extends React.Component<
@@ -21,9 +22,8 @@ export default class App extends React.Component<
     }
 > {
     editorInstance = React.createRef<Editor>()
-
    
-    setCode = (code: string) => {this.setState({code})}
+    setCode = (code: string) => {this.setState({ code })}
     setBlockXml = (blockXml: string) => {this.setState({ blockXml })}
     toggleGame = () => { this.setState({ gameRunning: !this.state.gameRunning }) }
     toggleDebug = () => { this.setState({ debugToggle: !this.state.debugToggle }) }

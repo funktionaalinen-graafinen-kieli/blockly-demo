@@ -3,9 +3,13 @@ import * as React from "react"
 import { frametime } from "./config"
 import Entity from "./entity"
 import GameEngine from "./game_engine"
-import { mapWithDefault } from "./utils"
+import { MapWithDefault } from "./utils"
 
-const StateMap: React.FC<{gameState: mapWithDefault}> = (props: { gameState: mapWithDefault }) => {
+interface StateMapProps {
+    gameState: MapWithDefault
+}
+
+const StateMap: React.FC<StateMapProps> = (props: StateMapProps) => {
     if (!props.gameState) return <></>
 
     const table: React.ReactElement[] = []
@@ -48,10 +52,15 @@ interface RenderGameProps {
 
 export const RenderGame: React.FC<RenderGameProps> = (props: RenderGameProps) => {
     const [key, setKey] = React.useState(0)
-    setInterval(() => {
-        setKey(key + 1)
-        props.gameEngine.update()
-    }, 1000 / frametime)
+    React.useEffect(() => {
+        const interval = setInterval(
+            () => {
+                setKey(key + 1)
+                props.gameEngine.update()
+            }, frametime
+        )
+        return () => clearInterval(interval)
+    })
     const getVal = (name: string) => props.gameEngine.gameState.get(name)[1]
     const debugToggle = props.debugToggle
     return (

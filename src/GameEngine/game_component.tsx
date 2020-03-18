@@ -11,9 +11,8 @@ interface GameComponentProps {
 
 export const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) => {
     if (!props.gameRunning) return null
-    
-    console.debug(props.program)
     const gameEngine = new GameEngine(props.program)
+
     return (
         <RenderGame 
             debugToggle={props.debugToggle}

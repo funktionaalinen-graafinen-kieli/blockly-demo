@@ -12,7 +12,7 @@ export function download(filename, text) {
     document.body.removeChild(element)
 }
 
-export class mapWithDefault extends Map {
+export class MapWithDefault extends Map {
     get(key) {
         if (!this.has(key)) return this.defaultvalue
         return super.get(key)
