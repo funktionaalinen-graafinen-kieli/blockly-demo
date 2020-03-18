@@ -10,6 +10,13 @@ import "./app.css"
 
 log.setLevel("trace")
 
+interface XY { x: number, y: number }
+const MouseLocation: React.FC<XY> = (props: XY) => {
+    return (
+        <div> Hiiren sijainti: {props.x}, {props.y}</div>
+    )
+}
+
 export default class App extends React.Component<
     {},
     {
@@ -42,8 +49,7 @@ export default class App extends React.Component<
     }
 
     hoverAction = (event: React.MouseEvent<HTMLDivElement>) => {
-        const mouse_x = event.nativeEvent.offsetX
-        const mouse_y = event.nativeEvent.offsetY
+        const [mouse_x, mouse_y]  = [event.nativeEvent.offsetX, event.nativeEvent.offsetY]
         this.setState({ mouse_x, mouse_y })
     }
 
@@ -69,8 +75,8 @@ export default class App extends React.Component<
                         setCode={this.setCode} 
                     />
                 </div>
-                <div className="funkly-engine">
-                    Hiiren sijainti: {this.state.mouse_x}, {this.state.mouse_y}
+                <div className="funkly-engine" onMouseMove={this.hoverAction}>
+                    <MouseLocation x={this.state.mouse_x} y={this.state.mouse_y}/>
                     <GameComponent 
                         gameRunning={this.state.gameRunning} 
                         debugToggle={this.state.debugToggle} 
