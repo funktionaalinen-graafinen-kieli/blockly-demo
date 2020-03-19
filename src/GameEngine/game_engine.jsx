@@ -53,11 +53,11 @@ export default class GameEngine {
     update() {
         let newState = new MapWithDefault(false, this.gameState)
 
-        for (let [key, value] of this.gameState) {
+        this.gameState.forEach((value, key) => {
             newState.set(key, [value[0], this.applyF(key, this.gameState)])
-        }
+        })
 
-        Array.from(this.keymap, ([k, v]) => { newState.set("key_" + k, [(x, _) => x, v]) })
+        this.keymap.forEach((v, k) => newState.set("key_" + k, [(x, _) => x, v]))
         this.gameState = newState
     }
 }

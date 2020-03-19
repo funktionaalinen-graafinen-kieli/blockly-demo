@@ -4,7 +4,7 @@ import * as log from "loglevel"
 import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
-import { GameComponent } from "../GameEngine/game_component"
+import GameComponent from "../GameEngine/game_component"
 import "./app.css"
 
 

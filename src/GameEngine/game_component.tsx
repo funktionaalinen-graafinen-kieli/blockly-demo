@@ -9,7 +9,7 @@ interface GameComponentProps {
     program: string
 }
 
-export const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) => {
+const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) => {
     if (!props.gameRunning) return null
     const gameEngine = new GameEngine(props.program)
 
@@ -20,3 +20,5 @@ export const GameComponent: React.FC<GameComponentProps> = (props: GameComponent
         />
     )
 }
+
+export default React.memo(GameComponent)
