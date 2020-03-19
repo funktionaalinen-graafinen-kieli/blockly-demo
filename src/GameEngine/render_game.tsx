@@ -50,7 +50,7 @@ interface RenderGameProps {
     gameEngine: GameEngine
 }
 
-export const RenderGame: React.FC<RenderGameProps> = (props: RenderGameProps) => {
+export const RenderGame = (props: RenderGameProps) => {
     const [key, setKey] = React.useState(0)
     React.useEffect(() => {
         const interval = setInterval(

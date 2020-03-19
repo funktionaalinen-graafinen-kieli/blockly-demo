@@ -1,21 +1,15 @@
 import React from "react"
 import * as log from "loglevel"
 
-import Editor from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
-import { ButtonRow } from "./button_row"
+import Editor from "../BlocklyEditor/editor"
 import GameComponent from "../GameEngine/game_component"
+import { ButtonRow } from "./button_row"
+import { MouseLocation } from "./mouse_location"
 import "./app.css"
 
 
 log.setLevel("trace")
-
-interface XY { x: number, y: number }
-const MouseLocation: React.FC<XY> = (props: XY) => {
-    return (
-        <div> Hiiren sijainti: {props.x}, {props.y}</div>
-    )
-}
 
 export default class App extends React.Component<
     {},
@@ -48,11 +42,6 @@ export default class App extends React.Component<
         }
     }
 
-    hoverAction = (event: React.MouseEvent<HTMLDivElement>) => {
-        const [mouse_x, mouse_y]  = [event.nativeEvent.offsetX, event.nativeEvent.offsetY]
-        this.setState({ mouse_x, mouse_y })
-    }
-
     render() {
         const editorInstance = this.editorInstance.current!
 
@@ -75,13 +64,14 @@ export default class App extends React.Component<
                         setCode={this.setCode} 
                     />
                 </div>
-                <div className="funkly-engine" onMouseMove={this.hoverAction}>
-                    <MouseLocation x={this.state.mouse_x} y={this.state.mouse_y}/>
-                    <GameComponent 
-                        gameRunning={this.state.gameRunning} 
-                        debugToggle={this.state.debugToggle} 
-                        program={this.state.code} 
-                    />
+                <div className="funkly-engine" >
+                    <MouseLocation>
+                        <GameComponent 
+                            gameRunning={this.state.gameRunning} 
+                            debugToggle={this.state.debugToggle} 
+                            program={this.state.code} 
+                        />
+                    </MouseLocation>
                 </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">
