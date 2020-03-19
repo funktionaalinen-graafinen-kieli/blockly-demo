@@ -10,22 +10,22 @@ import { MapWithDefault } from "../utils"
 
 const testProgram = `{
     "entities": {
-        "4pId7|LK3WY)AhASlRE": {
-            "name": [ "packF(id)", "esimerkkinimi" ],
-            "x": [ "pack(clamp(  get('4pId7|LK3WY)AhASlRE_x'))(0)(600))", 1 ],
-            "y": [ "pack(clamp(  get('4pId7|LK3WY)AhASlRE_y'))(0)(400))", 1 ],
-            "w": [ "packF(id)", 60 ],
-            "h": [ "packF(id)", 60 ],
-            "r": [ "packF(id)", 30 ],
-            "text": [ "pack('\"\"')", "" ],
-            "img": ["pack('\"/static/media/default_image.5d478a5d.png\"')","/static/media/default_image.5d478a5d.png"]
+        "4pid7|lk3wy)ahaslre": {
+            "name": [ "packf(id)", "esimerkkinimi" ],
+            "x": [ "pack(clamp(  get('4pid7|lk3wy)ahaslre_x'))(0)(600))", 1 ],
+            "y": [ "pack(clamp(  get('4pid7|lk3wy)ahaslre_y'))(0)(400))", 1 ],
+            "w": [ "packf(id)", 60 ],
+            "h": [ "packf(id)", 60 ],
+            "r": [ "packf(id)", 30 ],
+            "text": [ "pack('')", "" ],
+            "img": ["pack('/static/media/default_image.5d478a5d.png')","/static/media/default_image.5d478a5d.png"]
         }
     },
     "binds": {
-        "frameTime": [ "packF(id)", 16 ],
-        "time": [ "pack(add(get('time'))(get('frameTime')))", 0 ],
-        "random": [ "(x,s) => Math.random()", 0 ],
-        "everySecond": [ "packF(timer)", [ false, 0, 1000 ] ]
+        "frametime": [ "packf(id)", 16 ],
+        "time": [ "pack(add(get('time'))(get('frametime')))", 0 ],
+        "random": [ "(x,s) => math.random()", 0 ],
+        "everysecond": [ "packf(timer)", [ false, 0, 1000 ] ]
     }
 }
 `

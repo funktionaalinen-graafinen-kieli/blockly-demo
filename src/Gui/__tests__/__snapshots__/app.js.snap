@@ -68,10 +68,12 @@ Object {
         <div
           class="funkly-engine"
         >
-          Hiiren sijainti: 
-          0
-          , 
-          0
+          <div>
+             Hiiren sijainti: 
+            0
+            , 
+            0
+          </div>
         </div>
         <div
           class="funkly-char-selection"
@@ -148,10 +150,12 @@ Object {
       <div
         class="funkly-engine"
       >
-        Hiiren sijainti: 
-        0
-        , 
-        0
+        <div>
+           Hiiren sijainti: 
+          0
+          , 
+          0
+        </div>
       </div>
       <div
         class="funkly-char-selection"
