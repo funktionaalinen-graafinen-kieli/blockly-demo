@@ -1,9 +1,15 @@
 import * as React from "react"
 
-import GameEngine, { MapWithDefault } from "./game_engine"
+import { frametime } from "./config"
 import Entity from "./entity"
+import GameEngine from "./game_engine"
+import { MapWithDefault } from "./utils"
 
-function StateMap(props: { gameState: MapWithDefault }) {
+interface StateMapProps {
+    gameState: MapWithDefault
+}
+
+const StateMap: React.FC<StateMapProps> = (props: StateMapProps) => {
     if (!props.gameState) return <></>
 
     const table: React.ReactElement[] = []
@@ -39,55 +45,62 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
     }
 }
 
-export const renderGame = (
-    debugToggle: boolean, 
-    gameEngine: GameEngine, 
-) => {
-    let stateMap
-    if (debugToggle)
-        stateMap = (
-            <StateMap gameState={gameEngine.state.gameState} />
-        )
-    else stateMap = null
+interface RenderGameProps {
+    debugToggle: boolean,
+    gameEngine: GameEngine
+}
 
+export const RenderGame = (props: RenderGameProps) => {
+    const [key, setKey] = React.useState(0)
+    React.useEffect(() => {
+        const interval = setInterval(
+            () => {
+                setKey(key + 1)
+                props.gameEngine.update()
+            }, frametime
+        )
+        return () => clearInterval(interval)
+    })
+    const getVal = (name: string) => props.gameEngine.gameState.get(name)[1]
+    const debugToggle = props.debugToggle
     return (
         <>
             <div
                 className="funkly-game-area"
-                ref={gameEngine.gameArea}
-                onKeyDown={gameEngine.handleKeyDown}
-                onKeyUp={gameEngine.handleKeyUp}
+                onKeyDown={props.gameEngine.handleKeyDown}
+                onKeyUp={props.gameEngine.handleKeyUp}
                 tabIndex={0}
-            >
-                {gameEngine.state.entities.map((entity: Entity, key) => (
-                    <div
-                        key={key}
-                        style={entityDivStyle(
-                            debugToggle,
-                            gameEngine.getVal(entity.w),
-                            gameEngine.getVal(entity.h),
-                            gameEngine.getVal(entity.x),
-                            gameEngine.getVal(entity.y)
-                        )}
-                    >
-                        <img style={{ width: "100%" }} src={gameEngine.getVal(entity.img)} alt="loading..." />
+            >{
+                //@ts-ignore
+                    props.gameEngine.entities.map((entity: Entity) => (
                         <div
-                            style={{
-                                color: "white",
-                                fontSize: "20px",
-                                fontWeight: "bold",
-                                WebkitTextStroke: "1px black",
-                                marginLeft: "40%",
-                                marginTop: "10%",
-                                position: "absolute"
-                            }}
+                            key={entity.id}
+                            style={entityDivStyle(
+                                debugToggle,
+                                getVal(entity.w),
+                                getVal(entity.h),
+                                getVal(entity.x),
+                                getVal(entity.y)
+                            )}
                         >
-                            {gameEngine.getVal(entity.text)}
+                            <img style={{ width: "100%" }} src={getVal(entity.img)} alt="loading..." />
+                            <div
+                                style={{
+                                    color: "white",
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                    WebkitTextStroke: "1px black",
+                                    marginLeft: "40%",
+                                    marginTop: "10%",
+                                    position: "absolute"
+                                }}
+                            >
+                                {getVal(entity.text)}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
-            {stateMap}
+            {debugToggle && <StateMap gameState={ props.gameEngine.gameState } />}
         </>
     )
 }

@@ -21,6 +21,7 @@ Object {
               class="funkly-button-icon"
               src="playbutton.png"
             />
+             
           </button>
           <button>
             <img
@@ -46,6 +47,11 @@ Object {
               src="xmlbutton.png"
             />
           </button>
+          <input
+            id="importedCode"
+            name="importedCode"
+            type="file"
+          />
           <label
             class="funkly-file-load"
             for="importedCode"
@@ -55,12 +61,6 @@ Object {
               src="choosefile.png"
             />
           </label>
-          <input
-            class="hidden"
-            id="importedCode"
-            name="importedCode"
-            type="file"
-          />
         </div>
         <div
           class="funkly-blockly-editor"
@@ -68,17 +68,21 @@ Object {
         <div
           class="funkly-engine"
         >
-          Hiiren sijainti: 
-          -1
-          , 
-          -1
+          <div>
+            Hiiren sijainti: 
+            0
+            , 
+            0
+          </div>
         </div>
         <div
           class="funkly-char-selection"
         />
         <div
           class="funkly-debug"
-        />
+        >
+          <div />
+        </div>
       </div>
     </div>
   </body>,
@@ -99,6 +103,7 @@ Object {
             class="funkly-button-icon"
             src="playbutton.png"
           />
+           
         </button>
         <button>
           <img
@@ -124,6 +129,11 @@ Object {
             src="xmlbutton.png"
           />
         </button>
+        <input
+          id="importedCode"
+          name="importedCode"
+          type="file"
+        />
         <label
           class="funkly-file-load"
           for="importedCode"
@@ -133,12 +143,6 @@ Object {
             src="choosefile.png"
           />
         </label>
-        <input
-          class="hidden"
-          id="importedCode"
-          name="importedCode"
-          type="file"
-        />
       </div>
       <div
         class="funkly-blockly-editor"
@@ -146,17 +150,21 @@ Object {
       <div
         class="funkly-engine"
       >
-        Hiiren sijainti: 
-        -1
-        , 
-        -1
+        <div>
+          Hiiren sijainti: 
+          0
+          , 
+          0
+        </div>
       </div>
       <div
         class="funkly-char-selection"
       />
       <div
         class="funkly-debug"
-      />
+      >
+        <div />
+      </div>
     </div>
   </div>,
   "debug": [Function],
