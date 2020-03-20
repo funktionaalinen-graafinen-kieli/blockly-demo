@@ -74,7 +74,7 @@ Object {
           -1
         </div>
         <div
-          class="funkly-char-selection"
+          class="funkly-entity-selection"
         />
         <div
           class="funkly-debug"
@@ -152,7 +152,7 @@ Object {
         -1
       </div>
       <div
-        class="funkly-char-selection"
+        class="funkly-entity-selection"
       />
       <div
         class="funkly-debug"
