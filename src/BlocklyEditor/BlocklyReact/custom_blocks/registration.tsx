@@ -108,6 +108,20 @@ const numberJson = {
 }
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
+const randJson = {
+    "type:": funklyBlockType.RAND,
+    message0: "Satunnainen luku * %1",
+    args0: [
+        {
+            type: "field_number",
+            name: "NUM",
+            value: "1"
+        }
+    ],
+    previousStatement: "Number"
+}
+createCustomBlock(funklyBlockType.RAND, "math_blocks", randJson)
+
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
     inputsInline: false,
@@ -319,7 +333,7 @@ const bindGetJson = {
     args0: [
         {
             type: "input_dummy",
-            name: "id"
+            name: "name"
         }
     ],
     extensions: ["bind_dropdown"],
@@ -330,7 +344,7 @@ createCustomBlock(funklyBlockType.BINDGET, "text_blocks", bindGetJson)
 
 //TODO declare binds elsewhere
 Extensions.register("bind_dropdown", function (this: Block) {
-    this.getInput("id").appendField(newCustomDropdown(new Map([["aika", "time"], ["satunnainen", "random"]])), "id")
+    this.getInput("name").appendField(newCustomDropdown(new Map([["aika", "time"], ["satunnainen", "random"]])), "name")
 })
 
 const compJson = {
