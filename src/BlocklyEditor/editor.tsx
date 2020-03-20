@@ -11,6 +11,7 @@ const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka" colour={230}>
             <Block type="funkly_collide" />
+            <Block type="funkly_rand" />
             <Block type="funkly_math" >
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />

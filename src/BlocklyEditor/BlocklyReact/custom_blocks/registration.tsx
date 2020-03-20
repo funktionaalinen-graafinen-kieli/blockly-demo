@@ -108,6 +108,20 @@ const numberJson = {
 }
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
+const randJson = {
+    "type:": funklyBlockType.RAND,
+    message0: "Satunnainen luku * %1",
+    args0: [
+        {
+            type: "field_number",
+            name: "NUM",
+            value: "1"
+        }
+    ],
+    previousStatement: "Number"
+}
+createCustomBlock(funklyBlockType.RAND, "math_blocks", randJson)
+
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
     inputsInline: false,

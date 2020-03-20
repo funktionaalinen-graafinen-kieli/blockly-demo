@@ -8,6 +8,7 @@ enum funklyBlockType {
     COND = "funkly_cond",
     COMP = "funkly_comp",
     MATH = "funkly_math",
+    RAND = "funkly_rand",
     TRIG = "funkly_trig",
     COLLIDE = "funkly_collide",
     NUMBER = "funkly_number",
@@ -25,6 +26,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.COMP) return funkly_comp
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
+    else if (type === funklyBlockType.RAND) return funkly_rand
     else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
@@ -53,6 +55,11 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_math(block: Block) {
         const func = block.getFieldValue("func") || "add"
         return funkly_arg2(func)(block)
+    }
+
+    function funkly_rand(block: Block) {
+        const arg0 = block.getFieldValue("NUM") || "1"
+        return `mul(rand())(${arg0})`
     }
 
     function funkly_arg2(f: string) {

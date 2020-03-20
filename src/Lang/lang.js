@@ -36,7 +36,7 @@ export const mul = x => y => `Number(${infix("*", x, y)})`
 export const div = x => y => `Number(${infix("/", x, y)})`
 export const mod = x => y => `Number(${infix("%", x, y)})`
 
-export const rand = () => `Math.random()`
+export const rand = x => `Math.random()`
 
 export const gt = x => y => infix(">", x, y)
 export const lt = x => y => infix("<", x, y)
