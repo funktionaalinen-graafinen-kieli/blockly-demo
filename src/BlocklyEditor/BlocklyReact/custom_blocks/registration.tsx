@@ -319,7 +319,7 @@ const bindGetJson = {
     args0: [
         {
             type: "input_dummy",
-            name: "id"
+            name: "name"
         }
     ],
     extensions: ["bind_dropdown"],
@@ -330,7 +330,7 @@ createCustomBlock(funklyBlockType.BINDGET, "text_blocks", bindGetJson)
 
 //TODO declare binds elsewhere
 Extensions.register("bind_dropdown", function (this: Block) {
-    this.getInput("id").appendField(newCustomDropdown(new Map([["aika", "time"], ["satunnainen", "random"]])), "id")
+    this.getInput("name").appendField(newCustomDropdown(new Map([["aika", "time"], ["satunnainen", "random"]])), "name")
 })
 
 const compJson = {

@@ -91,8 +91,8 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_bindget(block: Block) {
-        const arg0 = block.id || "default_bind"
-        return "get" + argwrap("'" + arg0 + "'")
+        const arg0 = block.getFieldValue("name") || "default_bind"
+        return "get" + argwrap(`'${arg0}'`)
     }
 
     function funkly_keyboard_input(block: Block) {
@@ -102,7 +102,6 @@ function funklyCodegen(type: funklyBlockType) {
 
     function funkly_number(block: Block) {
         const arg0 = block.getFieldValue("NUM")
-
         return wrap(arg0)
     }
 
