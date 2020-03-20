@@ -1,13 +1,18 @@
 import React from "react"
 
-function CodeRenderer(props: { debugToggle: boolean, code?: string }) {
-    if (!props.debugToggle || !props.code) return null
+interface CodeRendererProps {
+    debugToggle: boolean, code: string
+}
+
+const CodeRenderer: React.FC<CodeRendererProps> = (props: CodeRendererProps) => {
     return (
         <div>
-            <h2>Generoitu JS</h2>
-            <pre>
-                {JSON.stringify(JSON.parse(props.code), null, 4)}
-            </pre>
+            { props.debugToggle && props.code && <><h2>Generoitu JS</h2>
+                <pre>
+                    {JSON.stringify(JSON.parse(props.code), null, 4)}
+                </pre>
+            </>
+            }
         </div>
     )
 }

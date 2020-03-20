@@ -18,5 +18,6 @@ Blockly.HSV_SATURATION = 0.85
 blockRendering.register("funkly_renderer", TypedConnectionShapeRenderer)
 
 ReactDOM.render(
-    <App />, document.getElementById("root")
+    <App />,
+    document.getElementById("root")
 )

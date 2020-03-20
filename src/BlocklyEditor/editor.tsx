@@ -64,7 +64,7 @@ const editorBlocks = (
                     </Shadow>
                 </Value>
             </Block>
-            <Block type="funkly_keyboard_input"/>
+            <Block type="funkly_keyboard_input" />
             <Block type="funkly_bindget" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
@@ -81,9 +81,8 @@ const defaultBinds = `
 }
 `
 
-class Editor extends React.Component<{}> {
+class Editor extends React.Component<{ setCode: (_: string) => void, setBlockXml: (_: string) => void}, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    readonly state = { code: "", blockXml: "" }
 
     private generateXml = (): string => {
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
@@ -92,7 +91,8 @@ class Editor extends React.Component<{}> {
 
     private generateCode = (): string => {
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        const entities = workspace.getBlocksByType("funkly_entity", true)
+        const entities = workspace
+            .getBlocksByType("funkly_entity", true)
             .concat(workspace.getBlocksByType("funkly_guientity", true))
 
         // Generate code for each entity and place commas
@@ -107,10 +107,8 @@ class Editor extends React.Component<{}> {
     }
 
     setCode = (engineCode: string, xmlWorkspace: string) => {
-        this.setState({
-            code: engineCode,
-            blockXml: xmlWorkspace
-        })
+        this.props.setCode(engineCode)
+        this.props.setBlockXml(xmlWorkspace)
     }
 
     importXml = (xmlInput: string) => {
@@ -146,7 +144,7 @@ class Editor extends React.Component<{}> {
     }
 }
 
-function saveProject(blockXml: string | undefined): void {
+function saveProject(blockXml: string): void {
     if (!blockXml) {
         console.debug("Editor is null")
         return

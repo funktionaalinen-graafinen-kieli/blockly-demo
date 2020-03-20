@@ -11,3 +11,17 @@ export function download(filename, text) {
     element.click()
     document.body.removeChild(element)
 }
+
+export class MapWithDefault extends Map {
+    get(key) {
+        if (!this.has(key)) return this.defaultvalue
+        return super.get(key)
+    }
+
+    constructor(defaultvalue, entries) {
+        super(entries)
+        this.defaultvalue = defaultvalue
+    }
+}
+
+
