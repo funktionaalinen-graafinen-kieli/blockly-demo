@@ -8,6 +8,8 @@ import CodeRenderer from "../BlocklyEditor/code_renderer"
 import { ButtonRow } from "./button_row"
 
 import "./app.css"
+import "./fullscreen-layout.css"
+//import "./default-layout.css"
 log.setLevel("trace")
 
 export const intervalUpdater = async (updatee: { update(): void }) => {
@@ -88,7 +90,7 @@ export default class App extends React.Component<
                     Hiiren sijainti: {this.state.mouse_x}, {this.state.mouse_y}
                     {gameEngine}
                 </div>
-                <div className="funkly-char-selection" />
+                <div className="funkly-entity-selection" />
                 <div className="funkly-debug">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.editorInstance.current?.state.code} />
                 </div>

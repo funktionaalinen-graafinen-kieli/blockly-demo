@@ -1,0 +1,35 @@
+.funkly-container {
+    position: absolute;
+    margin-left: 1vw;
+    margin-top: 1vh;
+    background: #fff0c5ff;
+    display: grid;
+    grid-template-columns: repeat(3, 32vw);
+    grid-template-rows: repeat(10, 9.8vh);
+    grid-column-gap: 0.5vw;
+    grid-row-gap: 0.0vh;
+}
+
+.funkly-title {
+    grid-area: 1 / 1 / 2 / 2;
+    font-size: 6vh;
+}
+
+.funkly-buttons {
+    grid-area: 1 / 3 / 2 / 4;
+    display: flex;
+}
+
+.funkly-blockly-editor {
+    position: relative;
+    grid-area: 2 / 1 / 11 / 3; 
+}
+
+.funkly-engine {
+    grid-area: 2 / 3 / 7 / 4;
+}
+
+.funkly-entity-selection {
+    grid-area: 7 / 3 / 11 / 4;
+    background-color: #7cdceb;
+}
