@@ -82,7 +82,6 @@ Extensions.register("cond_type", function (this: Block) {
         if (p != null) {
             const con = p.getInputWithBlock(this).connection
             const check = con.getCheck()
-            this.setOutputShape(5)
             this.getInput("DO").setCheck(check)
             this.getInput("ELSE").setCheck(check)
             this.setPreviousStatement(true, check)
@@ -311,19 +310,16 @@ Extensions.register("entity_dropdown", function(this: Block) {
 
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
-    this.getInput("property").appendField(
-        newCustomDropdown(
-            new Map([
-                ["name", "name"],
-                ["x", "x"],
-                ["y", "y"],
-                ["w", "w"],
-                ["h", "h"],
-                ["text", "text"]
-            ])
-        ),
-        "property"
-    )
+    const propertyMap =
+        new Map([
+            ["name", "name"],
+            ["x", "x"],
+            ["y", "y"],
+            ["w", "w"],
+            ["h", "h"],
+            ["text", "text"]
+        ])
+    this.getInput("property").appendField(newCustomDropdown(propertyMap), "property")
 })
 
 const bindGetJson = {
