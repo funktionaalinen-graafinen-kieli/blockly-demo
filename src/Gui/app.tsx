@@ -8,7 +8,6 @@ import { ButtonRow } from "./button_row"
 import { MouseLocation } from "./mouse_location"
 import "./app.css"
 
-
 log.setLevel("trace")
 
 export default class App extends React.Component<
@@ -17,28 +16,39 @@ export default class App extends React.Component<
         code: string
         blockXml: string
         debugToggle: boolean
-        gameRunning: boolean 
+        gameRunning: boolean
         mouse_x: number
         mouse_y: number
     }
 > {
     editorInstance = React.createRef<Editor>()
-   
-    setCode = (code: string) => {this.setState({ code })}
-    setBlockXml = (blockXml: string) => {this.setState({ blockXml })}
-    toggleGame = () => { this.setState({ gameRunning: !this.state.gameRunning }) }
-    toggleDebug = () => { this.setState({ debugToggle: !this.state.debugToggle }) }
+
+    setCode = (code: string) => {
+        this.setState({ code })
+    }
+
+    setBlockXml = (blockXml: string) => {
+        this.setState({ blockXml })
+    }
+
+    toggleGame = () => {
+        this.setState({ gameRunning: !this.state.gameRunning })
+    }
+
+    toggleDebug = () => {
+        this.setState({ debugToggle: !this.state.debugToggle })
+    }
 
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
-        this.state = { 
-            code: "", 
+        this.state = {
+            code: "",
             blockXml: "",
-            debugToggle: false, 
-            gameRunning: false, 
-            mouse_x: 0, 
-            mouse_y: 0 
+            debugToggle: false,
+            gameRunning: false,
+            mouse_x: 0,
+            mouse_y: 0
         }
     }
 
@@ -59,23 +69,20 @@ export default class App extends React.Component<
                     />
                 </div>
                 <div className="funkly-blockly-editor">
-                    <Editor 
-                        setBlockXml={this.setBlockXml} 
-                        setCode={this.setCode} 
-                    />
+                    <Editor setBlockXml={this.setBlockXml} setCode={this.setCode} ref={this.editorInstance} />
                 </div>
-                <div className="funkly-engine" >
+                <div className="funkly-engine">
                     <MouseLocation>
-                        <GameComponent 
-                            gameRunning={this.state.gameRunning} 
-                            debugToggle={this.state.debugToggle} 
-                            program={this.state.code} 
+                        <GameComponent
+                            gameRunning={this.state.gameRunning}
+                            debugToggle={this.state.debugToggle}
+                            program={this.state.code}
                         />
                     </MouseLocation>
                 </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">
-                    <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code}/>
+                    <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
                 </div>
             </div>
         )
