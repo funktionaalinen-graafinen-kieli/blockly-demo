@@ -24,48 +24,50 @@ interface ButtonProps {
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
     return (
         <>
-            <button onClick={props.toggleGame}>{
-                props.gameRunning 
-                    ? <img className="funkly-button-icon" src={guiImages.get("stop")}/>
-                    : <img className="funkly-button-icon" src={guiImages.get("play")}/>
-            } </button>
+            <button onClick={props.toggleGame}>
+                {props.gameRunning ? (
+                    <img className="funkly-button-icon" src={guiImages.get("stop")} alt="stop" />
+                ) : (
+                    <img className="funkly-button-icon" src={guiImages.get("play")} alt="play" />
+                )}{" "}
+            </button>
             <button onClick={props.toggleDebug}>
-                {props.debugToggle 
-                    ? <img className="funkly-button-icon" src={guiImages.get("debugoff")}/> 
-                    : <img className="funkly-button-icon"  src={guiImages.get("debugon")}/> }
+                {props.debugToggle ? (
+                    <img className="funkly-button-icon" src={guiImages.get("debugoff")} alt="debug off" />
+                ) : (
+                    <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
+                )}
             </button>
             <button
                 onClick={() => {
                     saveProject(props.blockXml)
                 }}
             >
-                <img className="funkly-button-icon" src={guiImages.get("save")}/>
+                <img className="funkly-button-icon" src={guiImages.get("save")} alt="save" />
             </button>
             <button
                 onClick={() => {
                     loadProject(props.editor.blocklyReactInstance.current)
                 }}
             >
-                <img className="funkly-button-icon" src={guiImages.get("load")}/>
+                <img className="funkly-button-icon" src={guiImages.get("load")} alt="load" />
             </button>
             <button
                 onClick={() =>
-                    download(
-                        "funkly-download.js",
-                        `export const initialXml = "${encodeURI(props.blockXml)}"`
-                    )
+                    download("funkly-download.js", `export const initialXml = "${encodeURI(props.blockXml)}"`)
                 }
             >
-                <img className="funkly-button-icon" src={guiImages.get("xml")}/>
+                <img className="funkly-button-icon" src={guiImages.get("xml")} alt="xml" />
             </button>
             <input
                 type="file"
+                id="importedCode"
                 className="hidden"
                 name="importedCode"
                 onInput={handleUpload(props.editor)}
             />
             <label className="funkly-file-load" htmlFor="importedCode">
-                <img className="funkly-button-icon" src={guiImages.get("choosefile")} />
+                <img className="funkly-button-icon" src={guiImages.get("choosefile")} alt="chooseFile" />
             </label>
         </>
     )
