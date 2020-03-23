@@ -1,10 +1,10 @@
 html {
-    background: #fff0c5ff;
+    background: #fff0c5;
     background-size: cover;
 }
 
 button {
-    background-color: #fff0c5ff;
+    background-color: #fff0c5;
     border-style: none;
 }
 
@@ -20,7 +20,7 @@ button {
     position: absolute;
     margin-left: 1vw;
     margin-top: 1vh;
-    background: #fff0c5ff;
+    background: #fff0c5;
     display: grid;
     grid-template-columns: repeat(3, 32vw);
     grid-template-rows: repeat(10, 9.8vh);
@@ -66,6 +66,7 @@ button {
 }
 
 .funkly-game-area {
+    position: absolute;
     background-color: #0571f5;
     width: 600px;
     height: 400px;
@@ -92,13 +93,14 @@ button {
 
 
 .blocklyToolboxDiv {
-    background-color: #fff0c5ff;
+    background-color: #fff0c5;
 }
 
 
 .blocklyTreeRow {
     margin-bottom: 0px;
     margin-top: 3vh;
+
 }
 
 .blocklyTreeLabel {
@@ -115,7 +117,7 @@ button {
 
 /* Tällä vaihdetaan blockly kategorioiden hover väriä */ 
 .blocklyTreeRow:not(.blocklyTreeSelected):hover {
-   background-color: #ededed;
+    background-color: #f1f1f1;
 }
     
 .blocklyFlyoutBackground {

@@ -59,7 +59,13 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
             >
                 <img className="funkly-button-icon" src={guiImages.get("xml")} alt="xml" />
             </button>
-            <input type="file" id="importedCode" name="importedCode" onInput={handleUpload(props.editor)} />
+            <input
+                type="file"
+                id="importedCode"
+                className="hidden"
+                name="importedCode"
+                onInput={handleUpload(props.editor)}
+            />
             <label className="funkly-file-load" htmlFor="importedCode">
                 <img className="funkly-button-icon" src={guiImages.get("choosefile")} alt="chooseFile" />
             </label>

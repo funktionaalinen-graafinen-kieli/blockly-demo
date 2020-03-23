@@ -1,5 +1,6 @@
 import * as React from "react"
 import * as Blockly from "blockly"
+import events from "./custom_events"
 import locale from "blockly/msg/en"
 
 import "./custom_blocks/registration"
@@ -18,6 +19,9 @@ export class BlocklyComponent extends React.Component<{ initialXml: string }> {
             ...rest
         })
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
+
+        // register custom events
+        events.forEach(e => this.primaryWorkspace.addChangeListener(e))
     }
 
     render() {

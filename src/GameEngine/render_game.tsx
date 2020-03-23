@@ -39,7 +39,7 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
         display: "flex",
         width: width,
         height: h,
-        position: "relative",
+        position: "absolute",
         left: x,
         top: y
     }
