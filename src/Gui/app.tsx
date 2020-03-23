@@ -1,66 +1,34 @@
 import React from "react"
-import { Container, Row, Col } from "react-bootstrap"
 import * as log from "loglevel"
 
-import GameEngine from "../GameEngine/game_engine"
-import { frametime } from "../GameEngine/config"
-import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
 import CodeRenderer from "../BlocklyEditor/code_renderer"
-import { download } from "../GameEngine/utils"
+import Editor from "../BlocklyEditor/editor"
+import GameComponent from "../GameEngine/game_component"
+import { ButtonRow } from "./button_row"
+import { MouseLocation } from "./mouse_location"
+import "./app.css"
 
 log.setLevel("trace")
 
-log.setLevel("trace")
-
-const rowStyle = {
-    height: "1080px",
-    marginRight: "0px"
-}
-
-const rowStyleButtons = { marginLeft: "0px" }
-
-const gameDiv = {
-    marginLeft: "10px",
-    marginBottom: "15px",
-    height: "500px",
-    width: "500px"
-}
-
-const backgroundStyle = { backgroundColor: "#fff0c5ff" }
-
-const headerStyle = {
-    alignItems: "left",
-    backgroundColor: "#fff0c5ff",
-    textIndent: "15px"
-}
-
-const charSelectionStyle = {
-    marginLeft: "10px",
-    backgroundColor: "blue",
-    width: "500px",
-    height: "500px"
-}
-
-const debugInfoStyle = {
-
-}
-
-const intervalUpdater = async (updatee: { update(): void }) => {
-    return setInterval(() => {
-        updatee.update()
-    }, frametime)
-}
-
-export default class App extends React.Component<{}, {
-        debugToggle: boolean,
+export default class App extends React.Component<
+    {},
+    {
+        code: string
+        blockXml: string
+        debugToggle: boolean
         gameRunning: boolean
-    }> {
-
+        mouse_x: number
+        mouse_y: number
+    }
+> {
     editorInstance = React.createRef<Editor>()
 
-    constructor(props: {}) {
-        super(props)
-        this.state = { debugToggle: false, gameRunning: false }
+    setCode = (code: string) => {
+        this.setState({ code })
+    }
+
+    setBlockXml = (blockXml: string) => {
+        this.setState({ blockXml })
     }
 
     toggleGame = () => {
@@ -71,76 +39,51 @@ export default class App extends React.Component<{}, {
         this.setState({ debugToggle: !this.state.debugToggle })
     }
 
-    render() {
-        let editorInstance = this.editorInstance.current!
+    constructor(props: {}) {
+        // Call super with empty props list
+        super(props)
+        this.state = {
+            code: "",
+            blockXml: "",
+            debugToggle: false,
+            gameRunning: false,
+            mouse_x: 0,
+            mouse_y: 0
+        }
+    }
 
-        const getCode = () => {
-            return editorInstance.state.code
-        }
-        let gameEngine
-        if (this.state.gameRunning) {
-            gameEngine = (
-                <GameEngine
-                    debugToggle={this.state.debugToggle}
-                    toggle={this.state.gameRunning}
-                    program={getCode()}
-                    updater={intervalUpdater}
-                />
-            )
-        } else {
-            gameEngine = null
-        }
+    render() {
+        const editorInstance = this.editorInstance.current!
 
         return (
-            <div>
-                <Container fluid style={backgroundStyle}>
-                    <Row>
-                        <header style={headerStyle}>
-                            <h1>FUNKLY</h1>
-                        </header>
-                    </Row>
-                    <Row style={rowStyleButtons}>
-                        <button
-                            onClick={this.toggleGame}>
-                            {this.state.gameRunning ? "stop" : "run"}
-                        </button>
-                        <button
-                            onClick={this.toggleDebug}>
-                            {this.state.debugToggle ? "debug off" : "debug on"}
-                        </button>
-                        <button onClick={ () => download(
-                            "funkly-download.js",
-                            `export const initialXml = "${encodeURI(this.editorInstance.current?.state.blockXml.toString()!)}"`
-                        )}>
-                            xml
-                        </button>
-                        <button
-                            onClick={() => saveProject(editorInstance!.state.blockXml.toString())}>
-                            SAVE
-                        </button>
-                        <button
-                            onClick={() => loadProject(editorInstance!.blocklyReactInstance.current!)}>
-                            LOAD
-                        </button>
-                    </Row>
-                    <Row style={rowStyle}>
-                        <Col sm={8}>
-                            <Editor ref={this.editorInstance} />
-                        </Col>
-                        <Col style={{width: "500", height: "500"}}>
-                            <Row style={gameDiv}>
-                                {gameEngine}
-                            </Row>
-                            <Row style={charSelectionStyle}/>
-                        </Col>
-                    </Row>
-                    <Row style={debugInfoStyle}>
-                        <CodeRenderer
+            <div className="funkly-container">
+                <h1 className="funkly-title">FUNKLY</h1>
+                <div className="funkly-buttons">
+                    <ButtonRow
+                        gameRunning={this.state.gameRunning}
+                        debugToggle={this.state.debugToggle}
+                        toggleGame={this.toggleGame}
+                        toggleDebug={this.toggleDebug}
+                        editor={editorInstance}
+                        blockXml={this.state.blockXml}
+                    />
+                </div>
+                <div className="funkly-blockly-editor">
+                    <Editor setBlockXml={this.setBlockXml} setCode={this.setCode} ref={this.editorInstance} />
+                </div>
+                <div className="funkly-engine">
+                    <MouseLocation>
+                        <GameComponent
+                            gameRunning={this.state.gameRunning}
                             debugToggle={this.state.debugToggle}
-                            code={this.editorInstance.current?.state.code}
+                            program={this.state.code}
                         />
-                    </Row>
-                </Container>
+                    </MouseLocation>
+                </div>
+                <div className="funkly-char-selection" />
+                <div className="funkly-debug">
+                    <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
+                </div>
             </div>
         )
     }

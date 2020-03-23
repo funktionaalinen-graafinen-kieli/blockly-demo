@@ -4,18 +4,20 @@ import ReactDOM from "react-dom"
 import * as log from "loglevel"
 import { blockRendering } from "blockly"
 
-import { FunklyRenderer } from "./BlocklyEditor/BlocklyReact/funkly_renderer"
+import { TypedConnectionShapeRenderer } from "./BlocklyEditor/BlocklyReact/funkly_renderer"
 
 import App from "./Gui/app"
+import Blockly from "blockly"
 
 log.setLevel("trace")
 
-//blockRendering.unregister("geras")
-blockRendering.register("funkly_renderer", FunklyRenderer)
+Blockly.Flyout.prototype.autoClose = false
+//@ts-ignore
+Blockly.HSV_SATURATION = 0.85
+
+blockRendering.register("funkly_renderer", TypedConnectionShapeRenderer)
 
 ReactDOM.render(
-    <React.Fragment>
-        <App />
-    </React.Fragment>,
+    <App />,
     document.getElementById("root")
 )

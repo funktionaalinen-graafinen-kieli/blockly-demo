@@ -5,127 +5,179 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div>
-        <div
-          class="container-fluid"
+      <div
+        class="funkly-container"
+      >
+        <h1
+          class="funkly-title"
         >
-          <div
-            class="row"
-          >
-            <header
-              style="align-items: left; text-indent: 15px;"
-            >
-              <h1>
-                FUNKLY
-              </h1>
-            </header>
-          </div>
-          <div
-            class="row"
-            style="margin-left: 0px;"
-          >
-            <button>
-              run
-            </button>
-            <button>
-              debug on
-            </button>
-            <button>
-              xml
-            </button>
-            <button>
-              SAVE
-            </button>
-            <button>
-              LOAD
-            </button>
-          </div>
-          <div
-            class="row"
-            style="height: 1080px; margin-right: 0px;"
-          >
-            <div
-              class="col-sm-8"
+          FUNKLY
+        </h1>
+        <div
+          class="funkly-buttons"
+        >
+          <button>
+            <img
+              alt="play"
+              class="funkly-button-icon"
+              src="playbutton.png"
             />
-            <div
-              class="col"
-            >
-              <div
-                class="row"
-                style="margin-left: 10px; margin-bottom: 15px; height: 500px; width: 500px;"
-              />
-              <div
-                class="row"
-                style="margin-left: 10px; background-color: blue; width: 500px; height: 500px;"
-              />
-            </div>
-          </div>
-          <div
-            class="row"
+             
+          </button>
+          <button>
+            <img
+              alt="degub on"
+              class="funkly-button-icon"
+              src="debugon.png"
+            />
+          </button>
+          <button>
+            <img
+              alt="save"
+              class="funkly-button-icon"
+              src="savebutton.png"
+            />
+          </button>
+          <button>
+            <img
+              alt="load"
+              class="funkly-button-icon"
+              src="loadbutton.png"
+            />
+          </button>
+          <button>
+            <img
+              alt="xml"
+              class="funkly-button-icon"
+              src="xmlbutton.png"
+            />
+          </button>
+          <input
+            class="hidden"
+            id="importedCode"
+            name="importedCode"
+            type="file"
           />
+          <label
+            class="funkly-file-load"
+            for="importedCode"
+          >
+            <img
+              alt="chooseFile"
+              class="funkly-button-icon"
+              src="choosefile.png"
+            />
+          </label>
+        </div>
+        <div
+          class="funkly-blockly-editor"
+        />
+        <div
+          class="funkly-engine"
+        >
+          <div>
+            Hiiren sijainti: 
+            0
+            , 
+            0
+          </div>
+        </div>
+        <div
+          class="funkly-char-selection"
+        />
+        <div
+          class="funkly-debug"
+        >
+          <div />
         </div>
       </div>
     </div>
   </body>,
   "container": <div>
-    <div>
-      <div
-        class="container-fluid"
+    <div
+      class="funkly-container"
+    >
+      <h1
+        class="funkly-title"
       >
-        <div
-          class="row"
-        >
-          <header
-            style="align-items: left; text-indent: 15px;"
-          >
-            <h1>
-              FUNKLY
-            </h1>
-          </header>
-        </div>
-        <div
-          class="row"
-          style="margin-left: 0px;"
-        >
-          <button>
-            run
-          </button>
-          <button>
-            debug on
-          </button>
-          <button>
-            xml
-          </button>
-          <button>
-            SAVE
-          </button>
-          <button>
-            LOAD
-          </button>
-        </div>
-        <div
-          class="row"
-          style="height: 1080px; margin-right: 0px;"
-        >
-          <div
-            class="col-sm-8"
+        FUNKLY
+      </h1>
+      <div
+        class="funkly-buttons"
+      >
+        <button>
+          <img
+            alt="play"
+            class="funkly-button-icon"
+            src="playbutton.png"
           />
-          <div
-            class="col"
-          >
-            <div
-              class="row"
-              style="margin-left: 10px; margin-bottom: 15px; height: 500px; width: 500px;"
-            />
-            <div
-              class="row"
-              style="margin-left: 10px; background-color: blue; width: 500px; height: 500px;"
-            />
-          </div>
-        </div>
-        <div
-          class="row"
+           
+        </button>
+        <button>
+          <img
+            alt="degub on"
+            class="funkly-button-icon"
+            src="debugon.png"
+          />
+        </button>
+        <button>
+          <img
+            alt="save"
+            class="funkly-button-icon"
+            src="savebutton.png"
+          />
+        </button>
+        <button>
+          <img
+            alt="load"
+            class="funkly-button-icon"
+            src="loadbutton.png"
+          />
+        </button>
+        <button>
+          <img
+            alt="xml"
+            class="funkly-button-icon"
+            src="xmlbutton.png"
+          />
+        </button>
+        <input
+          class="hidden"
+          id="importedCode"
+          name="importedCode"
+          type="file"
         />
+        <label
+          class="funkly-file-load"
+          for="importedCode"
+        >
+          <img
+            alt="chooseFile"
+            class="funkly-button-icon"
+            src="choosefile.png"
+          />
+        </label>
+      </div>
+      <div
+        class="funkly-blockly-editor"
+      />
+      <div
+        class="funkly-engine"
+      >
+        <div>
+          Hiiren sijainti: 
+          0
+          , 
+          0
+        </div>
+      </div>
+      <div
+        class="funkly-char-selection"
+      />
+      <div
+        class="funkly-debug"
+      >
+        <div />
       </div>
     </div>
   </div>,

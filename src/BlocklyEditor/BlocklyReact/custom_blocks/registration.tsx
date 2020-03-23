@@ -3,16 +3,38 @@ import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
 import log from "loglevel"
 
-import { publicImages } from "../../../Gui/image_storage"
+import { entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
+
+function parent_entity(block: Block): Block | undefined {
+    const root_parent = block.getRootBlock()
+    if (root_parent.type === "funkly_entity") return root_parent
+    else return undefined
+}
+
+/* Dropdown with the block being passed treated as a special entry named "tämä" */
+function dropdownWithThis(block: Block, entities: () => Block[]) {
+    if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
+
+    const options: string[][] = []
+    const parent = parent_entity(block)
+    if (parent) options.push(["tämä", parent.id])
+    else options.push(["?", "NOT_SELECTED"])
+
+    entities()
+        .filter(e => e != parent)
+        .forEach(e => options.push([e.getFieldValue("name"), e.id]))
+    return options
+}
+
 
 function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
         log.debug("Non-enabled blockly style!")
     }
     Blocks[id] = {
-        init: function() {
+        init: function () {
             this.jsonInit(configuration)
             this.setStyle(style)
         }
@@ -31,7 +53,7 @@ const condJson = {
             check: ["Boolean"]
         }
     ],
-    message1: "tee: %1",
+    message1: "niin: %1",
     args1: [
         {
             type: "input_statement",
@@ -45,26 +67,13 @@ const condJson = {
             name: "ELSE"
         }
     ],
-    extensions: ["cond_type"],
+    //extensions: ["cond_type"],
+    tooltip: "Tooltip here",
+    helpUrl: "https://google.com",
     previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
-
-//TODO change output also
-Extensions.register("cond_type", function(this: Block) {
-    this.setOnChange(() => {
-        const p = this.getParent()
-        if (p != null) {
-            const con = p.getInputWithBlock(this).connection
-            const check = con.getCheck()
-            this.getInput("DO").setCheck(check)
-            this.getInput("ELSE").setCheck(check)
-            console.trace(this.getInput("DO"))
-            console.trace(this.getInput("ELSE"))
-        }
-    })
-})
 
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
@@ -80,6 +89,20 @@ const numberJson = {
 }
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
+const randJson = {
+    "type:": funklyBlockType.RAND,
+    message0: "Satunnainen luku * %1",
+    args0: [
+        {
+            type: "field_number",
+            name: "NUM",
+            value: "1"
+        }
+    ],
+    previousStatement: "Number"
+}
+createCustomBlock(funklyBlockType.RAND, "math_blocks", randJson)
+
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
     inputsInline: false,
@@ -87,8 +110,8 @@ const entityJson = {
     args0: [
         {
             type: "field_input",
-            name: "id",
-            text: "default text",
+            name: "name",
+            text: "esimerkkinimi",
             spellcheck: false
         }
     ],
@@ -142,7 +165,7 @@ const entityJson = {
             value: `${entityDefaultSize["height"]}`
         }
     ],
-    message6: "r: %1",
+    message6: "osumasäde: %1",
     args6: [
         {
             type: "field_number",
@@ -162,7 +185,7 @@ const guiEntityJson = {
         {
             type: "field_input",
             name: "id",
-            text: "default text",
+            text: "esimerkkinimi",
             spellcheck: false
         }
     ],
@@ -193,7 +216,7 @@ const guiEntityJson = {
             value: "50"
         }
     ],
-    message3: "img: %1",
+    message3: "kuva: %1",
     args3: [
         {
             type: "input_statement",
@@ -215,7 +238,7 @@ const guiEntityJson = {
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
 
 const colJson = {
-    "type:": funklyBlockType.COL,
+    "type:": funklyBlockType.COLLIDE,
     inputsInline: true,
     message0: "törmääkö: %1 %2",
     args0: [
@@ -232,21 +255,14 @@ const colJson = {
     previousStatement: "Boolean"
 }
 
-createCustomBlock(funklyBlockType.COL, "logic_blocks", colJson)
+createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
-Extensions.register("col_dropdown", function(this: Block) {
+Extensions.register("col_dropdown", function (this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+    const dropdownOptions = () => dropdownWithThis(this, entities)
 
-    let es = () => {
-        let options: string[][] = []
-        entities().forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
-        if (options.length === 0) options = [["none", "DEFAULT_NONE"]]
-        return options
-    }
-
-    this.getInput("e1").appendField(new FieldDropdown(es), "e1")
-    this.getInput("e2").appendField(new FieldDropdown(es), "e2")
-
+    this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
+    this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
 })
 
 const getJson = {
@@ -272,35 +288,30 @@ createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 Extensions.register("entity_dropdown", function(this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
         .concat(this.workspace.getBlocksByType("funkly_guientity", true))
+    const dropdownOptions = () => dropdownWithThis(this, entities)
 
-    this.getInput("entity").appendField(new FieldDropdown(function() {
-        let options: string[][] = [["none", "DEFAULT_NONE"]]
-        entities().forEach(e => options.push([e.getFieldValue("id"),e.getFieldValue("id")]))
-        return options
-    }), "entity")
+    this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
-    this.getInput("property").appendField(
-        newCustomDropdown(
-            new Map([
-                ["x", "x"],
-                ["y", "y"],
-                ["w", "w"],
-                ["h", "h"],
-                ["text", "text"]
-            ])
-        ),
-        "property"
-    )
+    const propertyMap =
+        new Map([
+            ["name", "name"],
+            ["x", "x"],
+            ["y", "y"],
+            ["w", "w"],
+            ["h", "h"],
+            ["text", "text"]
+        ])
+    this.getInput("property").appendField(newCustomDropdown(propertyMap), "property")
 })
 
 const bindGetJson = {
     "type:": funklyBlockType.BINDGET,
     inputsInline: true,
-    message0: "get: %1",
+    message0: "hae: %1",
     args0: [
         {
             type: "input_dummy",
-            name: "id"
+            name: "name"
         }
     ],
     extensions: ["bind_dropdown"],
@@ -310,8 +321,8 @@ const bindGetJson = {
 createCustomBlock(funklyBlockType.BINDGET, "text_blocks", bindGetJson)
 
 //TODO declare binds elsewhere
-Extensions.register("bind_dropdown", function(this: Block) {
-    this.getInput("id").appendField(newCustomDropdown(new Map([["time","time"],["random","random"]])), "id")
+Extensions.register("bind_dropdown", function (this: Block) {
+    this.getInput("name").appendField(newCustomDropdown(new Map([["aika", "time"], ["satunnainen", "random"]])), "name")
 })
 
 const compJson = {
@@ -346,14 +357,14 @@ const compJson = {
 
 createCustomBlock(funklyBlockType.COMP, "logic_blocks", compJson)
 
-Extensions.register("comp_dropdown", function(this: Block) {
+Extensions.register("comp_dropdown", function (this: Block) {
     this.getInput("func").appendField(newCustomDropdown(new Map([
-        [">","gt"],
-        ["<","lt"],
-        ["==","eq"],
-        ["!=","neq"],
-        [">=","geq"],
-        ["<=","leq"]
+        [">", "gt"],
+        ["<", "lt"],
+        ["==", "eq"],
+        ["!=", "neq"],
+        [">=", "geq"],
+        ["<=", "leq"]
     ])), "func")
 })
 
@@ -389,13 +400,13 @@ const mathJson = {
 
 createCustomBlock(funklyBlockType.MATH, "math_blocks", mathJson)
 
-Extensions.register("math_dropdown", function(this: Block) {
+Extensions.register("math_dropdown", function (this: Block) {
     this.getInput("func").appendField(newCustomDropdown(new Map([
-        ["+","add"],
-        ["-","sub"],
-        ["*","mul"],
-        ["/","div"],
-        ["%","mod"]
+        ["+", "add"],
+        ["-", "sub"],
+        ["*", "mul"],
+        ["/", "div"],
+        ["%", "mod"]
     ])), "func")
 })
 
@@ -423,18 +434,18 @@ const trigJson = {
 
 createCustomBlock(funklyBlockType.TRIG, "math_blocks", trigJson)
 
-Extensions.register("trig_dropdown", function(this: Block) {
+Extensions.register("trig_dropdown", function (this: Block) {
     this.getInput("func").appendField(newCustomDropdown(new Map([
-        ["sin","sin"],
-        ["cos","cos"],
-        ["tan","tan"]
+        ["sin", "sin"],
+        ["cos", "cos"],
+        ["tan", "tan"]
     ])), "func")
 })
 
 const keyJson = {
     "type:": funklyBlockType.KEY,
     inputsInline: true,
-    message0: "input: %1",
+    message0: "syöte: %1",
     args0: [
         {
             type: "input_dummy",
@@ -448,14 +459,14 @@ const keyJson = {
 createCustomBlock(funklyBlockType.KEY, "logic_blocks", keyJson)
 
 //TODO make key selection system
-Extensions.register("key_dropdown", function(this: Block) {
-    this.getInput("key").appendField(newCustomDropdown(new Map([["w","w"],["a","a"],["s","s"],["d","d"]])), "key")
+Extensions.register("key_dropdown", function (this: Block) {
+    this.getInput("key").appendField(newCustomDropdown(new Map([["w", "w"], ["a", "a"], ["s", "s"], ["d", "d"]])), "key")
 })
 
 const imgJson = {
     "type:": funklyBlockType.IMG,
     inputsInline: true,
-    message0: "image: %1",
+    message0: "kuva: %1",
     args0: [
         {
             type: "input_dummy",
@@ -468,8 +479,8 @@ const imgJson = {
 
 createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
 
-Extensions.register("img_dropdown", function(this: Block) {
-    this.getInput("IMAGE").appendField(newCustomDropdown(publicImages), "IMAGE")
+Extensions.register("img_dropdown", function (this: Block) {
+    this.getInput("IMAGE").appendField(newCustomDropdown(entityImages), "IMAGE")
 })
 
 /**
@@ -478,12 +489,12 @@ Extensions.register("img_dropdown", function(this: Block) {
  * @returns blockly FieldDropdown() containing the passed values as the options
  */
 const newCustomDropdown = (values: Map<string, string>) =>
-    new FieldDropdown(function() {
+    new FieldDropdown(function () {
         let options: string[][] = []
-        if (values.size === 0) options = [["none", "DEFAULT_NONE"]]
         for (const [display, internal] of values) {
             options.push([display, internal])
         }
+        if (options.length === 0) options.push(["?", "?"])
         return options
     })
 
