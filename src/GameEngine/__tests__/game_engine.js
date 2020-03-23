@@ -1,13 +1,24 @@
 import "@testing-library/jest-dom/extend-expect"
 
-import React from "react"
+/*import React from "react"
 import { render, cleanup } from "@testing-library/react"
 
 import GameEngine from "../game_engine"
 import GameComponent from "../game_component"
+afterEach(cleanup) */
 import { MapWithDefault } from "../utils"
 
 
+test("MapWithDefault",()=>{
+    const testMap = new MapWithDefault(false, [
+        ["a","hello world"],
+        ["b", () => "test fn return val"]
+    ])
+    expect(testMap.get("a")).toEqual("hello world")
+    expect(testMap.get("b")()).toEqual("test fn return val")
+    expect(testMap.get("c")).toEqual(false)
+})
+/*
 const testProgram = `{
     "entities": {
         "4pid7|lk3wy)ahaslre": {
@@ -30,18 +41,6 @@ const testProgram = `{
 }
 `
 
-afterEach(cleanup)
-
-test("MapWithDefault",()=>{
-    const testMap = new MapWithDefault(false, [
-        ["a","hello world"],
-        ["b", () => "test fn return val"]
-    ])
-    expect(testMap.get("a")).toEqual("hello world")
-    expect(testMap.get("b")()).toEqual("test fn return val")
-    expect(testMap.get("c")).toEqual(false)
-})
-
 test("GameEngine", () => {
     const gameEngine = new GameEngine(testProgram)
     // TODO: make some actual assertions pass
@@ -49,7 +48,6 @@ test("GameEngine", () => {
     // expect(gameEngine.getVal("e1")).toBe(true)
     expect(gameEngine.gameState.get("e1")[1]).toBe(undefined)
 })
-
 test("GameComponent", () => {
     render(
         <GameComponent
@@ -60,4 +58,5 @@ test("GameComponent", () => {
     )
     // TODO: Expect the component to have rendered here
 })
+*/
 

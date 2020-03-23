@@ -48,7 +48,7 @@ Object {
             />
           </button>
           <input
-            id="importedCode"
+            class="hidden"
             name="importedCode"
             type="file"
           />
@@ -130,7 +130,7 @@ Object {
           />
         </button>
         <input
-          id="importedCode"
+          class="hidden"
           name="importedCode"
           type="file"
         />
