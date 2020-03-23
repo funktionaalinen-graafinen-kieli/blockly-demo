@@ -18,6 +18,7 @@ Object {
         >
           <button>
             <img
+              alt="play"
               class="funkly-button-icon"
               src="playbutton.png"
             />
@@ -25,29 +26,34 @@ Object {
           </button>
           <button>
             <img
+              alt="degub on"
               class="funkly-button-icon"
               src="debugon.png"
             />
           </button>
           <button>
             <img
+              alt="save"
               class="funkly-button-icon"
               src="savebutton.png"
             />
           </button>
           <button>
             <img
+              alt="load"
               class="funkly-button-icon"
               src="loadbutton.png"
             />
           </button>
           <button>
             <img
+              alt="xml"
               class="funkly-button-icon"
               src="xmlbutton.png"
             />
           </button>
           <input
+            class="hidden"
             id="importedCode"
             name="importedCode"
             type="file"
@@ -57,6 +63,7 @@ Object {
             for="importedCode"
           >
             <img
+              alt="chooseFile"
               class="funkly-button-icon"
               src="choosefile.png"
             />
@@ -100,6 +107,7 @@ Object {
       >
         <button>
           <img
+            alt="play"
             class="funkly-button-icon"
             src="playbutton.png"
           />
@@ -107,29 +115,34 @@ Object {
         </button>
         <button>
           <img
+            alt="degub on"
             class="funkly-button-icon"
             src="debugon.png"
           />
         </button>
         <button>
           <img
+            alt="save"
             class="funkly-button-icon"
             src="savebutton.png"
           />
         </button>
         <button>
           <img
+            alt="load"
             class="funkly-button-icon"
             src="loadbutton.png"
           />
         </button>
         <button>
           <img
+            alt="xml"
             class="funkly-button-icon"
             src="xmlbutton.png"
           />
         </button>
         <input
+          class="hidden"
           id="importedCode"
           name="importedCode"
           type="file"
@@ -139,6 +152,7 @@ Object {
           for="importedCode"
         >
           <img
+            alt="chooseFile"
             class="funkly-button-icon"
             src="choosefile.png"
           />
