@@ -115,7 +115,7 @@ const entityJson = {
             spellcheck: false
         }
     ],
-    message1: "x %2 %1",
+    message1: "x = %2 %1",
     args1: [
         {
             type: "input_statement",
@@ -128,7 +128,7 @@ const entityJson = {
             value: "1"
         }
     ],
-    message2: "y %2 %1",
+    message2: "y = %2 %1",
     args2: [
         {
             type: "input_statement",
@@ -189,7 +189,7 @@ const guiEntityJson = {
             spellcheck: false
         }
     ],
-    message1: "aloitusx %1, \n leveys: %2",
+    message1: "aloitusx %1, \n leveys %2",
     args1: [
         {
             type: "field_number",
@@ -203,7 +203,7 @@ const guiEntityJson = {
         }
 
     ],
-    message2: "aloitusy %1, korkeus: %2",
+    message2: "aloitusy %1, korkeus %2",
     args2: [
         {
             type: "field_number",

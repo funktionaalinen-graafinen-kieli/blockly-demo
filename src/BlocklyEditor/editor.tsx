@@ -27,7 +27,7 @@ const editorBlocks = (
             </Block>
             <Block type="funkly_number" />
         </Category>
-        <Category name="Logiikka" colour={200}>
+        <Category name="Logiikka" colour={290}>
             <Block type="funkly_cond" />
             <Block type="funkly_comp">
                 <Value name="NUMBER0">
@@ -38,7 +38,7 @@ const editorBlocks = (
                 </Value>
             </Block>
         </Category>
-        <Category name="Hahmopalikat" colour={140}>
+        <Category name="Hahmopalikat" colour={100}>
             <Block type="funkly_entity">
                 <Value name="x">
                     <Shadow type="funkly_get">
