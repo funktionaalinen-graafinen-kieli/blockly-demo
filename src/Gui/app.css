@@ -66,6 +66,7 @@ button {
 }
 
 .funkly-game-area {
+    position: absolute;
     background-color: #0571f5;
     width: 600px;
     height: 400px;
