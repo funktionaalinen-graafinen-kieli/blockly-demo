@@ -60,7 +60,7 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
             </button>
             <input
                 type="file"
-                id="importedCode"
+                className="hidden"
                 name="importedCode"
                 onInput={handleUpload(props.editor)}
             />
