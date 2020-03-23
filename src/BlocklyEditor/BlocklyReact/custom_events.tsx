@@ -41,11 +41,56 @@ const getType = (event: any) => {
     }
 }
 
+const condType = (event: any) => {
+    if (event.type == Blockly.Events.MOVE) {
+        // blocks connecting to cond
+        if (event.newParentId) {
+            let workspace = Blockly.Workspace.getById(event.workspaceId)
+            let block = workspace.getBlockById(event.newParentId)
+            if (block.type === "funkly_cond") {
+                let child = workspace.getBlockById(event.blockId)
+                const con = child.previousConnection
+                const check = con.getCheck()
+                block.getInput("DO").setCheck(check)
+                block.getInput("ELSE").setCheck(check)
+                block.setPreviousStatement(true, check)
+
+            }
+        }
+        if (event.oldParentId) {
+            let workspace = Blockly.Workspace.getById(event.workspaceId)
+            let block = workspace.getBlockById(event.oldParentId)
+            if (block.type === "funkly_cond") {
+                block.getInput("DO").setCheck(null)
+                block.getInput("ELSE").setCheck(null)
+                block.setPreviousStatement(true, null)
+            }
+        }
+
+        // cond connecting to other blocks
+        let workspace = Blockly.Workspace.getById(event.workspaceId)
+        let block = workspace.getBlockById(event.blockId)
+        if (block && block.type === "funkly_cond") {
+            const p = block.getParent()
+            if (p != null) {
+                const con = p.getInputWithBlock(block).connection
+                const check = con.getCheck()
+                block.getInput("DO").setCheck(check)
+                block.getInput("ELSE").setCheck(check)
+                block.setPreviousStatement(true, check)
+            } else {
+                block.getInput("DO").setCheck(null)
+                block.getInput("ELSE").setCheck(null)
+                block.setPreviousStatement(true, null)
+            }
+        }
+    }
+}
+
 // include in events if you wish to log all events
 const logEvents = (e: any)=>console.trace(e)
 
 // events in this list get added
-//let events = [logEvents, getType]
-let events = [getType]
+let events = [getType, condType]
 
 export default events

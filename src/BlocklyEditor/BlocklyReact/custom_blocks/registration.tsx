@@ -67,31 +67,13 @@ const condJson = {
             name: "ELSE"
         }
     ],
-    extensions: ["cond_type"],
+    //extensions: ["cond_type"],
     tooltip: "Tooltip here",
     helpUrl: "https://google.com",
     previousStatement: null
 }
 
 createCustomBlock(funklyBlockType.COND, "logic_blocks", condJson)
-
-//TODO change output also
-Extensions.register("cond_type", function (this: Block) {
-    this.setOnChange(() => {
-        const p = this.getParent()
-        if (p != null) {
-            const con = p.getInputWithBlock(this).connection
-            const check = con.getCheck()
-            this.getInput("DO").setCheck(check)
-            this.getInput("ELSE").setCheck(check)
-            this.setPreviousStatement(true, check)
-        } else {
-            this.getInput("DO").setCheck(null)
-            this.getInput("ELSE").setCheck(null)
-            this.setPreviousStatement(true, null)
-        }
-    })
-})
 
 const numberJson = {
     "type:": funklyBlockType.NUMBER,
