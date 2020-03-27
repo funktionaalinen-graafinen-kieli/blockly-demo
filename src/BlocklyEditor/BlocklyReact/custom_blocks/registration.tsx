@@ -37,6 +37,7 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
         init: function () {
             this.jsonInit(configuration)
             this.setStyle(style)
+//            this.setColour(210)
         }
     }
 
@@ -180,7 +181,7 @@ createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
 const guiEntityJson = {
     "type:": funklyBlockType.GUIENTITY,
     inputsInline: false,
-    message0: "tietovekotin %1",
+    message0: "Tietovekotin %1",
     args0: [
         {
             type: "field_input",
@@ -189,7 +190,7 @@ const guiEntityJson = {
             spellcheck: false
         }
     ],
-    message1: "aloitusx %1, \n leveys %2",
+    message1: "aloitus-x %1, \n leveys %2",
     args1: [
         {
             type: "field_number",
@@ -203,7 +204,7 @@ const guiEntityJson = {
         }
 
     ],
-    message2: "aloitusy %1, korkeus %2",
+    message2: "aloitus-y %1, korkeus %2",
     args2: [
         {
             type: "field_number",
@@ -236,24 +237,23 @@ const guiEntityJson = {
 }
 
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
-
-const colJson = {
-    "type:": funklyBlockType.COLLIDE,
-    inputsInline: true,
-    message0: "törmääkö %1 %2",
-    args0: [
-        {
-            type: "input_dummy",
-            name: "e1"
-        },
-        {
-            type: "input_dummy",
-            name: "e2"
-        }
-    ],
-    extensions: ["col_dropdown"],
-    previousStatement: "Boolean"
-}
+    const colJson = {
+        "type:": funklyBlockType.COLLIDE,
+        inputsInline: true,
+        message0: "%1 törmää %2",
+        args0: [
+            {
+                type: "input_dummy",
+                name: "e1"
+            },
+            {
+                type: "input_dummy",
+                name: "e2"
+            }
+        ],
+        extensions: ["col_dropdown"],
+        previousStatement: "Boolean"
+    }
 
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
@@ -268,7 +268,7 @@ Extensions.register("col_dropdown", function (this: Block) {
 const getJson = {
     "type:": funklyBlockType.GET,
     inputsInline: true,
-    message0: "hae %1 %2",
+    message0: "%1 %2",
     args0: [
         {
             type: "input_dummy",
@@ -307,7 +307,7 @@ Extensions.register("entity_dropdown", function(this: Block) {
 const bindGetJson = {
     "type:": funklyBlockType.BINDGET,
     inputsInline: true,
-    message0: "hae %1",
+    message0: "%1",
     args0: [
         {
             type: "input_dummy",
@@ -445,7 +445,7 @@ Extensions.register("trig_dropdown", function (this: Block) {
 const keyJson = {
     "type:": funklyBlockType.KEY,
     inputsInline: true,
-    message0: "syöte %1",
+    message0: "syöte = %1",
     args0: [
         {
             type: "input_dummy",
@@ -466,7 +466,7 @@ Extensions.register("key_dropdown", function (this: Block) {
 const imgJson = {
     "type:": funklyBlockType.IMG,
     inputsInline: true,
-    message0: "kuva %1",
+    message0: "%1",
     args0: [
         {
             type: "input_dummy",
