@@ -67,18 +67,17 @@ export default class App extends React.Component<
                         editor={editorInstance}
                         blockXml={this.state.blockXml}
                     />
+                    <MouseLocation></MouseLocation>
                 </div>
                 <div className="funkly-blockly-editor">
                     <Editor setBlockXml={this.setBlockXml} setCode={this.setCode} ref={this.editorInstance} />
                 </div>
                 <div className="funkly-engine">
-                    <MouseLocation>
                         <GameComponent
                             gameRunning={this.state.gameRunning}
                             debugToggle={this.state.debugToggle}
                             program={this.state.code}
                         />
-                    </MouseLocation>
                 </div>
                 <div className="funkly-char-selection" />
                 <div className="funkly-debug">

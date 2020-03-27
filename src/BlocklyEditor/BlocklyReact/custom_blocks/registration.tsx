@@ -37,7 +37,7 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
         init: function () {
             this.jsonInit(configuration)
             this.setStyle(style)
-//            this.setColour(210)
+//            this.setColour(290)
         }
     }
 
@@ -88,6 +88,7 @@ const numberJson = {
     ],
     previousStatement: "Number"
 }
+
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
 const randJson = {
