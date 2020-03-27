@@ -83,19 +83,25 @@ const defaultBinds = `
 
 class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml: (_: string) => void }, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    characterMap: Map<string, string> = new Map() 
+    characterMap: Map<string, Blockly.Workspace> = new Map() 
     currentCharacter?: string
 
-    private generateXml = (): string => {
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        return Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+    private generateXml = (): string[] => {
+        const xml: string[] = []
+        this.characterMap.forEach((workspace, _) => {
+            xml.push(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
+        })
+        return xml
     }
 
     private generateCode = (): string => {
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        const entities = workspace
-            .getBlocksByType("funkly_entity", true)
-            .concat(workspace.getBlocksByType("funkly_guientity", true))
+        const entities: Blockly.Block[] = []
+        this.characterMap.forEach((workspace, _) => {
+            entities.concat(
+                workspace.getBlocksByType("funkly_entity", true)
+                    .concat(workspace.getBlocksByType("funkly_guientity", true))
+            )
+        })
 
         // Generate code for each entity and place commas
         let engineCode = '{ "entities": {'
@@ -135,8 +141,8 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
-    setSelectedCharacter = (characterIdToSelect: string) => {
-        this.currentCharacter = characterIdToSelect
+    setSelectedCharacter = (characterToSelect: string) => {
+        this.currentCharacter = characterToSelect
         asdpfkmawfp // Update other things here, like the workspace contents / currently selected workspace
     }
 

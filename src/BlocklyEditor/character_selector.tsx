@@ -1,4 +1,5 @@
 import React from "react"
+import Editor from "../BlocklyEditor/editor"
 
 const entityMap = {
     "entities": {
@@ -25,9 +26,20 @@ const entityMap = {
     }
 }
 
-const CharacterSelector = () => {
-    const createNewEntity = () => {
-        
+interface CharacterSelectorProps {
+    editor: React.RefObject<Editor> 
+}
+
+const CharacterSelector = (props: CharacterSelectorProps) => {
+    if (!props.editor.current) return null
+    // We should hook somehow that after the ref is fulfilled a re-render / re-mount is triggered
+    const editor = props.editor!.current
+
+    const setSelectedCharacter = () => {
+        editor.setSelectedCharacter
+    }
+    const createNewCharacter = () => {
+        editor.createNewCharacter
     }
 
     return null
