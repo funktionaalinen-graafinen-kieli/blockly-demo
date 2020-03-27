@@ -23,7 +23,7 @@ function dropdownWithThis(block: Block, entities: () => Block[]) {
     else options.push(["?", "NOT_SELECTED"])
 
     entities()
-        .filter(e => e != parent)
+        .filter(e => e !== parent)
         .forEach(e => options.push([e.getFieldValue("name"), e.id]))
     return options
 }

@@ -48,7 +48,7 @@ rules:
     - always
     - "exceptAfterSingleLine": true
   '@typescript-eslint/no-explicit-any':
-    - error
+    - warn 
   '@typescript-eslint/consistent-type-assertions':
     - error
     - assertionStyle: as
