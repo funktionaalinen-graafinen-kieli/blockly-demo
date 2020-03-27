@@ -83,19 +83,25 @@ const defaultBinds = `
 
 class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml: (_: string) => void }, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    characterMap: Map<string, string> = new Map()
+    characterMap: Map<string, Blockly.Workspace> = new Map() 
     currentCharacter?: string
 
-    private generateXml = (): string => {
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        return Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+    private generateXml = (): string[] => {
+        const xml: string[] = []
+        this.characterMap.forEach((workspace, _) => {
+            xml.push(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
+        })
+        return xml
     }
 
     private generateCode = (): string => {
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        const entities = workspace
-            .getBlocksByType("funkly_entity", true)
-            .concat(workspace.getBlocksByType("funkly_guientity", true))
+        const entities: Blockly.Block[] = []
+        this.characterMap.forEach((workspace, _) => {
+            entities.concat(
+                workspace.getBlocksByType("funkly_entity", true)
+                    .concat(workspace.getBlocksByType("funkly_guientity", true))
+            )
+        })
 
         // Generate code for each entity and place commas
         let engineCode = '{ "entities": {'
@@ -114,6 +120,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 
     importXml = (xmlInput: string) => {
+        // TODO: support importing an xml of multiple different entities / workspaces
         const stripped = xmlInput.slice(26)
         const stringed = decodeURI(eval(stripped))
         const parsed = Blockly.Xml.textToDom(stringed)
@@ -123,7 +130,8 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 
     generateAndSetCode = () => {
-        this.setCode(this.generateCode(), this.generateXml())
+        // TODO: Update me to use the newer generated xml 
+        //this.setCode(this.generateCode(), this.generateXml())
     }
 
     componentDidMount(): void {
@@ -135,9 +143,15 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
+<<<<<<< HEAD
     setSelectedCharacter = (characterIdToSelect: string) => {
         this.currentCharacter = characterIdToSelect
         // asdpfkmawfp // Update other things here, like the workspace contents / currently selected workspace
+=======
+    setSelectedCharacter = (characterToSelect: string) => {
+        this.currentCharacter = characterToSelect
+        // TODO: Update other things here, like the workspace contents / currently selected workspace. 
+>>>>>>> 8a91a4a6f6b7d4dd7415f03dd585625da3928ba4
     }
 
     render = () => {

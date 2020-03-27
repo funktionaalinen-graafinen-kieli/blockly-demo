@@ -16,7 +16,6 @@ export default class App extends React.Component<
     {
         code: string
         blockXml: string
-        selectedCharacter: number
         debugToggle: boolean
         gameRunning: boolean
         mouse_x: number
@@ -33,11 +32,6 @@ export default class App extends React.Component<
         this.setState({ blockXml })
     }
 
-    setSelectedCharacter = (selectedCharacter: number) => {
-        this.setState({ selectedCharacter })
-        this.editorInstance.current.setSelectedCharacter(selectedCharacter)
-    }
-
     toggleGame = () => {
         this.setState({ gameRunning: !this.state.gameRunning })
     }
@@ -52,7 +46,6 @@ export default class App extends React.Component<
         this.state = {
             code: "",
             blockXml: "",
-            selectedCharacter: 0,
             debugToggle: false,
             gameRunning: false,
             mouse_x: 0,
@@ -89,7 +82,7 @@ export default class App extends React.Component<
                     </MouseLocation>
                 </div>
                 <div className="funkly-char-selection">
-                    <CharacterSelector setSelectedCharacter={this.setSelectedCharacter} />
+                    <CharacterSelector editor={this.editorInstance} />
                 </div>
                 <div className="funkly-debug">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
