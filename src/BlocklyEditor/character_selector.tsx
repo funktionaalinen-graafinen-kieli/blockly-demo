@@ -14,11 +14,16 @@ const entityMap = {
     }
 }
 
-const CharacterCard = (name: string, img: string) => {
+interface CharacterCardProps {
+    name: string
+    img: string
+}
+
+const CharacterCard = (props: CharacterCardProps) => {
     return (
         <div style={{ height: 75, width: 50 }}>
-            <img src={img} style={{ height: 50, width: 50 }} />
-            <p>{name}</p>
+            <img src={props.img} style={{ height: 50, width: 50 }} />
+            <p>{props.name}</p>
         </div>
     )
 }
@@ -32,20 +37,23 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
     // We should hook somehow that after the ref is fulfilled a re-render / re-mount is triggered
     const editor = props.editor!.current
 
-    const setSelectedCharacter = (id: string, name: string, img: string) => {
+    const setSelectedCharacter = () => {
         // TODO
     }
 
     const createNewCharacter = (id: string, name: string, img: string) => {
         // TODO
-        entityMap["entities"][id] = { name: ["packF(id)", name], img: [`pack(  '\"${img}\"')`, img] }
+        // entityMap["entities"][id] = { name: ["packF(id)", name], img: [`pack(  '\"${img}\"')`, img] }
     }
 
     return (
         <div style={{ display: "grid" }}>
             {Object.values(entityMap.entities).map((entity, index) => (
                 <div key={index} style={{ gridColumn: Math.floor(index / 3), gridRow: index % 3 }}>
-                    <CharacterCard name={entity.name} img={entity.img} />
+                    <CharacterCard
+                        name={"Test"}
+                        img={"https://staging-funkly.herokuapp.com/static/media/turtle.fda1f442.png"}
+                    />
                 </div>
             ))}
         </div>

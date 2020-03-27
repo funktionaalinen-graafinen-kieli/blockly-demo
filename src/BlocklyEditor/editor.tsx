@@ -83,7 +83,7 @@ const defaultBinds = `
 
 class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml: (_: string) => void }, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    characterMap: Map<string, Blockly.Workspace> = new Map() 
+    characterMap: Map<string, Blockly.Workspace> = new Map()
     currentCharacter?: string
 
     private generateXml = (): string[] => {
@@ -98,7 +98,8 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         const entities: Blockly.Block[] = []
         this.characterMap.forEach((workspace, _) => {
             entities.concat(
-                workspace.getBlocksByType("funkly_entity", true)
+                workspace
+                    .getBlocksByType("funkly_entity", true)
                     .concat(workspace.getBlocksByType("funkly_guientity", true))
             )
         })
@@ -130,7 +131,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 
     generateAndSetCode = () => {
-        // TODO: Update me to use the newer generated xml 
+        // TODO: Update me to use the newer generated xml
         //this.setCode(this.generateCode(), this.generateXml())
     }
 
@@ -143,15 +144,9 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
-<<<<<<< HEAD
-    setSelectedCharacter = (characterIdToSelect: string) => {
-        this.currentCharacter = characterIdToSelect
-        // asdpfkmawfp // Update other things here, like the workspace contents / currently selected workspace
-=======
     setSelectedCharacter = (characterToSelect: string) => {
         this.currentCharacter = characterToSelect
-        // TODO: Update other things here, like the workspace contents / currently selected workspace. 
->>>>>>> 8a91a4a6f6b7d4dd7415f03dd585625da3928ba4
+        // TODO: Update other things here, like the workspace contents / currently selected workspace.
     }
 
     render = () => {
