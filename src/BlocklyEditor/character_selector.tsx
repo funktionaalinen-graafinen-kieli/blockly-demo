@@ -21,7 +21,7 @@ interface CharacterCardProps {
 
 const CharacterCard = (props: CharacterCardProps) => {
     return (
-        <div style={{ height: 75, width: 50 }}>
+        <div style={{ height: 75, width: 50, backgroundColor: "tomato", borderRadius: 5 }}>
             <img src={props.img} style={{ height: 50, width: 50 }} />
             <p>{props.name}</p>
         </div>
@@ -47,9 +47,11 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
     }
 
     return (
-        <div style={{ display: "grid" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "100px 100px 100px" }}>
             {Object.values(entityMap.entities).map((entity, index) => (
-                <div key={index} style={{ gridColumn: Math.floor(index / 3), gridRow: index % 3 }}>
+                <div key={index}>
+                    {console.log("index % 3:", index % 3)}
+                    {console.log("Math.floor(index / 3):", Math.floor(index / 3))}
                     <CharacterCard
                         name={"Test"}
                         img={"https://staging-funkly.herokuapp.com/static/media/turtle.fda1f442.png"}
