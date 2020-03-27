@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as Blockly from "blockly"
+import Blockly from "blockly"
 import events from "./custom_events"
 import locale from "blockly/msg/en"
 

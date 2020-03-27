@@ -83,6 +83,8 @@ const defaultBinds = `
 
 class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml: (_: string) => void }, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
+    characterMap: Map<string, string> = new Map() 
+    currentCharacter?: string
 
     private generateXml = (): string => {
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
@@ -131,6 +133,11 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
 
     componentWillUnmount(): void {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
+    }
+
+    setSelectedCharacter = (characterIdToSelect: string) => {
+        this.currentCharacter = characterIdToSelect
+        asdpfkmawfp // Update other things here, like the workspace contents / currently selected workspace
     }
 
     render = () => {
