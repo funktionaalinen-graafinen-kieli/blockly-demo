@@ -36,10 +36,10 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
     const editor = props.editor!.current
 
     const setSelectedCharacter = () => {
-        editor.setSelectedCharacter
+        // TODO: implement behaviour editor.setSelectedCharacter
     }
     const createNewCharacter = () => {
-        editor.createNewCharacter
+        // TODO: Implement behaviour editor.createNewCharacter
     }
 
     return null

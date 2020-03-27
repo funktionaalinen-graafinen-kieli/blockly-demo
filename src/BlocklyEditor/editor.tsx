@@ -120,6 +120,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 
     importXml = (xmlInput: string) => {
+        // TODO: support importing an xml of multiple different entities / workspaces
         const stripped = xmlInput.slice(26)
         const stringed = decodeURI(eval(stripped))
         const parsed = Blockly.Xml.textToDom(stringed)
@@ -129,7 +130,8 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 
     generateAndSetCode = () => {
-        this.setCode(this.generateCode(), this.generateXml())
+        // TODO: Update me to use the newer generated xml 
+        //this.setCode(this.generateCode(), this.generateXml())
     }
 
     componentDidMount(): void {
@@ -143,7 +145,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
 
     setSelectedCharacter = (characterToSelect: string) => {
         this.currentCharacter = characterToSelect
-        asdpfkmawfp // Update other things here, like the workspace contents / currently selected workspace
+        // TODO: Update other things here, like the workspace contents / currently selected workspace. 
     }
 
     render = () => {
