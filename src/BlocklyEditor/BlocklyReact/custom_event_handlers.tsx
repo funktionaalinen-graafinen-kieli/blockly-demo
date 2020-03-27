@@ -1,15 +1,16 @@
 import Blockly from "blockly"
 
 const getType = (event: any) => {
-    const block = event.block
-
-    if (block.type === "funkly_get") {
-        if (event.name === "property") {
-            const v = event.newValue
-            //use length of value to find numbers (TODO: FIND BETTER WAY)
-            if (v.length === 1) block.setPreviousStatement(true, "Number")
-            if (v === "name") block.setPreviousStatement(true, "String")
-            if (v === "text") block.setPreviousStatement(true, "String")
+    if (event.type == Blockly.Events.CHANGE) {
+        const block = event.block
+        if (block.type === "funkly_get") {
+            if (event.name === "property") {
+                const v = event.newValue
+                //use length of value to find numbers (TODO: FIND BETTER WAY)
+                if (v.length === 1) block.setPreviousStatement(true, "Number")
+                if (v === "name") block.setPreviousStatement(true, "String")
+                if (v === "text") block.setPreviousStatement(true, "String")
+            }
         }
     }
 }

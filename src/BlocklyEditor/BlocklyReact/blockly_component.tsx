@@ -1,6 +1,6 @@
-import * as React from "react"
-import * as Blockly from "blockly"
-import events from "./custom_events"
+import React from "react"
+import Blockly from "blockly"
+import eventHandlers from "./custom_event_handlers"
 import locale from "blockly/msg/en"
 
 import "./custom_blocks/registration"
@@ -21,7 +21,7 @@ export class BlocklyComponent extends React.Component<{ initialXml: string }> {
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
 
         // register custom events
-        events.forEach(e => this.primaryWorkspace.addChangeListener(e))
+        eventHandlers.forEach(e => this.primaryWorkspace.addChangeListener(e))
     }
 
     render() {
