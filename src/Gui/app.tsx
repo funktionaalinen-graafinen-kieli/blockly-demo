@@ -89,7 +89,7 @@ export default class App extends React.Component<
                     </MouseLocation>
                 </div>
                 <div className="funkly-char-selection">
-                    <CharacterSelector setSelectedCharacter={this.setSelectedCharacter}/>
+                    <CharacterSelector setSelectedCharacter={this.setSelectedCharacter} />
                 </div>
                 <div className="funkly-debug">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
