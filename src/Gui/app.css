@@ -1,10 +1,10 @@
 html {
-    background: #fff0c5;
+    background: #white;
     background-size: cover;
 }
 
 button {
-    background-color: #fff0c5;
+    background-color: #white;
     border-style: none;
 }
 
@@ -20,7 +20,7 @@ button {
     position: absolute;
     margin-left: 1vw;
     margin-top: 1vh;
-    background: #fff0c5;
+    background: #white;
     display: grid;
     grid-template-columns: repeat(3, 32vw);
     grid-template-rows: repeat(10, 9.8vh);
@@ -31,11 +31,14 @@ button {
 .funkly-title {
     grid-area: 1 / 1 / 2 / 2;
     font-size: 6vh;
+    font-weight: 400;
+    margin-left: 0.5vh;
 }
 
 .funkly-buttons {
     grid-area: 1 / 3 / 2 / 4;
     display: flex;
+    margin-bottom: 2vh;
 }
 
 .funkly-button-icon {
@@ -76,7 +79,9 @@ button {
 
 .funkly-char-selection {
     grid-area: 7 / 3 / 11 / 4;
-    background-color: #7cdceb;
+    background-color: #f5f5f5;
+    /*Play-tilaan border-radius täytyy laittaa erikseen*/
+    border-radius: 20px;
 }
 
 .funkly-debug {
@@ -91,36 +96,54 @@ button {
     position: absolute;
 }
 
-
 .blocklyToolboxDiv {
-    background-color: #fff0c5;
+    background-color: #ffffff;
 }
 
+.blocklyMainBackground {
+    stroke-width: 1;
+    stroke: #ffffff;
+}
+
+.blocklySvg {
+    background-color: #f5f5f5;
+    /*blocklyToolBoxDiv on blocklySvg:n sisällä, joten palikka-alueen vasemman reunan pyöristäminen miten?*/
+    border-radius: 20px;
+}
+
+.blocklyTreeIcon {
+    width: 0px;
+}
 
 .blocklyTreeRow {
     margin-bottom: 0px;
-    margin-top: 3vh;
+    margin-top: 5vh;
+    border-left: none !important;
+}
 
+.blocklyTreeSelected {
+    background-color: #c9c9c9 !important;
 }
 
 .blocklyTreeLabel {
     /*cursor: default;
     font-family: sans-serif;*/
-    font-size: 2.2vh; /*alle 20 oikealle tulee rako??*/
+    font-size: 2.5vh; /*alle 20 oikealle tulee rako??*/
     /*padding: 0 6px;*/
     padding-top: 0px;
     padding-right: 5px;
     padding-bottom: 0px;
     padding-left: 5px;
     /*vertical-align: middle;*/
+    /*font-weight: 500;*/
 }
 
 /* Tällä vaihdetaan blockly kategorioiden hover väriä */ 
 .blocklyTreeRow:not(.blocklyTreeSelected):hover {
-    background-color: #f1f1f1;
+    background-color: #f5f5f5;
 }
     
 .blocklyFlyoutBackground {
-    fill: #ededed;
+    fill: #bfbfbf;
     fill-opacity: .8;
 }
