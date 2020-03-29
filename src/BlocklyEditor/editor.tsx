@@ -116,6 +116,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         const stringed = decodeURI(eval(stripped))
         const parsed = Blockly.Xml.textToDom(stringed)
 
+
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
         Blockly.Xml.domToWorkspace(parsed, workspace)
     }
@@ -158,7 +159,13 @@ function loadProject(blocklyComponent: BlocklyComponent | undefined | null): voi
         return
     }
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
+    const xml = Blockly.Xml.textToDom(a)
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, blocklyComponent.primaryWorkspace)
+    //blocklyComponent.primaryWorkspace.getBlocksByType("funkly_entity", false).forEach(b => blocklyComponent.primaryWorkspace.removeBlockById(b.id))
+    //blocklyComponent.primaryWorkspace.getBlocksByType("funkly_entity", false).forEach(b => console.log(b.id))
+    Blockly.Xml.appendDomToWorkspace(xml, blocklyComponent.primaryWorkspace)
+    //console.log("WEEEEE")
+    //Blockly.Xml.appendDomToWorkspace(parsed, workspace)
 }
 
 export default Editor
