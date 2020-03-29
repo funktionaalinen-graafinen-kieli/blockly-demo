@@ -161,11 +161,6 @@ function loadProject(blocklyComponent: BlocklyComponent | undefined | null): voi
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
     const xml = Blockly.Xml.textToDom(a)
     Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, blocklyComponent.primaryWorkspace)
-    //blocklyComponent.primaryWorkspace.getBlocksByType("funkly_entity", false).forEach(b => blocklyComponent.primaryWorkspace.removeBlockById(b.id))
-    //blocklyComponent.primaryWorkspace.getBlocksByType("funkly_entity", false).forEach(b => console.log(b.id))
-    Blockly.Xml.appendDomToWorkspace(xml, blocklyComponent.primaryWorkspace)
-    //console.log("WEEEEE")
-    //Blockly.Xml.appendDomToWorkspace(parsed, workspace)
 }
 
 export default Editor

@@ -242,14 +242,10 @@ const colJson = {
     message0: "törmääkö %1 %2",
     args0: [
         {
-            //type: "field_dropdown",
-            //options: [["tmptxt","tmpval"]],
             type: "input_dummy",
             name: "e1"
         },
         {
-            //type: "field_dropdown",
-            //options: [["tmptxt","tmpval"]],
             type: "input_dummy",
             name: "e2"
         }
@@ -259,81 +255,16 @@ const colJson = {
 }
 
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
-//Blocks[funklyBlockType.COLLIDE] = {
-    //init: function() {
-        //this.jsonInit(colJson)
-        //this.setStyle("logic_blocks")
-        //BlocklyJS[funklyBlockType.COLLIDE] = funklyCodegen(funklyBlockType.COLLIDE)
-
-        //const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
-        //const dropdownOptions = () => dropdownWithThis(this, entities)
-
-        // DISABLE FielDropdown validation https://github.com/google/blockly/issues/2926
-        // Fixes 
-        // Save the existing doClassValidation_
-        //let _FieldDropdown_doClassValidation_ = FieldDropdown.prototype.doClassValidation_;
-        // Create a "no validation one"
-        //FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
-            //console.log("AAAA ", newValue)
-            //return newValue;
-        //};
-        //let f = FieldDropdown.prototype.setValue
-        //FieldDropdown.prototype.setValue = (newValue)
-
-        //const refreshDynamicDropdownField = (block: any, fieldName: any) => {
-            //const field = block.getField(fieldName)
-            //if (field) {
-                //field.getOptions(false)
-                // work around for https://github.com/google/blockly/issues/3553
-                //field.doValueUpdate_(field.getValue())
-                //field.forceRerender()
-            //}
-        //}
-
-        //console.log(this.toString())
-
-        //let text1 = this.getField("e1").getText()
-        //let val1 = this.getField("e1").getValue()
-        //console.log(text1,val1)
-        //this.getField("e1").menuGenerator_ = () => [[text1,val1]].concat(dropdownOptions())
-        //let text2 = this.getField("e2").getText()
-        //let val2 = this.getField("e2").getValue()
-        //console.log(text2,val2)
-        //this.getField("e2").menuGenerator_ = () => [[text2,val2]].concat(dropdownOptions())
-
-        //this.getField("e1").setValue([text1,val1])
-        //refreshDynamicDropdownField(this, "e1")
-        //this.getField("e2").setValue([text2,val2])
-        //refreshDynamicDropdownField(this, "e2")
-
-        // restore the saved doClassValidation_
-        //FieldDropdown.prototype.doClassValidation_ = _FieldDropdown_doClassValidation_;
-
-    //}
-//};
 
 Extensions.register("col_dropdown", function (this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
     const dropdownOptions = () => dropdownWithThis(this, entities)
 
+    // Removes fielddropdown validation to allow not-yet-existent entities
     FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
-        console.log("AAAA ", newValue)
         return newValue;
     };
 
-    //const dropdown1 = new FieldDropdown(dropdownOptions)
-    //dropdown1.setValidator((nv: any) => {
-        //console.log(nv)
-        //return nv
-    //})
-    //const dropdown2 = new FieldDropdown(dropdownOptions)
-    //dropdown2.setValidator((nv: any) => {
-        //console.log(nv)
-        //return nv
-    //})
-
-    //this.getInput("e1").appendField(dropdown1, "e1")
-    //this.getInput("e2").appendField(dropdown2, "e2")
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
 })
