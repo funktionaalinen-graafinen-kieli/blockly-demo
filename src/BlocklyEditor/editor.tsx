@@ -9,8 +9,7 @@ import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 
 const editorBlocks = (
     <React.Fragment>
-        <Category name="Matematiikka" colour={230}>
-            <Block type="funkly_collide" />
+        <Category name="Matematiikka">
             <Block type="funkly_rand" />
             <Block type="funkly_math">
                 <Value name="NUMBER0">
@@ -27,7 +26,8 @@ const editorBlocks = (
             </Block>
             <Block type="funkly_number" />
         </Category>
-        <Category name="Logiikka" colour={290}>
+        <Category name="Logiikka">
+            <Block type="funkly_collide" />
             <Block type="funkly_cond" />
             <Block type="funkly_comp">
                 <Value name="NUMBER0">
@@ -37,8 +37,9 @@ const editorBlocks = (
                     <Shadow type="funkly_number" />
                 </Value>
             </Block>
+            <Block type="funkly_keyboard_input" />
         </Category>
-        <Category name="Hahmopalikat" colour={100}>
+        <Category name="Hahmopalikat">
             <Block type="funkly_entity">
                 <Value name="x">
                     <Shadow type="funkly_get">
@@ -64,7 +65,6 @@ const editorBlocks = (
                     </Shadow>
                 </Value>
             </Block>
-            <Block type="funkly_keyboard_input" />
             <Block type="funkly_bindget" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
