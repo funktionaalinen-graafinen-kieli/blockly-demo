@@ -33,7 +33,7 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
     }, [props.blockXml])
 
     const saveButtonClicked = () => {
-        saveProject(props.blockXml)
+        if (props.blockXml) saveProject(props.blockXml)
     }
 
     const load = () => {

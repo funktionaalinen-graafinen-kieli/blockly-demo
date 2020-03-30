@@ -33,13 +33,6 @@ Object {
           </button>
           <button>
             <img
-              alt="save"
-              class="funkly-button-icon"
-              src="savebutton.png"
-            />
-          </button>
-          <button>
-            <img
               alt="load"
               class="funkly-button-icon"
               src="loadbutton.png"
@@ -126,13 +119,6 @@ Object {
             alt="degub on"
             class="funkly-button-icon"
             src="debugon.png"
-          />
-        </button>
-        <button>
-          <img
-            alt="save"
-            class="funkly-button-icon"
-            src="savebutton.png"
           />
         </button>
         <button>
