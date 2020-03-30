@@ -10,7 +10,7 @@ export const MouseLocation = (props: {children?: React.ReactNode}) => {
     }
     return (
         <div onMouseMove={hoverAction}>
-            Hiiren sijainti: {mouseX}, {mouseY}
+            {mouseX}, {mouseY}
             {props.children}
         </div>
     )
