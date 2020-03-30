@@ -1,10 +1,10 @@
 html {
-    background: #white;
+    background: white;
     background-size: cover;
 }
 
 button {
-    background-color: #white;
+    background-color: white;
     border-style: none;
     padding: 1px 0px 2px;
     outline: 0 !important;
@@ -26,7 +26,7 @@ button {
     position: absolute;
     margin-left: 1vw;
     margin-top: 1vh;
-    background: #white;
+    background: white;
     display: grid;
     grid-template-columns: repeat(3, 32vw);
     grid-template-rows: repeat(10, 9.8vh);
@@ -110,13 +110,17 @@ button {
     position: absolute;
 }
 
+.funkly-mouse-location {
+    position: absolute;
+}
+
 .blocklyToolboxDiv {
-    background-color: #ffffff;
+    background-color: white;
 }
 
 .blocklyMainBackground {
     stroke-width: 1;
-    stroke: #ffffff;
+    stroke: white;
 }
 
 .blocklySvg {
