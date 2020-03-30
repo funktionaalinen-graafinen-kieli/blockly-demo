@@ -68,20 +68,25 @@ Object {
               src="choosefile.png"
             />
           </label>
+          <button>
+            <img
+              alt="cursor"
+              class="funkly-button-icon2"
+              src="mouseicon.png"
+            />
+          </button>
+          <div>
+            0
+            , 
+            0
+          </div>
         </div>
         <div
           class="funkly-blockly-editor"
         />
         <div
           class="funkly-engine"
-        >
-          <div>
-            Hiiren sijainti: 
-            0
-            , 
-            0
-          </div>
-        </div>
+        />
         <div
           class="funkly-char-selection"
         />
@@ -157,20 +162,25 @@ Object {
             src="choosefile.png"
           />
         </label>
+        <button>
+          <img
+            alt="cursor"
+            class="funkly-button-icon2"
+            src="mouseicon.png"
+          />
+        </button>
+        <div>
+          0
+          , 
+          0
+        </div>
       </div>
       <div
         class="funkly-blockly-editor"
       />
       <div
         class="funkly-engine"
-      >
-        <div>
-          Hiiren sijainti: 
-          0
-          , 
-          0
-        </div>
-      </div>
+      />
       <div
         class="funkly-char-selection"
       />
