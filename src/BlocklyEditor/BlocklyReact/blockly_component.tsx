@@ -3,6 +3,7 @@ import * as Blockly from "blockly"
 import events from "./custom_events"
 import locale from "blockly/msg/en"
 
+import "./blockly_theme"
 import "./custom_blocks/registration"
 
 Blockly.setLocale(locale)

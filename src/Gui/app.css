@@ -54,6 +54,12 @@ button {
     width: 80%;
 }
 
+.funkly-button-icon2 {
+    height: auto;
+    /* Jostain syystä napit ovat oikein kokoisia 80%, ei 100%*/
+    width: 35%;
+}
+
 .funkly-file-load {
     margin: auto;
 }
@@ -130,7 +136,7 @@ button {
 }
 
 .blocklyTreeSelected {
-    background-color: #c9c9c9 !important;
+    background-color: #dedede !important;
 }
 
 .blocklyTreeLabel {
@@ -152,6 +158,6 @@ button {
 }
     
 .blocklyFlyoutBackground {
-    fill: #bfbfbf;
+    fill: #d9d9d9;
     fill-opacity: .8;
 }
