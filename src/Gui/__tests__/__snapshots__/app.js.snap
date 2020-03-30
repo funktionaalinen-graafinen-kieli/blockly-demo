@@ -76,10 +76,18 @@ Object {
           class="funkly-engine"
         >
           <div>
-            Hiiren sijainti: 
-            0
-            , 
-            0
+            <div
+              class="funkly-mouse-location"
+            >
+              <img
+                alt="mouseicon"
+                class="funkly-mouse-icon"
+                src="mouseicon.png"
+              />
+              0
+              , 
+              0
+            </div>
           </div>
         </div>
         <div
@@ -165,10 +173,18 @@ Object {
         class="funkly-engine"
       >
         <div>
-          Hiiren sijainti: 
-          0
-          , 
-          0
+          <div
+            class="funkly-mouse-location"
+          >
+            <img
+              alt="mouseicon"
+              class="funkly-mouse-icon"
+              src="mouseicon.png"
+            />
+            0
+            , 
+            0
+          </div>
         </div>
       </div>
       <div

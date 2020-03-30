@@ -19,6 +19,7 @@ import debugon from "./assets/gui_images/debugon.png"
 import debugoff from "./assets/gui_images/debugoff.png"
 import xmlbutton from "./assets/gui_images/xmlbutton.png"
 import choosefile from "./assets/gui_images/choosefile.png"
+import mouseicon from "./assets/gui_images/mouseicon.png"
 
 export const entityImages = new Map([
     ["default_image", default_image],
@@ -44,5 +45,6 @@ export const guiImages = new Map([
     ["debugon", debugon],
     ["debugoff", debugoff],
     ["xml", xmlbutton],
-    ["choosefile", choosefile]
+    ["choosefile", choosefile],
+    ["mouseicon", mouseicon]
 ])
