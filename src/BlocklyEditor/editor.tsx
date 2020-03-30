@@ -86,37 +86,6 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     characterMap: Map<string, Blockly.Workspace> = new Map()
     currentCharacter?: string
 
-    private generateXml = (): string => {
-        //const xml: Element[] = []
-        let output = "<xml xmlns=\"https://developers.google.com/blockly/xml\">"
-        this.characterMap.forEach((workspace, _) => {
-            //xml.push(Blockly.Xml.workspaceToDom(workspace))
-            output.concat(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
-        })
-        output += "</xml>"
-        return output 
-    }
-
-    private generateCode = (): string => {
-        const entities: Blockly.Block[] = []
-        this.characterMap.forEach((workspace, _) => {
-            entities.concat(
-                workspace
-                    .getBlocksByType("funkly_entity", true)
-                    .concat(workspace.getBlocksByType("funkly_guientity", true))
-            )
-        })
-
-        // Generate code for each entity and place commas
-        let engineCode = '{ "entities": {'
-        entities.slice(0, -1).forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
-        // Leave out comma from last entity
-        engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
-        engineCode += "}, "
-        engineCode += defaultBinds + "}"
-
-        return engineCode
-    }
 
     setCode = (engineCode: string, xmlWorkspace: string) => {
         this.props.setCode(engineCode)
@@ -131,21 +100,22 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
         console.log(entityBlocks)
-        entityBlocks.forEach((block, k) => {
+        entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
-            const workspace = this.characterMap.get(entityId)
-            if (!workspace) {
+            let workspace
+            if (!this.characterMap.has(entityId)) {
                 this.characterMap.set(entityId, new Blockly.Workspace)
             }
-            // OR create a new character entry in the map
-            Blockly.Xml.domToWorkspace(parsed, workspace)
+            workspace = this.characterMap.get(entityId)!
+            
+            Blockly.Xml.domToWorkspace(block, workspace)
 
         }) 
 
     }
 
     generateAndSetCode = () => {
-        this.setCode(this.generateCode(), this.generateXml())
+        this.setCode(generateCode(this.characterMap), generateXml(this.characterMap))
     }
 
     componentDidMount(): void {
@@ -171,6 +141,39 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
             </div>
         )
     }
+}
+
+
+function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
+    //const xml: Element[] = []
+    let output = "<xml xmlns=\"https://developers.google.com/blockly/xml\">"
+    characterMap.forEach((workspace, _) => {
+        //xml.push(Blockly.Xml.workspaceToDom(workspace))
+        output.concat(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
+    })
+    output += "</xml>"
+    return output 
+}
+
+function generateCode(characterMap: Map<string, Blockly.Workspace>): string {
+    const entities: Blockly.Block[] = []
+    characterMap.forEach((workspace, _) => {
+        entities.concat(
+            workspace
+                .getBlocksByType("funkly_entity", true)
+                .concat(workspace.getBlocksByType("funkly_guientity", true))
+        )
+    })
+
+    // Generate code for each entity and place commas
+    let engineCode = '{ "entities": {'
+    entities.slice(0, -1).forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
+    // Leave out comma from last entity
+    engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
+    engineCode += "}, "
+    engineCode += defaultBinds + "}"
+
+    return engineCode
 }
 
 function saveProject(blockXml: string): void {
