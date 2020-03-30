@@ -37,8 +37,8 @@ interface CharacterCardProps {
 
 const CharacterCard = (props: CharacterCardProps) => {
     return (
-        <div style={{ height: 75, width: 100, backgroundColor: "tomato", borderRadius: 5, textAlign: "center" }}>
-            <img src={props.img} style={{ height: 50, width: 50 }} />
+        <div className="funkly-character-card">
+            <img src={props.img} alt="..." style={{ height: 50, width: 50 }} />
             <p>{props.name}</p>
         </div>
     )
@@ -54,7 +54,6 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
     const editor = props.editor!.current
 
     const setSelectedCharacter = (entityId: string) => {
-        // TODO
         console.log("setSelectedCharacter:", entityId)
         editor.setSelectedCharacter(entityId)
     }
@@ -74,7 +73,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                         style={{ padding: 10, cursor: "pointer" }}
                         onClick={() => setSelectedCharacter(entityId)}
                     >
-                        <CharacterCard name={entity.name[1]} img={entity.img[1]} />
+                        <CharacterCard name={entity.name[1]} img={entity.img[1] } />
                     </div>
                 )
             })}

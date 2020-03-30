@@ -79,6 +79,14 @@ button {
     background-color: #7cdceb;
 }
 
+.funkly-character-card { 
+    height: 75; 
+    width: 100; 
+    background-color: tomato; 
+    border-radius: 5; 
+    text-align: "center";
+}
+
 .funkly-debug {
     /* TODO: get this to place _under_ the main blockly view*/
     top: 100vh;

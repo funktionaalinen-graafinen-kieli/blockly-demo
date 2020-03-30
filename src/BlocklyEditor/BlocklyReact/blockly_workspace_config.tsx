@@ -26,5 +26,6 @@ export const BLOCKLYCONFIG: BlocklyWorkSpaceOptions = {
     renderer: "funkly_renderer",
     zoom: { controls: true, wheel: false, startScale: 0.8, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2 },
     move: { scrollbars: true, drag: false, wheel: true },
+    // FIXME: use editor's xml parsing here (give it the raw xml stirng or something)
     initialXml: decodeURI(initialXml)
 }

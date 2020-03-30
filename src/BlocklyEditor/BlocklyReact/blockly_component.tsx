@@ -18,7 +18,7 @@ export class BlocklyComponent extends React.Component<{ initialXml: string }> {
             toolbox: this.toolbox.current!,
             ...rest
         })
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
+        // Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
 
         // register custom events
         events.forEach(e => this.primaryWorkspace.addChangeListener(e))

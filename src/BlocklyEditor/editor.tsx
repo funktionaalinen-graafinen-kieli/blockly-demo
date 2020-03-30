@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
-import * as Blockly from "blockly"
-import * as log from "loglevel"
+import Blockly from "blockly"
+import log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
 import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
@@ -86,12 +86,15 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     characterMap: Map<string, Blockly.Workspace> = new Map()
     currentCharacter?: string
 
-    private generateXml = (): string[] => {
-        const xml: string[] = []
+    private generateXml = (): string => {
+        //const xml: Element[] = []
+        let output = "<xml xmlns=\"https://developers.google.com/blockly/xml\">"
         this.characterMap.forEach((workspace, _) => {
-            xml.push(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
+            //xml.push(Blockly.Xml.workspaceToDom(workspace))
+            output.concat(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
         })
-        return xml
+        output += "</xml>"
+        return output 
     }
 
     private generateCode = (): string => {
@@ -123,16 +126,26 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     importXml = (xmlInput: string) => {
         // TODO: support importing an xml of multiple different entities / workspaces
         const stripped = xmlInput.slice(26)
-        const stringed = decodeURI(eval(stripped))
-        const parsed = Blockly.Xml.textToDom(stringed)
+        const decoded = decodeURI(eval(stripped))
+        const parsedDom = Blockly.Xml.textToDom(decoded)
+        
+        const entityBlocks = parsedDom.querySelectorAll("xml > block")
+        console.log(entityBlocks)
+        entityBlocks.forEach((block, k) => {
+            const entityId = block.getAttribute("id")!
+            const workspace = this.characterMap.get(entityId)
+            if (!workspace) {
+                this.characterMap.set(entityId, new Blockly.Workspace)
+            }
+            // OR create a new character entry in the map
+            Blockly.Xml.domToWorkspace(parsed, workspace)
 
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        Blockly.Xml.domToWorkspace(parsed, workspace)
+        }) 
+
     }
 
     generateAndSetCode = () => {
-        // TODO: Update me to use the newer generated xml
-        //this.setCode(this.generateCode(), this.generateXml())
+        this.setCode(this.generateCode(), this.generateXml())
     }
 
     componentDidMount(): void {
