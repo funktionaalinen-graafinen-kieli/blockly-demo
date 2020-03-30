@@ -54,10 +54,15 @@ button {
     width: 80%;
 }
 
-.funkly-button-icon2 {
-    height: auto;
-    /* Jostain syystä napit ovat oikein kokoisia 80%, ei 100%*/
-    width: 35%;
+.funkly-mouse-icon {
+    height: 5vh;
+    width: 3vw;
+}
+
+.funkly-mouse-location {
+    padding-left: 2vh;
+    position: absolute;
+    z-index: 10;
 }
 
 .funkly-file-load {
@@ -107,10 +112,6 @@ button {
     background: orange;
     width: 500px;
     top: 100vh; 
-    position: absolute;
-}
-
-.funkly-mouse-location {
     position: absolute;
 }
 
