@@ -7,19 +7,22 @@ import "./blockly_theme"
 import "./custom_blocks/registration"
 
 Blockly.setLocale(locale)
-export class BlocklyComponent extends React.Component<{ initialXml: string }> {
+export class BlocklyComponent extends React.Component<{}> {
     private toolbox = React.createRef<HTMLElement>()
     private blocklyDiv = React.createRef<HTMLDivElement>()
     primaryWorkspace!: Blockly.Workspace
 
     componentDidMount() {
-        const { initialXml, children, ...rest } = this.props
+        const { children, ...rest } = this.props
 
         this.primaryWorkspace = Blockly.inject(this.blocklyDiv.current!, {
             toolbox: this.toolbox.current!,
             ...rest
         })
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
+        Blockly.Xml.domToWorkspace(
+            Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"/>'),
+            this.primaryWorkspace
+        )
 
         // register custom events
         eventHandlers.forEach(e => this.primaryWorkspace.addChangeListener(e))

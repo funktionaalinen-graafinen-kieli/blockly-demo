@@ -1,8 +1,7 @@
-import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
+import Editor, { loadProject, saveProject, loadDefaultProject } from "../BlocklyEditor/editor"
 import { download } from "../GameEngine/utils"
 import React, { useState, useEffect } from "react"
 import { guiImages } from "./image_storage"
-import ClipLoader from "react-spinners/ClipLoader"
 
 const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElement>) => {
     if (editor && event.currentTarget.files) {
@@ -23,33 +22,26 @@ interface ButtonProps {
 }
 
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
-    const [saveProjectIndicator, setSaveProjectIndicator] = useState(false)
-
     useEffect(() => {
         if (props.editor) {
-            loadButtonClicked()
+            load()
         }
     }, [props.editor])
 
     useEffect(() => {
-        const autoSave = setInterval(() => {
-            saveButtonClicked()
-        }, 8000)
-        return () => {
-            clearInterval(autoSave)
-        }
+        saveButtonClicked()
     }, [props.blockXml])
 
     const saveButtonClicked = () => {
         saveProject(props.blockXml)
-        setSaveProjectIndicator(true)
-        setTimeout(() => {
-            setSaveProjectIndicator(false)
-        }, 1500)
     }
 
-    const loadButtonClicked = () => {
+    const load = () => {
         loadProject(props.editor.blocklyReactInstance.current)
+    }
+
+    const loadDefaultButtonClicked = () => {
+        loadDefaultProject(props.editor.blocklyReactInstance.current)
     }
 
     return (
@@ -68,14 +60,7 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
                     <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
                 )}
             </button>
-            <button onClick={saveButtonClicked}>
-                {saveProjectIndicator ? (
-                    <ClipLoader size={50} color="orange" loading={true} />
-                ) : (
-                    <img className="funkly-button-icon" src={guiImages.get("save")} alt="save" />
-                )}
-            </button>
-            <button onClick={loadButtonClicked}>
+            <button onClick={loadDefaultButtonClicked}>
                 <img className="funkly-button-icon" src={guiImages.get("load")} alt="load" />
             </button>
             <button

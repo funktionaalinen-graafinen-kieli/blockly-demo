@@ -6,6 +6,7 @@ import * as log from "loglevel"
 import BlocklyComponent from "./BlocklyReact/blockly_component"
 import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
+import { initialXml } from "./BlocklyReact/initial_xml"
 
 const editorBlocks = (
     <React.Fragment>
@@ -161,5 +162,14 @@ function loadProject(blocklyComponent: BlocklyComponent | undefined | null): voi
     Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
 }
 
+function loadDefaultProject(blocklyComponent: BlocklyComponent | undefined | null): void {
+    if (!blocklyComponent) {
+        console.debug("Editor is null")
+        return
+    }
+    const a = decodeURI(initialXml) || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
+}
+
 export default Editor
-export { saveProject, loadProject }
+export { saveProject, loadProject, loadDefaultProject }
