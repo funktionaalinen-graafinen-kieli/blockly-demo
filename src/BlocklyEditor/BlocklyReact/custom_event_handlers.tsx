@@ -3,7 +3,7 @@ import Blockly from "blockly"
 const getType = (event: any) => {
     if (event.type == Blockly.Events.CHANGE) {
         const block = event.block
-        if (block.type === "funkly_get") {
+        if (block && block.type === "funkly_get") {
             if (event.name === "property") {
                 const v = event.newValue
                 //use length of value to find numbers (TODO: FIND BETTER WAY)
