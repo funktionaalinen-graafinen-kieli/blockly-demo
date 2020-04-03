@@ -22,7 +22,7 @@ const condType = (event: any) => {
 
         if (event.newParentId) {
             const block = workspace.getBlockById(event.newParentId)
-            if (block.type === "funkly_cond") {
+            if (block && block.type === "funkly_cond") {
                 let child = workspace.getBlockById(event.blockId)
                 const con = child.previousConnection
                 const check = con.getCheck()
@@ -34,7 +34,7 @@ const condType = (event: any) => {
         }
         if (event.oldParentId) {
             let block = workspace.getBlockById(event.oldParentId)
-            if (block.type === "funkly_cond") {
+            if (block && block.type === "funkly_cond") {
                 block.getInput("DO").setCheck(null)
                 block.getInput("ELSE").setCheck(null)
                 block.setPreviousStatement(true, null)
