@@ -86,7 +86,6 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     characterMap: Map<string, Blockly.Workspace> = new Map()
     currentCharacter?: string
 
-
     setCode = (engineCode: string, xmlWorkspace: string) => {
         this.props.setCode(engineCode)
         this.props.setBlockXml(xmlWorkspace)
@@ -97,21 +96,19 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         const stripped = xmlInput.slice(26)
         const decoded = decodeURI(eval(stripped))
         const parsedDom = Blockly.Xml.textToDom(decoded)
-        
+
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
         console.log(entityBlocks)
         entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
             let workspace
             if (!this.characterMap.has(entityId)) {
-                this.characterMap.set(entityId, new Blockly.Workspace)
+                this.characterMap.set(entityId, new Blockly.Workspace())
             }
             workspace = this.characterMap.get(entityId)!
-            
+
             Blockly.Xml.domToWorkspace(block, workspace)
-
-        }) 
-
+        })
     }
 
     generateAndSetCode = () => {
@@ -143,25 +140,22 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 }
 
-
 function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
     //const xml: Element[] = []
-    let output = "<xml xmlns=\"https://developers.google.com/blockly/xml\">"
+    let output = '<xml xmlns="https://developers.google.com/blockly/xml">'
     characterMap.forEach((workspace, _) => {
         //xml.push(Blockly.Xml.workspaceToDom(workspace))
         output.concat(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
     })
     output += "</xml>"
-    return output 
+    return output
 }
 
 function generateCode(characterMap: Map<string, Blockly.Workspace>): string {
     const entities: Blockly.Block[] = []
     characterMap.forEach((workspace, _) => {
         entities.concat(
-            workspace
-                .getBlocksByType("funkly_entity", true)
-                .concat(workspace.getBlocksByType("funkly_guientity", true))
+            workspace.getBlocksByType("funkly_entity", true).concat(workspace.getBlocksByType("funkly_guientity", true))
         )
     })
 
