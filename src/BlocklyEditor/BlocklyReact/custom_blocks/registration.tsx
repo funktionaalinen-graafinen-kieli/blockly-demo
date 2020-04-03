@@ -63,25 +63,11 @@ const guardJson = {
     ],
     tooltip: "Tooltip here",
     helpUrl: "https://google.com",
-    //extensions: ["guard_connection"],
     previousStatement: null,
     nextStatement: "Guard"
 }
 
 createCustomBlock(funklyBlockType.GUARD, "logic_blocks", guardJson)
-
-//Extensions.register("guard_connection", function (this: Block) {
-    //this.setOnChange(() => {
-        //const next = this.getNextBlock()
-        //const prev = this.getPreviousBlock()
-//
-        //if (next !== null) {
-            //
-        //} else {
-//
-        //}
-    //})
-//})
 
 const condJson = {
     "type:": funklyBlockType.COND,

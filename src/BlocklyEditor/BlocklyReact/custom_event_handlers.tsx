@@ -46,11 +46,18 @@ const condType = (event: any) => {
         if (block && block.type === "funkly_cond") {
             const p = block.getParent()
             if (p != null) {
-                const con = p.getInputWithBlock(block).connection
-                const check = con.getCheck()
-                block.getInput("DO").setCheck(check)
-                block.getInput("ELSE").setCheck(check)
-                block.setPreviousStatement(true, check)
+                const b = p.getInputWithBlock(block)
+                if (b) {
+                    const con = b.connection
+                    const check = con.getCheck()
+                    block.getInput("DO").setCheck(check)
+                    block.getInput("ELSE").setCheck(check)
+                    block.setPreviousStatement(true, check)
+                }
+                //if connected to guard disconnect
+                if (p.getNextBlock() && p.getNextBlock().id === event.blockId) {
+                    block.previousConnection.disconnect()
+                }
             } else {
                 block.getInput("DO").setCheck(null)
                 block.getInput("ELSE").setCheck(null)
