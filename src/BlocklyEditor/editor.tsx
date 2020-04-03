@@ -129,7 +129,7 @@ class Editor extends React.Component<EditorProps, {}> {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
-    refreshSelected = () => {
+    refreshSelected(): void {
         this.forceUpdate()
     }
 
@@ -146,7 +146,6 @@ class Editor extends React.Component<EditorProps, {}> {
 
 
 function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
-    //const xml: Element[] = []
     let output = "<xml xmlns=\"https://developers.google.com/blockly/xml\">"
     characterMap.forEach((workspace, _) => {
         //xml.push(Blockly.Xml.workspaceToDom(workspace))

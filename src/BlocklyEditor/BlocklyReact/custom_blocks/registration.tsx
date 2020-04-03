@@ -29,7 +29,7 @@ function dropdownWithThis(block: Block, entities: () => Block[]) {
 }
 
 
-function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
+function createCustomBlock(id: funklyBlockType, style: string, configuration: object, deletable = true) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
         log.debug("Non-enabled blockly style!")
     }
@@ -37,6 +37,7 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
         init: function () {
             this.jsonInit(configuration)
             this.setStyle(style)
+            this.setDeletable(deletable)
         }
     }
 
@@ -175,7 +176,7 @@ const entityJson = {
     ],
 }
 
-createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
+createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson, false)
 
 const guiEntityJson = {
     "type:": funklyBlockType.GUIENTITY,
@@ -235,7 +236,7 @@ const guiEntityJson = {
     ],
 }
 
-createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
+createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson, false)
 
 const colJson = {
     "type:": funklyBlockType.COLLIDE,
