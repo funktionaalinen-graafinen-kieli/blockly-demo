@@ -1,6 +1,8 @@
 import React from "react"
 import * as log from "loglevel"
 
+import Blockly from "blockly"
+
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import Editor from "../BlocklyEditor/editor"
 import CharacterSelector from "../BlocklyEditor/character_selector"
@@ -20,6 +22,8 @@ export default class App extends React.Component<
         gameRunning: boolean
         mouse_x: number
         mouse_y: number
+        characterMap: Map<string, Blockly.Workspace>
+        selectedCharacter?: string
     }
 > {
     editorInstance = React.createRef<Editor>()
@@ -40,6 +44,10 @@ export default class App extends React.Component<
         this.setState({ debugToggle: !this.state.debugToggle })
     }
 
+    setSelectedCharacter = (selectedCharacter: string) => {
+        this.setState({ selectedCharacter })
+    }
+
     constructor(props: {}) {
         // Call super with empty props list
         super(props)
@@ -49,7 +57,8 @@ export default class App extends React.Component<
             debugToggle: false,
             gameRunning: false,
             mouse_x: 0,
-            mouse_y: 0
+            mouse_y: 0,
+            characterMap: new Map()
         }
     }
 
@@ -70,7 +79,12 @@ export default class App extends React.Component<
                     />
                 </div>
                 <div className="funkly-blockly-editor">
-                    <Editor setBlockXml={this.setBlockXml} setCode={this.setCode} ref={this.editorInstance} />
+                    <Editor 
+                        setBlockXml={this.setBlockXml} 
+                        setCode={this.setCode} 
+                        characterMap={this.state.characterMap}
+                        ref={this.editorInstance} 
+                    />
                 </div>
                 <div className="funkly-engine">
                     <MouseLocation>
@@ -82,7 +96,11 @@ export default class App extends React.Component<
                     </MouseLocation>
                 </div>
                 <div className="funkly-char-selection">
-                    <CharacterSelector editor={this.editorInstance} />
+                    <CharacterSelector 
+                        editor={this.editorInstance} 
+                        characterMap={this.state.characterMap} 
+                        setSelectedCharacter={this.setSelectedCharacter} 
+                    />
                 </div>
                 <div className="funkly-debug">
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
