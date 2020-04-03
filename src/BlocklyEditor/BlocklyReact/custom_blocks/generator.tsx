@@ -6,6 +6,7 @@ import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
+    GUARD = "funkly_guard",
     COMP = "funkly_comp",
     MATH = "funkly_math",
     RAND = "funkly_rand",
@@ -23,6 +24,7 @@ enum funklyBlockType {
 
 function funklyCodegen(type: funklyBlockType) {
     if (type === funklyBlockType.COND) return funkly_cond
+    else if (type === funklyBlockType.GUARD) return funkly_guard
     else if (type === funklyBlockType.COMP) return funkly_comp
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
@@ -45,6 +47,30 @@ function funklyCodegen(type: funklyBlockType) {
         const elseBranch = BlocklyJS.statementToCode(block, "ELSE")
 
         return "cond" + argwrap(conditionCode, doBranch, elseBranch)
+    }
+
+    function funkly_guard(block: Block) {
+        const prev = block.getPreviousBlock()
+
+        if (prev.type === "funkly_guard") {
+            return ""
+        }
+        
+        return funkly_guard_helper(block)
+    }
+
+    function funkly_guard_helper(block: Block) : string{
+        const next = block.getNextBlock()
+
+        const conditionCode = block.getInput("IF") ? BlocklyJS.statementToCode(block, "IF") : "1"
+
+        const doBranch = block.getInput("DO") ? BlocklyJS.statementToCode(block, "DO") : ""
+
+        if (next !== null) {
+            return "cond" + argwrap(conditionCode, doBranch, funkly_guard_helper(next))
+        } else {
+            return doBranch
+        }
     }
 
     function funkly_trig(block: Block) {
