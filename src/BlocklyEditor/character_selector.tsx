@@ -143,6 +143,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
     const deleteCharacter = (entityId: string) => {
         console.log("delete character")
         // Delete character from characterMap
+        props.characterMap.delete(entityId)
     }
 
     return (
