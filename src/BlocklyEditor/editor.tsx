@@ -145,16 +145,16 @@ function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
     let output = '<xml xmlns="https://developers.google.com/blockly/xml">'
     characterMap.forEach((workspace, _) => {
         //xml.push(Blockly.Xml.workspaceToDom(workspace))
-        output.concat(Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace)))
+        output += Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
     })
     output += "</xml>"
     return output
 }
 
 function generateCode(characterMap: Map<string, Blockly.Workspace>): string {
-    const entities: Blockly.Block[] = []
+    let entities: Blockly.Block[] = []
     characterMap.forEach((workspace, _) => {
-        entities.concat(
+        entities = entities.concat(
             workspace.getBlocksByType("funkly_entity", true).concat(workspace.getBlocksByType("funkly_guientity", true))
         )
     })
