@@ -44,6 +44,31 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
     BlocklyJS[id] = funklyCodegen(id)
 }
 
+const guardJson = {
+    "type:": funklyBlockType.COND,
+    message0: "jos %1",
+    args0: [
+        {
+            type: "input_statement",
+            name: "IF",
+            check: "Boolean"
+        }
+    ],
+    message1: "niin %1",
+    args1: [
+        {
+            type: "input_statement",
+            name: "DO"
+        }
+    ],
+    tooltip: "Tooltip here",
+    helpUrl: "https://google.com",
+    previousStatement: null,
+    nextStatement: "Guard"
+}
+
+createCustomBlock(funklyBlockType.GUARD, "logic_blocks", guardJson)
+
 const condJson = {
     "type:": funklyBlockType.COND,
     message0: "jos %1",
@@ -68,7 +93,6 @@ const condJson = {
             name: "ELSE"
         }
     ],
-    //extensions: ["cond_type"],
     tooltip: "Tooltip here",
     helpUrl: "https://google.com",
     previousStatement: null
@@ -261,6 +285,11 @@ createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 Extensions.register("col_dropdown", function (this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
     const dropdownOptions = () => dropdownWithThis(this, entities)
+
+    // Removes fielddropdown validation to allow not-yet-existent entities
+    FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
+        return newValue;
+    };
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")

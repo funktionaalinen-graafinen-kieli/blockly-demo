@@ -30,6 +30,7 @@ const editorBlocks = (
         <Category name="Logiikka">
             <Block type="funkly_collide" />
             <Block type="funkly_cond" />
+            <Block type="funkly_guard" />
             <Block type="funkly_comp">
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />
@@ -117,6 +118,7 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         const stringed = decodeURI(eval(stripped))
         const parsed = Blockly.Xml.textToDom(stringed)
 
+
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
         Blockly.Xml.domToWorkspace(parsed, workspace)
     }
@@ -159,7 +161,8 @@ function loadProject(blocklyComponent: BlocklyComponent | undefined | null): voi
         return
     }
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
+    const xml = Blockly.Xml.textToDom(a)
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, blocklyComponent.primaryWorkspace)
 }
 
 function loadDefaultProject(blocklyComponent: BlocklyComponent | undefined | null): void {
