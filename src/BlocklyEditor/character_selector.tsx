@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React from "react"
+import Blockly from "blockly"
+
 import Editor from "../BlocklyEditor/editor"
 
 const entityMap = {
@@ -86,6 +88,8 @@ const NewCharacterMenu = (props: NewCharacterMenuProps) => {
 }
 
 interface CharacterSelectorProps {
+    characterMap: Map<string, Blockly.Workspace>
+    setSelectedCharacter: (_: string) => void
     editor: React.RefObject<Editor>
 }
 
@@ -98,7 +102,8 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
 
     const setSelectedCharacter = (entityId: string) => {
         console.log("setSelectedCharacter:", entityId)
-        editor.setSelectedCharacter(entityId)
+        props.setSelectedCharacter(entityId)
+        editor.refreshSelected()
     }
 
     const createNewCharacter = (id: string, name: string, img: string) => {

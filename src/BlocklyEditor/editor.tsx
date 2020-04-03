@@ -80,11 +80,14 @@ const defaultBinds = `
     "everySecond": ["packF(timer)", [false, 0, 1000]]
 }
 `
+interface EditorProps {
+    setCode: (_: string) => void
+    setBlockXml: (_: string) => void
+    characterMap: Map<string, Blockly.Workspace>
+}
 
-class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml: (_: string) => void }, {}> {
+class Editor extends React.Component<EditorProps, {}> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    characterMap: Map<string, Blockly.Workspace> = new Map()
-    currentCharacter?: string
 
     setCode = (engineCode: string, xmlWorkspace: string) => {
         this.props.setCode(engineCode)
@@ -102,17 +105,17 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
             let workspace
-            if (!this.characterMap.has(entityId)) {
-                this.characterMap.set(entityId, new Blockly.Workspace())
+            if (this.props.characterMap.has(entityId)) {
+                this.props.characterMap.set(entityId, new Blockly.Workspace())
             }
-            workspace = this.characterMap.get(entityId)!
+            workspace = this.props.characterMap.get(entityId)!
 
             Blockly.Xml.domToWorkspace(block, workspace)
         })
     }
 
     generateAndSetCode = () => {
-        this.setCode(generateCode(this.characterMap), generateXml(this.characterMap))
+        this.setCode(generateCode(this.props.characterMap), generateXml(this.props.characterMap))
     }
 
     componentDidMount(): void {
@@ -124,9 +127,8 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
-    setSelectedCharacter = (characterToSelect: string) => {
-        this.currentCharacter = characterToSelect
-        // TODO: Update other things here, like the workspace contents / currently selected workspace.
+    refreshSelected(): void {
+        this.forceUpdate()
     }
 
     render = () => {
@@ -141,7 +143,6 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
 }
 
 function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
-    //const xml: Element[] = []
     let output = '<xml xmlns="https://developers.google.com/blockly/xml">'
     characterMap.forEach((workspace, _) => {
         //xml.push(Blockly.Xml.workspaceToDom(workspace))
