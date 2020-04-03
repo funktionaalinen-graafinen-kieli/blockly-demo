@@ -44,6 +44,45 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
     BlocklyJS[id] = funklyCodegen(id)
 }
 
+const guardJson = {
+    "type:": funklyBlockType.COND,
+    message0: "jos %1",
+    args0: [
+        {
+            type: "input_statement",
+            name: "IF",
+            check: "Boolean"
+        }
+    ],
+    message1: "niin %1",
+    args1: [
+        {
+            type: "input_statement",
+            name: "DO"
+        }
+    ],
+    tooltip: "Tooltip here",
+    helpUrl: "https://google.com",
+    //extensions: ["guard_connection"],
+    previousStatement: null,
+    nextStatement: "Guard"
+}
+
+createCustomBlock(funklyBlockType.GUARD, "logic_blocks", guardJson)
+
+//Extensions.register("guard_connection", function (this: Block) {
+    //this.setOnChange(() => {
+        //const next = this.getNextBlock()
+        //const prev = this.getPreviousBlock()
+//
+        //if (next !== null) {
+            //
+        //} else {
+//
+        //}
+    //})
+//})
+
 const condJson = {
     "type:": funklyBlockType.COND,
     message0: "jos %1",

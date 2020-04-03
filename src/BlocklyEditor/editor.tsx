@@ -29,6 +29,7 @@ const editorBlocks = (
         <Category name="Logiikka">
             <Block type="funkly_collide" />
             <Block type="funkly_cond" />
+            <Block type="funkly_guard" />
             <Block type="funkly_comp">
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />
