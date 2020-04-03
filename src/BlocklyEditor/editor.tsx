@@ -95,7 +95,6 @@ class Editor extends React.Component<EditorProps, {}> {
     }
 
     importXml = (xmlInput: string) => {
-        // TODO: support importing an xml of multiple different entities / workspaces
         const stripped = xmlInput.slice(26)
         const decoded = decodeURI(eval(stripped))
         const parsedDom = Blockly.Xml.textToDom(decoded)
