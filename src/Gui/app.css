@@ -51,7 +51,7 @@ button {
 .funkly-button-icon {
     height: auto;
     /* Jostain syystä napit ovat oikein kokoisia 80%, ei 100%*/
-    width: 80%;
+    width: 70%;
 }
 
 .funkly-mouse-icon {

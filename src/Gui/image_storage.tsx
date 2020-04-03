@@ -24,6 +24,7 @@ import yaxis from "./assets/gui_images/yaxis.png"
 import xaxis from "./assets/gui_images/xaxis.png"
 import plusbutton from "./assets/gui_images/plusbutton.png"
 import plusbuttonwhite from "./assets/gui_images/plusbuttonwhite.png"
+import xbutton from "./assets/gui_images/xbutton.png"
 
 export const entityImages = new Map([
     ["default_image", default_image],
@@ -54,5 +55,6 @@ export const guiImages = new Map([
     ["yaxis", yaxis],
     ["xaxis", xaxis],
     ["plusbutton", plusbutton],
-    ["plusbuttonwhite", plusbuttonwhite]
+    ["plusbuttonwhite", plusbuttonwhite],
+    ["xbutton", xbutton]
 ])
