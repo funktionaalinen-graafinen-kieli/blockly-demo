@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Blockly from "blockly"
 
 import Editor from "../BlocklyEditor/editor"
@@ -59,30 +59,15 @@ interface NewCharacterMenuProps {
 }
 
 const NewCharacterMenu = (props: NewCharacterMenuProps) => {
+    const buttonClick = (id: string) => {
+        props.toggleNewCharacterMode()
+        props.createNewCharacter(id)
+    }
+
     return (
         <div style={{ padding: 10 }}>
-            <p>Hahmo</p>
-            <form
-                onSubmit={() => {
-                    props.toggleNewCharacterMode()
-                    props.createNewCharacter()
-                }}
-            >
-                <label>Nimi</label>
-                <br />
-                <input type="text" />
-                <hr />
-                <label>Kuva</label>
-                <br />
-                <select>
-                    <option>Doge 1</option>
-                    <option>Doge 2</option>
-                    <option>Doge 3</option>
-                    <option>Doge 4</option>
-                </select>
-                <hr />
-                <button type="submit">{"Valmis"}</button>
-            </form>
+            <button onClick={() => buttonClick("HAHMO")}>Hahmo</button>
+            <button onClick={() => buttonClick("TIETOVEKOTIN")}>Tietovekotin</button>
         </div>
     )
 }
@@ -106,14 +91,13 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
         editor.refreshSelected()
     }
 
-    const createNewCharacter = (id: string, name: string, img: string) => {
+    const createNewCharacter = (id: string) => {
         // TODO
-        // entityMap["entities"][id] = { name: ["packF(id)", name], img: [`pack(  '\"${img}\"')`, img] }
+        console.log("create new character")
     }
 
     const deleteCharacter = (entityId: string) => {
-        const entities = entityMap.entities
-        // delete entities[entityId]
+        console.log("delete character")
     }
 
     return (
