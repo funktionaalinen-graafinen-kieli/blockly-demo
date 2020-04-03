@@ -32,8 +32,8 @@ const entityMap = {
     }
 }
 
-const entityBaseXml = `<xml xmlns=\"https://developers.google.com/blockly/xml\">
-    <block type=\"funkly_entity\" id=\"~c]umv*3VCGV8SPvL;b|\" x=\"420\" y=\"239\">
+const entityBaseXml = (id: string) => `<xml xmlns=\"https://developers.google.com/blockly/xml\">
+    <block type=\"funkly_entity\" id=\"${id}\" x=\"420\" y=\"239\">
     <field name=\"name\">esimerkkinimi</field>
     <field name=\"initx\">1</field>
     <field name=\"inity\">1</field>
@@ -120,13 +120,29 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
         editor.refreshSelected()
     }
 
+    const generateId = (len: number) => {
+        var text = ""
+        var char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        for (var i = 0; i < len; i++) {
+            text += char_list.charAt(Math.floor(Math.random() * char_list.length))
+        }
+        return text
+    }
+
     const createNewCharacter = (id: string) => {
         // TODO
-        console.log("create new character")
+        console.log("create new character:", props.characterMap)
+        // Add new workspace to characterMap
+        const workspace = new Blockly.Workspace()
+        const entityId = generateId(10)
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId)), workspace)
+        props.characterMap.set(entityId, workspace)
+        console.log("new:", props.characterMap)
     }
 
     const deleteCharacter = (entityId: string) => {
         console.log("delete character")
+        // Delete character from characterMap
     }
 
     return (
