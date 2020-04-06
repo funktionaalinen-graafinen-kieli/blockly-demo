@@ -1,6 +1,6 @@
-import Editor, { loadProject, saveProject, loadDefaultProject } from "../BlocklyEditor/editor"
+import Editor, { loadDefaultProject } from "../BlocklyEditor/editor"
 import { download } from "../GameEngine/utils"
-import React, { useEffect } from "react"
+import React from "react"
 import { guiImages } from "./image_storage"
 
 const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElement>) => {
@@ -22,16 +22,8 @@ interface ButtonProps {
 }
 
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
-    useEffect(() => {
-        saveButtonClicked()
-    }, [props.blockXml])
-
-    const saveButtonClicked = () => {
-        if (props.blockXml) saveProject(props.blockXml)
-    }
-
     const loadDefaultButtonClicked = () => {
-        loadDefaultProject(props.editor.blocklyReactInstance.current)
+        loadDefaultProject(props.editor)
     }
 
     return (

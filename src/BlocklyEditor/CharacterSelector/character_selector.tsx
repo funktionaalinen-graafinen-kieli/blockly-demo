@@ -77,7 +77,6 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
         props.characterMap.delete(entityId)
         const newSelected = props.characterMap.values().next().value
         if (newSelected) { editor.setSelectedCharacter(newSelected) }
-        // How can we force an update here
     }
 
     return (

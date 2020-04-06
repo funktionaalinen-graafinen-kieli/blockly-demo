@@ -84,21 +84,23 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
         console.log(entityBlocks)
+
         entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
-            let workspace
-            if (this.props.characterMap.has(entityId)) {
+            if (! this.props.characterMap.has(entityId)) {
                 this.props.characterMap.set(entityId, new Blockly.Workspace())
             }
-            workspace = this.props.characterMap.get(entityId)!
+            const workspace = this.props.characterMap.get(entityId)!
 
             Blockly.Xml.domToWorkspace(block, workspace)
         })
     }
 
-    generateAndSetCode = () => {
-        this.setCode(generateCode(this.props.characterMap), generateXml(this.props.characterMap))
+    onBlocklychange = () => {
+        const blockXml = generateXml(this.props.characterMap)
+        this.setCode(generateCode(this.props.characterMap), blockXml)
         
+        saveProject(blockXml)
         /*  this causes weird issues with entities getting overridden and only one 
             entity being on the characterMap at once */
         const workspaceContents = this.blocklyReactInstance.current!.primaryWorkspace
@@ -108,12 +110,12 @@ class Editor extends React.Component<EditorProps, EditorState> {
     componentDidMount(): void {
         const blocklyReact = this.blocklyReactInstance.current!
 
-        blocklyReact.primaryWorkspace.addChangeListener(this.generateAndSetCode)
+        blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
     }
 
     componentWillUnmount(): void {
-        this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
+        this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.onBlocklychange)
     }
 
     setSelectedCharacter(newSelected: string): void {
@@ -122,7 +124,6 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const newWorkspace = this.props.characterMap.get(newSelected)
         if (newWorkspace) blocklyReact.changeWorkspaceContents(newWorkspace)
         this.setState({ selectedCharacter: newSelected })
-        
     }
 
     render = () => {
@@ -170,26 +171,19 @@ function saveProject(blockXml: string): void {
         console.debug("Editor is null")
         return
     }
-    localStorage.setItem("defaultProject", blockXml)
+    localStorage.setItem("defaultProject", encodeURI(blockXml))
 }
 
-function loadProject(blocklyComponent: BlocklyComponent | undefined | null): void {
-    if (!blocklyComponent) {
-        console.debug("Editor is null")
-        return
-    }
-    const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    const xml = Blockly.Xml.textToDom(a)
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, blocklyComponent.primaryWorkspace)
+function loadProject(editor: Editor) {
+    const storedProject = 
+        decodeURI(localStorage.getItem("defaultProject")!)
+        || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    editor.importXml(storedProject)
 }
 
-function loadDefaultProject(blocklyComponent: BlocklyComponent | undefined | null): void {
-    if (!blocklyComponent) {
-        console.debug("Editor is null")
-        return
-    }
-    const a = decodeURI(initialXml) || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
+function loadDefaultProject(editor: Editor) {
+    const defaultProject = decodeURI(initialXml) || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    editor.importXml(defaultProject)
 }
 
 export default Editor
