@@ -99,10 +99,10 @@ class Editor extends React.Component<EditorProps, EditorState> {
     generateAndSetCode = () => {
         this.setCode(generateCode(this.props.characterMap), generateXml(this.props.characterMap))
         
-        /* this causes weird issues with entities getting overridden and only one entity being on the characterMap at once
-            const workspaceContents = this.blocklyReactInstance.current!.primaryWorkspace
-            this.props.characterMap.set(this.state.selectedCharacter, workspaceContents)
-        */
+        /*  this causes weird issues with entities getting overridden and only one 
+            entity being on the characterMap at once */
+        const workspaceContents = this.blocklyReactInstance.current!.primaryWorkspace
+        this.props.characterMap.set(this.state.selectedCharacter, workspaceContents)
     }
 
     componentDidMount(): void {
