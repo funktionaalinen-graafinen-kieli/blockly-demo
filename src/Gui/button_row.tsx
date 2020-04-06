@@ -1,6 +1,6 @@
-import Editor, { loadProject, saveProject } from "../BlocklyEditor/editor"
+import Editor, { loadProject, saveProject, loadDefaultProject } from "../BlocklyEditor/editor"
 import { download } from "../GameEngine/utils"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { guiImages } from "./image_storage"
 
 const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElement>) => {
@@ -22,6 +22,28 @@ interface ButtonProps {
 }
 
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
+    useEffect(() => {
+        if (props.editor) {
+            load()
+        }
+    }, [props.editor])
+
+    useEffect(() => {
+        saveButtonClicked()
+    }, [props.blockXml])
+
+    const saveButtonClicked = () => {
+        if (props.blockXml) saveProject(props.blockXml)
+    }
+
+    const load = () => {
+        loadProject(props.editor.blocklyReactInstance.current)
+    }
+
+    const loadDefaultButtonClicked = () => {
+        loadDefaultProject(props.editor.blocklyReactInstance.current)
+    }
+
     return (
         <>
             <button onClick={props.toggleGame}>
@@ -38,18 +60,7 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
                     <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
                 )}
             </button>
-            <button
-                onClick={() => {
-                    saveProject(props.blockXml)
-                }}
-            >
-                <img className="funkly-button-icon" src={guiImages.get("save")} alt="save" />
-            </button>
-            <button
-                onClick={() => {
-                    loadProject(props.editor.blocklyReactInstance.current)
-                }}
-            >
+            <button onClick={loadDefaultButtonClicked}>
                 <img className="funkly-button-icon" src={guiImages.get("load")} alt="load" />
             </button>
             <button

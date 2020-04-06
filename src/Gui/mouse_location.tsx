@@ -1,4 +1,5 @@
 import React from "react"
+import { guiImages } from "./image_storage"
 
 export const MouseLocation = (props: {children?: React.ReactNode}) => {
     const [mouseX, setMouseX] = React.useState(0)
@@ -10,7 +11,10 @@ export const MouseLocation = (props: {children?: React.ReactNode}) => {
     }
     return (
         <div onMouseMove={hoverAction}>
-            Hiiren sijainti: {mouseX}, {mouseY}
+            <div className="funkly-mouse-location">
+            <img className="funkly-mouse-icon" src={guiImages.get("mouseicon")} alt="mouseicon" />
+                {mouseX}, {mouseY}
+            </div>
             {props.children}
         </div>
     )

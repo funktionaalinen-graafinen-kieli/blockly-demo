@@ -19,8 +19,16 @@ import debugon from "./assets/gui_images/debugon.png"
 import debugoff from "./assets/gui_images/debugoff.png"
 import xmlbutton from "./assets/gui_images/xmlbutton.png"
 import choosefile from "./assets/gui_images/choosefile.png"
+
+import mouseicon from "./assets/gui_images/mouseicon.png"
+import yaxis from "./assets/gui_images/yaxis.png"
+import xaxis from "./assets/gui_images/xaxis.png"
 import plusbutton from "./assets/gui_images/plusbutton.png"
+import plusbuttonwhite from "./assets/gui_images/plusbuttonwhite.png"
+import xbutton from "./assets/gui_images/xbutton.png"
 import deletebutton from "./assets/gui_images/deletebutton.png"
+import maximize from "./assets/gui_images/maximize.png"
+import minimize from "./assets/gui_images/minimize.png"
 
 export const entityImages = new Map([
     ["default_image", default_image],
@@ -29,13 +37,13 @@ export const entityImages = new Map([
     ["doge", doge],
     ["dancingdoge", dogedance],
     ["strange_doge", strangedoge],
-    ["plastic_bag", plasticbag],
-    ["turtle", turtle],
-    ["jellyfish", jellyfish],
+    ["muovipussi", plasticbag],
+    ["kilpikonna", turtle],
+    ["meduusa", jellyfish],
     ["sininen_palikka", sininen],
     ["pisteet_100", score_100],
     ["pisteet_tyhja", score_empty],
-    ["animatedjellyfish", animatedjellyfish]
+    ["animoitumeduusa", animatedjellyfish]
 ])
 
 export const guiImages = new Map([
@@ -47,6 +55,13 @@ export const guiImages = new Map([
     ["debugoff", debugoff],
     ["xml", xmlbutton],
     ["choosefile", choosefile],
-    ["plusButton", plusbutton],
-    ["deleteButton", deletebutton]
+    ["mouseicon", mouseicon],
+    ["yaxis", yaxis],
+    ["xaxis", xaxis],
+    ["plus", plusbutton],
+    ["pluswhite", plusbuttonwhite],
+    ["xbutton", xbutton],
+    ["deleteButton", deletebutton],
+    ["maximize", maximize],
+    ["minimize", minimize]
 ])

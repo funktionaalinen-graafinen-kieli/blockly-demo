@@ -6,11 +6,11 @@ import log from "loglevel"
 import BlocklyComponent from "./BlocklyReact/blockly_component"
 import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
+import { initialXml } from "./BlocklyReact/initial_xml"
 
 const editorBlocks = (
     <React.Fragment>
-        <Category name="Matematiikka" colour={230}>
-            <Block type="funkly_collide" />
+        <Category name="Matematiikka">
             <Block type="funkly_rand" />
             <Block type="funkly_math">
                 <Value name="NUMBER0">
@@ -27,8 +27,10 @@ const editorBlocks = (
             </Block>
             <Block type="funkly_number" />
         </Category>
-        <Category name="Logiikka" colour={290}>
+        <Category name="Logiikka">
+            <Block type="funkly_collide" />
             <Block type="funkly_cond" />
+            <Block type="funkly_guard" />
             <Block type="funkly_comp">
                 <Value name="NUMBER0">
                     <Shadow type="funkly_number" />
@@ -37,6 +39,7 @@ const editorBlocks = (
                     <Shadow type="funkly_number" />
                 </Value>
             </Block>
+            <Block type="funkly_keyboard_input" />
         </Category>
         <Category name="Hahmopalikat" colour={100}>
             <Block type="funkly_keyboard_input" />
@@ -167,8 +170,18 @@ function loadProject(blocklyComponent: BlocklyComponent | undefined | null): voi
         return
     }
     const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    const xml = Blockly.Xml.textToDom(a)
+    Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, blocklyComponent.primaryWorkspace)
+}
+
+function loadDefaultProject(blocklyComponent: BlocklyComponent | undefined | null): void {
+    if (!blocklyComponent) {
+        console.debug("Editor is null")
+        return
+    }
+    const a = decodeURI(initialXml) || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
     Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
 }
 
 export default Editor
-export { saveProject, loadProject, generateCode }
+export { saveProject, loadProject, loadDefaultProject, generateCode }

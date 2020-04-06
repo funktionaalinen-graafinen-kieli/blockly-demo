@@ -23,7 +23,7 @@ function dropdownWithThis(block: Block, entities: () => Block[]) {
     else options.push(["?", "NOT_SELECTED"])
 
     entities()
-        .filter(e => e != parent)
+        .filter(e => e !== parent)
         .forEach(e => options.push([e.getFieldValue("name"), e.id]))
     return options
 }
@@ -43,6 +43,31 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
 
     BlocklyJS[id] = funklyCodegen(id)
 }
+
+const guardJson = {
+    "type:": funklyBlockType.COND,
+    message0: "jos %1",
+    args0: [
+        {
+            type: "input_statement",
+            name: "IF",
+            check: "Boolean"
+        }
+    ],
+    message1: "niin %1",
+    args1: [
+        {
+            type: "input_statement",
+            name: "DO"
+        }
+    ],
+    tooltip: "Tooltip here",
+    helpUrl: "https://google.com",
+    previousStatement: null,
+    nextStatement: "Guard"
+}
+
+createCustomBlock(funklyBlockType.GUARD, "logic_blocks", guardJson)
 
 const condJson = {
     "type:": funklyBlockType.COND,
@@ -68,7 +93,6 @@ const condJson = {
             name: "ELSE"
         }
     ],
-    //extensions: ["cond_type"],
     tooltip: "Tooltip here",
     helpUrl: "https://google.com",
     previousStatement: null
@@ -88,6 +112,7 @@ const numberJson = {
     ],
     previousStatement: "Number"
 }
+
 createCustomBlock(funklyBlockType.NUMBER, "math_blocks", numberJson)
 
 const randJson = {
@@ -181,7 +206,7 @@ createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson, false)
 const guiEntityJson = {
     "type:": funklyBlockType.GUIENTITY,
     inputsInline: false,
-    message0: "tietovekotin %1",
+    message0: "Tietovekotin %1",
     args0: [
         {
             type: "field_input",
@@ -190,7 +215,7 @@ const guiEntityJson = {
             spellcheck: false
         }
     ],
-    message1: "aloitusx %1, \n leveys %2",
+    message1: "aloitus-x %1, \n leveys %2",
     args1: [
         {
             type: "field_number",
@@ -204,7 +229,7 @@ const guiEntityJson = {
         }
 
     ],
-    message2: "aloitusy %1, korkeus %2",
+    message2: "aloitus-y %1, korkeus %2",
     args2: [
         {
             type: "field_number",
@@ -236,12 +261,11 @@ const guiEntityJson = {
     ],
 }
 
-createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson, false)
-
+createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
 const colJson = {
     "type:": funklyBlockType.COLLIDE,
     inputsInline: true,
-    message0: "törmääkö %1 %2",
+    message0: "%1 törmää %2",
     args0: [
         {
             type: "input_dummy",
@@ -262,6 +286,11 @@ Extensions.register("col_dropdown", function (this: Block) {
     const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
     const dropdownOptions = () => dropdownWithThis(this, entities)
 
+    // Removes fielddropdown validation to allow not-yet-existent entities
+    FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
+        return newValue;
+    };
+
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
 })
@@ -269,7 +298,7 @@ Extensions.register("col_dropdown", function (this: Block) {
 const getJson = {
     "type:": funklyBlockType.GET,
     inputsInline: true,
-    message0: "hae %1 %2",
+    message0: "%1 %2",
     args0: [
         {
             type: "input_dummy",
@@ -308,7 +337,7 @@ Extensions.register("entity_dropdown", function(this: Block) {
 const bindGetJson = {
     "type:": funklyBlockType.BINDGET,
     inputsInline: true,
-    message0: "hae %1",
+    message0: "%1",
     args0: [
         {
             type: "input_dummy",
@@ -446,7 +475,7 @@ Extensions.register("trig_dropdown", function (this: Block) {
 const keyJson = {
     "type:": funklyBlockType.KEY,
     inputsInline: true,
-    message0: "syöte %1",
+    message0: "syöte = %1",
     args0: [
         {
             type: "input_dummy",
@@ -467,7 +496,7 @@ Extensions.register("key_dropdown", function (this: Block) {
 const imgJson = {
     "type:": funklyBlockType.IMG,
     inputsInline: true,
-    message0: "kuva %1",
+    message0: "%1",
     args0: [
         {
             type: "input_dummy",

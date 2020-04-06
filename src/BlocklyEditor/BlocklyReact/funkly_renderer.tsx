@@ -20,41 +20,41 @@ function TypedConnectionShapeProvider() {
 Blockly.utils.object.inherits(TypedConnectionShapeProvider,
     Blockly.blockRendering.ConstantProvider);
 
-TypedConnectionShapeRenderer.prototype.makeConstants_ = function() {
-  return new TypedConnectionShapeProvider();
-};
+    TypedConnectionShapeRenderer.prototype.makeConstants_ = function() {
+        return new TypedConnectionShapeProvider();
+    };
 
-// New code is below this line.
+    // New code is below this line.
 
 /**
  * Create a new function to return a rounded puzzle tab that works for input and
  * output connections.
  */
-TypedConnectionShapeProvider.prototype.makeRounded = function() {
-  var width = this.NOTCH_WIDTH
-  var height = this.NOTCH_HEIGHT
+    TypedConnectionShapeProvider.prototype.makeRounded = function() {
+        var width = this.NOTCH_WIDTH
+        var height = this.NOTCH_HEIGHT
 
-  function makeMainPath(left) {
-    var height = width / 2;
-    const { point, line, arc } = Blockly.utils.svgPaths
-    return arc(
-        'a',
-        '0 0 ' + (left ? 1 : 0),
-        height,
-        point((left ? -1 : 1) * width, 0)
-    );
-  }
+        function makeMainPath(left) {
+            var height = width / 2;
+            const { point, line, arc } = Blockly.utils.svgPaths
+            return arc(
+                'a',
+                '0 0 ' + (left ? 1 : 0),
+                height,
+                point((left ? -1 : 1) * width, 0)
+            );
+        }
 
-  var pathLeft = makeMainPath(false);
-  var pathRight = makeMainPath(true);
+        var pathLeft = makeMainPath(false);
+        var pathRight = makeMainPath(true);
 
-  return {
-    width: width,
-    height: height,
-    pathLeft: pathLeft,
-    pathRight: pathRight
-  };
-};
+        return {
+            width: width,
+            height: height,
+            pathLeft: pathLeft,
+            pathRight: pathRight
+        };
+    };
 
 //TEST
 TypedConnectionShapeProvider.prototype.makeSquared = function() {
@@ -189,13 +189,16 @@ TypedConnectionShapeProvider.prototype.shapeFor = function(connection) {
   switch (connection.type) {
     case Blockly.PREVIOUS_STATEMENT:
     case Blockly.NEXT_STATEMENT:
-      if (checks && checks.indexOf('Number') != -1) {
+      if (checks && checks.indexOf('Number') !== -1) {
         return this.ROUNDED;
       }
-      if (checks && checks.indexOf('Boolean') != -1) {
+      if (checks && checks.indexOf('Guard') !== -1) {
+        return this.VNOTCH;
+      }
+      if (checks && checks.indexOf('Boolean') !== -1) {
         return this.SQUARED;
       }
-      if (checks && checks.indexOf('Image') != -1) {
+      if (checks && checks.indexOf('Image') !== -1) {
         return this.SQUAREWAVE;
       }
       return this.NOTCH;
