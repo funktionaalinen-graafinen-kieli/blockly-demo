@@ -33,13 +33,6 @@ Object {
           </button>
           <button>
             <img
-              alt="save"
-              class="funkly-button-icon"
-              src="savebutton.png"
-            />
-          </button>
-          <button>
-            <img
               alt="load"
               class="funkly-button-icon"
               src="loadbutton.png"
@@ -76,10 +69,18 @@ Object {
           class="funkly-engine"
         >
           <div>
-            Hiiren sijainti: 
-            0
-            , 
-            0
+            <div
+              class="funkly-mouse-location"
+            >
+              <img
+                alt="mouseicon"
+                class="funkly-mouse-icon"
+                src="mouseicon.png"
+              />
+              0
+              , 
+              0
+            </div>
           </div>
         </div>
         <div
@@ -122,13 +123,6 @@ Object {
         </button>
         <button>
           <img
-            alt="save"
-            class="funkly-button-icon"
-            src="savebutton.png"
-          />
-        </button>
-        <button>
-          <img
             alt="load"
             class="funkly-button-icon"
             src="loadbutton.png"
@@ -165,10 +159,18 @@ Object {
         class="funkly-engine"
       >
         <div>
-          Hiiren sijainti: 
-          0
-          , 
-          0
+          <div
+            class="funkly-mouse-location"
+          >
+            <img
+              alt="mouseicon"
+              class="funkly-mouse-icon"
+              src="mouseicon.png"
+            />
+            0
+            , 
+            0
+          </div>
         </div>
       </div>
       <div

@@ -13,7 +13,6 @@ log.setLevel("trace")
 
 Blockly.Flyout.prototype.autoClose = false
 //@ts-ignore
-Blockly.HSV_SATURATION = 0.85
 
 blockRendering.register("funkly_renderer", TypedConnectionShapeRenderer)
 
