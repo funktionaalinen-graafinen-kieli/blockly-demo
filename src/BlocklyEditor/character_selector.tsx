@@ -6,7 +6,7 @@ import Editor, { generateCode } from "../BlocklyEditor/editor"
 const entityBaseXml = (entityId: string, entity_type: string) => {
     if (entity_type === "TIETOVEKOTIN") {
         return `<xml xmlns="https://developers.google.com/blockly/xml">
-                    <block type="funkly_entity" id="${entityId}" x="420" y="239">
+                    <block type="funkly_guientity" id="${entityId}" x="420" y="239">
                         <field name="name">esimerkkinimi</field>
                         <field name="initx">1</field>
                         <field name="inity">1</field>
@@ -14,20 +14,20 @@ const entityBaseXml = (entityId: string, entity_type: string) => {
                         <field name="height">60</field>
                         <field name="radius">60</field>
                         <statement name="x">
-                        <shadow type="funkly_get" id="O]RBe)x282zy]s-g[^3P">
+                        <shadow type="funkly_get" >
                             <field name="entity">NOT_SELECTED</field>
                             <field name="property">x</field>
                         </shadow>
                         </statement>
                         <statement name="y">
-                        <shadow type="funkly_get" id="INhqa*+n8.,,gvgJYd3z">
+                        <shadow type="funkly_get" >
                             <field name="entity">NOT_SELECTED</field>
                             <field name="property">y</field>
                         </shadow>
                         </statement>
                         <statement name="img">
-                        <shadow type="funkly_img" id="Fz#TNaasKi!WPddKz%Gx">
-                            <field name="IMAGE">/static/media/default_image.a25c40e5.png</field>
+                        <shadow type="funkly_img" >
+                            <field name="IMAGE">actual_pisteet_tyhja_address</field>
                         </shadow>
                         </statement>
                     </block>
@@ -42,19 +42,19 @@ const entityBaseXml = (entityId: string, entity_type: string) => {
                     <field name="height">60</field>
                     <field name="radius">60</field>
                     <statement name="x">
-                    <shadow type="funkly_get" id="O]RBe)x282zy]s-g[^3P">
+                    <shadow type="funkly_get" >
                         <field name="entity">NOT_SELECTED</field>
                         <field name="property">x</field>
                     </shadow>
                     </statement>
                     <statement name="y">
-                    <shadow type="funkly_get" id="INhqa*+n8.,,gvgJYd3z">
+                    <shadow type="funkly_get" >
                         <field name="entity">NOT_SELECTED</field>
                         <field name="property">y</field>
                     </shadow>
                     </statement>
                     <statement name="img">
-                    <shadow type="funkly_img" id="Fz#TNaasKi!WPddKz%Gx">
+                    <shadow type="funkly_img" >
                         <field name="IMAGE">/static/media/default_image.a25c40e5.png</field>
                     </shadow>
                     </statement>
@@ -104,21 +104,18 @@ const NewCharacterMenu = (props: NewCharacterMenuProps) => {
 
 interface CharacterSelectorProps {
     characterMap: Map<string, Blockly.Workspace>
-    setSelectedCharacter: (_: string) => void
     editor: React.RefObject<Editor>
 }
 
 const CharacterSelector = (props: CharacterSelectorProps) => {
     const [showNewEntityMode, setShowNewEntityMode] = useState(false)
 
-    if (!props.editor.current) return null
     // We should hook somehow that after the ref is fulfilled a re-render / re-mount is triggered
     const editor = props.editor.current!
 
     const setSelectedCharacter = (entityId: string) => {
         console.log("setSelectedCharacter:", entityId)
-        props.setSelectedCharacter(entityId)
-        editor.refreshSelected()
+        editor.setSelectedCharacter(entityId)
     }
 
     const generateId = (len: number) => {
@@ -135,6 +132,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
         const entityId = generateId(10)
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
         props.characterMap.set(entityId, workspace)
+        setSelectedCharacter(entityId)
     }
 
     const deleteCharacter = (entityId: string) => {

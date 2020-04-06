@@ -23,7 +23,6 @@ export default class App extends React.Component<
         mouse_x: number
         mouse_y: number
         characterMap: Map<string, Blockly.Workspace>
-        selectedCharacter?: string
     }
 > {
     editorInstance = React.createRef<Editor>()
@@ -42,10 +41,6 @@ export default class App extends React.Component<
 
     toggleDebug = () => {
         this.setState({ debugToggle: !this.state.debugToggle })
-    }
-
-    setSelectedCharacter = (selectedCharacter: string) => {
-        this.setState({ selectedCharacter })
     }
 
     constructor(props: {}) {
@@ -83,7 +78,6 @@ export default class App extends React.Component<
                         setBlockXml={this.setBlockXml} 
                         setCode={this.setCode} 
                         characterMap={this.state.characterMap}
-                        selectedCharacter={this.state.selectedCharacter}
                         ref={this.editorInstance} 
                     />
                 </div>
@@ -100,7 +94,6 @@ export default class App extends React.Component<
                     <CharacterSelector 
                         editor={this.editorInstance} 
                         characterMap={this.state.characterMap} 
-                        setSelectedCharacter={this.setSelectedCharacter} 
                     />
                 </div>
                 <div className="funkly-debug">

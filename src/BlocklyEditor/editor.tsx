@@ -62,10 +62,13 @@ interface EditorProps {
     setCode: (_: string) => void
     setBlockXml: (_: string) => void
     characterMap: Map<string, Blockly.Workspace>
-    selectedCharacter?: string
 }
 
-class Editor extends React.Component<EditorProps, {}> {
+interface EditorState {
+    selectedCharacter: string
+}
+
+class Editor extends React.Component<EditorProps, EditorState> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
 
     setCode = (engineCode: string, xmlWorkspace: string) => {
@@ -107,13 +110,12 @@ class Editor extends React.Component<EditorProps, {}> {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
     }
 
-    refreshSelected(): void {
+    setSelectedCharacter(newSelected: string): void {
         const blocklyReact = this.blocklyReactInstance.current!
-        if (this.props.selectedCharacter) {
-            const newWorkspace = this.props.characterMap.get(this.props.selectedCharacter)
-            if (newWorkspace) blocklyReact.changeWorkspaceContents(newWorkspace)
-        }
-        this.forceUpdate()
+        const newWorkspace = this.props.characterMap.get(newSelected)
+        if (newWorkspace) blocklyReact.changeWorkspaceContents(newWorkspace)
+        this.setState({ selectedCharacter: newSelected })
+        
     }
 
     render = () => {
