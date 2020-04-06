@@ -25,8 +25,8 @@ import xaxis from "./assets/gui_images/xaxis.png"
 import plusbutton from "./assets/gui_images/plusbutton.png"
 import plusbuttonwhite from "./assets/gui_images/plusbuttonwhite.png"
 import xbutton from "./assets/gui_images/xbutton.png"
-//import maximize from "./assets/gui_images/maximize.png"
-//import minimize from "./assets/gui_images/minimize.png"
+import maximize from "./assets/gui_images/maximize.png"
+import minimize from "./assets/gui_images/minimize.png"
 
 export const entityImages = new Map([
     ["default_image", default_image],
@@ -58,7 +58,7 @@ export const guiImages = new Map([
     ["xaxis", xaxis],
     ["plus", plusbutton],
     ["pluswhite", plusbuttonwhite],
-    ["xbutton", xbutton]//,
-    //["maximize", maximize]
-    //["minimize", minimize]
+    ["xbutton", xbutton],
+    ["maximize", maximize],
+    ["minimize", minimize]
 ])
