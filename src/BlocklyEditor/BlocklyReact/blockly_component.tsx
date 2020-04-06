@@ -18,10 +18,17 @@ export class BlocklyComponent extends React.Component<{ initialXml: string }> {
             toolbox: this.toolbox.current!,
             ...rest
         })
-        // Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace)
-
         // register custom events
         events.forEach(e => this.primaryWorkspace.addChangeListener(e))
+
+    }
+
+    changeWorkspaceContents(newBlocks: Blockly.Workspace) {
+        // TODO: Figure a nicer way to do this
+        console.debug("replacing workspace contents with contents of ")
+        console.debug(newBlocks)
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.workspaceToDom(newBlocks), this.primaryWorkspace)
+
     }
 
     render() {

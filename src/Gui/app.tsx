@@ -83,6 +83,7 @@ export default class App extends React.Component<
                         setBlockXml={this.setBlockXml} 
                         setCode={this.setCode} 
                         characterMap={this.state.characterMap}
+                        selectedCharacter={this.state.selectedCharacter}
                         ref={this.editorInstance} 
                     />
                 </div>

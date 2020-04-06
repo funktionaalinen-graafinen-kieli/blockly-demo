@@ -5,57 +5,57 @@ import Editor, { generateCode } from "../BlocklyEditor/editor"
 
 const entityBaseXml = (entityId: string, entity_type: string) => {
     if (entity_type === "TIETOVEKOTIN") {
-        return `<xml xmlns=\"https://developers.google.com/blockly/xml\">
-                    <block type=\"funkly_entity\" id=\"${entityId}\" x=\"420\" y=\"239\">
-                        <field name=\"name\">esimerkkinimi</field>
-                        <field name=\"initx\">1</field>
-                        <field name=\"inity\">1</field>
-                        <field name=\"width\">60</field>
-                        <field name=\"height\">60</field>
-                        <field name=\"radius\">60</field>
-                        <statement name=\"x\">
-                        <shadow type=\"funkly_get\" id=\"O]RBe)x282zy]s-g[^3P\">
-                            <field name=\"entity\">NOT_SELECTED</field>
-                            <field name=\"property\">x</field>
+        return `<xml xmlns="https://developers.google.com/blockly/xml">
+                    <block type="funkly_entity" id="${entityId}" x="420" y="239">
+                        <field name="name">esimerkkinimi</field>
+                        <field name="initx">1</field>
+                        <field name="inity">1</field>
+                        <field name="width">60</field>
+                        <field name="height">60</field>
+                        <field name="radius">60</field>
+                        <statement name="x">
+                        <shadow type="funkly_get" id="O]RBe)x282zy]s-g[^3P">
+                            <field name="entity">NOT_SELECTED</field>
+                            <field name="property">x</field>
                         </shadow>
                         </statement>
-                        <statement name=\"y\">
-                        <shadow type=\"funkly_get\" id=\"INhqa*+n8.,,gvgJYd3z\">
-                            <field name=\"entity\">NOT_SELECTED</field>
-                            <field name=\"property\">y</field>
+                        <statement name="y">
+                        <shadow type="funkly_get" id="INhqa*+n8.,,gvgJYd3z">
+                            <field name="entity">NOT_SELECTED</field>
+                            <field name="property">y</field>
                         </shadow>
                         </statement>
-                        <statement name=\"img\">
-                        <shadow type=\"funkly_img\" id=\"Fz#TNaasKi!WPddKz%Gx\">
-                            <field name=\"IMAGE\">/static/media/default_image.a25c40e5.png</field>
+                        <statement name="img">
+                        <shadow type="funkly_img" id="Fz#TNaasKi!WPddKz%Gx">
+                            <field name="IMAGE">/static/media/default_image.a25c40e5.png</field>
                         </shadow>
                         </statement>
                     </block>
                 </xml>`
     }
-    return `<xml xmlns=\"https://developers.google.com/blockly/xml\">
-                <block type=\"funkly_entity\" id=\"${entityId}\" x=\"420\" y=\"239\">
-                    <field name=\"name\">esimerkkinimi</field>
-                    <field name=\"initx\">1</field>
-                    <field name=\"inity\">1</field>
-                    <field name=\"width\">60</field>
-                    <field name=\"height\">60</field>
-                    <field name=\"radius\">60</field>
-                    <statement name=\"x\">
-                    <shadow type=\"funkly_get\" id=\"O]RBe)x282zy]s-g[^3P\">
-                        <field name=\"entity\">NOT_SELECTED</field>
-                        <field name=\"property\">x</field>
+    return `<xml xmlns="https://developers.google.com/blockly/xml">
+                <block type="funkly_entity" id="${entityId}" x="420" y="239">
+                    <field name="name">esimerkkinimi</field>
+                    <field name="initx">1</field>
+                    <field name="inity">1</field>
+                    <field name="width">60</field>
+                    <field name="height">60</field>
+                    <field name="radius">60</field>
+                    <statement name="x">
+                    <shadow type="funkly_get" id="O]RBe)x282zy]s-g[^3P">
+                        <field name="entity">NOT_SELECTED</field>
+                        <field name="property">x</field>
                     </shadow>
                     </statement>
-                    <statement name=\"y\">
-                    <shadow type=\"funkly_get\" id=\"INhqa*+n8.,,gvgJYd3z\">
-                        <field name=\"entity\">NOT_SELECTED</field>
-                        <field name=\"property\">y</field>
+                    <statement name="y">
+                    <shadow type="funkly_get" id="INhqa*+n8.,,gvgJYd3z">
+                        <field name="entity">NOT_SELECTED</field>
+                        <field name="property">y</field>
                     </shadow>
                     </statement>
-                    <statement name=\"img\">
-                    <shadow type=\"funkly_img\" id=\"Fz#TNaasKi!WPddKz%Gx\">
-                        <field name=\"IMAGE\">/static/media/default_image.a25c40e5.png</field>
+                    <statement name="img">
+                    <shadow type="funkly_img" id="Fz#TNaasKi!WPddKz%Gx">
+                        <field name="IMAGE">/static/media/default_image.a25c40e5.png</field>
                     </shadow>
                     </statement>
                 </block>
@@ -65,7 +65,7 @@ const entityBaseXml = (entityId: string, entity_type: string) => {
 interface CharacterCardProps {
     name: string
     img: string
-    delete: any
+    delete: (_: string) => void
 }
 
 const CharacterCard = (props: CharacterCardProps) => {
@@ -73,7 +73,7 @@ const CharacterCard = (props: CharacterCardProps) => {
         <div className="funkly-character-card">
             <img
                 src={guiImages.get("deleteButton")}
-                alt="..."
+                alt="delete"
                 style={{ position: "absolute", height: 20, width: 20 }}
                 onClick={() => props.delete(props.name)}
             />
@@ -84,8 +84,8 @@ const CharacterCard = (props: CharacterCardProps) => {
 }
 
 interface NewCharacterMenuProps {
-    toggleNewCharacterMode: any
-    createNewCharacter: any
+    toggleNewCharacterMode: () => void
+    createNewCharacter: (_: string) => void
 }
 
 const NewCharacterMenu = (props: NewCharacterMenuProps) => {
@@ -113,7 +113,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
 
     if (!props.editor.current) return null
     // We should hook somehow that after the ref is fulfilled a re-render / re-mount is triggered
-    const editor = props.editor!.current
+    const editor = props.editor.current!
 
     const setSelectedCharacter = (entityId: string) => {
         console.log("setSelectedCharacter:", entityId)
@@ -170,6 +170,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                     })}
                     <img
                         src={guiImages.get("plusButton")}
+                        alt="add character"
                         width={75}
                         height={75}
                         style={{ position: "absolute", right: 0, bottom: 0 }}
