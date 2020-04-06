@@ -5,7 +5,7 @@ import Blockly from "blockly"
 
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import Editor from "../BlocklyEditor/editor"
-import CharacterSelector from "../BlocklyEditor/character_selector"
+import CharacterSelector from "../BlocklyEditor/CharacterSelector/character_selector"
 import GameComponent from "../GameEngine/game_component"
 import { ButtonRow } from "./button_row"
 import { MouseLocation } from "./mouse_location"
