@@ -80,10 +80,35 @@ const condType = (event: any) => {
     }
 }
 
+function setGuardIfField(b: any, workspace: any) {
+    const prev = b.getPreviousBlock()
+    const next = b.getNextBlock()
+    if (next && next.type == "funkly_guard") {
+        b.getInput("IF").setVisible(true)
+    } else {
+        b.getInput("IF").setVisible(false)
+    }
+
+    if (prev && prev.type == "funkly_guard") setGuardIfField(prev, workspace)
+
+    workspace.render()
+}
+
+const guardElse = (event: any) => {
+    const workspace = Blockly.Workspace.getById(event.workspaceId)
+    if (event.type === Blockly.Events.CREATE || event.type === Blockly.Events.MOVE) {
+        console.trace(event)
+        const block = workspace.getBlockById(event.blockId)
+        if (block && block.type == "funkly_guard") {
+            setGuardIfField(block, workspace)
+        }
+    }
+}
+
 // include below in events if you wish to log all events
 // const logEvents = (e: any)=>console.trace(e)
 
 // events handlers in this list get added
-const eventHandlers = [getType, condType]
+const eventHandlers = [getType, condType, guardElse]
 
 export default eventHandlers
