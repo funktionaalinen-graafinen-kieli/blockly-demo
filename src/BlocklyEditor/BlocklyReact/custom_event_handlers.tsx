@@ -26,18 +26,26 @@ const condType = (event: any) => {
                 let child = workspace.getBlockById(event.blockId)
                 const con = child.previousConnection
                 const check = con.getCheck()
-                block.getInput("DO").setCheck(check)
-                block.getInput("ELSE").setCheck(check)
-                block.setPreviousStatement(true, check)
+                if (block.getInput("DO").connection.getCheck() == null) {
+                    block.getInput("DO").setCheck(check)
+                    block.getInput("ELSE").setCheck(check)
+                    block.setPreviousStatement(true, check)
+                }
 
             }
         }
         if (event.oldParentId) {
             let block = workspace.getBlockById(event.oldParentId)
             if (block && block.type === "funkly_cond") {
-                block.getInput("DO").setCheck(null)
-                block.getInput("ELSE").setCheck(null)
-                block.setPreviousStatement(true, null)
+                //only reset if all completely disconnected
+                if (block.getInputTargetBlock("DO") == null &&
+                    block.getInputTargetBlock("ELSE") == null &&
+                    block.getPreviousBlock() == null) {
+
+                    block.getInput("DO").setCheck(null)
+                    block.getInput("ELSE").setCheck(null)
+                    block.setPreviousStatement(true, null)
+                }
             }
         }
 
@@ -59,9 +67,14 @@ const condType = (event: any) => {
                     block.previousConnection.disconnect()
                 }
             } else {
-                block.getInput("DO").setCheck(null)
-                block.getInput("ELSE").setCheck(null)
-                block.setPreviousStatement(true, null)
+                //only reset if all completely disconnected
+                if (block.getInputTargetBlock("DO") == null &&
+                    block.getInputTargetBlock("ELSE") == null &&
+                    block.getPreviousBlock() == null) {
+                    block.getInput("DO").setCheck(null)
+                    block.getInput("ELSE").setCheck(null)
+                    block.setPreviousStatement(true, null)
+                }
             }
         }
     }
