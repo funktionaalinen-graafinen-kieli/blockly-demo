@@ -188,4 +188,4 @@ function loadProject(blocklyComponent: BlocklyComponent | undefined | null): voi
 }
 
 export default Editor
-export { saveProject, loadProject }
+export { saveProject, loadProject, generateCode }

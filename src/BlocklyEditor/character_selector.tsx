@@ -1,65 +1,66 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Blockly from "blockly"
 
-import Editor from "../BlocklyEditor/editor"
+import Editor, { generateCode } from "../BlocklyEditor/editor"
 
-const entityMap = {
-    entities: {
-        "J|*C80I]n-iaRWfN[9B1": {
-            name: ["packF(id)", "kilpikonna"],
-            img: ["pack(  '\"/static/media/turtle.fda1f442.png\"')", "/static/media/default_image.5d478a5d.png"]
-        },
-        "]h;BXQeK[(LG98GJ4~2M": {
-            name: ["packF(id)", "muovipussi"],
-            img: ["pack(  '\"/static/media/plasticbag.7e82159b.png\"')", "/static/media/default_image.5d478a5d.png"]
-        },
-        "J|*C80I]naRWfN[9B1": {
-            name: ["packF(id)", "test"],
-            img: ["pack(  '\"/static/media/turtle.fda1f442.png\"')", "/static/media/default_image.5d478a5d.png"]
-        },
-        "]h;BXQe(LG98GJ4~2M": {
-            name: ["packF(id)", "test2"],
-            img: ["pack(  '\"/static/media/plasticbag.7e82159b.png\"')", "/static/media/default_image.5d478a5d.png"]
-        },
-        "J|*C80I]nasdfRWfN[9B1": {
-            name: ["packF(id)", "test3"],
-            img: ["pack(  '\"/static/media/turtle.fda1f442.png\"')", "/static/media/default_image.5d478a5d.png"]
-        },
-        "]h;BXQe(LGsdf98GJ4~2M": {
-            name: ["packF(id)", "test4"],
-            img: ["pack(  '\"/static/media/plasticbag.7e82159b.png\"')", "/static/media/default_image.5d478a5d.png"]
-        }
+const entityBaseXml = (entityId: string, entity_type: string) => {
+    if (entity_type === "TIETOVEKOTIN") {
+        return `<xml xmlns=\"https://developers.google.com/blockly/xml\">
+                    <block type=\"funkly_entity\" id=\"${entityId}\" x=\"420\" y=\"239\">
+                        <field name=\"name\">esimerkkinimi</field>
+                        <field name=\"initx\">1</field>
+                        <field name=\"inity\">1</field>
+                        <field name=\"width\">60</field>
+                        <field name=\"height\">60</field>
+                        <field name=\"radius\">60</field>
+                        <statement name=\"x\">
+                        <shadow type=\"funkly_get\" id=\"O]RBe)x282zy]s-g[^3P\">
+                            <field name=\"entity\">NOT_SELECTED</field>
+                            <field name=\"property\">x</field>
+                        </shadow>
+                        </statement>
+                        <statement name=\"y\">
+                        <shadow type=\"funkly_get\" id=\"INhqa*+n8.,,gvgJYd3z\">
+                            <field name=\"entity\">NOT_SELECTED</field>
+                            <field name=\"property\">y</field>
+                        </shadow>
+                        </statement>
+                        <statement name=\"img\">
+                        <shadow type=\"funkly_img\" id=\"Fz#TNaasKi!WPddKz%Gx\">
+                            <field name=\"IMAGE\">/static/media/default_image.a25c40e5.png</field>
+                        </shadow>
+                        </statement>
+                    </block>
+                </xml>`
     }
+    return `<xml xmlns=\"https://developers.google.com/blockly/xml\">
+                <block type=\"funkly_entity\" id=\"${entityId}\" x=\"420\" y=\"239\">
+                    <field name=\"name\">esimerkkinimi</field>
+                    <field name=\"initx\">1</field>
+                    <field name=\"inity\">1</field>
+                    <field name=\"width\">60</field>
+                    <field name=\"height\">60</field>
+                    <field name=\"radius\">60</field>
+                    <statement name=\"x\">
+                    <shadow type=\"funkly_get\" id=\"O]RBe)x282zy]s-g[^3P\">
+                        <field name=\"entity\">NOT_SELECTED</field>
+                        <field name=\"property\">x</field>
+                    </shadow>
+                    </statement>
+                    <statement name=\"y\">
+                    <shadow type=\"funkly_get\" id=\"INhqa*+n8.,,gvgJYd3z\">
+                        <field name=\"entity\">NOT_SELECTED</field>
+                        <field name=\"property\">y</field>
+                    </shadow>
+                    </statement>
+                    <statement name=\"img\">
+                    <shadow type=\"funkly_img\" id=\"Fz#TNaasKi!WPddKz%Gx\">
+                        <field name=\"IMAGE\">/static/media/default_image.a25c40e5.png</field>
+                    </shadow>
+                    </statement>
+                </block>
+            </xml>`
 }
-
-const entityBaseXml = (id: string) => `<xml xmlns=\"https://developers.google.com/blockly/xml\">
-    <block type=\"funkly_entity\" id=\"${id}\" x=\"420\" y=\"239\">
-    <field name=\"name\">esimerkkinimi</field>
-    <field name=\"initx\">1</field>
-    <field name=\"inity\">1</field>
-    <field name=\"width\">60</field>
-    <field name=\"height\">60</field>
-    <field name=\"radius\">60</field>
-    <statement name=\"x\">
-      <shadow type=\"funkly_get\" id=\"O]RBe)x282zy]s-g[^3P\">
-        <field name=\"entity\">NOT_SELECTED</field>
-        <field name=\"property\">x</field>
-      </shadow>
-    </statement>
-    <statement name=\"y\">
-      <shadow type=\"funkly_get\" id=\"INhqa*+n8.,,gvgJYd3z\">
-        <field name=\"entity\">NOT_SELECTED</field>
-        <field name=\"property\">y</field>
-      </shadow>
-    </statement>
-    <statement name=\"img\">
-      <shadow type=\"funkly_img\" id=\"Fz#TNaasKi!WPddKz%Gx\">
-        <field name=\"IMAGE\">/static/media/default_image.a25c40e5.png</field>
-      </shadow>
-    </statement>
-  </block>
-</xml>
-`
 
 interface CharacterCardProps {
     name: string
@@ -88,9 +89,9 @@ interface NewCharacterMenuProps {
 }
 
 const NewCharacterMenu = (props: NewCharacterMenuProps) => {
-    const buttonClick = (id: string) => {
+    const buttonClick = (entityType: string) => {
         props.toggleNewCharacterMode()
-        props.createNewCharacter(id)
+        props.createNewCharacter(entityType)
     }
 
     return (
@@ -129,23 +130,19 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
         return text
     }
 
-    const createNewCharacter = (id: string) => {
-        // TODO
-        console.log("create new character:", props.characterMap)
-        // Add new workspace to characterMap
+    const createNewCharacter = (entityType: string) => {
         const workspace = new Blockly.Workspace()
         const entityId = generateId(10)
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId)), workspace)
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
         props.characterMap.set(entityId, workspace)
-        console.log("new:", props.characterMap)
     }
 
     const deleteCharacter = (entityId: string) => {
         console.log("delete character")
-        // Delete character from characterMap
         props.characterMap.delete(entityId)
     }
 
+    const entities = JSON.parse(generateCode(props.characterMap)).entities
     return (
         <>
             {showNewEntityMode ? (
@@ -155,8 +152,8 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                 />
             ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyItems: "center" }}>
-                    {Object.values(entityMap.entities).map((entity, index) => {
-                        const entityId = Object.keys(entityMap["entities"])[index]
+                    {Object.values(entities).map((entity: any, index) => {
+                        const entityId = Object.keys(entities)[index]
                         return (
                             <div
                                 key={index}
