@@ -192,6 +192,9 @@ TypedConnectionShapeProvider.prototype.shapeFor = function(connection) {
       if (checks && checks.indexOf('Number') !== -1) {
         return this.ROUNDED;
       }
+      if (checks && checks.indexOf('Guard') !== -1) {
+        return this.VNOTCH;
+      }
       if (checks && checks.indexOf('Boolean') !== -1) {
         return this.SQUARED;
       }
