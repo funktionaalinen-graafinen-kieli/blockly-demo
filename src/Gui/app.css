@@ -99,7 +99,7 @@ button {
 
 .funkly-char-selection {
     grid-area: 7 / 3 / 11 / 4;
-    background-color: #f5f5f5;
+    background-color: #d9d9d9;
     /*Play-tilaan border-radius täytyy laittaa erikseen*/
     border-radius: 20px !important;
 }
@@ -117,6 +117,7 @@ button {
     top: 100vh;
     position: absolute;
 }
+
 .funkly-statemap{
     background: orange;
     width: 500px;

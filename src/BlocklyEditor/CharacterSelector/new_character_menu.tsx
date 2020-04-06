@@ -48,7 +48,7 @@ interface NewCharacterButtonProps {
 }
 
 export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
-    src={guiImages.get("pluswhite")}
+    src={guiImages.get("plus")}
     alt="add character"
     width={75}
     height={75}
