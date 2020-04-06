@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import Blockly from "blockly"
+
 import { guiImages } from "../Gui/image_storage"
 import Editor, { generateCode } from "../BlocklyEditor/editor"
 
@@ -83,15 +84,35 @@ const CharacterCard = (props: CharacterCardProps) => {
     )
 }
 
+const generateId = (len: number) => {
+    var text = ""
+    var char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    for (var i = 0; i < len; i++) {
+        text += char_list.charAt(Math.floor(Math.random() * char_list.length))
+    }
+    return text
+}
+
 interface NewCharacterMenuProps {
-    toggleNewCharacterMode: () => void
-    createNewCharacter: (_: string) => void
+    setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
+    characterMap: Map<string, Blockly.Workspace>
+    setSelectedCharacter: (_: string) => void
 }
 
 const NewCharacterMenu = (props: NewCharacterMenuProps) => {
     const buttonClick = (entityType: string) => {
-        props.toggleNewCharacterMode()
-        props.createNewCharacter(entityType)
+        props.setNewEntityMode(false)
+        createNewCharacter(entityType)
+    }
+    
+    const createNewCharacter = (entityType: string) => {
+        const workspace = new Blockly.Workspace()
+        const entityId = generateId(10)
+
+        // TODO: Find a cleaner way
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
+        props.characterMap.set(entityId, workspace)
+        props.setSelectedCharacter(entityId)
     }
 
     return (
@@ -102,78 +123,74 @@ const NewCharacterMenu = (props: NewCharacterMenuProps) => {
     )
 }
 
+interface NewCharacterButtonProps {
+    setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const NewCharacterButton = (props: NewCharacterButtonProps) => <img
+    src={guiImages.get("pluswhite")}
+    alt="add character"
+    width={75}
+    height={75}
+    style={{ position: "absolute", right: 0, bottom: 0 }}
+    onClick={() => props.setNewEntityMode(true)}
+/>
+
+
 interface CharacterSelectorProps {
     characterMap: Map<string, Blockly.Workspace>
     editor: React.RefObject<Editor>
 }
 
+
+
 const CharacterSelector = (props: CharacterSelectorProps) => {
-    const [showNewEntityMode, setShowNewEntityMode] = useState(false)
+    const [newEntityMode, setNewEntityMode] = useState(false)
 
     // We should hook somehow that after the ref is fulfilled a re-render / re-mount is triggered
     const editor = props.editor.current!
 
     const setSelectedCharacter = (entityId: string) => {
-        console.log("setSelectedCharacter:", entityId)
+        console.debug("setSelectedCharacter:", entityId)
         editor.setSelectedCharacter(entityId)
     }
 
-    const generateId = (len: number) => {
-        var text = ""
-        var char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        for (var i = 0; i < len; i++) {
-            text += char_list.charAt(Math.floor(Math.random() * char_list.length))
-        }
-        return text
-    }
-
-    const createNewCharacter = (entityType: string) => {
-        const workspace = new Blockly.Workspace()
-        const entityId = generateId(10)
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
-        props.characterMap.set(entityId, workspace)
-        setSelectedCharacter(entityId)
-    }
-
     const deleteCharacter = (entityId: string) => {
-        console.log("delete character")
+        console.debug("delete character")
         props.characterMap.delete(entityId)
     }
 
     const entities = JSON.parse(generateCode(props.characterMap)).entities
+
+    const characterCards = Object.values(entities).map((entity: any, index) => {
+        const entityId = Object.keys(entities)[index]
+        return (
+            <div
+                key={index}
+                style={{ padding: 10, cursor: "pointer" }}
+                onClick={() => setSelectedCharacter(entityId)}
+            >
+                <CharacterCard
+                    name={entity.name[1]}
+                    img={entity.img[1]}
+                    delete={() => deleteCharacter(entityId)}
+                />
+            </div>
+        )
+    })
+
     return (
         <>
-            {showNewEntityMode ? (
+            {newEntityMode ? (
                 <NewCharacterMenu
-                    toggleNewCharacterMode={() => setShowNewEntityMode(false)}
-                    createNewCharacter={createNewCharacter}
+                    setNewEntityMode={setNewEntityMode}
+                    characterMap={props.characterMap}
+                    setSelectedCharacter={setSelectedCharacter}
                 />
             ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyItems: "center" }}>
-                    {Object.values(entities).map((entity: any, index) => {
-                        const entityId = Object.keys(entities)[index]
-                        return (
-                            <div
-                                key={index}
-                                style={{ padding: 10, cursor: "pointer" }}
-                                onClick={() => setSelectedCharacter(entityId)}
-                            >
-                                <CharacterCard
-                                    name={entity.name[1]}
-                                    img={entity.img[1]}
-                                    delete={() => deleteCharacter(entityId)}
-                                />
-                            </div>
-                        )
-                    })}
-                    <img
-                        src={guiImages.get("pluswhite")}
-                        alt="add character"
-                        width={75}
-                        height={75}
-                        style={{ position: "absolute", right: 0, bottom: 0 }}
-                        onClick={() => setShowNewEntityMode(true)}
-                    />
+                    {characterCards} 
+                    <NewCharacterButton setNewEntityMode={setNewEntityMode}/>
                 </div>
             )}
         </>
