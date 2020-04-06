@@ -7,10 +7,12 @@ import plasticbag from "./assets/entity_images/plasticbag.png"
 import turtle from "./assets/entity_images/turtle.png"
 import jellyfish from "./assets/entity_images/jellyfish.gif"
 import sininen from "./assets/entity_images/sininen.svg"
-import score_100 from "./assets/entity_images/pistemittari_100.jpg"
-import score_empty from "./assets/entity_images/valkoinen_suorakulmio.jpg"
 import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
 import default_image from "./assets/entity_images/default_image.png"
+
+import score_100 from "./assets/gui_entity_images/pistemittari_100.jpg"
+import score_empty from "./assets/gui_entity_images/white_rectangle.jpg"
+
 import playbutton from "./assets/gui_images/playbutton.png"
 import stopbutton from "./assets/gui_images/stopbutton.png"
 import savebutton from "./assets/gui_images/savebutton.png"
@@ -39,9 +41,12 @@ export const entityImages = new Map([
     ["kilpikonna", turtle],
     ["meduusa", jellyfish],
     ["sininen_palikka", sininen],
+    ["animoitumeduusa", animatedjellyfish]
+])
+
+export const guiEntityImages = new Map([
     ["pisteet_100", score_100],
     ["pisteet_tyhja", score_empty],
-    ["animoitumeduusa", animatedjellyfish]
 ])
 
 export const guiImages = new Map([

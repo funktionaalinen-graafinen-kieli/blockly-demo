@@ -3,7 +3,7 @@ import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
 import log from "loglevel"
 
-import { entityImages } from "../../../Gui/image_storage"
+import { guiEntityImages, entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
@@ -15,7 +15,7 @@ function parent_entity(block: Block): Block | undefined {
 
 /* Dropdown with the block being passed treated as a special entry named "tämä" */
 function dropdownWithThis(block: Block, entities: () => Block[]) {
-    if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
+    if (block.type !== "funkly_entity" && block.type !== "funkly_guientity") log.info("Called entityThisDropdown with no entity parent")
 
     const options: string[][] = []
     const parent = parent_entity(block)
@@ -262,23 +262,23 @@ const guiEntityJson = {
 }
 
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
-    const colJson = {
-        "type:": funklyBlockType.COLLIDE,
-        inputsInline: true,
-        message0: "%1 törmää %2",
-        args0: [
-            {
-                type: "input_dummy",
-                name: "e1"
-            },
-            {
-                type: "input_dummy",
-                name: "e2"
-            }
-        ],
-        extensions: ["col_dropdown"],
-        previousStatement: "Boolean"
-    }
+const colJson = {
+    "type:": funklyBlockType.COLLIDE,
+    inputsInline: true,
+    message0: "%1 törmää %2",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "e1"
+        },
+        {
+            type: "input_dummy",
+            name: "e2"
+        }
+    ],
+    extensions: ["col_dropdown"],
+    previousStatement: "Boolean"
+}
 
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
@@ -288,8 +288,8 @@ Extensions.register("col_dropdown", function (this: Block) {
 
     // Removes fielddropdown validation to allow not-yet-existent entities
     FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
-        return newValue;
-    };
+        return newValue
+    }
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
@@ -512,6 +512,16 @@ createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
 Extensions.register("img_dropdown", function (this: Block) {
     this.getInput("IMAGE").appendField(newCustomDropdown(entityImages), "IMAGE")
 })
+
+// Block for selecting from gui entity images
+const guiImgJson = Object.assign({}, imgJson)
+guiImgJson.extensions = ["gui_img_dropdown"]
+
+createCustomBlock(funklyBlockType.GUI_IMG, "text_blocks", guiImgJson)
+Extensions.register("gui_img_dropdown", function (this: Block) {
+    this.getInput("IMAGE").appendField(newCustomDropdown(guiEntityImages), "IMAGE")
+})
+
 
 /**
  * Helper method for creating custom FieldDropdowns
