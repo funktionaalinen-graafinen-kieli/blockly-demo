@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Blockly from "blockly"
-
+import { guiImages } from "../Gui/image_storage"
 import Editor, { generateCode } from "../BlocklyEditor/editor"
 
 const entityBaseXml = (entityId: string, entity_type: string) => {
@@ -72,10 +72,10 @@ const CharacterCard = (props: CharacterCardProps) => {
     return (
         <div className="funkly-character-card">
             <img
-                src={"https://cdn2.iconfinder.com/data/icons/minimal-4/100/close-512.png"}
+                src={guiImages.get("deleteButton")}
                 alt="..."
                 style={{ position: "absolute", height: 20, width: 20 }}
-                onClick={props.delete}
+                onClick={props.delete(props.name)}
             />
             <img src={props.img} alt="..." style={{ height: 50, width: 50 }} />
             <p>{props.name}</p>
@@ -169,7 +169,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                         )
                     })}
                     <img
-                        src="https://cdn4.iconfinder.com/data/icons/media-buttons-1/200/761-512.png"
+                        src={guiImages.get("plusButton")}
                         width={75}
                         height={75}
                         style={{ position: "absolute", right: 0, bottom: 0 }}

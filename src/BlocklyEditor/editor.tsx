@@ -39,31 +39,6 @@ const editorBlocks = (
             </Block>
         </Category>
         <Category name="Hahmopalikat" colour={100}>
-            <Block type="funkly_entity">
-                <Value name="x">
-                    <Shadow type="funkly_get">
-                        <Field name="property">x</Field>
-                    </Shadow>
-                </Value>
-                <Value name="y">
-                    <Shadow type="funkly_get">
-                        <Field name="property">y</Field>
-                    </Shadow>
-                </Value>
-                <Value name="img">
-                    <Shadow type="funkly_img" />
-                </Value>
-            </Block>
-            <Block type="funkly_guientity">
-                <Value name="img">
-                    <Shadow type="funkly_img" />
-                </Value>
-                <Value name="text">
-                    <Shadow type="funkly_bindget">
-                        <Field name="id">time</Field>
-                    </Shadow>
-                </Value>
-            </Block>
             <Block type="funkly_keyboard_input" />
             <Block type="funkly_bindget" />
             <Block type="funkly_get" />
