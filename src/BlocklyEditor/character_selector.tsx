@@ -75,7 +75,7 @@ const CharacterCard = (props: CharacterCardProps) => {
                 src={guiImages.get("deleteButton")}
                 alt="..."
                 style={{ position: "absolute", height: 20, width: 20 }}
-                onClick={props.delete(props.name)}
+                onClick={() => props.delete(props.name)}
             />
             <img src={props.img} alt="..." style={{ height: 50, width: 50 }} />
             <p>{props.name}</p>
