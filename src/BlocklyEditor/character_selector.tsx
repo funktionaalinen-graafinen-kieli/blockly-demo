@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import Blockly from "blockly"
 import { guiImages } from "../Gui/image_storage"
 import Editor, { generateCode } from "../BlocklyEditor/editor"
@@ -169,7 +169,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                         )
                     })}
                     <img
-                        src={guiImages.get("plusButton")}
+                        src={guiImages.get("pluswhite")}
                         alt="add character"
                         width={75}
                         height={75}
