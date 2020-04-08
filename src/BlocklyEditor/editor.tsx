@@ -4,7 +4,7 @@ import Blockly from "blockly"
 import log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
-import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
+import { Block, Category, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 import { initialXml } from "./BlocklyReact/initial_xml"
 
@@ -61,7 +61,8 @@ const defaultBinds = `
 interface EditorProps {
     setCode: (_: string) => void
     setBlockXml: (_: string) => void
-    characterMap: Map<string, Blockly.Workspace>
+    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
 }
 
 interface EditorState {
@@ -71,40 +72,51 @@ interface EditorState {
 class Editor extends React.Component<EditorProps, EditorState> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
     state = { selectedCharacter: "" }
-
-    setCode = (engineCode: string, xmlWorkspace: string) => {
-        this.props.setCode(engineCode)
-        this.props.setBlockXml(xmlWorkspace)
-    }
-
+    
+    /* 
+     * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap
+     */
     importXml = (xmlInput: string) => {
-        const stripped = xmlInput.slice(26)
-        const decoded = decodeURI(eval(stripped))
-        const parsedDom = Blockly.Xml.textToDom(decoded)
+        const parsedDom = Blockly.Xml.textToDom(xmlInput)
 
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
-        console.log(entityBlocks)
+        console.debug(entityBlocks)
+
+        const newCharacterMap = new Map()
 
         entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
-            if (! this.props.characterMap.has(entityId)) {
-                this.props.characterMap.set(entityId, new Blockly.Workspace())
-            }
-            const workspace = this.props.characterMap.get(entityId)!
 
+            const workspace = new Blockly.Workspace()
             Blockly.Xml.domToWorkspace(block, workspace)
+            
+            newCharacterMap.set(entityId, workspace)
+
         })
+
+        this.props.setCharacterMap(newCharacterMap)
+        
+        // TODO: is this necessary?
+        // After changing the workspace contents manually, which might not Blockly's event listeners
+        // we want to manually trigger the onBlocklyChange things
+        this.onBlocklychange()
     }
 
     onBlocklychange = () => {
         const blockXml = generateXml(this.props.characterMap)
-        this.setCode(generateCode(this.props.characterMap), blockXml)
+        
+        this.props.setCode(generateCode(this.props.characterMap))
+        this.props.setBlockXml(blockXml)
         
         saveProject(blockXml)
         /*  this causes weird issues with entities getting overridden and only one 
             entity being on the characterMap at once */
         const workspaceContents = this.blocklyReactInstance.current!.primaryWorkspace
-        this.props.characterMap.set(this.state.selectedCharacter, workspaceContents)
+
+        // FIXME: This could be a bit heavy to run on every blocklychange, especially at greater character amounts...
+        const copiedMap = new Map(this.props.characterMap)
+        copiedMap.set(this.state.selectedCharacter, workspaceContents)
+        this.props.setCharacterMap(copiedMap)
     }
 
     componentDidMount(): void {
@@ -137,23 +149,26 @@ class Editor extends React.Component<EditorProps, EditorState> {
     }
 }
 
-function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
-    let output = '<xml xmlns="https://developers.google.com/blockly/xml">'
+function generateXml(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
+    let xmlString = '<xml xmlns="https://developers.google.com/blockly/xml">'
     characterMap.forEach((workspace, _) => {
         //xml.push(Blockly.Xml.workspaceToDom(workspace))
-        output += Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+        console.log("Generating xml for workspace " + workspace.getBlocksByType("funkly_entity", false))
+        xmlString += Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
     })
-    output += "</xml>"
-    return output
+    xmlString += "</xml>"
+    console.debug("Generated blockly xml: " + xmlString)
+    return xmlString 
 }
 
-function generateCode(characterMap: Map<string, Blockly.Workspace>): string {
+function generateCode(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
+    
     let entities: Blockly.Block[] = []
-    characterMap.forEach((workspace, _) => {
+    for (const [key, workspace] of characterMap) {
         entities = entities.concat(
             workspace.getBlocksByType("funkly_entity", true).concat(workspace.getBlocksByType("funkly_guientity", true))
         )
-    })
+    }
 
     // Generate code for each entity and place commas
     let engineCode = '{ "entities": {'

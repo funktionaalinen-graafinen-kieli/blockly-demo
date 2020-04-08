@@ -1,7 +1,6 @@
 import React from "react"
-import * as log from "loglevel"
-
 import Blockly from "blockly"
+import log from "loglevel"
 
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import Editor from "../BlocklyEditor/editor"
@@ -23,7 +22,7 @@ export default class App extends React.Component<
         gameRunning: boolean
         mouse_x: number
         mouse_y: number
-        characterMap: Map<string, Blockly.Workspace>
+        characterMap: ReadonlyMap<string, Blockly.Workspace>
     }
 > {
     editorInstance = React.createRef<Editor>()
@@ -34,6 +33,10 @@ export default class App extends React.Component<
 
     setBlockXml = (blockXml: string) => {
         this.setState({ blockXml })
+    }
+
+    setCharacterMap = (characterMap: ReadonlyMap<string, Blockly.Workspace>) => {
+        this.setState({ characterMap })
     }
 
     toggleGame = () => {
@@ -77,7 +80,8 @@ export default class App extends React.Component<
                 <div className="funkly-blockly-editor">
                     <Editor 
                         setBlockXml={this.setBlockXml} 
-                        setCode={this.setCode} 
+                        setCode={this.setCode}
+                        setCharacterMap={this.setCharacterMap}
                         characterMap={this.state.characterMap}
                         ref={this.editorInstance} 
                     />
@@ -95,6 +99,7 @@ export default class App extends React.Component<
                     <CharacterSelector 
                         editor={this.editorInstance} 
                         characterMap={this.state.characterMap} 
+                        setCharacterMap={this.setCharacterMap}
                     />
                 </div>
                 <div className="funkly-debug">

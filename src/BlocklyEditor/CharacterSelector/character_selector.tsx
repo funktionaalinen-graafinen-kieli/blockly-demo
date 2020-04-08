@@ -46,7 +46,7 @@ const CharacterCard = (props: CharacterCardProps) => {
 }*/
 
 interface CharacterCardGridProps {
-    characterMap: Map<string, Blockly.Workspace>
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
     setSelectedCharacter: (_: string) => void
     deleteCharacter: (_: string) => void
 }
@@ -75,7 +75,8 @@ const CharacterCardGrid = (props: CharacterCardGridProps) => {
     return <>{cardList}</>
 }
 interface CharacterSelectorProps {
-    characterMap: Map<string, Blockly.Workspace>
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
     editor: React.RefObject<Editor>
 }
 
@@ -93,7 +94,11 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
 
     const deleteCharacter = (entityId: string) => {
         console.debug("deleted character: " + entityId)
-        props.characterMap.delete(entityId)
+
+        // copy charactermap, omitting the entityId that is being deleted
+        const characterDeletedMap = new Map(Object.entries(props.characterMap).filter(([key, _]) => key !== entityId))
+        props.setCharacterMap(characterDeletedMap)
+        
         const newSelected = props.characterMap.values().next().value
         if (newSelected) { editor.setSelectedCharacter(newSelected) }
     }
@@ -105,6 +110,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                     setNewEntityMode={setNewEntityMode}
                     setSelectedCharacter={setSelectedCharacter}
                     characterMap={props.characterMap}
+                    setCharacterMap={props.setCharacterMap}
                 />
             ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyItems: "center" }}>

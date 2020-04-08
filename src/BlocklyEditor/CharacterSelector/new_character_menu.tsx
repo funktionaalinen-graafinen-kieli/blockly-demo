@@ -15,7 +15,8 @@ const generateId = (len: number) => {
 
 interface NewCharacterMenuProps {
     setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
-    characterMap: Map<string, Blockly.Workspace>
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
     setSelectedCharacter: (_: string) => void
 }
 
@@ -31,7 +32,11 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
 
         // TODO: Find a cleaner way
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
-        props.characterMap.set(entityId, workspace)
+
+        const newCharacterMap = new Map(props.characterMap)
+        newCharacterMap.set(entityId, workspace )
+        props.setCharacterMap(newCharacterMap)
+
         props.setSelectedCharacter(entityId)
     }
 
