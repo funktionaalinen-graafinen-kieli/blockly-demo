@@ -318,8 +318,11 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
+    // change how this gets here
+    const charMap = window.currentUser.charMap
+
     const entities = () => {
-        const es = [...window.currentUser.charMap]
+        const es = [...charMap]
                 .filter(([k, v]) => k !== "")
                 .map(([id,w]) => w.getBlockById(id))
                 .filter((b) => b && b.type === "funkly_entity")
