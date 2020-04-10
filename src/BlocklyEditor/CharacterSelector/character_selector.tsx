@@ -9,11 +9,14 @@ interface CharacterCardProps {
     name: string
     img: string
     delete: (_: string) => void
+    isSelected: boolean
 }
 
 const CharacterCard = (props: CharacterCardProps) => {
+    let styleClasses = "funkly-character-card"
+    if (props.isSelected) styleClasses += " funkly-character-card-selected"
     return (
-        <div className="funkly-character-card">
+        <div className={ styleClasses }>
             <img
                 className="funkly-character-on-card"
                 src={props.img}
@@ -29,25 +32,10 @@ const CharacterCard = (props: CharacterCardProps) => {
     )
 }
 
-/*
-const CharacterCard = (props: CharacterCardProps) => {
-    return (
-        <div className="funkly-character-card">
-            <img
-                src={guiImages.get("xbuttongrey")}
-                alt="delete"
-                style={{ position: "absolute", height: 15, width: 15 }}
-                onClick={() => props.delete(props.name)}
-            />
-            <img src={props.img} alt="..." style={{ height: 50, width: 50 }} />
-            <p>{props.name}</p>
-        </div>
-    )
-}*/
-
 interface CharacterCardGridProps {
-    characterMap: Map<string, Blockly.Workspace>
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
     setSelectedCharacter: (_: string) => void
+    selectedCharacter: string
     deleteCharacter: (_: string) => void
 }
 
@@ -67,6 +55,7 @@ const CharacterCardGrid = (props: CharacterCardGridProps) => {
                     name={entity.name[1]}
                     img={entity.img[1]}
                     delete={() => props.deleteCharacter(entityId)}
+                    isSelected={ props.selectedCharacter === entityId }
                 />
             </div>
         )
@@ -75,7 +64,9 @@ const CharacterCardGrid = (props: CharacterCardGridProps) => {
     return <>{cardList}</>
 }
 interface CharacterSelectorProps {
-    characterMap: Map<string, Blockly.Workspace>
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
+    selectedCharacter: string
     editor: React.RefObject<Editor>
 }
 
@@ -93,7 +84,11 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
 
     const deleteCharacter = (entityId: string) => {
         console.debug("deleted character: " + entityId)
-        props.characterMap.delete(entityId)
+
+        // copy charactermap, omitting the entityId that is being deleted
+        const characterDeletedMap = new Map(Object.entries(props.characterMap).filter(([key, _]) => key !== entityId))
+        props.setCharacterMap(characterDeletedMap)
+        
         const newSelected = props.characterMap.values().next().value
         if (newSelected) { editor.setSelectedCharacter(newSelected) }
     }
@@ -103,14 +98,15 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
             {newEntityMode ? (
                 <NewCharacterMenu
                     setNewEntityMode={setNewEntityMode}
-                    setSelectedCharacter={setSelectedCharacter}
                     characterMap={props.characterMap}
+                    setCharacterMap={props.setCharacterMap}
                 />
             ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyItems: "center" }}>
                     <CharacterCardGrid 
                         deleteCharacter={deleteCharacter}
                         setSelectedCharacter={setSelectedCharacter}
+                        selectedCharacter={props.selectedCharacter}
                         characterMap={props.characterMap} 
                     />
                     <NewCharacterButton setNewEntityMode={setNewEntityMode}/>
