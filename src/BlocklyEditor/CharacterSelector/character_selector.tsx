@@ -107,6 +107,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
                     setCharacterMap={props.setCharacterMap}
                 />
             ) : (
+            // TODO: move this to .css
                 <div style={{ display: "grid", gridTemplateColumns: "auto auto auto", justifyItems: "center" }}>
                     <CharacterCardGrid 
                         deleteCharacter={deleteCharacter}
