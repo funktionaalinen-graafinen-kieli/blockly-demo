@@ -105,7 +105,7 @@ function setGuardCheck(b: any, event: any, workspace: any) {
             const check = con.getCheck()
             p.getInput("DO").setCheck(check)
 
-            check.push("Guard")
+            if (check) check.push("Guard")
             p.setPreviousStatement(true, check)
         }
     }
