@@ -89,7 +89,6 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
     const editor = props.editor.current!
 
     const setSelectedCharacter = (entityId: string) => {
-        console.debug("setSelectedCharacter:", entityId)
         editor.setSelectedCharacter(entityId)
     }
 
@@ -97,11 +96,12 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
         console.debug("deleted character: " + entityId)
 
         // copy charactermap, omitting the entityId that is being deleted
-        const characterDeletedMap = new Map(Object.entries(props.characterMap).filter(([key, _]) => key !== entityId))
+        const characterDeletedMap = new Map(props.characterMap)
+        characterDeletedMap.delete(entityId)
         props.setCharacterMap(characterDeletedMap)
         
-        const newSelected = props.characterMap.values().next().value
-        if (newSelected) { editor.setSelectedCharacter(newSelected) }
+        // const newSelected = props.characterMap.values().next().value
+        // if (newSelected) { editor.setSelectedCharacter(newSelected) }
     }
 
     return (
