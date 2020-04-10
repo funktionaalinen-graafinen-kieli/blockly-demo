@@ -9,7 +9,8 @@ import CharacterSelector from "../BlocklyEditor/CharacterSelector/character_sele
 import GameComponent from "../GameEngine/game_component"
 import { ButtonRow } from "./button_row"
 import { MouseLocation } from "./mouse_location"
-import "./app.css"
+import "./funkly_app.css"
+import "./blockly_override.css"
 
 log.setLevel("trace")
 

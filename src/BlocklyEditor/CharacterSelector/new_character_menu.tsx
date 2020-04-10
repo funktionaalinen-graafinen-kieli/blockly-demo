@@ -47,13 +47,18 @@ interface NewCharacterButtonProps {
     setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
+/*export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
     src={guiImages.get("plus")}
     alt="add character"
     width={75}
     height={75}
     style={{ position: "absolute", right: 0, bottom: 0 }}
     onClick={() => props.setNewEntityMode(true)}
-/>
+/>*/
 
+export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
+    className="funkly-new-character-button"
+    src={guiImages.get("plusgrey")} alt="ass character"
+    onClick={() => props.setNewEntityMode(true)}
+/>
 

@@ -15,16 +15,35 @@ const CharacterCard = (props: CharacterCardProps) => {
     return (
         <div className="funkly-character-card">
             <img
-                src={guiImages.get("deleteButton")}
+                className="funkly-character-on-card"
+                src={props.img}
+                alt="..."
+            />
+            <img
+                className="funkly-delete-character"
+                src={guiImages.get("xbuttongrey")}
+                alt="delete" onClick={() => props.delete(props.name)}
+            />
+            <p>{props.name}</p>
+        </div>
+    )
+}
+
+/*
+const CharacterCard = (props: CharacterCardProps) => {
+    return (
+        <div className="funkly-character-card">
+            <img
+                src={guiImages.get("xbuttongrey")}
                 alt="delete"
-                style={{ position: "absolute", height: 20, width: 20 }}
+                style={{ position: "absolute", height: 15, width: 15 }}
                 onClick={() => props.delete(props.name)}
             />
             <img src={props.img} alt="..." style={{ height: 50, width: 50 }} />
             <p>{props.name}</p>
         </div>
     )
-}
+}*/
 
 interface CharacterCardGridProps {
     characterMap: Map<string, Blockly.Workspace>

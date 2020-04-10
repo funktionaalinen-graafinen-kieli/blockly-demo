@@ -137,7 +137,7 @@ const entityJson = {
         {
             type: "field_input",
             name: "name",
-            text: "esimerkkinimi",
+            text: "nimi",
             spellcheck: false
         }
     ],
@@ -211,7 +211,7 @@ const guiEntityJson = {
         {
             type: "field_input",
             name: "id",
-            text: "esimerkkinimi",
+            text: "nimi",
             spellcheck: false
         }
     ],

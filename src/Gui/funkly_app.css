@@ -15,6 +15,7 @@ button {
 }
 
 :focus {
+    /*onko ohjelma nyt esteellinen kun outlinet 0?*/
     outline: 0;
 }
 
@@ -99,17 +100,44 @@ button {
 
 .funkly-char-selection {
     grid-area: 7 / 3 / 11 / 4;
-    background-color: #d9d9d9;
+    /*background-color: #d9d9d9;*/
+    background-color: white;
     /*Play-tilaan border-radius täytyy laittaa erikseen*/
     border-radius: 20px !important;
+    border: 6px solid #f5f5f5;
 }
 
-.funkly-character-card { 
-    height: 75; 
-    width: 100; 
-    background-color: tomato; 
-    border-radius: 5; 
-    text-align: "center";
+.funkly-character-card {
+    /*jos vh niin koko holtiton*/
+    height: 90px; 
+    width: 90px;
+    padding-top: 3px;
+    background-color: #f5f5f5;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.funkly-character-card-selected {
+    border: 2px solid rgb(110, 189, 241);
+    box-shadow: 0px 0px 0px 4px hsla(215, 100%, 65%, 0.35)
+}
+
+.funkly-character-on-card {
+    height: 55px;
+    width: 55px;
+}
+
+.funkly-delete-character {
+    height: 20px;
+    width: 20px;
+    position: relative;
+}
+
+.funkly-new-character-button {
+    /*miten char-selectionin oikeaan alanurkkaan, grid-sijainti?*/
+    grid-area: 6 / 6 / 8 / 8;
+    width: 70px;
+    height: 70px;
 }
 
 .funkly-debug {
@@ -123,56 +151,4 @@ button {
     width: 500px;
     top: 100vh; 
     position: absolute;
-}
-
-.blocklyToolboxDiv {
-    background-color: white;
-}
-
-.blocklyMainBackground {
-    stroke-width: 1;
-    stroke: white;
-}
-
-.blocklySvg {
-    background-color: #f5f5f5;
-    /*blocklyToolBoxDiv on blocklySvg:n sisällä, joten palikka-alueen vasemman reunan pyöristäminen miten?*/
-    border-radius: 20px;
-}
-
-.blocklyTreeIcon {
-    width: 0px;
-}
-
-.blocklyTreeRow {
-    margin-bottom: 0px;
-    margin-top: 5vh;
-    border-left: none !important;
-}
-
-.blocklyTreeSelected {
-    background-color: #dedede !important;
-}
-
-.blocklyTreeLabel {
-    /*cursor: default;
-    font-family: sans-serif;*/
-    font-size: 2.4vh; /*alle 20 oikealle tulee rako??*/
-    /*padding: 0 6px;*/
-    padding-top: 0px;
-    padding-right: 5px;
-    padding-bottom: 0px;
-    padding-left: 5px;
-    /*vertical-align: middle;*/
-    /*font-weight: 500;*/
-}
-
-/* Tällä vaihdetaan blockly kategorioiden hover väriä */ 
-.blocklyTreeRow:not(.blocklyTreeSelected):hover {
-    background-color: #f5f5f5;
-}
-    
-.blocklyFlyoutBackground {
-    fill: #d9d9d9;
-    fill-opacity: .83;
 }

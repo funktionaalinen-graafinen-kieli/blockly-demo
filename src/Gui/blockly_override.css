@@ -1,0 +1,51 @@
+.blocklyToolboxDiv {
+    background-color: white;
+}
+
+.blocklyMainBackground {
+    stroke-width: 1;
+    stroke: white;
+}
+
+.blocklySvg {
+    background-color: #f5f5f5;
+    /*blocklyToolBoxDiv on blocklySvg:n sisällä, joten palikka-alueen vasemman reunan pyöristäminen miten?*/
+    border-radius: 20px;
+}
+
+.blocklyTreeIcon {
+    width: 0px;
+}
+
+.blocklyTreeRow {
+    margin-bottom: 0px;
+    margin-top: 5vh;
+    border-left: none !important;
+}
+
+.blocklyTreeSelected {
+    background-color: #dedede !important;
+}
+
+.blocklyTreeLabel {
+    /*cursor: default;
+    font-family: sans-serif;*/
+    font-size: 2.4vh; /*alle 20 oikealle tulee rako??*/
+    /*padding: 0 6px;*/
+    padding-top: 0px;
+    padding-right: 5px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    /*vertical-align: middle;*/
+    /*font-weight: 500;*/
+}
+
+/* Tällä vaihdetaan blockly kategorioiden hover väriä */ 
+.blocklyTreeRow:not(.blocklyTreeSelected):hover {
+    background-color: #f5f5f5;
+}
+    
+.blocklyFlyoutBackground {
+    fill: #d9d9d9;
+    fill-opacity: .83;
+}

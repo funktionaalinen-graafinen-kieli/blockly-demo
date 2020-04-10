@@ -2,7 +2,7 @@ export const entityBaseXml = (entityId: string, entity_type: string) => {
     if (entity_type === "TIETOVEKOTIN") {
         return `<xml xmlns="https://developers.google.com/blockly/xml">
                     <block type="funkly_guientity" id="${entityId}" x="420" y="239">
-                        <field name="name">esimerkkinimi</field>
+                        <field name="name">nimi</field>
                         <field name="initx">1</field>
                         <field name="inity">1</field>
                         <field name="width">60</field>
@@ -30,7 +30,7 @@ export const entityBaseXml = (entityId: string, entity_type: string) => {
     }
     return `<xml xmlns="https://developers.google.com/blockly/xml">
                 <block type="funkly_entity" id="${entityId}" x="420" y="239">
-                    <field name="name">esimerkkinimi</field>
+                    <field name="name">nimi</field>
                     <field name="initx">1</field>
                     <field name="inity">1</field>
                     <field name="width">60</field>
