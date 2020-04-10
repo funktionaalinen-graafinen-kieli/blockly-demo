@@ -63,10 +63,11 @@ interface EditorProps {
     setBlockXml: (_: string) => void
     setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
     characterMap: ReadonlyMap<string, Blockly.Workspace>
+    selectedCharacter: string
+    setSelectedCharacter: (_: string) => void
 }
 
 interface EditorState {
-    selectedCharacter: string
 }
 
 class Editor extends React.Component<EditorProps, EditorState> {
@@ -116,7 +117,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const blocklyReact = this.blocklyReactInstance.current!
 
         // Update the previous selected characters workspace contents before switching current character
-        const previousSelectedCharacter = this.props.characterMap.get(this.state.selectedCharacter)
+        const previousSelectedCharacter = this.props.characterMap.get(this.props.selectedCharacter)
         if (previousSelectedCharacter) {
             const oldWorkspaceContents = Blockly.Xml.workspaceToDom(blocklyReact.primaryWorkspace)
             // Weird runtime TypeError: b.setResizesEnabled is not a function
@@ -125,7 +126,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
             Blockly.Xml.domToWorkspace(oldWorkspaceContents, previousSelectedCharacter)
         }
 
-        this.setState({ selectedCharacter: newSelected })
+        this.props.setSelectedCharacter(newSelected)
         
         const newWorkspace = this.props.characterMap.get(newSelected)
         if (newWorkspace) blocklyReact.setPrimaryWorkspaceContents(newWorkspace)

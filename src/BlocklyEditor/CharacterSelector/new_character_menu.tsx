@@ -17,7 +17,6 @@ interface NewCharacterMenuProps {
     setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
-    setSelectedCharacter: (_: string) => void
 }
 
 export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
@@ -39,7 +38,7 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
         newCharacterMap.set(entityId, workspace)
         props.setCharacterMap(newCharacterMap)
 
-        // props.setSelectedCharacter(entityId)
+        // this broke characterMap props.setSelectedCharacter(entityId) so it was removed from props
     }
 
     return (
@@ -53,15 +52,6 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
 interface NewCharacterButtonProps {
     setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
 }
-
-/*export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
-    src={guiImages.get("plus")}
-    alt="add character"
-    width={75}
-    height={75}
-    style={{ position: "absolute", right: 0, bottom: 0 }}
-    onClick={() => props.setNewEntityMode(true)}
-/>*/
 
 export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
     className="funkly-new-character-button"
