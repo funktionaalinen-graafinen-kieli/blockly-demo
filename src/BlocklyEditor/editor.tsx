@@ -77,10 +77,11 @@ class Editor extends React.Component<EditorProps, EditorState> {
      * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap
      */
     importXml = (xmlInput: string) => {
+        console.debug("xml to import")
+        console.debug(xmlInput)
+
         const parsedDom = Blockly.Xml.textToDom(xmlInput)
-
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
-
         const newCharacterMap = new Map()
 
         entityBlocks.forEach((block, _) => {

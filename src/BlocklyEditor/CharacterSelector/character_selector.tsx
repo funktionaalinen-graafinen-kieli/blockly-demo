@@ -45,6 +45,12 @@ const CharacterCardGrid = (props: CharacterCardGridProps) => {
     const cardList: JSX.Element[] = []
     props.characterMap.forEach((workspace: Blockly.Workspace, entityId: string) => {
         const entity = workspace.getBlockById(entityId)
+        if (! entity)  { 
+            console.debug(`Charactermap had key ${entityId} but it's workspace was missing a block by that id. 
+                          This usually means some character's workspace was cleared, or it's importing failed `)
+            return
+        }
+
         const name = entity.getFieldValue("name") || "default_name"
         const img = BlocklyJS.statementToCode(entity, "img", BlocklyJS.ORDER_RELATIONAL)
         // Remove unnecessary quotes, single quotes and \ from image path
