@@ -85,7 +85,17 @@ Object {
         </div>
         <div
           class="funkly-char-selection"
-        />
+        >
+          <div
+            style="display: grid; grid-template-columns: auto auto auto; justify-items: center;"
+          >
+            <img
+              alt="ass character"
+              class="funkly-new-character-button"
+              src="plusbuttongrey.png"
+            />
+          </div>
+        </div>
         <div
           class="funkly-debug"
         >
@@ -175,7 +185,17 @@ Object {
       </div>
       <div
         class="funkly-char-selection"
-      />
+      >
+        <div
+          style="display: grid; grid-template-columns: auto auto auto; justify-items: center;"
+        >
+          <img
+            alt="ass character"
+            class="funkly-new-character-button"
+            src="plusbuttongrey.png"
+          />
+        </div>
+      </div>
       <div
         class="funkly-debug"
       >

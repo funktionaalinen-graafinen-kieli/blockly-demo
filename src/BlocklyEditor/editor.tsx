@@ -72,7 +72,6 @@ interface EditorState {
 
 class Editor extends React.Component<EditorProps, EditorState> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    state = { selectedCharacter: "" }
     
     /* 
      * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap

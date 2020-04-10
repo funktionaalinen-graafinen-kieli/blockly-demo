@@ -210,7 +210,7 @@ const guiEntityJson = {
     args0: [
         {
             type: "field_input",
-            name: "id",
+            name: "name",
             text: "nimi",
             spellcheck: false
         }
@@ -262,6 +262,7 @@ const guiEntityJson = {
 }
 
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
+
 const colJson = {
     "type:": funklyBlockType.COLLIDE,
     inputsInline: true,

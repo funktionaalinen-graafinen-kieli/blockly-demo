@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import Blockly from "blockly"
+import BlocklyJS from "blockly/javascript"
 
-import { guiImages } from "../../Gui/image_storage"
-import Editor, { generateCode } from "../../BlocklyEditor/editor"
+import { guiImages, entityImages } from "../../Gui/image_storage"
+import Editor from "../../BlocklyEditor/editor"
 import { NewCharacterMenu, NewCharacterButton } from "./new_character_menu"
 
 interface CharacterCardProps {
@@ -40,20 +41,24 @@ interface CharacterCardGridProps {
 }
 
 const CharacterCardGrid = (props: CharacterCardGridProps) => {
-    const entities = JSON.parse(generateCode(props.characterMap)).entities
     
     const cardList: JSX.Element[] = []
-    Object.values(entities).forEach((entity: any, index) => {
-        const entityId = Object.keys(entities)[index]
+    props.characterMap.forEach((workspace: Blockly.Workspace, entityId: string) => {
+        const entity = workspace.getBlockById(entityId)
+        const name = entity.getFieldValue("name") || "default_name"
+        const img = BlocklyJS.statementToCode(entity, "img", BlocklyJS.ORDER_RELATIONAL)
+        // Remove unnecessary quotes, single quotes and \ from image path
+        const cleanedImage = img.replace(/\'|\"|\\/g, "")
+
         cardList.push(
             <div
-                key={index}
+                key={entityId}
                 style={{ padding: 10, cursor: "pointer" }}
                 onClick={() => props.setSelectedCharacter(entityId)}
             >
                 <CharacterCard
-                    name={entity.name[1]}
-                    img={entity.img[1]}
+                    name={name}
+                    img={cleanedImage}
                     delete={() => props.deleteCharacter(entityId)}
                     isSelected={ props.selectedCharacter === entityId }
                 />
