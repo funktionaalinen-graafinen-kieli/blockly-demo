@@ -67,7 +67,7 @@ const condType = (event: any) => {
                     block.previousConnection.disconnect()
                 }
             } else {
-                //only reset if all completely disconnected
+                //only reset if all inputs disconnected
                 if (block.getInputTargetBlock("DO") == null &&
                     block.getInputTargetBlock("ELSE") == null &&
                     block.getPreviousBlock() == null) {
@@ -80,6 +80,7 @@ const condType = (event: any) => {
     }
 }
 
+// helper function
 function setGuardIfField(b: any, workspace: any) {
     const prev = b.getPreviousBlock()
     const next = b.getNextBlock()
@@ -94,21 +95,45 @@ function setGuardIfField(b: any, workspace: any) {
     workspace.render()
 }
 
-const guardElse = (event: any) => {
-    const workspace = Blockly.Workspace.getById(event.workspaceId)
-    if (event.type === Blockly.Events.CREATE || event.type === Blockly.Events.MOVE) {
-        console.trace(event)
-        const block = workspace.getBlockById(event.blockId)
-        if (block && block.type == "funkly_guard") {
-            setGuardIfField(block, workspace)
+// helper function
+function setGuardCheck(b: any, event: any, workspace: any) {
+
+    if (event.newParentId) {
+        const p = workspace.getBlockById(event.newParentId)
+        if (p && p.type === "funkly_guard") {
+            const con = b.previousConnection
+            const check = con.getCheck()
+            p.getInput("DO").setCheck(check)
+
+            check.push("Guard")
+            p.setPreviousStatement(true, check)
+        }
+    }
+    if (event.oldParentId) {
+        const p = workspace.getBlockById(event.oldParentId)
+        if (p && p.type === "funkly_guard") {
+            p.getInput("DO").setCheck(null)
+            p.setPreviousStatement(true, null)
         }
     }
 }
 
-// include below in events if you wish to log all events
+const guardBlock = (event: any) => {
+    const workspace = Blockly.Workspace.getById(event.workspaceId)
+    if (event.type === Blockly.Events.CREATE || event.type === Blockly.Events.MOVE) {
+        const block = workspace.getBlockById(event.blockId)
+        if (block && block.type == "funkly_guard") {
+            setGuardIfField(block, workspace)
+        }
+        if (block) {
+            setGuardCheck(block, event, workspace)
+        }
+    }
+}
+
 // const logEvents = (e: any)=>console.trace(e)
 
 // events handlers in this list get added
-const eventHandlers = [getType, condType, guardElse]
+const eventHandlers = [getType, condType, guardBlock]
 
 export default eventHandlers
