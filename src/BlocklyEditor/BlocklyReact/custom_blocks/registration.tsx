@@ -284,7 +284,14 @@ const colJson = {
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
-    const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
+    // change how this gets here
+    const charMap = window.currentUser.charMap
+
+    const entities = () => [...charMap]
+                .filter(([k, v]) => k !== "")
+                .map(([id,w]) => w.getBlockById(id))
+                .filter((b) => b && b.type === "funkly_entity")
+
     const dropdownOptions = () => dropdownWithThis(this, entities)
 
     // Removes fielddropdown validation to allow not-yet-existent entities
@@ -320,13 +327,11 @@ Extensions.register("entity_dropdown", function(this: Block) {
     // change how this gets here
     const charMap = window.currentUser.charMap
 
-    const entities = () => {
-        const es = [...charMap]
+    const entities = () => [...charMap]
                 .filter(([k, v]) => k !== "")
                 .map(([id,w]) => w.getBlockById(id))
                 .filter((b) => b && b.type === "funkly_entity")
-        return es
-    }
+
     const dropdownOptions = () => {
         return dropdownWithThis(this, entities)
     }
