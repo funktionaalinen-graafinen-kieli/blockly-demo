@@ -55,11 +55,11 @@ function funklyCodegen(type: funklyBlockType) {
         if (prev.type === "funkly_guard") {
             return ""
         }
-        
+
         return funkly_guard_helper(block)
     }
 
-    function funkly_guard_helper(block: Block) : string{
+    function funkly_guard_helper(block: Block): string {
         const next = block.getNextBlock()
 
         const conditionCode = block.getInput("IF") ? BlocklyJS.statementToCode(block, "IF") : "1"
@@ -148,9 +148,10 @@ function funklyCodegen(type: funklyBlockType) {
         const height = block.getFieldValue("height") || 50
         const width = block.getFieldValue("width") || 50
         const radius = block.getFieldValue("radius") || 50
+        const rotation = block.getFieldValue("rotation") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, "'\\\"\\\"'")
+        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, rotation, "'\\\"\\\"'")
     }
 
     function funkly_guientity(block: Block) {
@@ -161,13 +162,14 @@ function funklyCodegen(type: funklyBlockType) {
         const width = block.getFieldValue("width") || 0
         const height = block.getFieldValue("height") || 0
         const radius = entityDefaultSize["radius"]
+        const rotation = block.getFieldValue("rotation") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
         const text = BlocklyJS.statementToCode(block, "text", BlocklyJS.ORDER_RELATIONAL)
 
         let x = "packF(id)"
         let y = "packF(id)"
 
-        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, text)
+        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, rotation, text)
     }
 
     function funkly_bind(block: Block) {
@@ -198,6 +200,7 @@ const entityCode = (
     width: number,
     height: number,
     radius: number,
+    rotation: number,
     text: string
 ) => {
     let output = `"${id}": {`
@@ -209,6 +212,7 @@ const entityCode = (
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
     output += `"r": ["packF(id)", ${radius}],`
+    output += `"ro": ["packF(id)", ${rotation}],`
     output += `"text": ["pack(${text})", ""],`
 
     output += '"r": ["packF(id)", 30],'

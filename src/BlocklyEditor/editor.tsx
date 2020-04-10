@@ -91,23 +91,6 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         return Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
     }
 
-    private generateCode = (): string => {
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        const entities = workspace
-            .getBlocksByType("funkly_entity", true)
-            .concat(workspace.getBlocksByType("funkly_guientity", true))
-
-        // Generate code for each entity and place commas
-        let engineCode = '{ "entities": {'
-        entities.slice(0, -1).forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
-        // Leave out comma from last entity
-        engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
-        engineCode += "}, "
-        engineCode += defaultBinds + "}"
-
-        return engineCode
-    }
-
     setCode = (engineCode: string, xmlWorkspace: string) => {
         this.props.setCode(engineCode)
         this.props.setBlockXml(xmlWorkspace)
@@ -118,13 +101,12 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
         const stringed = decodeURI(eval(stripped))
         const parsed = Blockly.Xml.textToDom(stringed)
 
-
         const workspace = this.blocklyReactInstance.current!.primaryWorkspace
         Blockly.Xml.domToWorkspace(parsed, workspace)
     }
 
     generateAndSetCode = () => {
-        this.setCode(this.generateCode(), this.generateXml())
+        this.setCode(generateCode(this.blocklyReactInstance), this.generateXml())
     }
 
     componentDidMount(): void {
@@ -145,6 +127,23 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
             </div>
         )
     }
+}
+
+function generateCode(blocklyReactInstance: any): string {
+    const workspace = blocklyReactInstance.current!.primaryWorkspace
+    const entities = workspace
+        .getBlocksByType("funkly_entity", true)
+        .concat(workspace.getBlocksByType("funkly_guientity", true))
+
+    // Generate code for each entity and place commas
+    let engineCode = '{ "entities": {'
+    entities.slice(0, -1).forEach((e: any) => (engineCode += BlocklyJS.blockToCode(e) + ","))
+    // Leave out comma from last entity
+    engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
+    engineCode += "}, "
+    engineCode += defaultBinds + "}"
+
+    return engineCode
 }
 
 function saveProject(blockXml: string): void {
@@ -175,4 +174,4 @@ function loadDefaultProject(blocklyComponent: BlocklyComponent | undefined | nul
 }
 
 export default Editor
-export { saveProject, loadProject, loadDefaultProject }
+export { generateCode, saveProject, loadProject, loadDefaultProject }
