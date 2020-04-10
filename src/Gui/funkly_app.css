@@ -147,7 +147,6 @@ button {
 
 .funkly-new-character-button {
     /*miten char-selectionin oikeaan alanurkkaan, grid-sijainti?*/
-    grid-area: 6 / 6 / 8 / 8;
     width: 70px;
     height: 70px;
 }
