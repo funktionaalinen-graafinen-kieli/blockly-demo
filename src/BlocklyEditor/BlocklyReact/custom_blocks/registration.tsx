@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
@@ -316,9 +317,16 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-    const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
-        .concat(this.workspace.getBlocksByType("funkly_guientity", true))
-    const dropdownOptions = () => dropdownWithThis(this, entities)
+    const entities = () => {
+        const es = [...window.currentUser.charMap]
+                .filter(([k, v]) => k !== "")
+                .map(([id,w]) => w.getBlockById(id))
+                .filter((b) => b && b.type === "funkly_entity")
+        return es
+    }
+    const dropdownOptions = () => {
+        return dropdownWithThis(this, entities)
+    }
 
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
