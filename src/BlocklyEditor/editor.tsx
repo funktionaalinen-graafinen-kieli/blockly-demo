@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
 import Blockly from "blockly"
@@ -159,6 +160,11 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
         blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
+
+        // bad
+        window.currentUser = {
+            charMap: this.props.characterMap
+        }
     }
 
     componentWillUnmount(): void {
