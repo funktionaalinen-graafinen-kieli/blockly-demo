@@ -24,10 +24,8 @@ export class BlocklyComponent extends React.Component<{}> {
 
     }
 
-    changeWorkspaceContents(newBlocks: Blockly.Workspace) {
+    setPrimaryWorkspaceContents(newBlocks: Blockly.Workspace) {
         // TODO: Figure a nicer way to do this
-        console.debug("replacing workspace contents with contents of ")
-        console.debug(newBlocks)
         Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.workspaceToDom(newBlocks), this.primaryWorkspace)
 
     }

@@ -30,14 +30,16 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
         const workspace = new Blockly.Workspace()
         const entityId = generateId(10)
 
-        // TODO: Find a cleaner way
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
+        const entityXml = entityBaseXml(entityId, entityType)
+        console.debug(entityXml)
+
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityXml), workspace)
 
         const newCharacterMap = new Map(props.characterMap)
-        newCharacterMap.set(entityId, workspace )
+        newCharacterMap.set(entityId, workspace)
         props.setCharacterMap(newCharacterMap)
 
-        props.setSelectedCharacter(entityId)
+        // props.setSelectedCharacter(entityId)
     }
 
     return (

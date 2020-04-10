@@ -36,6 +36,8 @@ export default class App extends React.Component<
     }
 
     setCharacterMap = (characterMap: ReadonlyMap<string, Blockly.Workspace>) => {
+        // This guards against accidentally setting characterMap as something non-iterable
+        if (characterMap instanceof Map) {} else throw new Error("Invalid input type for setCharacterMap. Give a Map")
         this.setState({ characterMap })
     }
 
