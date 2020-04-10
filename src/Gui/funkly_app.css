@@ -107,6 +107,13 @@ button {
     /*border: 6px solid #f5f5f5;*/
 }
 
+.funkly-char-or-other {
+    margin-top: 8px;
+    margin-left: 8px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 .funkly-character-card {
     /*jos vh niin koko holtiton*/
     height: 90px; 
