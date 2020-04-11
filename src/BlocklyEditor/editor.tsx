@@ -63,8 +63,8 @@ interface EditorProps {
     setBlockXml: (_: string) => void
     setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
     characterMap: ReadonlyMap<string, Blockly.Workspace>
-    selectedCharacter: string
-    setSelectedCharacter: (_: string) => void
+    selectedCharacter: string | undefined
+    setSelectedCharacter: (_: string | undefined) => void
 }
 
 interface EditorState {
@@ -88,14 +88,13 @@ class Editor extends React.Component<EditorProps, EditorState> {
             const entityId = block.getAttribute("id")!
 
             const workspace = new Blockly.Workspace()
-            Blockly.Xml.domToWorkspace(block, workspace)
+            Blockly.Xml.domToBlock(block, workspace)
             
             newCharacterMap.set(entityId, workspace)
 
         })
 
         this.props.setCharacterMap(newCharacterMap)
-        
         
         // TODO: is this necessary?
         // After changing the workspace contents manually, which might not Blockly's event listeners
@@ -112,26 +111,48 @@ class Editor extends React.Component<EditorProps, EditorState> {
         saveProject(blockXml)
     }
 
-    
-    setSelectedCharacter(newSelected: string): void {
+    // Set undefined to clear selected character
+    setSelectedCharacter(newSelected: string | undefined): void {
+        console.debug("setting selected character: " + newSelected)
         const blocklyReact = this.blocklyReactInstance.current!
 
-        // Update the previous selected characters workspace contents before switching current character
-        const previousSelectedCharacter = this.props.characterMap.get(this.props.selectedCharacter)
-        if (previousSelectedCharacter) {
-            const oldWorkspaceContents = Blockly.Xml.workspaceToDom(blocklyReact.primaryWorkspace)
-            // Weird runtime TypeError: b.setResizesEnabled is not a function
-            // Typerror goes away if using Blockly.Xml.domToWorkspace but then blocks get duplicated
-            previousSelectedCharacter.clear()
-            Blockly.Xml.domToWorkspace(oldWorkspaceContents, previousSelectedCharacter)
+        if (newSelected === undefined) {
+            blocklyReact.primaryWorkspace.clear()
+            this.props.setSelectedCharacter(undefined)
+            return
         }
 
+        // Update the previous selected characters workspace contents before switching current character
+        if (this.props.selectedCharacter) {
+            const previousSelectedCharacter = this.props.characterMap.get(this.props.selectedCharacter)
+            if (previousSelectedCharacter) {
+                const oldWorkspaceContents = Blockly.Xml.workspaceToDom(blocklyReact.primaryWorkspace)
+                /* Using clearWorkspaceAndLoadFromXml caused weird runtime TypeError: b.setResizesEnabled 
+                 *  is not a function. We work around by clearing and loading manually 
+                 */
+                previousSelectedCharacter.clear()
+                Blockly.Xml.domToWorkspace(oldWorkspaceContents, previousSelectedCharacter)
+            }
+        }
         this.props.setSelectedCharacter(newSelected)
         
         const newWorkspace = this.props.characterMap.get(newSelected)
         if (newWorkspace) blocklyReact.setPrimaryWorkspaceContents(newWorkspace)
         
     }
+
+    deleteCharacter = (entityId: string) => {
+        console.debug("deleted character: " + entityId)
+
+        // copy charactermap, omitting the entityId that is being deleted
+        const characterDeletedMap = new Map(this.props.characterMap)
+        characterDeletedMap.delete(entityId)
+        this.props.setCharacterMap(characterDeletedMap)
+        
+        // Couldn't get automatically selecting a new character after deletion to work
+        this.setSelectedCharacter(undefined)
+    }
+
 
     componentDidMount(): void {
         const blocklyReact = this.blocklyReactInstance.current!

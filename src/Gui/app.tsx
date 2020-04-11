@@ -21,7 +21,8 @@ interface AppState {
     mouse_x: number
     mouse_y: number
     characterMap: ReadonlyMap<string, Blockly.Workspace>
-    selectedCharacter: string
+    // An undefined selectedCharacter means a character is not selected
+    selectedCharacter: string | undefined
 }
 
 export default class App extends React.Component<{}, AppState> {
@@ -43,7 +44,7 @@ export default class App extends React.Component<{}, AppState> {
 
     // This should only be used in Editor
     // and otherwise editor's setSelectedCharacter should be used for its side effects
-    setSelectedCharacter = (selectedCharacter: string) => {
+    setSelectedCharacter = (selectedCharacter: string | undefined) => {
         this.setState({ selectedCharacter })
     }
 
@@ -66,7 +67,7 @@ export default class App extends React.Component<{}, AppState> {
             mouse_x: 0,
             mouse_y: 0,
             characterMap: new Map(),
-            selectedCharacter: ""
+            selectedCharacter: undefined
         }
     }
 

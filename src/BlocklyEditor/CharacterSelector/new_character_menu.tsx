@@ -44,7 +44,7 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
     return (
         <div>
             <button className="funkly-char-or-other" onClick={() => buttonClick("HAHMO")}> Hahmo </button>
-            {" vai "}
+            vai
             <button className="funkly-char-or-other" onClick={() => buttonClick("TIETOVEKOTIN")}> Tietovekotin </button>
         </div>
     )
@@ -56,7 +56,7 @@ interface NewCharacterButtonProps {
 
 export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
     className="funkly-new-character-button"
-    src={guiImages.get("plusgrey")} alt="ass character"
+    src={guiImages.get("plusgrey")} alt="add character"
     onClick={() => props.setNewEntityMode(true)}
 />
 

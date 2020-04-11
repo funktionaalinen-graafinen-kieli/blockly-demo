@@ -97,7 +97,6 @@ function setGuardIfField(b: any, workspace: any) {
 const guardElse = (event: any) => {
     const workspace = Blockly.Workspace.getById(event.workspaceId)
     if (event.type === Blockly.Events.CREATE || event.type === Blockly.Events.MOVE) {
-        console.trace(event)
         const block = workspace.getBlockById(event.blockId)
         if (block && block.type == "funkly_guard") {
             setGuardIfField(block, workspace)
