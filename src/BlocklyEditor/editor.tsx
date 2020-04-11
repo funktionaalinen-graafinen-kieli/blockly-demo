@@ -159,6 +159,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
         blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
+
+        loadProject(this)
     }
 
     componentWillUnmount(): void {
@@ -217,14 +219,16 @@ function saveProject(blockXml: string): void {
         console.debug("Editor is null")
         return
     }
-    localStorage.setItem("defaultProject", encodeURI(blockXml))
+    localStorage.setItem("savedProject", encodeURI(blockXml))
 }
 
 function loadProject(editor: Editor) {
-    const storedProject = 
-        decodeURI(localStorage.getItem("defaultProject")!)
-        || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    editor.importXml(storedProject)
+
+    const savedXml = localStorage.getItem("savedProject")
+    const savedProject = 
+        savedXml ? decodeURI(savedXml)
+            : '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    editor.importXml(savedProject)
 }
 
 function loadDefaultProject(editor: Editor) {
