@@ -15,8 +15,8 @@ const generateId = (len: number) => {
 
 interface NewCharacterMenuProps {
     setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
-    characterMap: Map<string, Blockly.Workspace>
-    setSelectedCharacter: (_: string) => void
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
 }
 
 export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
@@ -29,16 +29,23 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
         const workspace = new Blockly.Workspace()
         const entityId = generateId(10)
 
-        // TODO: Find a cleaner way
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityBaseXml(entityId, entityType)), workspace)
-        props.characterMap.set(entityId, workspace)
-        props.setSelectedCharacter(entityId)
+        const entityXml = entityBaseXml(entityId, entityType)
+        console.debug(entityXml)
+
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityXml), workspace)
+
+        const newCharacterMap = new Map(props.characterMap)
+        newCharacterMap.set(entityId, workspace)
+        props.setCharacterMap(newCharacterMap)
+
+        // this broke characterMap props.setSelectedCharacter(entityId) so it was removed from props
     }
 
     return (
-        <div style={{ padding: 10 }}>
-            <button onClick={() => buttonClick("HAHMO")}>Hahmo</button>
-            <button onClick={() => buttonClick("TIETOVEKOTIN")}>Tietovekotin</button>
+        <div>
+            <button className="funkly-char-or-other" onClick={() => buttonClick("HAHMO")}> Hahmo </button>
+            vai
+            <button className="funkly-char-or-other" onClick={() => buttonClick("TIETOVEKOTIN")}> Tietovekotin </button>
         </div>
     )
 }
@@ -48,12 +55,8 @@ interface NewCharacterButtonProps {
 }
 
 export const NewCharacterButton = (props: NewCharacterButtonProps) => <img
-    src={guiImages.get("plus")}
-    alt="add character"
-    width={75}
-    height={75}
-    style={{ position: "absolute", right: 0, bottom: 0 }}
+    className="funkly-new-character-button"
+    src={guiImages.get("plusgrey")} alt="add character"
     onClick={() => props.setNewEntityMode(true)}
 />
-
 

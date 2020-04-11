@@ -1,7 +1,6 @@
 import React from "react"
-import * as log from "loglevel"
-
 import Blockly from "blockly"
+import log from "loglevel"
 
 import CodeRenderer from "../BlocklyEditor/code_renderer"
 import Editor from "../BlocklyEditor/editor"
@@ -9,22 +8,24 @@ import CharacterSelector from "../BlocklyEditor/CharacterSelector/character_sele
 import GameComponent from "../GameEngine/game_component"
 import { ButtonRow } from "./button_row"
 import { MouseLocation } from "./mouse_location"
-import "./app.css"
+import "./funkly_app.css"
+import "./blockly_override.css"
 
 log.setLevel("trace")
 
-export default class App extends React.Component<
-    {},
-    {
-        code: string
-        blockXml: string
-        debugToggle: boolean
-        gameRunning: boolean
-        mouse_x: number
-        mouse_y: number
-        characterMap: Map<string, Blockly.Workspace>
-    }
-> {
+interface AppState {
+    code: string
+    blockXml: string
+    debugToggle: boolean
+    gameRunning: boolean
+    mouse_x: number
+    mouse_y: number
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    // An undefined selectedCharacter means a character is not selected
+    selectedCharacter: string | undefined
+}
+
+export default class App extends React.Component<{}, AppState> {
     editorInstance = React.createRef<Editor>()
 
     setCode = (code: string) => {
@@ -33,6 +34,18 @@ export default class App extends React.Component<
 
     setBlockXml = (blockXml: string) => {
         this.setState({ blockXml })
+    }
+
+    setCharacterMap = (characterMap: ReadonlyMap<string, Blockly.Workspace>) => {
+        // This guards against accidentally setting characterMap as something non-iterable
+        if (characterMap instanceof Map) {} else throw new Error("Invalid input type for setCharacterMap. Give a Map")
+        this.setState({ characterMap })
+    }
+
+    // This should only be used in Editor
+    // and otherwise editor's setSelectedCharacter should be used for its side effects
+    setSelectedCharacter = (selectedCharacter: string | undefined) => {
+        this.setState({ selectedCharacter })
     }
 
     toggleGame = () => {
@@ -53,7 +66,8 @@ export default class App extends React.Component<
             gameRunning: false,
             mouse_x: 0,
             mouse_y: 0,
-            characterMap: new Map()
+            characterMap: new Map(),
+            selectedCharacter: undefined
         }
     }
 
@@ -76,8 +90,11 @@ export default class App extends React.Component<
                 <div className="funkly-blockly-editor">
                     <Editor 
                         setBlockXml={this.setBlockXml} 
-                        setCode={this.setCode} 
+                        setCode={this.setCode}
+                        setCharacterMap={this.setCharacterMap}
                         characterMap={this.state.characterMap}
+                        setSelectedCharacter={this.setSelectedCharacter}
+                        selectedCharacter={this.state.selectedCharacter}
                         ref={this.editorInstance} 
                     />
                 </div>
@@ -94,6 +111,8 @@ export default class App extends React.Component<
                     <CharacterSelector 
                         editor={this.editorInstance} 
                         characterMap={this.state.characterMap} 
+                        setCharacterMap={this.setCharacterMap}
+                        selectedCharacter={this.state.selectedCharacter}
                     />
                 </div>
                 <div className="funkly-debug">

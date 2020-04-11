@@ -5,7 +5,7 @@ import Blockly from "blockly"
 import log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
-import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
+import { Block, Category, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 import { initialXml } from "./BlocklyReact/initial_xml"
 
@@ -62,51 +62,98 @@ const defaultBinds = `
 interface EditorProps {
     setCode: (_: string) => void
     setBlockXml: (_: string) => void
-    characterMap: Map<string, Blockly.Workspace>
+    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    selectedCharacter: string | undefined
+    setSelectedCharacter: (_: string | undefined) => void
 }
 
 interface EditorState {
-    selectedCharacter: string
 }
 
 class Editor extends React.Component<EditorProps, EditorState> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    state = { selectedCharacter: "" }
-
-    setCode = (engineCode: string, xmlWorkspace: string) => {
-        this.props.setCode(engineCode)
-        this.props.setBlockXml(xmlWorkspace)
-    }
-
+    
+    /* 
+     * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap
+     */
     importXml = (xmlInput: string) => {
-        const stripped = xmlInput.slice(26)
-        const decoded = decodeURI(eval(stripped))
-        const parsedDom = Blockly.Xml.textToDom(decoded)
+        console.debug("xml to import")
+        console.debug(xmlInput)
 
+        const parsedDom = Blockly.Xml.textToDom(xmlInput)
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
-        console.log(entityBlocks)
+        const newCharacterMap = new Map()
 
         entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
-            if (! this.props.characterMap.has(entityId)) {
-                this.props.characterMap.set(entityId, new Blockly.Workspace())
-            }
-            const workspace = this.props.characterMap.get(entityId)!
 
-            Blockly.Xml.domToWorkspace(block, workspace)
+            const workspace = new Blockly.Workspace()
+            Blockly.Xml.domToBlock(block, workspace)
+            
+            newCharacterMap.set(entityId, workspace)
+
         })
+
+        this.props.setCharacterMap(newCharacterMap)
+        
+        // TODO: is this necessary?
+        // After changing the workspace contents manually, which might not Blockly's event listeners
+        // we want to manually trigger the onBlocklyChange things
+        this.onBlocklychange()
     }
 
     onBlocklychange = () => {
         const blockXml = generateXml(this.props.characterMap)
-        this.setCode(generateCode(this.props.characterMap), blockXml)
+        
+        this.props.setCode(generateCode(this.props.characterMap))
+        this.props.setBlockXml(blockXml)
         
         saveProject(blockXml)
-        /*  this causes weird issues with entities getting overridden and only one 
-            entity being on the characterMap at once */
-        const workspaceContents = this.blocklyReactInstance.current!.primaryWorkspace
-        this.props.characterMap.set(this.state.selectedCharacter, workspaceContents)
     }
+
+    // Set undefined to clear selected character
+    setSelectedCharacter(newSelected: string | undefined): void {
+        console.debug("setting selected character: " + newSelected)
+        const blocklyReact = this.blocklyReactInstance.current!
+
+        if (newSelected === undefined) {
+            blocklyReact.primaryWorkspace.clear()
+            this.props.setSelectedCharacter(undefined)
+            return
+        }
+
+        // Update the previous selected characters workspace contents before switching current character
+        if (this.props.selectedCharacter) {
+            const previousSelectedCharacter = this.props.characterMap.get(this.props.selectedCharacter)
+            if (previousSelectedCharacter) {
+                const oldWorkspaceContents = Blockly.Xml.workspaceToDom(blocklyReact.primaryWorkspace)
+                /* Using clearWorkspaceAndLoadFromXml caused weird runtime TypeError: b.setResizesEnabled 
+                 *  is not a function. We work around by clearing and loading manually 
+                 */
+                previousSelectedCharacter.clear()
+                Blockly.Xml.domToWorkspace(oldWorkspaceContents, previousSelectedCharacter)
+            }
+        }
+        this.props.setSelectedCharacter(newSelected)
+        
+        const newWorkspace = this.props.characterMap.get(newSelected)
+        if (newWorkspace) blocklyReact.setPrimaryWorkspaceContents(newWorkspace)
+        
+    }
+
+    deleteCharacter = (entityId: string) => {
+        console.debug("deleted character: " + entityId)
+
+        // copy charactermap, omitting the entityId that is being deleted
+        const characterDeletedMap = new Map(this.props.characterMap)
+        characterDeletedMap.delete(entityId)
+        this.props.setCharacterMap(characterDeletedMap)
+        
+        // Couldn't get automatically selecting a new character after deletion to work
+        this.setSelectedCharacter(undefined)
+    }
+
 
     componentDidMount(): void {
         const blocklyReact = this.blocklyReactInstance.current!
@@ -114,22 +161,12 @@ class Editor extends React.Component<EditorProps, EditorState> {
         blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
 
-        // bad
-        window.currentUser = {
-            charMap: this.props.characterMap
-        }
+        // FIXME: do this in a nicer way 
+        window.funklyCharMap = this.props.characterMap
     }
 
     componentWillUnmount(): void {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.onBlocklychange)
-    }
-
-    setSelectedCharacter(newSelected: string): void {
-        const blocklyReact = this.blocklyReactInstance.current!
-
-        const newWorkspace = this.props.characterMap.get(newSelected)
-        if (newWorkspace) blocklyReact.changeWorkspaceContents(newWorkspace)
-        this.setState({ selectedCharacter: newSelected })
     }
 
     render = () => {
@@ -143,23 +180,30 @@ class Editor extends React.Component<EditorProps, EditorState> {
     }
 }
 
-function generateXml(characterMap: Map<string, Blockly.Workspace>): string {
-    let output = '<xml xmlns="https://developers.google.com/blockly/xml">'
-    characterMap.forEach((workspace, _) => {
-        //xml.push(Blockly.Xml.workspaceToDom(workspace))
-        output += Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
+function generateXml(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
+    let xmlString = '<xml xmlns="https://developers.google.com/blockly/xml">'
+    characterMap.forEach((workspace, key) => {
+        // if there exists a block with id `key` convert it to xml
+        if (workspace.getBlockById(key)) {
+            xmlString += Blockly.Xml.domToPrettyText(Blockly.Xml.blockToDom(workspace.getBlockById(key)))
+        }
     })
-    output += "</xml>"
-    return output
+    xmlString += "</xml>"
+    
+    return xmlString 
 }
 
-function generateCode(characterMap: Map<string, Blockly.Workspace>): string {
+function generateCode(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
+    
     let entities: Blockly.Block[] = []
-    characterMap.forEach((workspace, _) => {
-        entities = entities.concat(
-            workspace.getBlocksByType("funkly_entity", true).concat(workspace.getBlocksByType("funkly_guientity", true))
-        )
-    })
+    for (const [key, workspace] of characterMap) {
+        if (workspace.getBlockById(key))  { 
+            entities = entities.concat(workspace.getBlockById(key))
+        } else {
+            console.debug(`Charactermap had key ${key} but it's workspace was missing a block by that id. 
+                          This usually means some character's workspace was cleared `)
+        }
+    }
 
     // Generate code for each entity and place commas
     let engineCode = '{ "entities": {'

@@ -138,7 +138,7 @@ const entityJson = {
         {
             type: "field_input",
             name: "name",
-            text: "esimerkkinimi",
+            text: "nimi",
             spellcheck: false
         }
     ],
@@ -211,8 +211,8 @@ const guiEntityJson = {
     args0: [
         {
             type: "field_input",
-            name: "id",
-            text: "esimerkkinimi",
+            name: "name",
+            text: "nimi",
             spellcheck: false
         }
     ],
@@ -263,6 +263,7 @@ const guiEntityJson = {
 }
 
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
+
 const colJson = {
     "type:": funklyBlockType.COLLIDE,
     inputsInline: true,
@@ -285,19 +286,20 @@ createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
     // change how this gets here
-    const charMap = window.currentUser.charMap
+    // @ts-ignore
+    const charMap = window.funklyCharMap
 
     const entities = () => [...charMap]
-                .filter(([k, v]) => k !== "")
-                .map(([id,w]) => w.getBlockById(id))
-                .filter((b) => b && b.type === "funkly_entity")
+        .filter(([k, v]) => k !== "")
+        .map(([id,w]) => w.getBlockById(id))
+        .filter((b) => b && b.type === "funkly_entity")
 
     const dropdownOptions = () => dropdownWithThis(this, entities)
 
     // Removes fielddropdown validation to allow not-yet-existent entities
-    FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
-        return newValue;
-    };
+    //FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
+        //return newValue
+    //}
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
@@ -324,17 +326,15 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-    // change how this gets here
-    const charMap = window.currentUser.charMap
+    // @ts-ignore
+    const charMap = window.funklyCharMap
 
     const entities = () => [...charMap]
-                .filter(([k, v]) => k !== "")
-                .map(([id,w]) => w.getBlockById(id))
-                .filter((b) => b && b.type === "funkly_entity")
+        .filter(([k, v]) => k !== "")
+        .map(([id,w]) => w.getBlockById(id))
+        .filter((b) => b && b.type === "funkly_entity")
 
-    const dropdownOptions = () => {
-        return dropdownWithThis(this, entities)
-    }
+    const dropdownOptions = () => dropdownWithThis(this, entities)
 
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
