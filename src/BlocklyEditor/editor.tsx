@@ -161,10 +161,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
 
-        // bad
-        window.currentUser = {
-            charMap: this.props.characterMap
-        }
+        // FIXME: do this in a nicer way 
+        window.funklyCharMap = this.props.characterMap
     }
 
     componentWillUnmount(): void {
