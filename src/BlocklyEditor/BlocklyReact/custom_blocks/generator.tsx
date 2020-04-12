@@ -84,8 +84,10 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_rand(block: Block) {
-        const arg0 = block.getFieldValue("NUM") || "1"
-        return `mul(rand())(${arg0})`
+        const arg0 = block.getFieldValue("NUM0") || "0"
+        const arg1 = block.getFieldValue("NUM1") || "1"
+        // rand * (out_max - out_min) + out_min;
+        return `(add(mul(rand())(sub(${arg1})(${arg0})))(${arg0}))`
     }
 
     function funkly_arg2(f: string) {
