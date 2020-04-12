@@ -39,6 +39,7 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
         props.setCharacterMap(newCharacterMap)
 
         // this broke characterMap props.setSelectedCharacter(entityId) so it was removed from props
+        // probably because of the react state asynchronity with props.setCharacterMap
     }
 
     return (

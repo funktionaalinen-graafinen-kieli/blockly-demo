@@ -54,7 +54,7 @@ const CharacterCardGrid = (props: CharacterCardGridProps) => {
         const name = entity.getFieldValue("name") || "default_name"
         const img = BlocklyJS.statementToCode(entity, "img", BlocklyJS.ORDER_RELATIONAL)
         // Remove unnecessary quotes, single quotes and \ from image path
-        const cleanedImage = img.replace(/\'|\"|\\/g, "")
+        const cleanedImage = img.replace(/'|"|\\/g, "")
 
         cardList.push(
             <div
