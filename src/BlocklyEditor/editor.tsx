@@ -11,6 +11,7 @@ import { initialXml } from "./BlocklyReact/initial_xml"
 const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka">
+            <Block type="funkly_dist" />
             <Block type="funkly_rand" />
             <Block type="funkly_math">
                 <Value name="NUMBER0">

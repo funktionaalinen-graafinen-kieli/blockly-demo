@@ -10,6 +10,7 @@ enum funklyBlockType {
     COMP = "funkly_comp",
     MATH = "funkly_math",
     RAND = "funkly_rand",
+    DIST = "funkly_dist",
     TRIG = "funkly_trig",
     COLLIDE = "funkly_collide",
     NUMBER = "funkly_number",
@@ -29,6 +30,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
     else if (type === funklyBlockType.RAND) return funkly_rand
+    else if (type === funklyBlockType.DIST) return funkly_dist
     else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
@@ -117,6 +119,12 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("e1") || "default_e1"
         const arg1 = block.getFieldValue("e2") || "default_e2"
         return "col" + argwrap(`'${arg0}'`, `'${arg1}'`)
+    }
+
+    function funkly_dist(block: Block) {
+        const arg0 = block.getFieldValue("e1") || "default_e1"
+        const arg1 = block.getFieldValue("e2") || "default_e2"
+        return "dist" + argwrap(`'${arg0}'`, `'${arg1}'`)
     }
 
     function funkly_get(block: Block) {

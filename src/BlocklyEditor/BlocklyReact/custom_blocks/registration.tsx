@@ -273,6 +273,26 @@ const guiEntityJson = {
 }
 
 createCustomBlock(funklyBlockType.GUIENTITY, "text_blocks", guiEntityJson)
+
+const distJson = {
+    "type:": funklyBlockType.COLLIDE,
+    inputsInline: true,
+    message0: "%1 etäisyys %2",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "e1"
+        },
+        {
+            type: "input_dummy",
+            name: "e2"
+        }
+    ],
+    extensions: ["col_dropdown"],
+    previousStatement: "Number"
+}
+createCustomBlock(funklyBlockType.DIST, "math_blocks", distJson)
+
 const colJson = {
     "type:": funklyBlockType.COLLIDE,
     inputsInline: true,
@@ -290,7 +310,6 @@ const colJson = {
     extensions: ["col_dropdown"],
     previousStatement: "Boolean"
 }
-
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
