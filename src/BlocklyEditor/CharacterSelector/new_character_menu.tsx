@@ -1,11 +1,9 @@
 import React from "react"
 import Blockly from "blockly"
 
+import { SetCharacterMap } from "../../Gui/app"
 import { entityBaseXml } from "./new_character_xml"
 import { guiImages } from "../../Gui/image_storage"
-
-// TODO: move this into a more univeral location
-type SetCharacterMap = (_: ReadonlyMap<string, Blockly.Workspace>, callback? : () => void) => void
 
 const generateId = (len: number) => {
     var text = ""

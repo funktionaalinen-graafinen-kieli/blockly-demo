@@ -7,6 +7,7 @@ import BlocklyComponent from "./BlocklyReact/blockly_component"
 import { Block, Category, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 import { initialXml } from "./BlocklyReact/initial_xml"
+import { SetCharacterMap } from "../Gui/app"
 
 const editorBlocks = (
     <React.Fragment>
@@ -61,7 +62,7 @@ const defaultBinds = `
 interface EditorProps {
     setCode: (_: string) => void
     setBlockXml: (_: string) => void
-    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
+    setCharacterMap: SetCharacterMap
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     selectedCharacter: string | undefined
     setSelectedCharacter: (_: string | undefined) => void
@@ -147,10 +148,10 @@ class Editor extends React.Component<EditorProps, EditorState> {
         // copy charactermap, omitting the entityId that is being deleted
         const characterDeletedMap = new Map(this.props.characterMap)
         characterDeletedMap.delete(entityId)
-        this.props.setCharacterMap(characterDeletedMap)
-        
-        // Couldn't get automatically selecting a new character after deletion to work
-        this.setSelectedCharacter(undefined)
+        this.props.setCharacterMap(
+            characterDeletedMap, 
+            () => this.setSelectedCharacter(characterDeletedMap.keys().next().value)
+        )
     }
 
 

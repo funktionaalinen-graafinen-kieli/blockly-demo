@@ -13,6 +13,9 @@ import "./blockly_override.css"
 
 log.setLevel("trace")
 
+// TODO: move this into a more univeral location
+export type SetCharacterMap = (_: ReadonlyMap<string, Blockly.Workspace>, callback? : () => void) => void
+
 interface AppState {
     code: string
     blockXml: string
@@ -25,7 +28,7 @@ interface AppState {
     selectedCharacter: string | undefined
 }
 
-export default class App extends React.Component<{}, AppState> {
+export class App extends React.Component<{}, AppState> {
     editorInstance = React.createRef<Editor>()
 
     setCode = (code: string) => {
