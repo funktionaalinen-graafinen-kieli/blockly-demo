@@ -1,4 +1,3 @@
-//@ts-nocheck
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
@@ -16,7 +15,7 @@ function parent_entity(block: Block): Block | undefined {
 
 /* Dropdown with the block being passed treated as a special entry named "tämä" */
 function dropdownWithThis(block: Block, entities: () => Block[]) {
-    if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
+    //if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
 
     const options: string[][] = []
     const parent = parent_entity(block)
@@ -285,21 +284,13 @@ const colJson = {
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
-    // change how this gets here
     // @ts-ignore
-    const charMap = window.funklyCharMap
-
-    const entities = () => [...charMap]
+    const entities = () => [...window.funklyCharMap]
         .filter(([k, v]) => k !== "")
         .map(([id,w]) => w.getBlockById(id))
         .filter((b) => b && b.type === "funkly_entity")
 
     const dropdownOptions = () => dropdownWithThis(this, entities)
-
-    // Removes fielddropdown validation to allow not-yet-existent entities
-    //FieldDropdown.prototype.doClassValidation_ = function(newValue: any) {
-        //return newValue
-    //}
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
@@ -327,9 +318,7 @@ createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
     // @ts-ignore
-    const charMap = window.funklyCharMap
-
-    const entities = () => [...charMap]
+    const entities = () => [...window.funklyCharMap]
         .filter(([k, v]) => k !== "")
         .map(([id,w]) => w.getBlockById(id))
         .filter((b) => b && b.type === "funkly_entity")

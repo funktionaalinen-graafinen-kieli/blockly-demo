@@ -96,6 +96,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         })
 
         this.props.setCharacterMap(newCharacterMap)
+
+        window.funklyCharMap = this.props.characterMap
         
         // TODO: is this necessary?
         // After changing the workspace contents manually, which might not Blockly's event listeners
@@ -108,6 +110,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         
         this.props.setCode(generateCode(this.props.characterMap))
         this.props.setBlockXml(blockXml)
+
+        window.funklyCharMap = this.props.characterMap
         
         saveProject(blockXml)
     }
@@ -149,6 +153,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const characterDeletedMap = new Map(this.props.characterMap)
         characterDeletedMap.delete(entityId)
         this.props.setCharacterMap(characterDeletedMap)
+
+        window.funklyCharMap = this.props.characterMap
         
         // Couldn't get automatically selecting a new character after deletion to work
         this.setSelectedCharacter(undefined)
