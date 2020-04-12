@@ -101,6 +101,7 @@ const CharacterSelector = (props: CharacterSelectorProps) => {
             {newEntityMode ? (
                 <NewCharacterMenu
                     setNewEntityMode={setNewEntityMode}
+                    setSelectedCharacter={setSelectedCharacter}
                     characterMap={props.characterMap}
                     setCharacterMap={props.setCharacterMap}
                 />
