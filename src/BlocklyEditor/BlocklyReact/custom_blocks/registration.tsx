@@ -171,6 +171,19 @@ const entityJson = {
             value: "1"
         }
     ],
+    message7: "kierto %1 ° %2",
+    args7: [
+        {
+            type: "field_number",
+            name: "initro",
+            value: `${entityDefaultSize["rotation"]}`
+        },
+        {
+            type: "input_statement",
+            name: "ro",
+            check: "Number"
+        }
+    ],
     message3: "kuva %1",
     args3: [
         {
@@ -193,14 +206,6 @@ const entityJson = {
             type: "field_number",
             name: "height",
             value: `${entityDefaultSize["height"]}`
-        }
-    ],
-    message7: "kierto %1 °",
-    args7: [
-        {
-            type: "field_number",
-            name: "rotation",
-            value: `${entityDefaultSize["rotation"]}`
         }
     ],
     message6: "osumasäde %1",
@@ -355,11 +360,12 @@ Extensions.register("entity_dropdown", function (this: Block) {
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
     const propertyMap = new Map([
-        ["name", "name"],
         ["x", "x"],
         ["y", "y"],
+        ["ro", "ro"],
         ["w", "w"],
         ["h", "h"],
+        ["name", "name"],
         ["text", "text"]
     ])
     this.getInput("property").appendField(newCustomDropdown(propertyMap), "property")

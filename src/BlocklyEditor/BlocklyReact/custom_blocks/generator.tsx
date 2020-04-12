@@ -158,10 +158,11 @@ function funklyCodegen(type: funklyBlockType) {
         const height = block.getFieldValue("height") || 50
         const width = block.getFieldValue("width") || 50
         const radius = block.getFieldValue("radius") || 50
-        const rotation = block.getFieldValue("rotation") || 0
+        const initro = block.getFieldValue("initro") || 0
+        const ro = BlocklyJS.statementToCode(block, "ro") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, rotation, "'\\\"\\\"'")
+        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, initro, ro, "'\\\"\\\"'")
     }
 
     function funkly_guientity(block: Block) {
@@ -179,7 +180,7 @@ function funklyCodegen(type: funklyBlockType) {
         let x = "packF(id)"
         let y = "packF(id)"
 
-        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, rotation, text)
+        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, rotation, rotation, text)
     }
 
     function funkly_bind(block: Block) {
@@ -210,7 +211,8 @@ const entityCode = (
     width: number,
     height: number,
     radius: number,
-    rotation: number,
+    initro: number,
+    ro: string,
     text: string
 ) => {
     let output = `"${id}": {`
@@ -222,7 +224,7 @@ const entityCode = (
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
     output += `"r": ["packF(id)", ${radius}],`
-    output += `"ro": ["packF(id)", ${rotation}],`
+    output += `"ro": ["pack(${ro})", ${initro}],`
     output += `"text": ["pack(${text})", ""],`
 
     output += '"r": ["packF(id)", 30],'

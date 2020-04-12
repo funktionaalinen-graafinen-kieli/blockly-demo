@@ -54,6 +54,11 @@ const editorBlocks = (
                         <Field name="property">y</Field>
                     </Shadow>
                 </Value>
+                <Value name="ro">
+                    <Shadow type="funkly_get">
+                        <Field name="property">ro</Field>
+                    </Shadow>
+                </Value>
                 <Value name="img">
                     <Shadow type="funkly_img" />
                 </Value>
