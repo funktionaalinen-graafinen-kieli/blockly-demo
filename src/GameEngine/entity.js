@@ -4,6 +4,7 @@ export default class Entity {
     y
     w
     h
+    ro
     img
     text
     setVal(k, v) {

@@ -4,6 +4,7 @@ import { frametime } from "./config"
 import Entity from "./entity"
 import GameEngine from "./game_engine"
 import { MapWithDefault } from "./utils"
+import { gameBoard } from "./config"
 
 interface StateMapProps {
     gameState: MapWithDefault
@@ -29,7 +30,14 @@ const StateMap: React.FC<StateMapProps> = (props: StateMapProps) => {
     )
 }
 
-const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: number): React.CSSProperties => {
+const entityDivStyle = (
+    debug: boolean,
+    width: number,
+    h: number,
+    x: number,
+    y: number,
+    ro: number
+): React.CSSProperties => {
     let background
     if (debug) background = "red"
     else background = ""
@@ -41,24 +49,23 @@ const entityDivStyle = (debug: boolean, width: number, h: number, x: number, y: 
         height: h,
         position: "absolute",
         left: x,
-        top: y
+        top: y,
+        transform: `rotate(${ro}deg)`
     }
 }
 
 interface RenderGameProps {
-    debugToggle: boolean,
+    debugToggle: boolean
     gameEngine: GameEngine
 }
 
 export const RenderGame = (props: RenderGameProps) => {
     const [key, setKey] = React.useState(0)
     React.useEffect(() => {
-        const interval = setInterval(
-            () => {
-                setKey(key + 1)
-                props.gameEngine.update()
-            }, frametime
-        )
+        const interval = setInterval(() => {
+            setKey(key + 1)
+            props.gameEngine.update()
+        }, frametime)
         return () => clearInterval(interval)
     })
     const getVal = (name: string) => props.gameEngine.gameState.get(name)[1]
@@ -70,8 +77,9 @@ export const RenderGame = (props: RenderGameProps) => {
                 onKeyDown={props.gameEngine.handleKeyDown}
                 onKeyUp={props.gameEngine.handleKeyUp}
                 tabIndex={0}
-            >{
-                //@ts-ignore
+            >
+                {
+                    //@ts-ignore
                     props.gameEngine.entities.map((entity: Entity) => (
                         <div
                             key={entity.id}
@@ -79,8 +87,11 @@ export const RenderGame = (props: RenderGameProps) => {
                                 debugToggle,
                                 getVal(entity.w),
                                 getVal(entity.h),
-                                getVal(entity.x),
-                                getVal(entity.y)
+                                // (x [0-500]/500) * game_area_width
+                                getVal(entity.x) ? getVal(entity.x) / 500 * gameBoard["width"] : 0,
+                                // (y [0-500]/500) * game_area_height
+                                getVal(entity.y) ? getVal(entity.y) / 500 * gameBoard["height"] : 0,
+                                getVal(entity.ro)
                             )}
                         >
                             <img style={{ width: "100%" }} src={getVal(entity.img)} alt="loading..." />
@@ -100,7 +111,7 @@ export const RenderGame = (props: RenderGameProps) => {
                         </div>
                     ))}
             </div>
-            {debugToggle && <StateMap gameState={ props.gameEngine.gameState } />}
+            {debugToggle && <StateMap gameState={props.gameEngine.gameState} />}
         </>
     )
 }

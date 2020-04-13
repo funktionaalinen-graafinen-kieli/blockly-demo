@@ -15,6 +15,7 @@ button {
 }
 
 :focus {
+    /*onko ohjelma nyt esteellinen kun outlinet 0?*/
     outline: 0;
 }
 
@@ -89,7 +90,7 @@ button {
 
 .funkly-game-area {
     position: absolute;
-    background-color: #0571f5;
+    background-color: #0264db;
     width: 600px;
     height: 400px;
     scale: 1.3;
@@ -99,9 +100,61 @@ button {
 
 .funkly-char-selection {
     grid-area: 7 / 3 / 11 / 4;
-    background-color: #f5f5f5;
+    /*background-color: #d9d9d9; /*plusbuttonwhite*/
+    background-color: #f5f5f5; /*yksinkertaisin näkymä*/
+    /*background-color: #dedede; /*blocklyTreeSelected-harmaa*/
+    /*background-color: #ebebeb; /*valkoinen hahmo ei näy*/
     /*Play-tilaan border-radius täytyy laittaa erikseen*/
     border-radius: 20px !important;
+    /*border: 6px solid #f5f5f5;*/
+}
+
+.funkly-char-or-other {
+    margin-top: 8px;
+    margin-left: 8px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.funkly-character-card {
+    /*jos vh niin koko holtiton*/
+    height: 90px; 
+    width: 90px;
+
+    /*saako alkamaan nurkasta tasaisesti siten että seuraavatkin sijoittuvat siististi?*/
+    margin-top: 5px;
+    margin-left: -13px;
+
+    padding-top: 3px;
+    background-color: white; /*yksinkertaisin näkymä*/
+    /*background-color: #ebebeb; valkoinen hahmo ei näy*/
+    text-align: center;
+    border-radius: 20px;
+
+    /*border: 3.5px solid white; /*valkoinen hahmo ei näy*/
+    /*border: 3.5px solid #f5f5f5; /*plusbuttonwhite*/
+}
+
+.funkly-character-card-selected {
+    border: 2px solid rgb(110, 189, 241);
+    box-shadow: 0px 0px 0px 4px hsla(215, 100%, 65%, 0.35)
+}
+
+.funkly-character-on-card {
+    height: 55px;
+    width: 55px;
+}
+
+.funkly-delete-character {
+    height: 20px;
+    width: 20px;
+    position: relative;
+}
+
+.funkly-new-character-button {
+    /*miten char-selectionin oikeaan alanurkkaan, grid-sijainti?*/
+    width: 70px;
+    height: 70px;
 }
 
 .funkly-debug {
@@ -109,61 +162,10 @@ button {
     top: 100vh;
     position: absolute;
 }
+
 .funkly-statemap{
     background: orange;
     width: 500px;
     top: 100vh; 
     position: absolute;
-}
-
-.blocklyToolboxDiv {
-    background-color: white;
-}
-
-.blocklyMainBackground {
-    stroke-width: 1;
-    stroke: white;
-}
-
-.blocklySvg {
-    background-color: #f5f5f5;
-    /*blocklyToolBoxDiv on blocklySvg:n sisällä, joten palikka-alueen vasemman reunan pyöristäminen miten?*/
-    border-radius: 20px;
-}
-
-.blocklyTreeIcon {
-    width: 0px;
-}
-
-.blocklyTreeRow {
-    margin-bottom: 0px;
-    margin-top: 5vh;
-    border-left: none !important;
-}
-
-.blocklyTreeSelected {
-    background-color: #dedede !important;
-}
-
-.blocklyTreeLabel {
-    /*cursor: default;
-    font-family: sans-serif;*/
-    font-size: 2.4vh; /*alle 20 oikealle tulee rako??*/
-    /*padding: 0 6px;*/
-    padding-top: 0px;
-    padding-right: 5px;
-    padding-bottom: 0px;
-    padding-left: 5px;
-    /*vertical-align: middle;*/
-    /*font-weight: 500;*/
-}
-
-/* Tällä vaihdetaan blockly kategorioiden hover väriä */ 
-.blocklyTreeRow:not(.blocklyTreeSelected):hover {
-    background-color: #f5f5f5;
-}
-    
-.blocklyFlyoutBackground {
-    fill: #d9d9d9;
-    fill-opacity: .83;
 }
