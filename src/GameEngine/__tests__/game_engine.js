@@ -22,7 +22,7 @@ test("MapWithDefault",()=>{
 const testProgram = `{
     "entities": {
         "4pid7|lk3wy)ahaslre": {
-            "name": [ "packF(id)", "esimerkkinimi" ],
+            "name": [ "packF(id)", "nimi" ],
             "x": [ "pack(clamp(  get('4pid7|lk3wy)ahaslre_x'))(0)(600))", 1 ],
             "y": [ "pack(clamp(  get('4pid7|lk3wy)ahaslre_y'))(0)(400))", 1 ],
             "w": [ "packF(id)", 60 ],

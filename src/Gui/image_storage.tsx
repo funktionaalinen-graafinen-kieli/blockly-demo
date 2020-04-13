@@ -8,9 +8,10 @@ import turtle from "./assets/entity_images/turtle.png"
 import jellyfish from "./assets/entity_images/jellyfish.gif"
 import sininen from "./assets/entity_images/sininen.svg"
 import score_100 from "./assets/entity_images/pistemittari_100.jpg"
-import score_empty from "./assets/entity_images/valkoinen_suorakulmio.jpg"
+import score_empty from "./assets/entity_images/valkoinen_suorakulmio.png"
 import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
 import default_image from "./assets/entity_images/default_image.png"
+
 import playbutton from "./assets/gui_images/playbutton.png"
 import stopbutton from "./assets/gui_images/stopbutton.png"
 import savebutton from "./assets/gui_images/savebutton.png"
@@ -19,12 +20,17 @@ import debugon from "./assets/gui_images/debugon.png"
 import debugoff from "./assets/gui_images/debugoff.png"
 import xmlbutton from "./assets/gui_images/xmlbutton.png"
 import choosefile from "./assets/gui_images/choosefile.png"
+
 import mouseicon from "./assets/gui_images/mouseicon.png"
 import yaxis from "./assets/gui_images/yaxis.png"
 import xaxis from "./assets/gui_images/xaxis.png"
 import plusbutton from "./assets/gui_images/plusbutton.png"
+import plusbuttongrey from "./assets/gui_images/plusbuttongrey.png"
 import plusbuttonwhite from "./assets/gui_images/plusbuttonwhite.png"
 import xbutton from "./assets/gui_images/xbutton.png"
+import xbuttonwhite from "./assets/gui_images/xbuttonwhite.png"
+import xbuttongrey from "./assets/gui_images/xbuttongrey.png"
+import deletebutton from "./assets/gui_images/deletebutton.png"
 import maximize from "./assets/gui_images/maximize.png"
 import minimize from "./assets/gui_images/minimize.png"
 
@@ -57,8 +63,12 @@ export const guiImages = new Map([
     ["yaxis", yaxis],
     ["xaxis", xaxis],
     ["plus", plusbutton],
+    ["plusgrey", plusbuttongrey],
     ["pluswhite", plusbuttonwhite],
     ["xbutton", xbutton],
+    ["xbuttonwhite", xbuttonwhite],
+    ["xbuttongrey", xbuttongrey],
+    ["deleteButton", deletebutton],
     ["maximize", maximize],
     ["minimize", minimize]
 ])

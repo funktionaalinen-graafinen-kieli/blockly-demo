@@ -1,4 +1,5 @@
 import { funklyTheme } from "./blockly_theme"
+import { initialXml } from "./initial_xml"
 import Blockly from "blockly"
 
 interface BlocklyWorkSpaceOptions {
@@ -29,5 +30,5 @@ export const BLOCKLYCONFIG: BlocklyWorkSpaceOptions = {
     theme: funklyTheme,
     zoom: { controls: true, wheel: false, startScale: 0.8, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2 },
     move: { scrollbars: true, drag: false, wheel: true },
-    initialXml: decodeURI('<xml xmlns="https://developers.google.com/blockly/xml"/>')
+    initialXml: decodeURI(initialXml)
 }

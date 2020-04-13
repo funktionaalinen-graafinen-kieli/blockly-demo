@@ -1,56 +1,55 @@
 env:
-  browser: true
-  es6: true
+    browser: true
+    es6: true
 settings:
-  react:
-    version: '16'
+    react:
+        version: "16"
 extends:
-  - 'plugin:react/recommended'
-  - 'plugin:@typescript-eslint/eslint-recommended'
+    - "plugin:react/recommended"
+    - "plugin:@typescript-eslint/eslint-recommended"
 globals:
-  Atomics: readonly
-  SharedArrayBuffer: readonly
-parser: '@typescript-eslint/parser'
+    Atomics: readonly
+    SharedArrayBuffer: readonly
+parser: "@typescript-eslint/parser"
 parserOptions:
-  ecmaFeatures:
-    jsx: true
-  ecmaVersion: 2018
-  sourceType: module
+    ecmaFeatures:
+        jsx: true
+    ecmaVersion: 2018
+    sourceType: module
 plugins:
-  - react
-  - '@typescript-eslint'
+    - react
+    - "@typescript-eslint"
 rules:
-  max-len:
-    - error
-    - "code": 120
-  indent:
-    - error
-    - 4
-  linebreak-style:
-    - error
-    - unix
-  quotes:
-    - warn
-    - double
-    - "avoidEscape": true
-  semi:
-    - error
-    - never
-  object-curly-spacing:
-    - warn
-    - always
-    - "objectsInObjects": true
-  object-curly-newline:
-    - warn
-    - "multiline": true
-  lines-between-class-members:
-    - warn
-    - always
-    - "exceptAfterSingleLine": true
-  '@typescript-eslint/no-explicit-any':
-    - warn 
-  '@typescript-eslint/consistent-type-assertions':
-    - error
-    - assertionStyle: as
-      objectLiteralTypeAssertions: 'never'
-
+    max-len:
+        - error
+        - "code": 120
+    indent:
+        - error
+        - 4
+    linebreak-style:
+        - error
+        - unix
+    quotes:
+        - warn
+        - double
+        - "avoidEscape": true
+    semi:
+        - error
+        - never
+    object-curly-spacing:
+        - warn
+        - always
+        - "objectsInObjects": true
+    object-curly-newline:
+        - warn
+        - "multiline": true
+    lines-between-class-members:
+        - warn
+        - always
+        - "exceptAfterSingleLine": true
+    "@typescript-eslint/no-explicit-any":
+        - error
+    "@typescript-eslint/consistent-type-assertions":
+        - error
+        - assertionStyle: as
+          objectLiteralTypeAssertions: "never"
