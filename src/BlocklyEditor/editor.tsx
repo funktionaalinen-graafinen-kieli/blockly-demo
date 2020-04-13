@@ -96,14 +96,14 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
         })
 
-        this.props.setCharacterMap(newCharacterMap)
-
         window.funklyCharMap = this.props.characterMap
-        
-        // TODO: is this necessary?
-        // After changing the workspace contents manually, which might not Blockly's event listeners
-        // we want to manually trigger the onBlocklyChange things
-        this.onBlocklychange()
+        this.props.setCharacterMap(
+            newCharacterMap, 
+            // TODO: is this necessary?
+            // After changing the workspace contents manually, which might not Blockly's event listeners
+            // we want to manually trigger the onBlocklyChange things
+            () => this.onBlocklychange()
+        )
     }
 
     onBlocklychange = () => {
