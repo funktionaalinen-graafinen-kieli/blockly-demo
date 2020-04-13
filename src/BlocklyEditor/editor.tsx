@@ -45,8 +45,7 @@ const editorBlocks = (
             </Block>
             <Block type="funkly_keyboard_input" />
         </Category>
-        <Category name="Hahmopalikat" colour={100}>
-            <Block type="funkly_keyboard_input" />
+        <Category name="Hahmopalikat">
             <Block type="funkly_bindget" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
