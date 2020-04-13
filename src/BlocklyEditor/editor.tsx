@@ -8,6 +8,7 @@ import BlocklyComponent from "./BlocklyReact/blockly_component"
 import { Block, Category, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 import { initialXml } from "./BlocklyReact/initial_xml"
+import { SetCharacterMap } from "../Gui/app"
 
 const editorBlocks = (
     <React.Fragment>
@@ -62,7 +63,7 @@ const defaultBinds = `
 interface EditorProps {
     setCode: (_: string) => void
     setBlockXml: (_: string) => void
-    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
+    setCharacterMap: SetCharacterMap
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     selectedCharacter: string | undefined
     setSelectedCharacter: (_: string | undefined) => void
@@ -152,12 +153,12 @@ class Editor extends React.Component<EditorProps, EditorState> {
         // copy charactermap, omitting the entityId that is being deleted
         const characterDeletedMap = new Map(this.props.characterMap)
         characterDeletedMap.delete(entityId)
-        this.props.setCharacterMap(characterDeletedMap)
 
-        window.funklyCharMap = this.props.characterMap
-        
-        // Couldn't get automatically selecting a new character after deletion to work
-        this.setSelectedCharacter(undefined)
+        window.funklyCharMap = this.props.characterMap  
+        this.props.setCharacterMap(
+            characterDeletedMap, 
+            () => this.setSelectedCharacter(characterDeletedMap.keys().next().value)
+        )
     }
 
 
@@ -169,7 +170,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
         // FIXME: do this in a nicer way 
         window.funklyCharMap = this.props.characterMap
-    }
+
+        loadProject(this)    }
 
     componentWillUnmount(): void {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.onBlocklychange)
@@ -227,14 +229,16 @@ function saveProject(blockXml: string): void {
         console.debug("Editor is null")
         return
     }
-    localStorage.setItem("defaultProject", encodeURI(blockXml))
+    localStorage.setItem("savedProject", encodeURI(blockXml))
 }
 
 function loadProject(editor: Editor) {
-    const storedProject = 
-        decodeURI(localStorage.getItem("defaultProject")!)
-        || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    editor.importXml(storedProject)
+
+    const savedXml = localStorage.getItem("savedProject")
+    const savedProject = 
+        savedXml ? decodeURI(savedXml)
+            : '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    editor.importXml(savedProject)
 }
 
 function loadDefaultProject(editor: Editor) {

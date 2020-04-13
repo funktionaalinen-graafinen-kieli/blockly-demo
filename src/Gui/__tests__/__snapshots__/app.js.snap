@@ -90,7 +90,7 @@ Object {
             style="display: grid; grid-template-columns: auto auto auto; justify-items: center;"
           >
             <img
-              alt="ass character"
+              alt="add character"
               class="funkly-new-character-button"
               src="plusbuttongrey.png"
             />
@@ -190,7 +190,7 @@ Object {
           style="display: grid; grid-template-columns: auto auto auto; justify-items: center;"
         >
           <img
-            alt="ass character"
+            alt="add character"
             class="funkly-new-character-button"
             src="plusbuttongrey.png"
           />

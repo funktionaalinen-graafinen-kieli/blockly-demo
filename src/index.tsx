@@ -6,7 +6,7 @@ import { blockRendering } from "blockly"
 
 import { TypedConnectionShapeRenderer } from "./BlocklyEditor/BlocklyReact/funkly_renderer"
 
-import App from "./Gui/app"
+import { App } from "./Gui/app"
 import Blockly from "blockly"
 
 log.setLevel("trace")

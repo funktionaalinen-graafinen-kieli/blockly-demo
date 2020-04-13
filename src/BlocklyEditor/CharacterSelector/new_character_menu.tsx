@@ -1,6 +1,7 @@
 import React from "react"
 import Blockly from "blockly"
 
+import { SetCharacterMap } from "../../Gui/app"
 import { entityBaseXml } from "./new_character_xml"
 import { guiImages } from "../../Gui/image_storage"
 
@@ -15,8 +16,9 @@ const generateId = (len: number) => {
 
 interface NewCharacterMenuProps {
     setNewEntityMode: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedCharacter: ((_: string) => void)
     characterMap: ReadonlyMap<string, Blockly.Workspace>
-    setCharacterMap: (_: ReadonlyMap<string, Blockly.Workspace>) => void
+    setCharacterMap: SetCharacterMap
 }
 
 export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
@@ -36,9 +38,10 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
 
         const newCharacterMap = new Map(props.characterMap)
         newCharacterMap.set(entityId, workspace)
-        props.setCharacterMap(newCharacterMap)
+        props.setCharacterMap(newCharacterMap, () => props.setSelectedCharacter(entityId))
 
-        // this broke characterMap props.setSelectedCharacter(entityId) so it was removed from props
+        // this broke characterMap  so it was removed from props
+        // probably because of the react state asynchronity with props.setCharacterMap
     }
 
     return (

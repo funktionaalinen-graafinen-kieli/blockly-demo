@@ -13,6 +13,9 @@ import "./blockly_override.css"
 
 log.setLevel("trace")
 
+// TODO: move this into a more univeral location
+export type SetCharacterMap = (_: ReadonlyMap<string, Blockly.Workspace>, callback? : () => void) => void
+
 interface AppState {
     code: string
     blockXml: string
@@ -25,7 +28,7 @@ interface AppState {
     selectedCharacter: string | undefined
 }
 
-export default class App extends React.Component<{}, AppState> {
+export class App extends React.Component<{}, AppState> {
     editorInstance = React.createRef<Editor>()
 
     setCode = (code: string) => {
@@ -36,10 +39,10 @@ export default class App extends React.Component<{}, AppState> {
         this.setState({ blockXml })
     }
 
-    setCharacterMap = (characterMap: ReadonlyMap<string, Blockly.Workspace>) => {
+    setCharacterMap = (characterMap: ReadonlyMap<string, Blockly.Workspace>, callback?: () => void) => {
         // This guards against accidentally setting characterMap as something non-iterable
         if (characterMap instanceof Map) {} else throw new Error("Invalid input type for setCharacterMap. Give a Map")
-        this.setState({ characterMap })
+        this.setState({ characterMap }, callback)
     }
 
     // This should only be used in Editor
