@@ -12,7 +12,7 @@ import jellyfish_orange from "./assets/entity_images/jellyfish_orange.gif"
 import jellyfish_transparent from "./assets/entity_images/jellyfish_transparent.png"
 import default_image from "./assets/entity_images/default_image.png"
 
-import score_empty from "./assets/gui_entity_images/white_rectangle.jpg"
+import score_empty from "./assets/gui_entity_images/score.png"
 
 import playbutton from "./assets/gui_images/playbutton.png"
 import stopbutton from "./assets/gui_images/stopbutton.png"
