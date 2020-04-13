@@ -14,7 +14,7 @@ import "./blockly_override.css"
 log.setLevel("trace")
 
 // TODO: move this into a more univeral location
-export type SetCharacterMap = (_: ReadonlyMap<string, Blockly.Workspace>, callback? : () => void) => void
+export type SetCharacterMap = (_: ReadonlyMap<string, Blockly.Workspace>, callback?: () => void) => void
 
 interface AppState {
     code: string
@@ -41,7 +41,7 @@ export class App extends React.Component<{}, AppState> {
 
     setCharacterMap = (characterMap: ReadonlyMap<string, Blockly.Workspace>, callback?: () => void) => {
         // This guards against accidentally setting characterMap as something non-iterable
-        if (characterMap instanceof Map) {} else throw new Error("Invalid input type for setCharacterMap. Give a Map")
+        if (characterMap instanceof Map) { } else throw new Error("Invalid input type for setCharacterMap. Give a Map")
         this.setState({ characterMap }, callback)
     }
 
@@ -91,14 +91,14 @@ export class App extends React.Component<{}, AppState> {
                     />
                 </div>
                 <div className="funkly-blockly-editor">
-                    <Editor 
-                        setBlockXml={this.setBlockXml} 
+                    <Editor
+                        setBlockXml={this.setBlockXml}
                         setCode={this.setCode}
                         setCharacterMap={this.setCharacterMap}
                         characterMap={this.state.characterMap}
                         setSelectedCharacter={this.setSelectedCharacter}
                         selectedCharacter={this.state.selectedCharacter}
-                        ref={this.editorInstance} 
+                        ref={this.editorInstance}
                     />
                 </div>
                 <div className="funkly-engine">
@@ -111,9 +111,9 @@ export class App extends React.Component<{}, AppState> {
                     </MouseLocation>
                 </div>
                 <div className="funkly-char-selection">
-                    <CharacterSelector 
-                        editor={this.editorInstance} 
-                        characterMap={this.state.characterMap} 
+                    <CharacterSelector
+                        editor={this.editorInstance}
+                        characterMap={this.state.characterMap}
                         setCharacterMap={this.setCharacterMap}
                         selectedCharacter={this.state.selectedCharacter}
                     />
