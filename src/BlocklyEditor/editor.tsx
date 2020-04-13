@@ -79,7 +79,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
      * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap
      */
     importXml = (xmlInput: string) => {
-        console.debug("xml to import")
+        console.debug("importing xml")
         console.debug(xmlInput)
 
         const parsedDom = Blockly.Xml.textToDom(xmlInput)
@@ -96,14 +96,14 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
         })
 
-        this.props.setCharacterMap(newCharacterMap)
-
         window.funklyCharMap = this.props.characterMap
-        
-        // TODO: is this necessary?
-        // After changing the workspace contents manually, which might not Blockly's event listeners
-        // we want to manually trigger the onBlocklyChange things
-        this.onBlocklychange()
+        this.props.setCharacterMap(
+            newCharacterMap, 
+            // After changing the workspace contents manually, which might not Blockly's event listeners
+            // we want to manually trigger the onBlocklyChange things
+            () => this.onBlocklychange()
+        )
+
     }
 
     onBlocklychange = () => {
@@ -119,7 +119,6 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
     // Set undefined to clear selected character
     setSelectedCharacter(newSelected: string | undefined): void {
-        console.debug("setting selected character: " + newSelected)
         const blocklyReact = this.blocklyReactInstance.current!
 
         if (newSelected === undefined) {
