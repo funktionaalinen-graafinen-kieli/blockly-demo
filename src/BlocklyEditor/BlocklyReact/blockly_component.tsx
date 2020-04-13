@@ -19,13 +19,14 @@ export class BlocklyComponent extends React.Component<{}> {
             toolbox: this.toolbox.current!,
             ...rest
         })
-        Blockly.Xml.domToWorkspace(
-            Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"/>'),
-            this.primaryWorkspace
-        )
-
         // register custom events
         eventHandlers.forEach(e => this.primaryWorkspace.addChangeListener(e))
+
+    }
+
+    setPrimaryWorkspaceContents(newBlocks: Blockly.Workspace) {
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.workspaceToDom(newBlocks), this.primaryWorkspace)
+
     }
 
     render() {

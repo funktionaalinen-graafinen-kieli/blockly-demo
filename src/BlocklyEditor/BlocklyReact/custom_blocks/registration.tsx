@@ -15,7 +15,7 @@ function parent_entity(block: Block): Block | undefined {
 
 /* Dropdown with the block being passed treated as a special entry named "tämä" */
 function dropdownWithThis(block: Block, entities: () => Block[]) {
-    if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
+    //if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
 
     const options: string[][] = []
     const parent = parent_entity(block)
@@ -28,7 +28,8 @@ function dropdownWithThis(block: Block, entities: () => Block[]) {
     return options
 }
 
-function createCustomBlock(id: funklyBlockType, style: string, configuration: object) {
+
+function createCustomBlock(id: funklyBlockType, style: string, configuration: object, deletable = true) {
     if (!["logic_blocks", "math_blocks", "text_blocks"].includes(style)) {
         log.debug("Non-enabled blockly style!")
     }
@@ -36,7 +37,7 @@ function createCustomBlock(id: funklyBlockType, style: string, configuration: ob
         init: function () {
             this.jsonInit(configuration)
             this.setStyle(style)
-            //            this.setColour(290)
+            this.setDeletable(deletable)
         }
     }
 
@@ -141,7 +142,7 @@ const entityJson = {
         {
             type: "field_input",
             name: "name",
-            text: "esimerkkinimi",
+            text: "nimi",
             spellcheck: false
         }
     ],
@@ -218,7 +219,7 @@ const entityJson = {
     ]
 }
 
-createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson)
+createCustomBlock(funklyBlockType.ENTITY, "text_blocks", entityJson, false)
 
 const guiEntityJson = {
     "type:": funklyBlockType.GUIENTITY,
@@ -227,8 +228,8 @@ const guiEntityJson = {
     args0: [
         {
             type: "field_input",
-            name: "id",
-            text: "esimerkkinimi",
+            name: "name",
+            text: "nimi",
             spellcheck: false
         }
     ],
@@ -318,13 +319,13 @@ const colJson = {
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
-    const entities = () => this.workspace.getBlocksByType("funkly_entity", true)
-    const dropdownOptions = () => dropdownWithThis(this, entities)
+    // @ts-ignore
+    const entities = () => [...window.funklyCharMap]
+        .filter(([k, v]) => k !== "")
+        .map(([id,w]) => w.getBlockById(id))
+        .filter((b) => b && b.type === "funkly_entity")
 
-    // Removes fielddropdown validation to allow not-yet-existent entities
-    FieldDropdown.prototype.doClassValidation_ = function (newValue: any) {
-        return newValue
-    }
+    const dropdownOptions = () => dropdownWithThis(this, entities)
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
@@ -350,11 +351,13 @@ const getJson = {
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
-Extensions.register("entity_dropdown", function (this: Block) {
-    const entities = () =>
-        this.workspace
-            .getBlocksByType("funkly_entity", true)
-            .concat(this.workspace.getBlocksByType("funkly_guientity", true))
+Extensions.register("entity_dropdown", function(this: Block) {
+    // @ts-ignore
+    const entities = () => [...window.funklyCharMap]
+        .filter(([k, v]) => k !== "")
+        .map(([id,w]) => w.getBlockById(id))
+        .filter((b) => b && b.type === "funkly_entity")
+
     const dropdownOptions = () => dropdownWithThis(this, entities)
 
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")

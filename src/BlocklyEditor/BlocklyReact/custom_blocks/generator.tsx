@@ -1,6 +1,6 @@
 import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
-import * as log from "loglevel"
+import log from "loglevel"
 import { entityImages } from "../../../Gui/image_storage"
 import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
 
@@ -227,7 +227,10 @@ const entityCode = (
     output += `"ro": ["pack(${ro})", ${initro}],`
     output += `"text": ["pack(${text})", ""],`
 
+    // FIXME: this is duplicated from above
     output += '"r": ["packF(id)", 30],'
+    
+    // TODO: Should this happen in the generator code instead of here?
     const imgDefault = entityImages.entries().next().value[1]
     if (img === "") {
         output += `"img": ["packF(id)", "${imgDefault}"]`
