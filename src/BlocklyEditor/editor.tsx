@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
 import Blockly from "blockly"
@@ -96,6 +97,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         })
 
         this.props.setCharacterMap(newCharacterMap)
+
+        window.funklyCharMap = this.props.characterMap
         
         // TODO: is this necessary?
         // After changing the workspace contents manually, which might not Blockly's event listeners
@@ -108,6 +111,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         
         this.props.setCode(generateCode(this.props.characterMap))
         this.props.setBlockXml(blockXml)
+
+        window.funklyCharMap = this.props.characterMap
         
         saveProject(blockXml)
     }
@@ -148,6 +153,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         // copy charactermap, omitting the entityId that is being deleted
         const characterDeletedMap = new Map(this.props.characterMap)
         characterDeletedMap.delete(entityId)
+
+        window.funklyCharMap = this.props.characterMap  
         this.props.setCharacterMap(
             characterDeletedMap, 
             () => this.setSelectedCharacter(characterDeletedMap.keys().next().value)
@@ -161,8 +168,10 @@ class Editor extends React.Component<EditorProps, EditorState> {
         blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
 
-        loadProject(this)
-    }
+        // FIXME: do this in a nicer way 
+        window.funklyCharMap = this.props.characterMap
+
+        loadProject(this)    }
 
     componentWillUnmount(): void {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.onBlocklychange)
