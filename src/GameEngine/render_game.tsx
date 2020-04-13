@@ -4,6 +4,7 @@ import { frametime } from "./config"
 import Entity from "./entity"
 import GameEngine from "./game_engine"
 import { MapWithDefault } from "./utils"
+import { gameBoard } from "./config"
 
 interface StateMapProps {
     gameState: MapWithDefault
@@ -86,8 +87,10 @@ export const RenderGame = (props: RenderGameProps) => {
                                 debugToggle,
                                 getVal(entity.w),
                                 getVal(entity.h),
-                                getVal(entity.x),
-                                getVal(entity.y),
+                                // (x [0-500]/500) * game_area_width
+                                getVal(entity.x) ? getVal(entity.x) / 500 * gameBoard["width"] : 0,
+                                // (y [0-500]/500) * game_area_height
+                                getVal(entity.y) ? getVal(entity.y) / 500 * gameBoard["height"] : 0,
                                 getVal(entity.ro)
                             )}
                         >

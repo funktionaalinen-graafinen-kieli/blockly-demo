@@ -14,7 +14,7 @@ const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) 
     const gameEngine = new GameEngine(props.program)
 
     return (
-        <RenderGame 
+        <RenderGame
             debugToggle={props.debugToggle}
             gameEngine={gameEngine}
         />
