@@ -12,6 +12,7 @@ const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka">
             <Block type="funkly_dist" />
+            <Block type="lists_create_with" />
             <Block type="funkly_rand" />
             <Block type="funkly_math">
                 <Value name="NUMBER0">

@@ -15,6 +15,7 @@ enum funklyBlockType {
     COLLIDE = "funkly_collide",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
+    MULTI = "funkly_multi",
     GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
     KEY = "funkly_keyboard_input",
@@ -31,6 +32,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.ENTITY) return funkly_entity
     else if (type === funklyBlockType.RAND) return funkly_rand
     else if (type === funklyBlockType.DIST) return funkly_dist
+    else if (type === funklyBlockType.MULTI) return funkly_multi
     else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
@@ -146,6 +148,23 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_number(block: Block) {
         const arg0 = block.getFieldValue("NUM")
         return wrap(arg0)
+    }
+
+    function funkly_multi(block: Block) {
+        const id = block.id
+        const name = block.getFieldValue("name") || "default_name"
+        const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
+        const initx = block.getFieldValue("initx") || 0
+        const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
+        const inity = block.getFieldValue("inity") || 0
+        const height = block.getFieldValue("height") || 50
+        const width = block.getFieldValue("width") || 50
+        const radius = block.getFieldValue("radius") || 50
+        const initro = block.getFieldValue("initro") || 0
+        const ro = BlocklyJS.statementToCode(block, "ro") || 0
+        const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
+
+        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, initro, ro, "'\\\"\\\"'")
     }
 
     function funkly_entity(block: Block) {
