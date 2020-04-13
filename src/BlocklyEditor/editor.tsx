@@ -5,6 +5,7 @@ import Blockly from "blockly"
 import log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
+import { disableBlocklyValidations } from "./blockly_utils"
 import { Block, Category, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 import { initialXml } from "./BlocklyReact/initial_xml"
@@ -83,13 +84,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         console.debug("importing xml")
         console.debug(xmlInput)
 
-        const prevValidation = Blockly.FieldDropdown.prototype.doClassValidation_
         // Disable field validations during import to let us place arbitrary imported entity Ids into dropdowns
-        // Having type validation here wouldn't do anything since only blockly interoperates with this function
-        // eslint-disable-next-line
-        Blockly.FieldDropdown.prototype.doClassValidation_ = function (newValue: any) {
-            return newValue
-        }
+        const enableValidations = disableBlocklyValidations()
 
         const parsedDom = Blockly.Xml.textToDom(xmlInput)
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
@@ -105,8 +101,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
         this.props.setCharacterMap(
             newCharacterMap 
         )
-        // Turn validations back on
-        Blockly.FieldDropdown.prototype.doClassValidation_ = prevValidation
+        enableValidations()
     }
 
     onBlocklychange = () => {

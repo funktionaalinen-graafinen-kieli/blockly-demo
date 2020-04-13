@@ -1,6 +1,7 @@
 import React from "react"
 import Blockly from "blockly"
 
+import { disableBlocklyValidations } from "../blockly_utils"
 import { SetCharacterMap } from "../../Gui/app"
 import { entityBaseXml } from "./new_character_xml"
 import { guiImages } from "../../Gui/image_storage"
@@ -34,14 +35,20 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
         const entityXml = entityBaseXml(entityId, entityType)
         console.debug(entityXml)
 
+        // Problems with new character fields being undefined are mostly fixed, but it still requires an extra click
+        const enableValidations = disableBlocklyValidations()
+
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(entityXml), workspace)
 
         const newCharacterMap = new Map(props.characterMap)
         newCharacterMap.set(entityId, workspace)
-        props.setCharacterMap(newCharacterMap, () => props.setSelectedCharacter(entityId))
-
-        // this broke characterMap  so it was removed from props
-        // probably because of the react state asynchronity with props.setCharacterMap
+        props.setCharacterMap(
+            newCharacterMap, 
+            () => {
+                props.setSelectedCharacter(entityId) 
+                enableValidations()
+            }
+        )
     }
 
     return (
