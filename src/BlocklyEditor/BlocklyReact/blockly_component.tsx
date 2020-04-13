@@ -7,7 +7,13 @@ import "./blockly_theme"
 import "./custom_blocks/registration"
 
 Blockly.setLocale(locale)
-export class BlocklyComponent extends React.Component<{}> {
+
+interface BlocklyComponentProps {
+    gameAreaWidth: number
+    gameAreaHeight: number
+}
+
+export class BlocklyComponent extends React.Component<BlocklyComponentProps> {
     private toolbox = React.createRef<HTMLElement>()
     private blocklyDiv = React.createRef<HTMLDivElement>()
     primaryWorkspace!: Blockly.Workspace

@@ -23,6 +23,8 @@ interface AppState {
     gameRunning: boolean
     mouse_x: number
     mouse_y: number
+    game_area_width: number
+    game_area_height: number
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     // An undefined selectedCharacter means a character is not selected
     selectedCharacter: string | undefined
@@ -69,6 +71,8 @@ export class App extends React.Component<{}, AppState> {
             gameRunning: false,
             mouse_x: 0,
             mouse_y: 0,
+            game_area_width: 600,
+            game_area_height: 400,
             characterMap: new Map(),
             selectedCharacter: undefined
         }
@@ -98,6 +102,8 @@ export class App extends React.Component<{}, AppState> {
                         characterMap={this.state.characterMap}
                         setSelectedCharacter={this.setSelectedCharacter}
                         selectedCharacter={this.state.selectedCharacter}
+                        gameAreaWidth={this.state.game_area_width}
+                        gameAreaHeight={this.state.game_area_height}
                         ref={this.editorInstance}
                     />
                 </div>
@@ -107,6 +113,8 @@ export class App extends React.Component<{}, AppState> {
                             gameRunning={this.state.gameRunning}
                             debugToggle={this.state.debugToggle}
                             program={this.state.code}
+                            gameAreaWidth={this.state.game_area_width}
+                            gameAreaHeight={this.state.game_area_height}
                         />
                     </MouseLocation>
                 </div>

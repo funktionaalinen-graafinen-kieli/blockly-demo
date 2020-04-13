@@ -4,7 +4,6 @@ import { frametime } from "./config"
 import Entity from "./entity"
 import GameEngine from "./game_engine"
 import { MapWithDefault } from "./utils"
-import { gameBoard } from "./config"
 
 interface StateMapProps {
     gameState: MapWithDefault
@@ -57,6 +56,8 @@ const entityDivStyle = (
 interface RenderGameProps {
     debugToggle: boolean
     gameEngine: GameEngine
+    gameAreaWidth: number
+    gameAreaHeight: number
 }
 
 export const RenderGame = (props: RenderGameProps) => {
@@ -70,6 +71,7 @@ export const RenderGame = (props: RenderGameProps) => {
     })
     const getVal = (name: string) => props.gameEngine.gameState.get(name)[1]
     const debugToggle = props.debugToggle
+
     return (
         <>
             <div
@@ -77,6 +79,7 @@ export const RenderGame = (props: RenderGameProps) => {
                 onKeyDown={props.gameEngine.handleKeyDown}
                 onKeyUp={props.gameEngine.handleKeyUp}
                 tabIndex={0}
+                style={{ width: props.gameAreaWidth, height: props.gameAreaHeight }}
             >
                 {
                     //@ts-ignore
@@ -88,9 +91,9 @@ export const RenderGame = (props: RenderGameProps) => {
                                 getVal(entity.w),
                                 getVal(entity.h),
                                 // (x [0-500]/500) * game_area_width
-                                getVal(entity.x) ? getVal(entity.x) / 500 * gameBoard["width"] : 0,
+                                getVal(entity.x) ? getVal(entity.x) / 500 * props.gameAreaWidth : 0,
                                 // (y [0-500]/500) * game_area_height
-                                getVal(entity.y) ? getVal(entity.y) / 500 * gameBoard["height"] : 0,
+                                getVal(entity.y) ? getVal(entity.y) / 500 * props.gameAreaHeight : 0,
                                 getVal(entity.ro)
                             )}
                         >
