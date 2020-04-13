@@ -86,23 +86,23 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const parsedDom = Blockly.Xml.textToDom(xmlInput)
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
         const newCharacterMap = new Map()
-
-        entityBlocks.forEach((block, _) => {
-            const entityId = block.getAttribute("id")!
-
-            const workspace = new Blockly.Workspace()
-            Blockly.Xml.domToBlock(block, workspace)
-            
-            newCharacterMap.set(entityId, workspace)
-
-        })
-
-        window.funklyCharMap = this.props.characterMap
+        window.funklyCharMap = newCharacterMap
+        
+        // Doing this twice allows blockly to validate dropdowns properly
+        // since entities are populated on the first pass
+        for (let i = 0; i < 2; i++) {
+            entityBlocks.forEach((block, _) => {
+                const entityId = block.getAttribute("id")!
+                const workspace = new Blockly.Workspace()
+                Blockly.Xml.domToBlock(block, workspace)
+                newCharacterMap.set(entityId, workspace)
+            })
+        }
         this.props.setCharacterMap(
             newCharacterMap, 
             // After changing the workspace contents manually, which might not Blockly's event listeners
             // we want to manually trigger the onBlocklyChange things
-            () => this.onBlocklychange()
+            () => { this.onBlocklychange() }
         )
 
     }
