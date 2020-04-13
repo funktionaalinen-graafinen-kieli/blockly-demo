@@ -8,7 +8,7 @@ import turtle from "./assets/entity_images/turtle.png"
 import jellyfish from "./assets/entity_images/jellyfish.gif"
 import sininen from "./assets/entity_images/sininen.svg"
 import score_100 from "./assets/entity_images/pistemittari_100.jpg"
-import score_empty from "./assets/entity_images/valkoinen_suorakulmio.jpg"
+import score_empty from "./assets/entity_images/valkoinen_suorakulmio.png"
 import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
 import default_image from "./assets/entity_images/default_image.png"
 
