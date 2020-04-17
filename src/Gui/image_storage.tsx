@@ -4,13 +4,15 @@ import dogedance from "./assets/entity_images/dogedance.gif"
 import muscledoge from "./assets/entity_images/muscledoge.png"
 import strangedoge from "./assets/entity_images/strangedoge.png"
 import plasticbag from "./assets/entity_images/plasticbag.png"
+import plasticbag_green from "./assets/entity_images/plasticbag_green.png"
+import plasticbag_pink from "./assets/entity_images/plasticbag_pink.png"
 import turtle from "./assets/entity_images/turtle.png"
 import jellyfish from "./assets/entity_images/jellyfish.gif"
-import sininen from "./assets/entity_images/sininen.svg"
-import score_100 from "./assets/entity_images/pistemittari_100.jpg"
-import score_empty from "./assets/entity_images/valkoinen_suorakulmio.png"
-import animatedjellyfish from "./assets/entity_images/animatedjellyfish.png"
+import jellyfish_orange from "./assets/entity_images/jellyfish_orange.gif"
+import jellyfish_transparent from "./assets/entity_images/jellyfish_transparent.png"
 import default_image from "./assets/entity_images/default_image.png"
+
+import score_empty from "./assets/gui_entity_images/score.png"
 
 import playbutton from "./assets/gui_images/playbutton.png"
 import stopbutton from "./assets/gui_images/stopbutton.png"
@@ -42,12 +44,16 @@ export const entityImages = new Map([
     ["dancingdoge", dogedance],
     ["strange_doge", strangedoge],
     ["muovipussi", plasticbag],
+    ["vihreä muovipussi", plasticbag_green],
+    ["pinkki muovipussi", plasticbag_pink],
     ["kilpikonna", turtle],
     ["meduusa", jellyfish],
-    ["sininen_palikka", sininen],
-    ["pisteet_100", score_100],
+    ["oranssi meduusa", jellyfish_orange],
+    ["lapinäkyvä meduusa", jellyfish_transparent]
+])
+
+export const guiEntityImages = new Map([
     ["pisteet_tyhja", score_empty],
-    ["animoitumeduusa", animatedjellyfish]
 ])
 
 export const guiImages = new Map([

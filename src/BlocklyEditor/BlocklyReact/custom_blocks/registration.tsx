@@ -3,7 +3,7 @@ import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
 import log from "loglevel"
 
-import { entityImages } from "../../../Gui/image_storage"
+import { guiEntityImages, entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
@@ -15,8 +15,6 @@ function parent_entity(block: Block): Block | undefined {
 
 /* Dropdown with the block being passed treated as a special entry named "tämä" */
 function dropdownWithThis(block: Block, entities: () => Block[]) {
-    //if (block.type !== "funkly_entity") log.info("Called entityThisDropdown with no entity parent")
-
     const options: string[][] = []
     const parent = parent_entity(block)
     if (parent) options.push(["tämä", parent.id])
@@ -585,6 +583,16 @@ createCustomBlock(funklyBlockType.IMG, "text_blocks", imgJson)
 Extensions.register("img_dropdown", function (this: Block) {
     this.getInput("IMAGE").appendField(newCustomDropdown(entityImages), "IMAGE")
 })
+
+// Block for selecting from gui entity images
+const guiImgJson = Object.assign({}, imgJson)
+guiImgJson.extensions = ["gui_img_dropdown"]
+
+createCustomBlock(funklyBlockType.GUI_IMG, "text_blocks", guiImgJson)
+Extensions.register("gui_img_dropdown", function (this: Block) {
+    this.getInput("IMAGE").appendField(newCustomDropdown(guiEntityImages), "IMAGE")
+})
+
 
 /**
  * Helper method for creating custom FieldDropdowns

@@ -20,7 +20,8 @@ enum funklyBlockType {
     KEY = "funkly_keyboard_input",
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
-    IMG = "funkly_img"
+    IMG = "funkly_img",
+    GUI_IMG = "funkly_gui_img"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -39,6 +40,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.KEY) return funkly_keyboard_input
     else if (type === funklyBlockType.MATH) return funkly_math
     else if (type === funklyBlockType.TRIG) return funkly_trig
+    else if (type === funklyBlockType.GUI_IMG) return funkly_gui_img
     else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
 
@@ -196,6 +198,11 @@ function funklyCodegen(type: funklyBlockType) {
 
     function funkly_img(block: Block) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
+        return `'\\"${strip(arg0)}\\"'`
+    }
+
+    function funkly_gui_img(block: Block) {
+        const arg0 = block.getFieldValue("IMAGE") || "score_empty"
         return `'\\"${strip(arg0)}\\"'`
     }
 }
