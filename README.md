@@ -11,8 +11,8 @@ Funkly is a visual programming language. Its purpose is to teach children functi
 
 ### Task boards
 
-* [Sprint backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/3)
 * [Product backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/1)
+* [Sprint backlog - not in use](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/3)
 
 ## How to use
 
