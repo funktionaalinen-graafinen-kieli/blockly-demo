@@ -37,7 +37,7 @@ button {
 
 .funkly-title {
     grid-area: 1 / 1 / 2 / 2;
-    max-height: 75%;
+    max-height: 7.5vh;
     width:auto;
 }
 
