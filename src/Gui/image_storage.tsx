@@ -15,6 +15,7 @@ import default_image from "./assets/entity_images/default_image.png"
 import score_empty from "./assets/gui_entity_images/score.png"
 
 import logo from "./assets/gui_images/logo.png"
+import favicon from "./assets/gui_images/favicon.png"
 
 import playbutton from "./assets/gui_images/playbutton.png"
 import stopbutton from "./assets/gui_images/stopbutton.png"
@@ -79,5 +80,6 @@ export const guiImages = new Map([
     ["deleteButton", deletebutton],
     ["maximize", maximize],
     ["minimize", minimize],
-    ["logo", logo]
+    ["logo", logo],
+    ["favicon", favicon]
 ])
