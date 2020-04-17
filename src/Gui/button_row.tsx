@@ -29,9 +29,6 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
 
     return (
         <>
-            <button onClick={props.changeFull}>
-                <p>full screen</p>
-            </button>
             <button onClick={props.toggleGame}>
                 {props.gameRunning ? (
                     <img className="funkly-button-icon" src={guiImages.get("stop")} alt="stop" />
@@ -66,6 +63,9 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
             <label className="funkly-file-load" htmlFor="importedCode">
                 <img className="funkly-button-icon" src={guiImages.get("choosefile")} alt="chooseFile" />
             </label>
+            <button onClick={props.changeFull}>
+                <img className="funkly-button-icon" src={guiImages.get("maximize")} alt="maximize" />
+            </button>
         </>
     )
 }
