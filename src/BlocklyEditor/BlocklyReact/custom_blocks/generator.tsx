@@ -2,7 +2,7 @@ import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
 import log from "loglevel"
 import { entityImages } from "../../../Gui/image_storage"
-import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
+import { entityDefaultSize } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
@@ -225,8 +225,8 @@ const entityCode = (
     let output = `"${id}": {`
     output += `"name": ["packF(id)", "${name}"],`
 
-    output += `"x": ["pack(clamp(${x})(0)(${gameBoard["width"]}))", ${initx}],`
-    output += `"y": ["pack(clamp(${y})(0)(${gameBoard["height"]}))", ${inity}],`
+    output += `"x": ["pack(clamp(${x})(0)(500))", ${initx}],`
+    output += `"y": ["pack(clamp(${y})(0)(500))", ${inity}],`
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
@@ -236,7 +236,7 @@ const entityCode = (
 
     // FIXME: this is duplicated from above
     output += '"r": ["packF(id)", 30],'
-    
+
     // TODO: Should this happen in the generator code instead of here?
     const imgDefault = entityImages.entries().next().value[1]
     if (img === "") {
