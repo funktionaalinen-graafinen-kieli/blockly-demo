@@ -1,6 +1,6 @@
 # Funkly
 
-Funkly is a jotain jotain
+Funkly is a visual programming language. Its purpose is to teach children functional programming by building games from blocks.
 
 ## Project
 
