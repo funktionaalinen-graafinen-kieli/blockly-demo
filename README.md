@@ -1,6 +1,6 @@
 # Funkly
 
-Funkly is a ...
+Funkly is a jotain jotain
 
 ## Project
 
