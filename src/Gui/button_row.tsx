@@ -19,6 +19,7 @@ interface ButtonProps {
     toggleDebug: () => void
     blockXml: string
     editor: Editor
+    changeFull: () => void
 }
 
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
@@ -28,19 +29,22 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
 
     return (
         <>
+            <button onClick={props.changeFull}>
+                <p>full screen</p>
+            </button>
             <button onClick={props.toggleGame}>
                 {props.gameRunning ? (
                     <img className="funkly-button-icon" src={guiImages.get("stop")} alt="stop" />
                 ) : (
-                    <img className="funkly-button-icon" src={guiImages.get("play")} alt="play" />
-                )}{" "}
+                        <img className="funkly-button-icon" src={guiImages.get("play")} alt="play" />
+                    )}{" "}
             </button>
             <button onClick={props.toggleDebug}>
                 {props.debugToggle ? (
                     <img className="funkly-button-icon" src={guiImages.get("debugoff")} alt="debug off" />
                 ) : (
-                    <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
-                )}
+                        <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
+                    )}
             </button>
             <button onClick={loadDefaultButtonClicked}>
                 <img className="funkly-button-icon" src={guiImages.get("load")} alt="load" />

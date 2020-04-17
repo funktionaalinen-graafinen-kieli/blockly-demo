@@ -69,6 +69,8 @@ interface EditorProps {
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     selectedCharacter: string | undefined
     setSelectedCharacter: (_: string | undefined) => void
+    gameAreaWidth: number
+    gameAreaHeight: number
 }
 
 interface EditorState {
@@ -76,7 +78,7 @@ interface EditorState {
 
 class Editor extends React.Component<EditorProps, EditorState> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-    
+
     /* 
      * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap
      */
@@ -91,7 +93,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const entityBlocks = parsedDom.querySelectorAll("xml > block")
         const newCharacterMap = new Map()
         window.funklyCharMap = newCharacterMap
-        
+
         entityBlocks.forEach((block, _) => {
             const entityId = block.getAttribute("id")!
             const workspace = new Blockly.Workspace()
@@ -99,19 +101,19 @@ class Editor extends React.Component<EditorProps, EditorState> {
             newCharacterMap.set(entityId, workspace)
         })
         this.props.setCharacterMap(
-            newCharacterMap 
+            newCharacterMap
         )
         enableValidations()
     }
 
     onBlocklychange = () => {
         const blockXml = generateXml(this.props.characterMap)
-        
+
         this.props.setCode(generateCode(this.props.characterMap))
         this.props.setBlockXml(blockXml)
 
         window.funklyCharMap = this.props.characterMap
-        
+
         saveProject(blockXml)
     }
 
@@ -138,10 +140,10 @@ class Editor extends React.Component<EditorProps, EditorState> {
             }
         }
         this.props.setSelectedCharacter(newSelected)
-        
+
         const newWorkspace = this.props.characterMap.get(newSelected)
         if (newWorkspace) blocklyReact.setPrimaryWorkspaceContents(newWorkspace)
-        
+
     }
 
     deleteCharacter = (entityId: string) => {
@@ -151,9 +153,9 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const characterDeletedMap = new Map(this.props.characterMap)
         characterDeletedMap.delete(entityId)
 
-        window.funklyCharMap = this.props.characterMap  
+        window.funklyCharMap = this.props.characterMap
         this.props.setCharacterMap(
-            characterDeletedMap, 
+            characterDeletedMap,
             () => this.setSelectedCharacter(characterDeletedMap.keys().next().value)
         )
     }
@@ -168,7 +170,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
         // FIXME: do this in a nicer way 
         window.funklyCharMap = this.props.characterMap
 
-        loadProject(this)    }
+        loadProject(this)
+    }
 
     componentWillUnmount(): void {
         this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.onBlocklychange)
@@ -177,7 +180,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
     render = () => {
         return (
             <div className="Editor">
-                <BlocklyComponent ref={this.blocklyReactInstance} {...BLOCKLYCONFIG}>
+                <BlocklyComponent ref={this.blocklyReactInstance} gameAreaWidth={this.props.gameAreaWidth} gameAreaHeight={this.props.gameAreaHeight} {...BLOCKLYCONFIG}>
                     {editorBlocks}
                 </BlocklyComponent>
             </div>
@@ -194,15 +197,15 @@ function generateXml(characterMap: ReadonlyMap<string, Blockly.Workspace>): stri
         }
     })
     xmlString += "</xml>"
-    
-    return xmlString 
+
+    return xmlString
 }
 
 function generateCode(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
-    
+
     let entities: Blockly.Block[] = []
     for (const [key, workspace] of characterMap) {
-        if (workspace.getBlockById(key))  { 
+        if (workspace.getBlockById(key)) {
             entities = entities.concat(workspace.getBlockById(key))
         } else {
             console.debug(`Charactermap had key ${key} but it's workspace was missing a block by that id. 
@@ -232,7 +235,7 @@ function saveProject(blockXml: string): void {
 function loadProject(editor: Editor) {
 
     const savedXml = localStorage.getItem("savedProject")
-    const savedProject = 
+    const savedProject =
         savedXml ? decodeURI(savedXml)
             : '<xml xmlns="https://developers.google.com/blockly/xml"/>'
     editor.importXml(savedProject)

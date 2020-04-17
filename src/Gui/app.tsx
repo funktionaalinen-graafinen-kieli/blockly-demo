@@ -11,6 +11,7 @@ import { guiImages } from "./image_storage"
 import { MouseLocation } from "./mouse_location"
 import "./funkly_app.css"
 import "./blockly_override.css"
+import "./fullscreen-layout.css"
 
 log.setLevel("trace")
 
@@ -24,9 +25,12 @@ interface AppState {
     gameRunning: boolean
     mouse_x: number
     mouse_y: number
+    game_area_width: number
+    game_area_height: number
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     // An undefined selectedCharacter means a character is not selected
     selectedCharacter: string | undefined
+    full: boolean
 }
 
 export class App extends React.Component<{}, AppState> {
@@ -70,8 +74,11 @@ export class App extends React.Component<{}, AppState> {
             gameRunning: false,
             mouse_x: 0,
             mouse_y: 0,
+            game_area_width: 600,
+            game_area_height: 400,
             characterMap: new Map(),
-            selectedCharacter: undefined
+            selectedCharacter: undefined,
+            full: false,
         }
     }
 
@@ -79,9 +86,9 @@ export class App extends React.Component<{}, AppState> {
         const editorInstance = this.editorInstance.current!
 
         return (
-            <div className="funkly-container">
-                <img className="funkly-title" src={guiImages.get("logo")}/>
-                <div className="funkly-buttons">
+            <div className={`funkly-container${this.state.full ? "-full" : ""}`}>
+                <img className={`funkly-title${this.state.full ? "-full" : ""}`} src={guiImages.get("logo")} />
+                <div className={`funkly-buttons${this.state.full ? "-full" : ""}`}>
                     <ButtonRow
                         gameRunning={this.state.gameRunning}
                         debugToggle={this.state.debugToggle}
@@ -89,9 +96,10 @@ export class App extends React.Component<{}, AppState> {
                         toggleDebug={this.toggleDebug}
                         editor={editorInstance}
                         blockXml={this.state.blockXml}
+                        changeFull={() => this.setState({ full: !this.state.full })}
                     />
                 </div>
-                <div className="funkly-blockly-editor">
+                <div className={`funkly-blockly-editor${this.state.full ? "-full" : ""}`}>
                     <Editor
                         setBlockXml={this.setBlockXml}
                         setCode={this.setCode}
@@ -99,19 +107,23 @@ export class App extends React.Component<{}, AppState> {
                         characterMap={this.state.characterMap}
                         setSelectedCharacter={this.setSelectedCharacter}
                         selectedCharacter={this.state.selectedCharacter}
+                        gameAreaWidth={this.state.game_area_width}
+                        gameAreaHeight={this.state.game_area_height}
                         ref={this.editorInstance}
                     />
                 </div>
-                <div className="funkly-engine">
+                <div className={`funkly-engine${this.state.full ? "-full" : ""}`}>
                     <MouseLocation>
                         <GameComponent
                             gameRunning={this.state.gameRunning}
                             debugToggle={this.state.debugToggle}
                             program={this.state.code}
+                            gameAreaWidth={this.state.game_area_width}
+                            gameAreaHeight={this.state.game_area_height}
                         />
                     </MouseLocation>
                 </div>
-                <div className="funkly-char-selection">
+                <div className={`funkly-char-selection${this.state.full ? "-full" : ""}`} >
                     <CharacterSelector
                         editor={this.editorInstance}
                         characterMap={this.state.characterMap}
@@ -119,7 +131,7 @@ export class App extends React.Component<{}, AppState> {
                         selectedCharacter={this.state.selectedCharacter}
                     />
                 </div>
-                <div className="funkly-debug">
+                <div className={`funkly-debug${this.state.full ? "-full" : ""}`} >
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
                 </div>
             </div>
