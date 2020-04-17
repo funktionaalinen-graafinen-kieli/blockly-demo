@@ -104,17 +104,7 @@ export const RenderGame = (props: RenderGameProps) => {
                             )}
                         >
                             <img style={{ width: "100%" }} src={getVal(entity.img)} alt="loading..." />
-                            <div
-                                style={{
-                                    color: "white",
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    WebkitTextStroke: "1px black",
-                                    marginLeft: "40%",
-                                    marginTop: "10%",
-                                    position: "absolute"
-                                }}
-                            >
+                            <div className="funkly-gui-entity-info" >
                                 {getVal(entity.text)}
                             </div>
                         </div>

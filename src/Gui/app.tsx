@@ -7,6 +7,7 @@ import Editor from "../BlocklyEditor/editor"
 import CharacterSelector from "../BlocklyEditor/CharacterSelector/character_selector"
 import GameComponent from "../GameEngine/game_component"
 import { ButtonRow } from "./button_row"
+import { guiImages } from "./image_storage"
 import { MouseLocation } from "./mouse_location"
 import "./funkly_app.css"
 import "./blockly_override.css"
@@ -86,7 +87,7 @@ export class App extends React.Component<{}, AppState> {
 
         return (
             <div className={`funkly-container${this.state.full ? "-full" : ""}`}>
-                <h1 className={`funkly-title${this.state.full ? "-full" : ""}`}>FUNKLY</h1>
+                <img className={`funkly-title${this.state.full ? "-full" : ""}`} src={guiImages.get("logo")} />
                 <div className={`funkly-buttons${this.state.full ? "-full" : ""}`}>
                     <ButtonRow
                         gameRunning={this.state.gameRunning}
