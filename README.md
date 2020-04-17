@@ -2,12 +2,14 @@
 
 Funkly is a ...
 
-## Deployed environments
+## Project
+
+### Deployed environments
 
 - [staging](http://staging-funkly.herokuapp.com/)
 - [Latest "stable"](http://funkly.herokuapp.com/)
 
-## Task boards
+### Task boards
 
 * [Sprint backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/3)
 * [Product backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/1)
@@ -18,6 +20,7 @@ Funkly is a ...
 - - `git clone https://github.com/funktionaalinen-graafinen-kieli/funkly` to get the sources
 - Need to have npm installed 
 - `npm install` to install dependencies
+
 ### Running
 
 - `npm start` serves the project on localhost
@@ -39,7 +42,7 @@ Funkly is a ...
     log.warn("ultra-compatible")
     log.trace("an unimportant trace message")
     ```
-
+    
 ### Testing
 
 #### Running
