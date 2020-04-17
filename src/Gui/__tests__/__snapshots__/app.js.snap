@@ -8,11 +8,10 @@ Object {
       <div
         class="funkly-container"
       >
-        <h1
+        <img
           class="funkly-title"
-        >
-          FUNKLY
-        </h1>
+          src="logo.png"
+        />
         <div
           class="funkly-buttons"
         >
@@ -108,11 +107,10 @@ Object {
     <div
       class="funkly-container"
     >
-      <h1
+      <img
         class="funkly-title"
-      >
-        FUNKLY
-      </h1>
+        src="logo.png"
+      />
       <div
         class="funkly-buttons"
       >
