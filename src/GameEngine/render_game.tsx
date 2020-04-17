@@ -91,9 +91,15 @@ export const RenderGame = (props: RenderGameProps) => {
                                 getVal(entity.w),
                                 getVal(entity.h),
                                 // (x [0-500]/500) * game_area_width
-                                getVal(entity.x) ? getVal(entity.x) / 500 * props.gameAreaWidth : 0,
+                                getVal(entity.x) ?
+                                    Math.min(getVal(entity.x) / 500 * props.gameAreaWidth, props.gameAreaWidth)
+                                    :
+                                    0,
                                 // (y [0-500]/500) * game_area_height
-                                getVal(entity.y) ? getVal(entity.y) / 500 * props.gameAreaHeight : 0,
+                                getVal(entity.y) ?
+                                    Math.min(getVal(entity.y) / 500 * props.gameAreaHeight, props.gameAreaHeight)
+                                    :
+                                    0,
                                 getVal(entity.ro)
                             )}
                         >

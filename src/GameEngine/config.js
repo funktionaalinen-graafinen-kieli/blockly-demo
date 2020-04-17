@@ -6,7 +6,3 @@ export const entityDefaultSize = {
     height: 60,
     rotation: 0,
 }
-export const gameBoard = {
-    width: 600,
-    height: 400
-}
