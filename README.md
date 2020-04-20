@@ -1,6 +1,6 @@
 # Funkly
 
-Funkly is a block-based visual programming language. Its purpose is to teach children functional programming by offering an interface where one can build games and other programs using blocks. It is modelled after MIT's Scratch but whereas Scratch teaches imperative programming, Funkly aims to teach functional programming. Like Scratch, Funkly is based on Google's Blockly.
+Funkly is a block-based visual programming language. Its purpose is to teach children functional programming by offering an interface where one can build games and other programs using blocks. It is modelled after MIT's Scratch but whereas Scratch teaches imperative programming, Funkly aims to teach functional programming. Like Scratch, Funkly is based on Google's Blockly library.
 
 - [Scratch](http://scratch.mit.edu)
 - [Blockly](https://developers.google.com/blockly)
@@ -9,13 +9,13 @@ Funkly is a block-based visual programming language. Its purpose is to teach chi
 
 ### Deployed environments
 
-- [staging](http://staging-funkly.herokuapp.com/)
-- [Latest "stable"](http://funkly.herokuapp.com/)
+- [Staging](http://staging-funkly.herokuapp.com/)
+- [Funkly in Heroku](http://funkly.herokuapp.com/)
 
 ### Task boards
 
 * [Product backlog](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/1)
-* [Sprint backlog - not in use](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/3)
+* [Sprint backlog - old](https://github.com/funktionaalinen-graafinen-kieli/backlogs/projects/3)
 
 ## How to use
 
