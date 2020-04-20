@@ -2,12 +2,7 @@
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
 import * as Blockly from "blockly"
-import { Block, Extensions, FieldDropdown, FieldLabel, Mutator } from "blockly"
-import log from "loglevel"
-
-import { entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
-import { entityDefaultSize } from "../../../GameEngine/config"
 
 Blockly.Constants.Lists.HUE = 260;
 
@@ -92,7 +87,7 @@ Blocks[funklyBlockType.LIST] = {
     // Disconnect any children that don't belong.
     for (var i = 0; i < this.itemCount_; i++) {
       var connection = this.getInput('ADD' + i).connection.targetConnection;
-      if (connection && connections.indexOf(connection) == -1) {
+      if (connection && connections.indexOf(connection) === -1) {
         connection.disconnect();
       }
     }
@@ -136,7 +131,7 @@ Blocks[funklyBlockType.LIST] = {
       if (!this.getInput('ADD' + i)) {
         var input = this.appendValueInput('ADD' + i)
             .setAlign(Blockly.ALIGN_RIGHT);
-        if (i == 0) {
+        if (i === 0) {
           input.appendField("lista");
         }
       }
