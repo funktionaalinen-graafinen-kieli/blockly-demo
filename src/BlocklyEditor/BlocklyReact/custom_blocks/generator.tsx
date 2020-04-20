@@ -15,11 +15,14 @@ enum funklyBlockType {
     COLLIDE = "funkly_collide",
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
+    MULTI = "funkly_multi",
+    INITMULTI = "funkly_initmulti",
     GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
     KEY = "funkly_keyboard_input",
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
+    LIST = "funkly_list",
     IMG = "funkly_img",
     GUI_IMG = "funkly_gui_img"
 }
@@ -29,9 +32,12 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GUARD) return funkly_guard
     else if (type === funklyBlockType.COMP) return funkly_comp
     else if (type === funklyBlockType.NUMBER) return funkly_number
+    else if (type === funklyBlockType.LIST) return funkly_list
     else if (type === funklyBlockType.ENTITY) return funkly_entity
     else if (type === funklyBlockType.RAND) return funkly_rand
     else if (type === funklyBlockType.DIST) return funkly_dist
+    else if (type === funklyBlockType.MULTI) return funkly_multi
+    else if (type === funklyBlockType.INITMULTI) return funkly_initmulti
     else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
@@ -61,6 +67,10 @@ function funklyCodegen(type: funklyBlockType) {
         }
 
         return funkly_guard_helper(block)
+    }
+
+    function funkly_list(block: Block) {
+        return ""
     }
 
     function funkly_guard_helper(block: Block): string {
@@ -148,6 +158,54 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_number(block: Block) {
         const arg0 = block.getFieldValue("NUM")
         return wrap(arg0)
+    }
+
+    function funkly_initmulti(block: Block) {
+        return ""
+    }
+
+    function multi_initToCode(baseId: string, id: string, multi: Block, init: Block) {
+        var re = new RegExp(baseId,"g");
+
+        const name = multi.getFieldValue("name") || "default_name"
+        const x = BlocklyJS.statementToCode(multi, "x").replace(re,id)
+        const y = BlocklyJS.statementToCode(multi, "y").replace(re,id)
+        const height = multi.getFieldValue("height") || 50
+        const width = multi.getFieldValue("width") || 50
+        const radius = multi.getFieldValue("radius") || 50
+        const ro = BlocklyJS.statementToCode(multi, "ro").replace(re,id) || 0
+        const img = BlocklyJS.statementToCode(multi, "img", BlocklyJS.ORDER_RELATIONAL)
+
+        let initx = 0
+        let inity = 0
+        let initro = 0
+        if (init) {
+            initx = init.getFieldValue("initx") || 0
+            inity = init.getFieldValue("inity") || 0
+            initro = init.getFieldValue("initro") || 0
+        }
+        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, initro, ro, "'\\\"\\\"'")
+    }
+
+    function funkly_multi(block: Block) {
+        const baseId = block.id
+
+        const lb = block.getInputTargetBlock("list")
+        const es: string[] = [] 
+        //@ts-ignore
+        if (lb && lb.type === "funkly_list" && lb.itemCount_ !== 0) { 
+            //@ts-ignore
+            for (var i = 0; i < lb.itemCount_; i++) {
+                console.trace(block)
+                console.trace(block.getInputTargetBlock("ADD"+i))
+                es.push(multi_initToCode(baseId, baseId+i, block, lb.getInputTargetBlock("ADD"+i)))
+            }
+        } else {
+            return ""
+        }
+        return es.join(', ')
+        //return entityCode("11", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "'\\\"\\\"'")
+        //return "e: {}"
     }
 
     function funkly_entity(block: Block) {

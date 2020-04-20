@@ -47,6 +47,7 @@ const editorBlocks = (
         </Category>
         <Category name="Hahmopalikat">
             <Block type="funkly_bindget" />
+            <Block type="funkly_initmulti" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
             <Block type="funkly_gui_img" />

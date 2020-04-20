@@ -5,6 +5,7 @@ import locale from "blockly/msg/en"
 
 import "./blockly_theme"
 import "./custom_blocks/registration"
+import "./custom_blocks/list_blocks"
 
 Blockly.setLocale(locale)
 

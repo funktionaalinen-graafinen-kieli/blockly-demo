@@ -55,6 +55,8 @@ export const NewCharacterMenu = (props: NewCharacterMenuProps) => {
         <div>
             <button className="funkly-char-or-other" onClick={() => buttonClick("HAHMO")}> Hahmo </button>
             vai
+            <button className="funkly-char-or-other" onClick={() => buttonClick("MULTI")}> Hahmoja </button>
+            vai
             <button className="funkly-char-or-other" onClick={() => buttonClick("TIETOVEKOTIN")}> Tietovekotin </button>
         </div>
     )

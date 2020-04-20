@@ -7,6 +7,12 @@ const funklyThemeJson = {
         "colourTertiary":"#1842ab",
         "hat": ""
      },
+    "list_blocks": {
+        "colourPrimary": "#1f7fbf",
+        "colourSecondary":"#8abadb",
+        "colourTertiary":"#1842ab",
+        "hat": ""
+     },
     "logic_blocks": {
        "colourPrimary": "#a667bf",
        "colourSecondary":"#e89cff",

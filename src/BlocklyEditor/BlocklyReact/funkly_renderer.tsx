@@ -71,13 +71,51 @@ TypedConnectionShapeProvider.prototype.makeSquared = function() {
     let pathLeft = makeMainPath(1)
     let pathRight = makeMainPath(-1)
 
+    function makeMainPathV(vd: number) {
+        const { point, line } = Blockly.utils.svgPaths
+        return line([
+            point(0, width),
+            point(vd * height, 0),
+            point(0, -width)
+        ])
+    }
+
+    let pathUp = makeMainPathV(-1)
+    let pathDown = makeMainPathV(1)
+
     return {
         width: width,
         height: height,
         pathLeft: pathLeft,
-        pathRight: pathRight
+        pathRight: pathRight,
+        pathUp: pathUp,
+        pathDown: pathDown
     }
 }
+
+TypedConnectionShapeProvider.prototype.makeSquaredVert = function() {
+  var width = this.TAB_WIDTH;
+  var height = this.TAB_HEIGHT;
+
+  function makeMainPath(up) {
+    return Blockly.utils.svgPaths.line(
+        [
+          Blockly.utils.svgPaths.point(-width, 0),
+          Blockly.utils.svgPaths.point(0, -1 * up * height),
+          Blockly.utils.svgPaths.point(width, 0)
+        ]);
+  }
+
+  var pathUp = makeMainPath(1);
+  var pathDown = makeMainPath(-1);
+
+  return {
+    width: width,
+    height: height,
+    pathDown: pathDown,
+    pathUp: pathUp
+  };
+};
 
 TypedConnectionShapeProvider.prototype.makeVNotch = function() {
     let width = this.NOTCH_WIDTH
@@ -174,6 +212,8 @@ TypedConnectionShapeProvider.prototype.init = function() {
   this.SQUAREWAVE = this.makeSquareWave();
   this.VNOTCH = this.makeVNotch();
   this.NOTCH = this.makeTriangleWave();
+  //let consts = new Blockly.blockRendering.ConstantProvider()
+  this.PUZZLE = this.makeSquaredVert()
 };
 
 
@@ -186,7 +226,11 @@ TypedConnectionShapeProvider.prototype.init = function() {
  */
 TypedConnectionShapeProvider.prototype.shapeFor = function(connection) {
   var checks = connection.getCheck();
+  //console.log(Blockly.INPUT_VALUE, connection.type, checks)
   switch (connection.type) {
+    case Blockly.INPUT_VALUE:
+    case Blockly.OUTPUT_VALUE:
+      return this.PUZZLE;
     case Blockly.PREVIOUS_STATEMENT:
     case Blockly.NEXT_STATEMENT:
       if (checks && checks.indexOf('Number') !== -1) {

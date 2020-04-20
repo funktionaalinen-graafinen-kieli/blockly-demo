@@ -7,23 +7,56 @@ import { guiEntityImages, entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
-function parent_entity(block: Block): Block | undefined {
-    const root_parent = block.getRootBlock()
-    if (root_parent.type === "funkly_entity") return root_parent
-    else return undefined
+//gets list of names and ids from a multiblock
+const entityDropdownOptions = () => {
+    // @ts-ignore
+    const bs = [...window.funklyCharMap]
+                .filter(([k, v]) => k !== "")
+                .map(([id,w]) => w.getBlockById(id))
+                .filter(b => b)
+
+    // entities
+    const es = bs.filter(b => b.type === "funkly_entity")
+                    .map(b => [b.getFieldValue("name"),b.id])
+    // multi blocks
+    bs.filter(b => b.type === "funkly_multi")
+        .forEach(mb => getMultiRefs(mb).forEach(o => es.push(o)))
+
+    return es
 }
 
+const getMultiRefs = (mb: Block) => {
+    const lb = mb.getInputTargetBlock("list")
+    const options = []
+    if (lb && lb.type === "funkly_list") {
+        // @ts-ignore
+        for (var i = 0; i < lb.itemCount_; i++) {
+            options.push([mb.getFieldValue("name")+i,mb.id+i])
+        }
+    }
+    return options
+}
+
+//@ts-ignore
+const parent_entity = (bl: Block) => [...window.funklyCharMap]
+    .filter(([k, v]) => k !== "")
+    .filter(([_,w]) => w.getBlockById(bl.id))
+    .map(([id,w]) => w.getBlockById(id))[0]
+
 /* Dropdown with the block being passed treated as a special entry named "tämä" */
-function dropdownWithThis(block: Block, entities: () => Block[]) {
+function dropdownWithThis(block: Block, entities: () => string[][]) {
     const options: string[][] = []
     const parent = parent_entity(block)
-    if (parent) options.push(["tämä", parent.id])
-    else options.push(["?", "NOT_SELECTED"])
+
+    if (parent && parent.type === "funkly_multi") options.push(["tämä",parent.id])
 
     entities()
-        .filter(e => e !== parent)
-        .forEach(e => options.push([e.getFieldValue("name"), e.id]))
-    return options
+        //@ts-ignore
+        .map(([name,id]) => parent && id === parent.id ? ["tämä",id] : [name,id])
+        .forEach(([name,id]) => options.push([name, id]))
+
+
+    return options.length === 0 ? [["?", "NONE"]] : options
 }
 
 
@@ -131,6 +164,108 @@ const randJson = {
     previousStatement: "Number"
 }
 createCustomBlock(funklyBlockType.RAND, "math_blocks", randJson)
+
+const multiJson = {
+    "type:": funklyBlockType.MULTI,
+    inputsInline: false,
+    message0: "Hahmot %1",
+    args0: [
+        {
+            type: "field_input",
+            name: "name",
+            text: "esimerkkinimi",
+            spellcheck: false
+        }
+    ],
+    message1: "x: %1",
+    args1: [
+        {
+            type: "input_statement",
+            name: "x",
+            check: "Number"
+        }
+    ],
+    message2: "y: %1",
+    args2: [
+        {
+            type: "input_statement",
+            name: "y",
+            check: "Number"
+        }
+    ],
+    message7: "kierto° %1",
+    args7: [
+        {
+            type: "input_statement",
+            name: "ro",
+            check: "Number"
+        }
+    ],
+    message3: "kuva %1",
+    args3: [
+        {
+            type: "input_statement",
+            name: "img",
+            check: ["Image"]
+        }
+    ],
+    message4: "leveys %1",
+    args4: [
+        {
+            type: "field_number",
+            name: "width",
+            value: `${entityDefaultSize["width"]}`
+        }
+    ],
+    message5: "korkeus %1",
+    args5: [
+        {
+            type: "field_number",
+            name: "height",
+            value: `${entityDefaultSize["height"]}`
+        }
+    ],
+    message6: "osumasäde %1",
+    args6: [
+        {
+            type: "field_number",
+            name: "radius",
+            value: `${entityDefaultSize["radius"]}`
+        }
+    ],
+    message8: "alkuarvot %1",
+    args8: [
+        {
+            type: "input_value",
+            name: "list",
+            check: "Array"
+        }
+    ]
+}
+createCustomBlock(funklyBlockType.MULTI, "text_blocks", multiJson)
+
+const initmultiJson = {
+    message0: "x: %1 y: %2 kierto°: %3",
+    args0: [
+        {
+            type: "field_number",
+            name: "initx",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "inity",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "initro",
+            value: "0"
+        }
+    ],
+    output: "Number",
+}
+createCustomBlock(funklyBlockType.INITMULTI, "text_blocks", initmultiJson)
 
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
@@ -317,13 +452,7 @@ const colJson = {
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
-    // @ts-ignore
-    const entities = () => [...window.funklyCharMap]
-        .filter(([k, v]) => k !== "")
-        .map(([id,w]) => w.getBlockById(id))
-        .filter((b) => b && b.type === "funkly_entity")
-
-    const dropdownOptions = () => dropdownWithThis(this, entities)
+    const dropdownOptions = () => dropdownWithThis(this, entityDropdownOptions)
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
@@ -350,13 +479,8 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-    // @ts-ignore
-    const entities = () => [...window.funklyCharMap]
-        .filter(([k, v]) => k !== "")
-        .map(([id,w]) => w.getBlockById(id))
-        .filter((b) => b && b.type === "funkly_entity")
 
-    const dropdownOptions = () => dropdownWithThis(this, entities)
+    const dropdownOptions = () => dropdownWithThis(this, entityDropdownOptions)
 
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
