@@ -220,7 +220,6 @@ function generateCode(characterMap: ReadonlyMap<string, Blockly.Workspace>): str
     engineCode += "}, "
     engineCode += defaultBinds + "}"
 
-    console.log(engineCode)
     return engineCode
 }
 
