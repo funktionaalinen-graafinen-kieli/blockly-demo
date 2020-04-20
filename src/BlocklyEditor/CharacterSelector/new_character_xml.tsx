@@ -46,7 +46,29 @@ export const entityBaseXml = (entityId: string, entity_type: string) => {
                         </shadow>
                         </statement>
                         <statement name="list">
-                        <block type="funkly_list"/>
+                        <block type="funkly_list">
+                            <statement name="ADD0">
+                                <block type="funkly_initmulti" >
+                                    <field name="initx">0</field>
+                                    <field name="inity">100</field>
+                                    <field name="initro">0</field>
+                                </block>
+                            </statement>
+                            <statement name="ADD1">
+                                <block type="funkly_initmulti" >
+                                    <field name="initx">0</field>
+                                    <field name="inity">200</field>
+                                    <field name="initro">0</field>
+                                </block>
+                            </statement>
+                            <statement name="ADD2">
+                                <block type="funkly_initmulti" >
+                                    <field name="initx">0</field>
+                                    <field name="inity">300</field>
+                                    <field name="initro">0</field>
+                                </block>
+                            </statement>
+                        </block>
                         </statement>
                     </block>
                 </xml>`
