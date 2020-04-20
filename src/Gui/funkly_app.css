@@ -25,9 +25,8 @@ button {
 
 .funkly-container {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    position: absolute;
-    margin-left: 1vw;
-    margin-top: 1vh;
+    margin-left: 25;
+    margin-top: 5;
     background: white;
     display: grid;
     grid-template-columns: repeat(3, 32vw);
