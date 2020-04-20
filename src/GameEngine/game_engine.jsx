@@ -9,9 +9,8 @@ const evalProgram = (program) => {
     try {
         parsedObjectList = evalFunc(program)
     } catch (error) {
-        console.debug("Program for game was invalid JSON")
-        console.debug(program)
-        console.debug("This should never happen with the blocks generating the json")
+        console.debug("Program for game was invalid JSON. This should never happen with the blocks generating the json")
+        console.debug(`Program: ${program}`)
         console.debug(error)
         return [[], []]
     }

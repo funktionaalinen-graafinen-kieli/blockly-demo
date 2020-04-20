@@ -4,57 +4,57 @@ import Blockly from "blockly"
 // taken from https://github.com/google/blockly-samples/tree/master/rendering/rendering-walkthrough
 
 export function TypedConnectionShapeRenderer(name) {
-  TypedConnectionShapeRenderer.superClass_.constructor.call(this, name);
-};
+    TypedConnectionShapeRenderer.superClass_.constructor.call(this, name)
+}
 Blockly.utils.object.inherits(TypedConnectionShapeRenderer,
-    Blockly.blockRendering.Renderer);
+    Blockly.blockRendering.Renderer)
 
-Blockly.blockRendering.register('typed_connection_shapes',
-    TypedConnectionShapeRenderer);
+Blockly.blockRendering.register("typed_connection_shapes", 
+    TypedConnectionShapeRenderer)
 
 function TypedConnectionShapeProvider() {
-  TypedConnectionShapeProvider.superClass_.constructor.call(this);
-  this.NOTCH_WIDTH = 20
-  this.NOTCH_HEIGHT = 10
-};
+    TypedConnectionShapeProvider.superClass_.constructor.call(this)
+    this.NOTCH_WIDTH = 20
+    this.NOTCH_HEIGHT = 10
+}
 Blockly.utils.object.inherits(TypedConnectionShapeProvider,
-    Blockly.blockRendering.ConstantProvider);
+    Blockly.blockRendering.ConstantProvider)
 
-    TypedConnectionShapeRenderer.prototype.makeConstants_ = function() {
-        return new TypedConnectionShapeProvider();
-    };
+TypedConnectionShapeRenderer.prototype.makeConstants_ = function() {
+    return new TypedConnectionShapeProvider()
+}
 
-    // New code is below this line.
+// New code is below this line.
 
 /**
  * Create a new function to return a rounded puzzle tab that works for input and
  * output connections.
  */
-    TypedConnectionShapeProvider.prototype.makeRounded = function() {
-        var width = this.NOTCH_WIDTH
-        var height = this.NOTCH_HEIGHT
+TypedConnectionShapeProvider.prototype.makeRounded = function() {
+    var width = this.NOTCH_WIDTH
+    var height = this.NOTCH_HEIGHT
 
-        function makeMainPath(left) {
-            var height = width / 2;
-            const { point, line, arc } = Blockly.utils.svgPaths
-            return arc(
-                'a',
-                '0 0 ' + (left ? 1 : 0),
-                height,
-                point((left ? -1 : 1) * width, 0)
-            );
-        }
+    function makeMainPath(left) {
+        var height = width / 2
+        const { point, line, arc } = Blockly.utils.svgPaths
+        return arc(
+            'a',
+            '0 0 ' + (left ? 1 : 0),
+            height,
+            point((left ? -1 : 1) * width, 0)
+        )
+    }
 
-        var pathLeft = makeMainPath(false);
-        var pathRight = makeMainPath(true);
+    var pathLeft = makeMainPath(false)
+    var pathRight = makeMainPath(true)
 
-        return {
-            width: width,
-            height: height,
-            pathLeft: pathLeft,
-            pathRight: pathRight
-        };
-    };
+    return {
+        width: width,
+        height: height,
+        pathLeft: pathLeft,
+        pathRight: pathRight
+    }
+}
 
 //TEST
 TypedConnectionShapeProvider.prototype.makeSquared = function() {

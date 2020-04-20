@@ -1,12 +1,15 @@
+//@ts-nocheck
 import * as React from "react"
 import * as BlocklyJS from "blockly/javascript"
-import * as Blockly from "blockly"
-import * as log from "loglevel"
+import Blockly from "blockly"
+import log from "loglevel"
 
 import BlocklyComponent from "./BlocklyReact/blockly_component"
-import { Block, Category, Field, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
+import { disableBlocklyValidations } from "./blockly_utils"
+import { Block, Category, Shadow, Value } from "./BlocklyReact/blockly_jsx_wrappers"
 import { BLOCKLYCONFIG } from "./BlocklyReact/blockly_workspace_config"
 import { initialXml } from "./BlocklyReact/initial_xml"
+import { SetCharacterMap } from "../Gui/app"
 
 const editorBlocks = (
     <React.Fragment>
@@ -43,63 +46,12 @@ const editorBlocks = (
             <Block type="funkly_keyboard_input" />
         </Category>
         <Category name="Hahmopalikat">
-            <Block type="funkly_entity">
-                <Value name="x">
-                    <Shadow type="funkly_get">
-                        <Field name="property">x</Field>
-                    </Shadow>
-                </Value>
-                <Value name="y">
-                    <Shadow type="funkly_get">
-                        <Field name="property">y</Field>
-                    </Shadow>
-                </Value>
-                <Value name="ro">
-                    <Shadow type="funkly_get">
-                        <Field name="property">ro</Field>
-                    </Shadow>
-                </Value>
-                <Value name="img">
-                    <Shadow type="funkly_img" />
-                </Value>
-            </Block>
-            <Block type="funkly_multi">
-                <Value name="x">
-                    <Shadow type="funkly_get">
-                        <Field name="property">x</Field>
-                    </Shadow>
-                </Value>
-                <Value name="y">
-                    <Shadow type="funkly_get">
-                        <Field name="property">y</Field>
-                    </Shadow>
-                </Value>
-                <Value name="ro">
-                    <Shadow type="funkly_get">
-                        <Field name="property">ro</Field>
-                    </Shadow>
-                </Value>
-                <Value name="img">
-                    <Shadow type="funkly_img" />
-                </Value>
-                <Value name="list">
-                    <Block type="funkly_list"/>
-                </Value>
-            </Block>
-            <Block type="funkly_guientity">
-                <Value name="img">
-                    <Shadow type="funkly_img" />
-                </Value>
-                <Value name="text">
-                    <Shadow type="funkly_bindget">
-                        <Field name="id">time</Field>
-                    </Shadow>
-                </Value>
-            </Block>
             <Block type="funkly_bindget" />
+            <Block type="funkly_list" />
             <Block type="funkly_initmulti" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
+            <Block type="funkly_gui_img" />
         </Category>
     </React.Fragment>
 )
@@ -112,40 +64,116 @@ const defaultBinds = `
     "everySecond": ["packF(timer)", [false, 0, 1000]]
 }
 `
+interface EditorProps {
+    setCode: (_: string) => void
+    setBlockXml: (_: string) => void
+    setCharacterMap: SetCharacterMap
+    characterMap: ReadonlyMap<string, Blockly.Workspace>
+    selectedCharacter: string | undefined
+    setSelectedCharacter: (_: string | undefined) => void
+}
 
-class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml: (_: string) => void }, {}> {
+interface EditorState {
+}
+
+class Editor extends React.Component<EditorProps, EditorState> {
     blocklyReactInstance = React.createRef<BlocklyComponent>()
-
-    private generateXml = (): string => {
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        return Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(workspace))
-    }
-
-    setCode = (engineCode: string, xmlWorkspace: string) => {
-        this.props.setCode(engineCode)
-        this.props.setBlockXml(xmlWorkspace)
-    }
-
+    
+    /* 
+     * Takes a valid xml string as input, parsed it to blockly blocks and imports them to charactermap
+     */
     importXml = (xmlInput: string) => {
-        const stripped = xmlInput.slice(26)
-        const stringed = decodeURI(eval(stripped))
-        const parsed = Blockly.Xml.textToDom(stringed)
+        console.debug("importing xml")
+        console.debug(xmlInput)
 
-        const workspace = this.blocklyReactInstance.current!.primaryWorkspace
-        Blockly.Xml.domToWorkspace(parsed, workspace)
+        // Disable field validations during import to let us place arbitrary imported entity Ids into dropdowns
+        const enableValidations = disableBlocklyValidations()
+
+        const parsedDom = Blockly.Xml.textToDom(xmlInput)
+        const entityBlocks = parsedDom.querySelectorAll("xml > block")
+        const newCharacterMap = new Map()
+        window.funklyCharMap = newCharacterMap
+        
+        entityBlocks.forEach((block, _) => {
+            const entityId = block.getAttribute("id")!
+            const workspace = new Blockly.Workspace()
+            Blockly.Xml.domToBlock(block, workspace)
+            newCharacterMap.set(entityId, workspace)
+        })
+        this.props.setCharacterMap(
+            newCharacterMap 
+        )
+        enableValidations()
     }
 
-    generateAndSetCode = () => {
-        this.setCode(generateCode(this.blocklyReactInstance), this.generateXml())
+    onBlocklychange = () => {
+        const blockXml = generateXml(this.props.characterMap)
+        
+        this.props.setCode(generateCode(this.props.characterMap))
+        this.props.setBlockXml(blockXml)
+
+        window.funklyCharMap = this.props.characterMap
+        
+        saveProject(blockXml)
     }
+
+    // Set undefined to clear selected character
+    setSelectedCharacter(newSelected: string | undefined): void {
+        const blocklyReact = this.blocklyReactInstance.current!
+
+        if (newSelected === undefined) {
+            blocklyReact.primaryWorkspace.clear()
+            this.props.setSelectedCharacter(undefined)
+            return
+        }
+
+        // Update the previous selected characters workspace contents before switching current character
+        if (this.props.selectedCharacter) {
+            const previousSelectedCharacter = this.props.characterMap.get(this.props.selectedCharacter)
+            if (previousSelectedCharacter) {
+                const oldWorkspaceContents = Blockly.Xml.workspaceToDom(blocklyReact.primaryWorkspace)
+                /* Using clearWorkspaceAndLoadFromXml caused weird runtime TypeError: b.setResizesEnabled 
+                 *  is not a function. We work around by clearing and loading manually 
+                 */
+                previousSelectedCharacter.clear()
+                Blockly.Xml.domToWorkspace(oldWorkspaceContents, previousSelectedCharacter)
+            }
+        }
+        this.props.setSelectedCharacter(newSelected)
+        
+        const newWorkspace = this.props.characterMap.get(newSelected)
+        if (newWorkspace) blocklyReact.setPrimaryWorkspaceContents(newWorkspace)
+        
+    }
+
+    deleteCharacter = (entityId: string) => {
+        console.debug("deleted character: " + entityId)
+
+        // copy charactermap, omitting the entityId that is being deleted
+        const characterDeletedMap = new Map(this.props.characterMap)
+        characterDeletedMap.delete(entityId)
+
+        window.funklyCharMap = this.props.characterMap  
+        this.props.setCharacterMap(
+            characterDeletedMap, 
+            () => this.setSelectedCharacter(characterDeletedMap.keys().next().value)
+        )
+    }
+
 
     componentDidMount(): void {
-        this.blocklyReactInstance.current!.primaryWorkspace.addChangeListener(this.generateAndSetCode)
+        const blocklyReact = this.blocklyReactInstance.current!
+
+        blocklyReact.primaryWorkspace.addChangeListener(this.onBlocklychange)
         log.debug("Mounted change listener on workspace")
-    }
+
+        // FIXME: do this in a nicer way 
+        window.funklyCharMap = this.props.characterMap
+
+        loadProject(this)    }
 
     componentWillUnmount(): void {
-        this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.generateAndSetCode)
+        this.blocklyReactInstance.current!.primaryWorkspace.removeChangeListener(this.onBlocklychange)
     }
 
     render = () => {
@@ -159,20 +187,40 @@ class Editor extends React.Component<{ setCode: (_: string) => void; setBlockXml
     }
 }
 
-function generateCode(blocklyReactInstance: any): string {
-    const workspace = blocklyReactInstance.current!.primaryWorkspace
-    const entities = workspace
-        .getBlocksByType("funkly_entity", true)
-        .concat(workspace.getBlocksByType("funkly_guientity", true))
+function generateXml(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
+    let xmlString = '<xml xmlns="https://developers.google.com/blockly/xml">'
+    characterMap.forEach((workspace, key) => {
+        // if there exists a block with id `key` convert it to xml
+        if (workspace.getBlockById(key)) {
+            xmlString += Blockly.Xml.domToPrettyText(Blockly.Xml.blockToDom(workspace.getBlockById(key)))
+        }
+    })
+    xmlString += "</xml>"
+    
+    return xmlString 
+}
+
+function generateCode(characterMap: ReadonlyMap<string, Blockly.Workspace>): string {
+    
+    let entities: Blockly.Block[] = []
+    for (const [key, workspace] of characterMap) {
+        if (workspace.getBlockById(key))  { 
+            entities = entities.concat(workspace.getBlockById(key))
+        } else {
+            console.debug(`Charactermap had key ${key} but it's workspace was missing a block by that id. 
+                          This usually means some character's workspace was cleared `)
+        }
+    }
 
     // Generate code for each entity and place commas
     let engineCode = '{ "entities": {'
-    entities.slice(0, -1).forEach((e: any) => (engineCode += BlocklyJS.blockToCode(e) + ","))
+    entities.slice(0, -1).forEach(e => (engineCode += BlocklyJS.blockToCode(e) + ","))
     // Leave out comma from last entity
     engineCode += BlocklyJS.blockToCode(entities.slice(-1)[0])
     engineCode += "}, "
     engineCode += defaultBinds + "}"
 
+    console.log(engineCode)
     return engineCode
 }
 
@@ -181,26 +229,21 @@ function saveProject(blockXml: string): void {
         console.debug("Editor is null")
         return
     }
-    localStorage.setItem("defaultProject", blockXml)
+    localStorage.setItem("savedProject", encodeURI(blockXml))
 }
 
-function loadProject(blocklyComponent: BlocklyComponent | undefined | null): void {
-    if (!blocklyComponent) {
-        console.debug("Editor is null")
-        return
-    }
-    const a = localStorage.getItem("defaultProject") || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    const xml = Blockly.Xml.textToDom(a)
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(xml, blocklyComponent.primaryWorkspace)
+function loadProject(editor: Editor) {
+
+    const savedXml = localStorage.getItem("savedProject")
+    const savedProject = 
+        savedXml ? decodeURI(savedXml)
+            : '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    editor.importXml(savedProject)
 }
 
-function loadDefaultProject(blocklyComponent: BlocklyComponent | undefined | null): void {
-    if (!blocklyComponent) {
-        console.debug("Editor is null")
-        return
-    }
-    const a = decodeURI(initialXml) || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
-    Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(a), blocklyComponent.primaryWorkspace)
+function loadDefaultProject(editor: Editor) {
+    const defaultProject = decodeURI(initialXml) || '<xml xmlns="https://developers.google.com/blockly/xml"/>'
+    editor.importXml(defaultProject)
 }
 
 export default Editor

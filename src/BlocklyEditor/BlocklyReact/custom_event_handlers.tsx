@@ -1,7 +1,7 @@
 import Blockly from "blockly"
 
 const getType = (event: any) => {
-    if (event.type == Blockly.Events.CHANGE) {
+    if (event.type === Blockly.Events.CHANGE) {
         const block = event.block
         if (block && block.type === "funkly_get") {
             if (event.name === "property") {
@@ -26,7 +26,7 @@ const condType = (event: any) => {
                 let child = workspace.getBlockById(event.blockId)
                 const con = child.previousConnection
                 const check = con.getCheck()
-                if (block.getInput("DO").connection.getCheck() == null) {
+                if (block.getInput("DO").connection.getCheck() === null) {
                     block.getInput("DO").setCheck(check)
                     block.getInput("ELSE").setCheck(check)
                     block.setPreviousStatement(true, check)
@@ -38,9 +38,9 @@ const condType = (event: any) => {
             let block = workspace.getBlockById(event.oldParentId)
             if (block && block.type === "funkly_cond") {
                 //only reset if all completely disconnected
-                if (block.getInputTargetBlock("DO") == null &&
-                    block.getInputTargetBlock("ELSE") == null &&
-                    block.getPreviousBlock() == null) {
+                if (block.getInputTargetBlock("DO") === null &&
+                    block.getInputTargetBlock("ELSE") === null &&
+                    block.getPreviousBlock() === null) {
 
                     block.getInput("DO").setCheck(null)
                     block.getInput("ELSE").setCheck(null)
@@ -68,9 +68,9 @@ const condType = (event: any) => {
                 }
             } else {
                 //only reset if all inputs disconnected
-                if (block.getInputTargetBlock("DO") == null &&
-                    block.getInputTargetBlock("ELSE") == null &&
-                    block.getPreviousBlock() == null) {
+                if (block.getInputTargetBlock("DO") === null &&
+                    block.getInputTargetBlock("ELSE") === null &&
+                    block.getPreviousBlock() === null) {
                     block.getInput("DO").setCheck(null)
                     block.getInput("ELSE").setCheck(null)
                     block.setPreviousStatement(true, null)
@@ -84,13 +84,13 @@ const condType = (event: any) => {
 function setGuardIfField(b: any, workspace: any) {
     const prev = b.getPreviousBlock()
     const next = b.getNextBlock()
-    if (next && next.type == "funkly_guard") {
+    if (next && next.type === "funkly_guard") {
         b.getInput("IF").setVisible(true)
     } else {
         b.getInput("IF").setVisible(false)
     }
 
-    if (prev && prev.type == "funkly_guard") setGuardIfField(prev, workspace)
+    if (prev && prev.type === "funkly_guard") setGuardIfField(prev, workspace)
 
     workspace.render()
 }
@@ -122,7 +122,7 @@ const guardBlock = (event: any) => {
     const workspace = Blockly.Workspace.getById(event.workspaceId)
     if (event.type === Blockly.Events.CREATE || event.type === Blockly.Events.MOVE) {
         const block = workspace.getBlockById(event.blockId)
-        if (block && block.type == "funkly_guard") {
+        if (block && block.type === "funkly_guard") {
             setGuardIfField(block, workspace)
         }
         if (block) {

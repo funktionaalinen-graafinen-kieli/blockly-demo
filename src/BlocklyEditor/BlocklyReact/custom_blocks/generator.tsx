@@ -1,6 +1,6 @@
 import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
-import * as log from "loglevel"
+import log from "loglevel"
 import { entityImages } from "../../../Gui/image_storage"
 import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
 
@@ -23,7 +23,8 @@ enum funklyBlockType {
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
     LIST = "funkly_list",
-    IMG = "funkly_img"
+    IMG = "funkly_img",
+    GUI_IMG = "funkly_gui_img"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -45,6 +46,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.KEY) return funkly_keyboard_input
     else if (type === funklyBlockType.MATH) return funkly_math
     else if (type === funklyBlockType.TRIG) return funkly_trig
+    else if (type === funklyBlockType.GUI_IMG) return funkly_gui_img
     else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
 
@@ -162,21 +164,46 @@ function funklyCodegen(type: funklyBlockType) {
         return ""
     }
 
-    function funkly_multi(block: Block) {
-        const id = block.id
-        const name = block.getFieldValue("name") || "default_name"
-        const x = BlocklyJS.statementToCode(block, "x", BlocklyJS.ORDER_RELATIONAL)
-        const initx = block.getFieldValue("initx") || 0
-        const y = BlocklyJS.statementToCode(block, "y", BlocklyJS.ORDER_RELATIONAL)
-        const inity = block.getFieldValue("inity") || 0
-        const height = block.getFieldValue("height") || 50
-        const width = block.getFieldValue("width") || 50
-        const radius = block.getFieldValue("radius") || 50
-        const initro = block.getFieldValue("initro") || 0
-        const ro = BlocklyJS.statementToCode(block, "ro") || 0
-        const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
+    function multi_initToCode(baseId: string, id: string, multi: Block, init: Block) {
+        var re = new RegExp(baseId,"g");
 
+        const name = multi.getFieldValue("name") || "default_name"
+        const x = BlocklyJS.statementToCode(multi, "x").replace(re,id)
+        const y = BlocklyJS.statementToCode(multi, "y").replace(re,id)
+        const height = multi.getFieldValue("height") || 50
+        const width = multi.getFieldValue("width") || 50
+        const radius = multi.getFieldValue("radius") || 50
+        const ro = BlocklyJS.statementToCode(multi, "ro").replace(re,id) || 0
+        const img = BlocklyJS.statementToCode(multi, "img", BlocklyJS.ORDER_RELATIONAL)
+
+        let initx = 0
+        let inity = 0
+        let initro = 0
+        if (init) {
+            initx = init.getFieldValue("initx") || 0
+            inity = init.getFieldValue("inity") || 0
+            initro = init.getFieldValue("initro") || 0
+        }
         return entityCode(id, name, x, initx, y, inity, img, height, width, radius, initro, ro, "'\\\"\\\"'")
+    }
+
+    function funkly_multi(block: Block) {
+        const baseId = block.id
+
+        const lb = block.getInputTargetBlock("list")
+        const es: string[] = [] 
+        //@ts-ignore
+        if (lb && lb.type === "funkly_list" && lb.itemCount_ !== 0) { 
+            //@ts-ignore
+            for (var i = 0; i < lb.itemCount_; i++) {
+                console.trace(block)
+                console.trace(block.getInputTargetBlock("ADD"+i))
+                es.push(multi_initToCode(baseId, baseId+i, block, lb.getInputTargetBlock("ADD"+i)))
+            }
+        }
+        return es.join(', ')
+        //return entityCode("11", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "'\\\"\\\"'")
+        //return "e: {}"
     }
 
     function funkly_entity(block: Block) {
@@ -229,6 +256,11 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
         return `'\\"${strip(arg0)}\\"'`
     }
+
+    function funkly_gui_img(block: Block) {
+        const arg0 = block.getFieldValue("IMAGE") || "score_empty"
+        return `'\\"${strip(arg0)}\\"'`
+    }
 }
 
 const entityCode = (
@@ -258,7 +290,10 @@ const entityCode = (
     output += `"ro": ["pack(${ro})", ${initro}],`
     output += `"text": ["pack(${text})", ""],`
 
+    // FIXME: this is duplicated from above
     output += '"r": ["packF(id)", 30],'
+    
+    // TODO: Should this happen in the generator code instead of here?
     const imgDefault = entityImages.entries().next().value[1]
     if (img === "") {
         output += `"img": ["packF(id)", "${imgDefault}"]`
