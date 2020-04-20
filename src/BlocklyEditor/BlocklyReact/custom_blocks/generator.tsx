@@ -200,6 +200,8 @@ function funklyCodegen(type: funklyBlockType) {
                 console.trace(block.getInputTargetBlock("ADD"+i))
                 es.push(multi_initToCode(baseId, baseId+i, block, lb.getInputTargetBlock("ADD"+i)))
             }
+        } else {
+            return ""
         }
         return es.join(', ')
         //return entityCode("11", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "aa", "'\\\"\\\"'")
