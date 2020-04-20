@@ -16,6 +16,7 @@ enum funklyBlockType {
     NUMBER = "funkly_number",
     ENTITY = "funkly_entity",
     MULTI = "funkly_multi",
+    INITMULTI = "funkly_initmulti",
     GUIENTITY = "funkly_guientity",
     BIND = "funkly_bind",
     KEY = "funkly_keyboard_input",
@@ -35,6 +36,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.RAND) return funkly_rand
     else if (type === funklyBlockType.DIST) return funkly_dist
     else if (type === funklyBlockType.MULTI) return funkly_multi
+    else if (type === funklyBlockType.INITMULTI) return funkly_initmulti
     else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
@@ -154,6 +156,10 @@ function funklyCodegen(type: funklyBlockType) {
     function funkly_number(block: Block) {
         const arg0 = block.getFieldValue("NUM")
         return wrap(arg0)
+    }
+
+    function funkly_initmulti(block: Block) {
+        return ""
     }
 
     function funkly_multi(block: Block) {

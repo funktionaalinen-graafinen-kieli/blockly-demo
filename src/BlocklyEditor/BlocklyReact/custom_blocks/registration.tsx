@@ -212,6 +212,29 @@ const multiJson = {
 }
 createCustomBlock(funklyBlockType.MULTI, "text_blocks", multiJson)
 
+const initmultiJson = {
+    message0: "x %1 y %2 ro %3",
+    args0: [
+        {
+            type: "field_number",
+            name: "initx",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "inity",
+            value: "1"
+        },
+        {
+            type: "field_number",
+            name: "initro",
+            value: "0"
+        }
+    ],
+    output: "Number",
+}
+createCustomBlock(funklyBlockType.INITMULTI, "text_blocks", initmultiJson)
+
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
     inputsInline: false,

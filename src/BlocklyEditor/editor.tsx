@@ -83,7 +83,7 @@ const editorBlocks = (
                     <Shadow type="funkly_img" />
                 </Value>
                 <Value name="list">
-                    <Shadow type="funkly_list" />
+                    <Block type="funkly_list"/>
                 </Value>
             </Block>
             <Block type="funkly_guientity">
@@ -97,6 +97,7 @@ const editorBlocks = (
                 </Value>
             </Block>
             <Block type="funkly_bindget" />
+            <Block type="funkly_initmulti" />
             <Block type="funkly_get" />
             <Block type="funkly_img" />
         </Category>
