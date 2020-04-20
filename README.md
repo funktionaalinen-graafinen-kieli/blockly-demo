@@ -1,6 +1,6 @@
 # Funkly
 
-Funkly is a block-based visual programming language. Its purpose is to teach children functional programming by offering an interface where one can build games and other programs using blocks. It is modelled after MIT's Scratch but whereas Scratch teaches imperative programming, Funkly aims to teach functional programming. Like Scratch, Funkly is based on Google's Blockly library.
+Funkly is a block-based visual programming language. Its purpose is to teach children functional programming by offering an interface where one can build games and other programs using blocks. It is modelled after MIT's Scratch but whereas Scratch teaches imperative programming, Funkly aims to teach functional programming. Like Scratch, Funkly is built on top of Google's Blockly library.
 
 - [Scratch](http://scratch.mit.edu)
 - [Blockly](https://developers.google.com/blockly)
@@ -28,23 +28,15 @@ Funkly is a block-based visual programming language. Its purpose is to teach chi
 - `npm start` serves the project on localhost
 
 ### Configuration
-
+TODO: is this actually something anyone does / should do?
 - Change available Blockly-blocks in Editor's render method. List of blocks by type can be found _here_ https://github.com/google/blockly/tree/master/blocks
 
 ## Development
 
-### Extensions
-.ts for vanilla typescript, .tsx for react-extended typescript
-.js for vanilla javascript, .jsx for react-extended javascript
+### Architecture / file structure
 
-### Logging
- - Use loglevel for logging (https://github.com/pimterry/loglevel) instead of console.log (it supports log levels and is syntactically almost as low-effort).
-    ```
-    import * as log from "loglevel"
-    log.warn("ultra-compatible")
-    log.trace("an unimportant trace message")
-    ```
-    
+TODO: add contents
+
 ### Testing
 
 #### Running
@@ -60,5 +52,4 @@ Funkly is a block-based visual programming language. Its purpose is to teach chi
 - Recommended way is to write tests with Javascript, even for typescript and JSX / TSX files.
 
 ### Licence
-
-x
+MIT License
