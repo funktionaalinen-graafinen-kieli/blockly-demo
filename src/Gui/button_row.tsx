@@ -1,6 +1,6 @@
-import Editor, { loadProject, saveProject, loadDefaultProject } from "../BlocklyEditor/editor"
+import Editor, { loadDefaultProject } from "../BlocklyEditor/editor"
 import { download } from "../GameEngine/utils"
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { guiImages } from "./image_storage"
 
 const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElement>) => {
@@ -19,29 +19,13 @@ interface ButtonProps {
     toggleDebug: () => void
     blockXml: string
     editor: Editor
+    changeFull: () => void
+    isFullscreen: boolean
 }
 
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
-    useEffect(() => {
-        if (props.editor) {
-            load()
-        }
-    }, [props.editor])
-
-    useEffect(() => {
-        saveButtonClicked()
-    }, [props.blockXml])
-
-    const saveButtonClicked = () => {
-        if (props.blockXml) saveProject(props.blockXml)
-    }
-
-    const load = () => {
-        loadProject(props.editor.blocklyReactInstance.current)
-    }
-
     const loadDefaultButtonClicked = () => {
-        loadDefaultProject(props.editor.blocklyReactInstance.current)
+        loadDefaultProject(props.editor)
     }
 
     return (
@@ -50,15 +34,15 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
                 {props.gameRunning ? (
                     <img className="funkly-button-icon" src={guiImages.get("stop")} alt="stop" />
                 ) : (
-                    <img className="funkly-button-icon" src={guiImages.get("play")} alt="play" />
-                )}{" "}
+                        <img className="funkly-button-icon" src={guiImages.get("play")} alt="play" />
+                    )}{" "}
             </button>
             <button onClick={props.toggleDebug}>
                 {props.debugToggle ? (
                     <img className="funkly-button-icon" src={guiImages.get("debugoff")} alt="debug off" />
                 ) : (
-                    <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
-                )}
+                        <img className="funkly-button-icon" src={guiImages.get("debugon")} alt="degub on" />
+                    )}
             </button>
             <button onClick={loadDefaultButtonClicked}>
                 <img className="funkly-button-icon" src={guiImages.get("load")} alt="load" />
@@ -80,6 +64,15 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
             <label className="funkly-file-load" htmlFor="importedCode">
                 <img className="funkly-button-icon" src={guiImages.get("choosefile")} alt="chooseFile" />
             </label>
+            <button onClick={props.changeFull}>
+                <img
+                    className="funkly-button-icon"
+                    src={props.isFullscreen
+                        ? guiImages.get("minimize")
+                        : guiImages.get("maximize")
+                    } alt="toggle fullscreen"
+                />
+            </button>
         </>
     )
 }

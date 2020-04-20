@@ -7,6 +7,8 @@ interface GameComponentProps {
     gameRunning: boolean
     debugToggle: boolean
     program: string
+    gameAreaWidth: number
+    gameAreaHeight: number
 }
 
 const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) => {
@@ -14,9 +16,11 @@ const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) 
     const gameEngine = new GameEngine(props.program)
 
     return (
-        <RenderGame 
+        <RenderGame
             debugToggle={props.debugToggle}
             gameEngine={gameEngine}
+            gameAreaWidth={props.gameAreaWidth}
+            gameAreaHeight={props.gameAreaHeight}
         />
     )
 }

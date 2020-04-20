@@ -1,0 +1,38 @@
+.funkly-container-full {
+    position: absolute;
+    margin-left: 1vw;
+    margin-top: 1vh;
+    background: white;
+    display: grid;
+    grid-template-columns: repeat(3, 32vw);
+    grid-template-rows: repeat(10, 9.8vh);
+    grid-column-gap: 0.5vw;
+    grid-row-gap: 0.0vh;
+}
+
+.funkly-title-full {
+    grid-area: 1 / 1 / 2 / 2;
+    max-height: 8vh;
+}
+
+.funkly-buttons-full {
+    grid-area: 1 / 3 / 2 / 4;
+    display: flex;
+    margin-bottom: 2vh;
+}
+
+.funkly-engine-full {
+    grid-area: 2 / 1 / 11 / 4;
+}
+
+.funkly-char-selection-full {
+    visibility: hidden;
+}
+
+.funkly-debug-full {
+    visibility: hidden;
+}
+
+.funkly-blockly-editor-full {
+    visibility: hidden;
+}

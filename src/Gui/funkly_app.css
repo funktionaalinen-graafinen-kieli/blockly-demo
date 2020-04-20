@@ -1,0 +1,181 @@
+html {
+    background: white;
+    background-size: cover;
+}
+
+button {
+    background-color: white;
+    border-style: none;
+    padding: 1px 0px 2px;
+    outline: 0 !important;
+}
+
+.hidden {
+    display: none;
+}
+
+:focus {
+    /*onko ohjelma nyt esteellinen kun outlinet 0?*/
+    outline: 0;
+}
+
+/*
+ Start all funkly specific css class names funkly- to avoid collision with bootstrap and blockly css naming schemes
+ */
+
+.funkly-container {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    position: absolute;
+    margin-left: 1vw;
+    margin-top: 1vh;
+    background: white;
+    display: grid;
+    grid-template-columns: repeat(3, 32vw);
+    grid-template-rows: repeat(10, 9.8vh);
+    grid-column-gap: 0.5vw;
+    grid-row-gap: 0.0vh;
+}
+
+.funkly-title {
+    grid-area: 1 / 1 / 2 / 2;
+    max-height: 8vh;
+    width:auto;
+}
+
+.funkly-buttons {
+    grid-area: 1 / 3 / 2 / 4;
+    display: flex;
+    margin-bottom: 2vh;
+}
+
+.funkly-button-icon {
+    height: auto;
+    /* Jostain syystä napit ovat oikean kokoisia 80%, eikä 100%*/
+    width: 70%;
+}
+
+.funkly-mouse-icon {
+    height: 3.56vh;
+    width: 2vw;
+}
+
+.funkly-mouse-location {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    padding-left: 2vh;
+    position: absolute;
+    z-index: 10;
+}
+
+.funkly-file-load {
+    margin: auto;
+    cursor: pointer;
+}
+
+.funkly-blockly-editor {
+    position: relative;
+    grid-area: 2 / 1 / 11 / 3; 
+}
+
+.funkly-blockly-div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.funkly-engine {
+    grid-area: 2 / 3 / 7 / 4;
+}
+
+.funkly-game-area {
+    position: absolute;
+    background-color: #0264db;
+    width: 600px;
+    height: 400px;
+    scale: 1.3;
+    transform-origin: top left;
+    border-radius: 20px !important;
+}
+
+.funkly-char-selection {
+    grid-area: 7 / 3 / 11 / 4;
+    background-color: #f5f5f5;
+    border-radius: 20px !important;
+    margin-top: 5px;
+}
+
+.funkly-char-or-other {
+    margin-top: 8px;
+    margin-left: 8px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.funkly-character-card {
+    /*jos vh niin koko holtiton*/
+    height: 90px; 
+    width: 90px;
+
+    margin-top: 10px;
+    margin-left: -13px;
+
+    padding-top: 3px;
+    background-color: white;
+    text-align: center;
+    border-radius: 20px;
+
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #212529;
+}
+
+.funkly-character-card-selected {
+    border: 2px solid rgb(110, 189, 241);
+    box-shadow: 0px 0px 0px 4px hsla(215, 100%, 65%, 0.35)
+}
+
+.funkly-character-on-card {
+    height: 55px;
+    width: 55px;
+}
+
+.funkly-delete-character {
+    height: 20px;
+    width: 20px;
+    position: relative;
+}
+
+.funkly-new-character-button {
+    /*miten char-selectionin oikeaan alanurkkaan, grid-sijainti?*/
+    width: 70px;
+    height: 70px;
+    padding-top: 18px;
+    padding-right: 14px;
+
+}
+
+.funkly-gui-entity-info {
+    color: white;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 20px;
+    font-weight: bold;
+    -webkit-text-stroke: 1px black;
+    margin-left: 40%;
+    margin-top: 10%;
+    position: absolute;
+}
+.funkly-debug {
+    /* TODO: get this to place _under_ the main blockly view*/
+    top: 100vh;
+    position: absolute;
+}
+
+.funkly-statemap{
+    background: orange;
+    width: 500px;
+    top: 100vh; 
+    position: absolute;
+}

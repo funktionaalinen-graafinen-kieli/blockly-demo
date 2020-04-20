@@ -8,11 +8,10 @@ Object {
       <div
         class="funkly-container"
       >
-        <h1
+        <img
           class="funkly-title"
-        >
-          FUNKLY
-        </h1>
+          src="logo.png"
+        />
         <div
           class="funkly-buttons"
         >
@@ -61,6 +60,13 @@ Object {
               src="choosefile.png"
             />
           </label>
+          <button>
+            <img
+              alt="toggle fullscreen"
+              class="funkly-button-icon"
+              src="maximize.png"
+            />
+          </button>
         </div>
         <div
           class="funkly-blockly-editor"
@@ -85,7 +91,17 @@ Object {
         </div>
         <div
           class="funkly-char-selection"
-        />
+        >
+          <div
+            style="display: grid; grid-template-columns: auto auto auto; justify-items: center;"
+          >
+            <img
+              alt="add character"
+              class="funkly-new-character-button"
+              src="plusbuttongrey.png"
+            />
+          </div>
+        </div>
         <div
           class="funkly-debug"
         >
@@ -98,11 +114,10 @@ Object {
     <div
       class="funkly-container"
     >
-      <h1
+      <img
         class="funkly-title"
-      >
-        FUNKLY
-      </h1>
+        src="logo.png"
+      />
       <div
         class="funkly-buttons"
       >
@@ -151,6 +166,13 @@ Object {
             src="choosefile.png"
           />
         </label>
+        <button>
+          <img
+            alt="toggle fullscreen"
+            class="funkly-button-icon"
+            src="maximize.png"
+          />
+        </button>
       </div>
       <div
         class="funkly-blockly-editor"
@@ -175,7 +197,17 @@ Object {
       </div>
       <div
         class="funkly-char-selection"
-      />
+      >
+        <div
+          style="display: grid; grid-template-columns: auto auto auto; justify-items: center;"
+        >
+          <img
+            alt="add character"
+            class="funkly-new-character-button"
+            src="plusbuttongrey.png"
+          />
+        </div>
+      </div>
       <div
         class="funkly-debug"
       >

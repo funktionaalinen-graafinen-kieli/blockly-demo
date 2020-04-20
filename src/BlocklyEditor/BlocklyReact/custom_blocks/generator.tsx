@@ -1,8 +1,8 @@
 import * as BlocklyJS from "blockly/javascript"
 import { Block } from "blockly"
-import * as log from "loglevel"
+import log from "loglevel"
 import { entityImages } from "../../../Gui/image_storage"
-import { entityDefaultSize, gameBoard } from "../../../GameEngine/config"
+import { entityDefaultSize } from "../../../GameEngine/config"
 
 enum funklyBlockType {
     COND = "funkly_cond",
@@ -10,6 +10,7 @@ enum funklyBlockType {
     COMP = "funkly_comp",
     MATH = "funkly_math",
     RAND = "funkly_rand",
+    DIST = "funkly_dist",
     TRIG = "funkly_trig",
     COLLIDE = "funkly_collide",
     NUMBER = "funkly_number",
@@ -19,7 +20,8 @@ enum funklyBlockType {
     KEY = "funkly_keyboard_input",
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
-    IMG = "funkly_img"
+    IMG = "funkly_img",
+    GUI_IMG = "funkly_gui_img"
 }
 
 function funklyCodegen(type: funklyBlockType) {
@@ -29,6 +31,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.NUMBER) return funkly_number
     else if (type === funklyBlockType.ENTITY) return funkly_entity
     else if (type === funklyBlockType.RAND) return funkly_rand
+    else if (type === funklyBlockType.DIST) return funkly_dist
     else if (type === funklyBlockType.GUIENTITY) return funkly_guientity
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
@@ -37,6 +40,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.KEY) return funkly_keyboard_input
     else if (type === funklyBlockType.MATH) return funkly_math
     else if (type === funklyBlockType.TRIG) return funkly_trig
+    else if (type === funklyBlockType.GUI_IMG) return funkly_gui_img
     else if (type === funklyBlockType.IMG) return funkly_img
     else log.error("Invalid funkly block type")
 
@@ -55,11 +59,11 @@ function funklyCodegen(type: funklyBlockType) {
         if (prev.type === "funkly_guard") {
             return ""
         }
-        
+
         return funkly_guard_helper(block)
     }
 
-    function funkly_guard_helper(block: Block) : string{
+    function funkly_guard_helper(block: Block): string {
         const next = block.getNextBlock()
 
         const conditionCode = block.getInput("IF") ? BlocklyJS.statementToCode(block, "IF") : "1"
@@ -84,8 +88,10 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_rand(block: Block) {
-        const arg0 = block.getFieldValue("NUM") || "1"
-        return `mul(rand())(${arg0})`
+        const arg0 = block.getFieldValue("NUM0") || "0"
+        const arg1 = block.getFieldValue("NUM1") || "1"
+        // rand * (out_max - out_min) + out_min;
+        return `(add(mul(rand())(sub(${arg1})(${arg0})))(${arg0}))`
     }
 
     function funkly_arg2(f: string) {
@@ -115,6 +121,12 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("e1") || "default_e1"
         const arg1 = block.getFieldValue("e2") || "default_e2"
         return "col" + argwrap(`'${arg0}'`, `'${arg1}'`)
+    }
+
+    function funkly_dist(block: Block) {
+        const arg0 = block.getFieldValue("e1") || "default_e1"
+        const arg1 = block.getFieldValue("e2") || "default_e2"
+        return "dist" + argwrap(`'${arg0}'`, `'${arg1}'`)
     }
 
     function funkly_get(block: Block) {
@@ -148,9 +160,11 @@ function funklyCodegen(type: funklyBlockType) {
         const height = block.getFieldValue("height") || 50
         const width = block.getFieldValue("width") || 50
         const radius = block.getFieldValue("radius") || 50
+        const initro = block.getFieldValue("initro") || 0
+        const ro = BlocklyJS.statementToCode(block, "ro") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
 
-        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, "'\\\"\\\"'")
+        return entityCode(id, name, x, initx, y, inity, img, height, width, radius, initro, ro, "'\\\"\\\"'")
     }
 
     function funkly_guientity(block: Block) {
@@ -161,13 +175,14 @@ function funklyCodegen(type: funklyBlockType) {
         const width = block.getFieldValue("width") || 0
         const height = block.getFieldValue("height") || 0
         const radius = entityDefaultSize["radius"]
+        const rotation = block.getFieldValue("rotation") || 0
         const img = BlocklyJS.statementToCode(block, "img", BlocklyJS.ORDER_RELATIONAL)
         const text = BlocklyJS.statementToCode(block, "text", BlocklyJS.ORDER_RELATIONAL)
 
         let x = "packF(id)"
         let y = "packF(id)"
 
-        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, text)
+        return entityCode(id, name, x, initx, y, inity, img, width, height, radius, rotation, rotation, text)
     }
 
     function funkly_bind(block: Block) {
@@ -185,6 +200,11 @@ function funklyCodegen(type: funklyBlockType) {
         const arg0 = block.getFieldValue("IMAGE") || "default_image"
         return `'\\"${strip(arg0)}\\"'`
     }
+
+    function funkly_gui_img(block: Block) {
+        const arg0 = block.getFieldValue("IMAGE") || "score_empty"
+        return `'\\"${strip(arg0)}\\"'`
+    }
 }
 
 const entityCode = (
@@ -198,20 +218,26 @@ const entityCode = (
     width: number,
     height: number,
     radius: number,
+    initro: number,
+    ro: string,
     text: string
 ) => {
     let output = `"${id}": {`
     output += `"name": ["packF(id)", "${name}"],`
 
-    output += `"x": ["pack(clamp(${x})(0)(${gameBoard["width"]}))", ${initx}],`
-    output += `"y": ["pack(clamp(${y})(0)(${gameBoard["height"]}))", ${inity}],`
+    output += `"x": ["pack(clamp(${x})(0)(500))", ${initx}],`
+    output += `"y": ["pack(clamp(${y})(0)(500))", ${inity}],`
 
     output += `"w": ["packF(id)", ${width}],`
     output += `"h": ["packF(id)", ${height}],`
     output += `"r": ["packF(id)", ${radius}],`
+    output += `"ro": ["pack(${ro})", ${initro}],`
     output += `"text": ["pack(${text})", ""],`
 
+    // FIXME: this is duplicated from above
     output += '"r": ["packF(id)", 30],'
+
+    // TODO: Should this happen in the generator code instead of here?
     const imgDefault = entityImages.entries().next().value[1]
     if (img === "") {
         output += `"img": ["packF(id)", "${imgDefault}"]`
