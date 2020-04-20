@@ -60,6 +60,13 @@ Object {
               src="choosefile.png"
             />
           </label>
+          <button>
+            <img
+              alt="toggle fullscreen"
+              class="funkly-button-icon"
+              src="maximize.png"
+            />
+          </button>
         </div>
         <div
           class="funkly-blockly-editor"
@@ -159,6 +166,13 @@ Object {
             src="choosefile.png"
           />
         </label>
+        <button>
+          <img
+            alt="toggle fullscreen"
+            class="funkly-button-icon"
+            src="maximize.png"
+          />
+        </button>
       </div>
       <div
         class="funkly-blockly-editor"

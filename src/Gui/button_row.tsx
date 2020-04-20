@@ -20,6 +20,7 @@ interface ButtonProps {
     blockXml: string
     editor: Editor
     changeFull: () => void
+    isFullscreen: boolean
 }
 
 export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
@@ -64,7 +65,13 @@ export const ButtonRow: React.FC<ButtonProps> = (props: ButtonProps) => {
                 <img className="funkly-button-icon" src={guiImages.get("choosefile")} alt="chooseFile" />
             </label>
             <button onClick={props.changeFull}>
-                <img className="funkly-button-icon" src={guiImages.get("maximize")} alt="maximize" />
+                <img
+                    className="funkly-button-icon"
+                    src={props.isFullscreen
+                        ? guiImages.get("minimize")
+                        : guiImages.get("maximize")
+                    } alt="toggle fullscreen"
+                />
             </button>
         </>
     )

@@ -2,7 +2,7 @@
     position: absolute;
     margin-left: 1vw;
     margin-top: 1vh;
-    background: #fff0c5ff;
+    background: white;
     display: grid;
     grid-template-columns: repeat(3, 32vw);
     grid-template-rows: repeat(10, 9.8vh);
@@ -12,12 +12,13 @@
 
 .funkly-title-full {
     grid-area: 1 / 1 / 2 / 2;
-    font-size: 6vh;
+    max-height: 8vh;
 }
 
 .funkly-buttons-full {
     grid-area: 1 / 3 / 2 / 4;
     display: flex;
+    margin-bottom: 2vh;
 }
 
 .funkly-engine-full {

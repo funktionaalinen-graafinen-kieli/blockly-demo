@@ -30,7 +30,7 @@ interface AppState {
     characterMap: ReadonlyMap<string, Blockly.Workspace>
     // An undefined selectedCharacter means a character is not selected
     selectedCharacter: string | undefined
-    full: boolean
+    isFullscreen: boolean
 }
 
 export class App extends React.Component<{}, AppState> {
@@ -78,7 +78,7 @@ export class App extends React.Component<{}, AppState> {
             game_area_height: 400,
             characterMap: new Map(),
             selectedCharacter: undefined,
-            full: false,
+            isFullscreen: false,
         }
     }
 
@@ -86,9 +86,9 @@ export class App extends React.Component<{}, AppState> {
         const editorInstance = this.editorInstance.current!
 
         return (
-            <div className={`funkly-container${this.state.full ? "-full" : ""}`}>
-                <img className={`funkly-title${this.state.full ? "-full" : ""}`} src={guiImages.get("logo")} />
-                <div className={`funkly-buttons${this.state.full ? "-full" : ""}`}>
+            <div className={`funkly-container${this.state.isFullscreen ? "-full" : ""}`}>
+                <img className={`funkly-title${this.state.isFullscreen ? "-full" : ""}`} src={guiImages.get("logo")} />
+                <div className={`funkly-buttons${this.state.isFullscreen ? "-full" : ""}`}>
                     <ButtonRow
                         gameRunning={this.state.gameRunning}
                         debugToggle={this.state.debugToggle}
@@ -96,10 +96,11 @@ export class App extends React.Component<{}, AppState> {
                         toggleDebug={this.toggleDebug}
                         editor={editorInstance}
                         blockXml={this.state.blockXml}
-                        changeFull={() => this.setState({ full: !this.state.full })}
+                        changeFull={() => this.setState({ isFullscreen: !this.state.isFullscreen })}
+                        isFullscreen={this.state.isFullscreen}
                     />
                 </div>
-                <div className={`funkly-blockly-editor${this.state.full ? "-full" : ""}`}>
+                <div className={`funkly-blockly-editor${this.state.isFullscreen ? "-full" : ""}`}>
                     <Editor
                         setBlockXml={this.setBlockXml}
                         setCode={this.setCode}
@@ -112,7 +113,7 @@ export class App extends React.Component<{}, AppState> {
                         ref={this.editorInstance}
                     />
                 </div>
-                <div className={`funkly-engine${this.state.full ? "-full" : ""}`}>
+                <div className={`funkly-engine${this.state.isFullscreen ? "-full" : ""}`}>
                     <MouseLocation>
                         <GameComponent
                             gameRunning={this.state.gameRunning}
@@ -123,7 +124,7 @@ export class App extends React.Component<{}, AppState> {
                         />
                     </MouseLocation>
                 </div>
-                <div className={`funkly-char-selection${this.state.full ? "-full" : ""}`} >
+                <div className={`funkly-char-selection${this.state.isFullscreen ? "-full" : ""}`} >
                     <CharacterSelector
                         editor={this.editorInstance}
                         characterMap={this.state.characterMap}
@@ -131,7 +132,7 @@ export class App extends React.Component<{}, AppState> {
                         selectedCharacter={this.state.selectedCharacter}
                     />
                 </div>
-                <div className={`funkly-debug${this.state.full ? "-full" : ""}`} >
+                <div className={`funkly-debug${this.state.isFullscreen ? "-full" : ""}`} >
                     <CodeRenderer debugToggle={this.state.debugToggle} code={this.state.code} />
                 </div>
             </div>
