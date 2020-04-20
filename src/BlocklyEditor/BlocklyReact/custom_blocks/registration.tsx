@@ -1,4 +1,3 @@
-//@ts-nocheck
 import * as BlocklyJS from "blockly/javascript"
 import * as Blocks from "blockly/blocks"
 import { Block, Extensions, FieldDropdown } from "blockly"
@@ -9,8 +8,8 @@ import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
 //gets list of names and ids from a multiblock
-// @ts-ignore
 const entityDropdownOptions = () => {
+    // @ts-ignore
     const bs = [...window.funklyCharMap]
                 .filter(([k, v]) => k !== "")
                 .map(([id,w]) => w.getBlockById(id))
@@ -30,6 +29,7 @@ const getMultiRefs = (mb: Block) => {
     const lb = mb.getInputTargetBlock("list")
     const options = []
     if (lb && lb.type === "funkly_list") {
+        // @ts-ignore
         for (var i = 0; i < lb.itemCount_; i++) {
             options.push([mb.getFieldValue("name")+i,mb.id+i])
         }
