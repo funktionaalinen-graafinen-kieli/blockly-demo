@@ -97,9 +97,10 @@ function setGuardIfField(b: any, workspace: any) {
 
 // helper function
 function setGuardCheck(b: any, event: any, workspace: any) {
-
-    if (event.newParentId) {
-        const p = workspace.getBlockById(event.newParentId)
+    let p = b.getParent()
+    if (p && p.getInputWithBlock(b)
+          && p.getInputWithBlock(b).name === "DO") {
+        p = workspace.getBlockById(event.newParentId)
         if (p && p.type === "funkly_guard") {
             const con = b.previousConnection
             const check = con.getCheck()
@@ -124,6 +125,9 @@ const guardBlock = (event: any) => {
         const block = workspace.getBlockById(event.blockId)
         if (block && block.type === "funkly_guard") {
             setGuardIfField(block, workspace)
+        }
+        if (block && block.getParent() && block.getParent().type === "funkly_guard") {
+            setGuardIfField(block.getParent(), workspace)
         }
         if (block) {
             setGuardCheck(block, event, workspace)
