@@ -7,7 +7,6 @@ import log from "loglevel"
 
 import { entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
-import { createCustomBlock } from "./util"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
 Blockly.Constants.Lists.HUE = 260;
