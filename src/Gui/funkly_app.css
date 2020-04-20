@@ -38,7 +38,7 @@ button {
 
 .funkly-title {
     grid-area: 1 / 1 / 2 / 2;
-    max-height: 7.5vh;
+    max-height: 8vh;
     width:auto;
 }
 
@@ -102,6 +102,7 @@ button {
     grid-area: 7 / 3 / 11 / 4;
     background-color: #f5f5f5;
     border-radius: 20px !important;
+    margin-top: 5px;
 }
 
 .funkly-char-or-other {
@@ -116,8 +117,7 @@ button {
     height: 90px; 
     width: 90px;
 
-    /*saako alkamaan nurkasta tasaisesti siten että seuraavatkin sijoittuvat siististi?*/
-    margin-top: 5px;
+    margin-top: 10px;
     margin-left: -13px;
 
     padding-top: 3px;
@@ -152,6 +152,9 @@ button {
     /*miten char-selectionin oikeaan alanurkkaan, grid-sijainti?*/
     width: 70px;
     height: 70px;
+    padding-top: 18px;
+    padding-right: 14px;
+
 }
 
 .funkly-gui-entity-info {
