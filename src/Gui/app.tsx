@@ -118,8 +118,7 @@ export class App extends React.Component<{}, AppState> {
                             gameRunning={this.state.gameRunning}
                             debugToggle={this.state.debugToggle}
                             program={this.state.code}
-                            gameAreaWidth={this.state.game_area_width}
-                            gameAreaHeight={this.state.game_area_height}
+                            isFullscreen={this.state.full}
                         />
                     </MouseLocation>
                 </div>

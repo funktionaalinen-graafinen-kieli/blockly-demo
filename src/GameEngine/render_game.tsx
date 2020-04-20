@@ -41,14 +41,17 @@ const entityDivStyle = (
     if (debug) background = "red"
     else background = ""
 
+    const calculatedX = Math.min(x, 500) + "%"
+    const calculatedY = Math.min(y, 500) + "%"
+
     return {
         backgroundColor: background,
         display: "flex",
         width: width,
         height: h,
         position: "absolute",
-        left: x,
-        top: y,
+        left: calculatedX,
+        top: calculatedY,
         transform: `rotate(${ro}deg)`
     }
 }
@@ -56,8 +59,7 @@ const entityDivStyle = (
 interface RenderGameProps {
     debugToggle: boolean
     gameEngine: GameEngine
-    gameAreaWidth: number
-    gameAreaHeight: number
+    isFullscreen: boolean
 }
 
 export const RenderGame = (props: RenderGameProps) => {
@@ -75,11 +77,10 @@ export const RenderGame = (props: RenderGameProps) => {
     return (
         <>
             <div
-                className="funkly-game-area"
+                className={`funkly-game-area + ${props.isFullscreen ? "-full" : ""}`}
                 onKeyDown={props.gameEngine.handleKeyDown}
                 onKeyUp={props.gameEngine.handleKeyUp}
                 tabIndex={0}
-                style={{ width: props.gameAreaWidth, height: props.gameAreaHeight }}
             >
                 {
                     //@ts-ignore
@@ -91,15 +92,9 @@ export const RenderGame = (props: RenderGameProps) => {
                                 getVal(entity.w),
                                 getVal(entity.h),
                                 // (x [0-500]/500) * game_area_width
-                                getVal(entity.x) ?
-                                    Math.min(getVal(entity.x) / 500 * props.gameAreaWidth, props.gameAreaWidth)
-                                    :
-                                    0,
+                                getVal(entity.x),
                                 // (y [0-500]/500) * game_area_height
-                                getVal(entity.y) ?
-                                    Math.min(getVal(entity.y) / 500 * props.gameAreaHeight, props.gameAreaHeight)
-                                    :
-                                    0,
+                                getVal(entity.y),
                                 getVal(entity.ro)
                             )}
                         >
