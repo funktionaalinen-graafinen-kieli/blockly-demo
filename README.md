@@ -21,7 +21,6 @@ Funkly is a block-based visual programming language. Its purpose is to teach chi
 
 ### Installing 
 - `git clone https://github.com/funktionaalinen-graafinen-kieli/funkly` to get the sources
-- Need to have npm installed 
 - `npm install` to install dependencies
 
 ### Running
