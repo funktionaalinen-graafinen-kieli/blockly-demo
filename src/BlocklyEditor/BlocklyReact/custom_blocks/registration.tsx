@@ -8,6 +8,35 @@ import { guiEntityImages, entityImages } from "../../../Gui/image_storage"
 import { funklyBlockType, funklyCodegen } from "./generator"
 import { entityDefaultSize } from "../../../GameEngine/config"
 
+//gets list of names and ids from a multiblock
+// @ts-ignore
+const entityDropdownOptions = () => {
+    const bs = [...window.funklyCharMap]
+                .filter(([k, v]) => k !== "")
+                .map(([id,w]) => w.getBlockById(id))
+                .filter(b => b)
+
+    // entities
+    const es = bs.filter(b => b.type === "funkly_entity")
+                    .map(b => [b.getFieldValue("name"),b.id])
+    // multi blocks
+    bs.filter(b => b.type === "funkly_multi")
+        .forEach(mb => getMultiRefs(mb).forEach(o => es.push(o)))
+
+    return es
+}
+
+const getMultiRefs = (mb: Block) => {
+    const lb = mb.getInputTargetBlock("list")
+    const options = []
+    if (lb && lb.type === "funkly_list") {
+        for (var i = 0; i < lb.itemCount_; i++) {
+            options.push([mb.getFieldValue("name")+i,mb.id+i])
+        }
+    }
+    return options
+}
+
 //@ts-ignore
 const parent_entity = (bl: Block) => [...window.funklyCharMap]
     .filter(([k, v]) => k !== "")
@@ -164,7 +193,7 @@ const multiJson = {
             check: "Number"
         }
     ],
-    message7: "kierto ° %1",
+    message7: "kierto° %1",
     args7: [
         {
             type: "input_statement",
@@ -216,7 +245,7 @@ const multiJson = {
 createCustomBlock(funklyBlockType.MULTI, "text_blocks", multiJson)
 
 const initmultiJson = {
-    message0: "x %1 y %2 ro %3",
+    message0: "x: %1 y: %2 kierto°: %3",
     args0: [
         {
             type: "field_number",
@@ -423,14 +452,7 @@ const colJson = {
 createCustomBlock(funklyBlockType.COLLIDE, "logic_blocks", colJson)
 
 Extensions.register("col_dropdown", function (this: Block) {
-    // @ts-ignore
-    const entities = () => [...window.funklyCharMap]
-        .filter(([k, v]) => k !== "")
-        .map(([id,w]) => w.getBlockById(id))
-        .filter(b => b && b.type === "funkly_entity")
-        .map(b => [b.getFieldValue("name"),b.id])
-
-    const dropdownOptions = () => dropdownWithThis(this, entities)
+    const dropdownOptions = () => dropdownWithThis(this, entityDropdownOptions)
 
     this.getInput("e1").appendField(new FieldDropdown(dropdownOptions), "e1")
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
@@ -457,37 +479,8 @@ const getJson = {
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
 
 Extensions.register("entity_dropdown", function(this: Block) {
-    //gets list of names and ids from a multiblock
-    //@ts-ignore
-    const getMultiRefs = mb => {
-        const lb = mb.getInputTargetBlock("list")
-        const options = []
-        if (lb && lb.type === "funkly_list") {
-            var elements = new Array(lb.itemCount_);
-            for (var i = 0; i < lb.itemCount_; i++) {
-                options.push([mb.getFieldValue("name")+i,mb.id+i])
-            }
-        }
-        return options
-    }
-    // @ts-ignore
-    const entities = () => {
-        const bs = [...window.funklyCharMap]
-                    .filter(([k, v]) => k !== "")
-                    .map(([id,w]) => w.getBlockById(id))
-                    .filter(b => b)
 
-        // entities
-        const es = bs.filter(b => b.type === "funkly_entity")
-                     .map(b => [b.getFieldValue("name"),b.id])
-        // multi blocks
-        bs.filter(b => b.type === "funkly_multi")
-          .forEach(mb => getMultiRefs(mb).forEach(o => es.push(o)))
-
-        return es
-    }
-
-    const dropdownOptions = () => dropdownWithThis(this, entities)
+    const dropdownOptions = () => dropdownWithThis(this, entityDropdownOptions)
 
     this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
 
