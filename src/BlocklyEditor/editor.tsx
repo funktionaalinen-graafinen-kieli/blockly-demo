@@ -12,7 +12,6 @@ const editorBlocks = (
     <React.Fragment>
         <Category name="Matematiikka">
             <Block type="funkly_dist" />
-            <Block type="lists_create_with" />
             <Block type="funkly_rand" />
             <Block type="funkly_math">
                 <Value name="NUMBER0">
@@ -62,6 +61,29 @@ const editorBlocks = (
                 </Value>
                 <Value name="img">
                     <Shadow type="funkly_img" />
+                </Value>
+            </Block>
+            <Block type="funkly_multi">
+                <Value name="x">
+                    <Shadow type="funkly_get">
+                        <Field name="property">x</Field>
+                    </Shadow>
+                </Value>
+                <Value name="y">
+                    <Shadow type="funkly_get">
+                        <Field name="property">y</Field>
+                    </Shadow>
+                </Value>
+                <Value name="ro">
+                    <Shadow type="funkly_get">
+                        <Field name="property">ro</Field>
+                    </Shadow>
+                </Value>
+                <Value name="img">
+                    <Shadow type="funkly_img" />
+                </Value>
+                <Value name="list">
+                    <Shadow type="funkly_list" />
                 </Value>
             </Block>
             <Block type="funkly_guientity">

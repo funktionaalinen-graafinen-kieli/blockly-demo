@@ -133,6 +133,85 @@ const randJson = {
 }
 createCustomBlock(funklyBlockType.RAND, "math_blocks", randJson)
 
+const multiJson = {
+    "type:": funklyBlockType.MULTI,
+    inputsInline: false,
+    message0: "Hahmot %1",
+    args0: [
+        {
+            type: "field_input",
+            name: "name",
+            text: "esimerkkinimi",
+            spellcheck: false
+        }
+    ],
+    message1: "x: %1",
+    args1: [
+        {
+            type: "input_statement",
+            name: "x",
+            check: "Number"
+        }
+    ],
+    message2: "y: %1",
+    args2: [
+        {
+            type: "input_statement",
+            name: "y",
+            check: "Number"
+        }
+    ],
+    message7: "kierto ° %1",
+    args7: [
+        {
+            type: "input_statement",
+            name: "ro",
+            check: "Number"
+        }
+    ],
+    message3: "kuva %1",
+    args3: [
+        {
+            type: "input_statement",
+            name: "img",
+            check: ["Image"]
+        }
+    ],
+    message4: "leveys %1",
+    args4: [
+        {
+            type: "field_number",
+            name: "width",
+            value: `${entityDefaultSize["width"]}`
+        }
+    ],
+    message5: "korkeus %1",
+    args5: [
+        {
+            type: "field_number",
+            name: "height",
+            value: `${entityDefaultSize["height"]}`
+        }
+    ],
+    message6: "osumasäde %1",
+    args6: [
+        {
+            type: "field_number",
+            name: "radius",
+            value: `${entityDefaultSize["radius"]}`
+        }
+    ],
+    message8: "alkuarvot %1",
+    args8: [
+        {
+            type: "input_value",
+            name: "list",
+            check: "Array"
+        }
+    ]
+}
+createCustomBlock(funklyBlockType.MULTI, "text_blocks", multiJson)
+
 const entityJson = {
     "type:": funklyBlockType.ENTITY,
     inputsInline: false,

@@ -21,6 +21,7 @@ enum funklyBlockType {
     KEY = "funkly_keyboard_input",
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
+    LIST = "funkly_list",
     IMG = "funkly_img"
 }
 
@@ -29,6 +30,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.GUARD) return funkly_guard
     else if (type === funklyBlockType.COMP) return funkly_comp
     else if (type === funklyBlockType.NUMBER) return funkly_number
+    else if (type === funklyBlockType.LIST) return funkly_list
     else if (type === funklyBlockType.ENTITY) return funkly_entity
     else if (type === funklyBlockType.RAND) return funkly_rand
     else if (type === funklyBlockType.DIST) return funkly_dist
@@ -61,6 +63,10 @@ function funklyCodegen(type: funklyBlockType) {
         }
 
         return funkly_guard_helper(block)
+    }
+
+    function funkly_list(block: Block) {
+        return ""
     }
 
     function funkly_guard_helper(block: Block): string {
