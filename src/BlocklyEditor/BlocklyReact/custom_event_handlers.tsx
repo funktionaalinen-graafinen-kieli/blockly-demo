@@ -1,20 +1,5 @@
 import Blockly from "blockly"
 
-const getType = (event: any) => {
-    if (event.type === Blockly.Events.CHANGE) {
-        const block = event.block
-        if (block && block.type === "funkly_get") {
-            if (event.name === "property") {
-                const v = event.newValue
-                //use length of value to find numbers (TODO: FIND BETTER WAY)
-                if (v.length === 1) block.setPreviousStatement(true, "Number")
-                if (v === "name") block.setPreviousStatement(true, "String")
-                if (v === "text") block.setPreviousStatement(true, "String")
-            }
-        }
-    }
-}
-
 const condType = (event: any) => {
     if (event.type === Blockly.Events.MOVE) {
         // blocks connecting to cond
@@ -138,6 +123,6 @@ const guardBlock = (event: any) => {
 // const logEvents = (e: any)=>console.trace(e)
 
 // events handlers in this list get added
-const eventHandlers = [getType, condType, guardBlock]
+const eventHandlers = [condType, guardBlock]
 
 export default eventHandlers
