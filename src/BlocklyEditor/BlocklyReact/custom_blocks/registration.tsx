@@ -16,7 +16,7 @@ const entityDropdownOptions = () => {
                 .filter(b => b)
 
     // entities
-    const es = bs.filter(b => b.type === "funkly_entity")
+    const es = bs.filter(b => b.type === "funkly_entity" || b.type === "funkly_guientity")
                     .map(b => [b.getFieldValue("name"),b.id])
     // multi blocks
     bs.filter(b => b.type === "funkly_multi")
@@ -458,6 +458,39 @@ Extensions.register("col_dropdown", function (this: Block) {
     this.getInput("e2").appendField(new FieldDropdown(dropdownOptions), "e2")
 })
 
+const getStrJson = {
+    "type:": funklyBlockType.GET,
+    inputsInline: true,
+    message0: "%1 %2",
+    args0: [
+        {
+            type: "input_dummy",
+            name: "entity"
+        },
+        {
+            type: "input_dummy",
+            name: "property"
+        }
+    ],
+    extensions: ["entity_string_dropdown"],
+    previousStatement: "String"
+}
+
+Extensions.register("entity_string_dropdown", function(this: Block) {
+
+    const dropdownOptions = () => dropdownWithThis(this, entityDropdownOptions)
+
+    this.getInput("entity").appendField(new FieldDropdown(dropdownOptions), "entity")
+
+    const propertyMap = new Map([
+        ["name", "name"],
+        ["text", "text"]
+    ])
+    this.getInput("property").appendField(newCustomDropdown(propertyMap), "property")
+})
+
+createCustomBlock(funklyBlockType.GETSTR, "text_blocks", getStrJson)
+
 const getJson = {
     "type:": funklyBlockType.GET,
     inputsInline: true,
@@ -473,7 +506,7 @@ const getJson = {
         }
     ],
     extensions: ["entity_dropdown"],
-    previousStatement: null
+    previousStatement: "Number"
 }
 
 createCustomBlock(funklyBlockType.GET, "text_blocks", getJson)
@@ -490,8 +523,7 @@ Extensions.register("entity_dropdown", function(this: Block) {
         ["ro", "ro"],
         ["w", "w"],
         ["h", "h"],
-        ["name", "name"],
-        ["text", "text"]
+        ["info", "text"]
     ])
     this.getInput("property").appendField(newCustomDropdown(propertyMap), "property")
 })

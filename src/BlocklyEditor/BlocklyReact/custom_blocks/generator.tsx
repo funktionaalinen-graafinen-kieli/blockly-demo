@@ -22,6 +22,7 @@ enum funklyBlockType {
     KEY = "funkly_keyboard_input",
     BINDGET = "funkly_bindget",
     GET = "funkly_get",
+    GETSTR = "funkly_getstr",
     LIST = "funkly_list",
     IMG = "funkly_img",
     GUI_IMG = "funkly_gui_img"
@@ -42,6 +43,7 @@ function funklyCodegen(type: funklyBlockType) {
     else if (type === funklyBlockType.BIND) return funkly_bind
     else if (type === funklyBlockType.BINDGET) return funkly_bindget
     else if (type === funklyBlockType.GET) return funkly_get
+    else if (type === funklyBlockType.GETSTR) return funkly_getstr
     else if (type === funklyBlockType.COLLIDE) return funkly_collide
     else if (type === funklyBlockType.KEY) return funkly_keyboard_input
     else if (type === funklyBlockType.MATH) return funkly_math
@@ -140,6 +142,12 @@ function funklyCodegen(type: funklyBlockType) {
     }
 
     function funkly_get(block: Block) {
+        const arg0 = block.getFieldValue("entity") || "default_entity"
+        const arg1 = block.getFieldValue("property") || "default_property"
+        return "get" + argwrap("'" + arg0 + "_" + arg1 + "'")
+    }
+
+    function funkly_getstr(block: Block) {
         const arg0 = block.getFieldValue("entity") || "default_entity"
         const arg1 = block.getFieldValue("property") || "default_property"
         return "get" + argwrap("'" + arg0 + "_" + arg1 + "'")
