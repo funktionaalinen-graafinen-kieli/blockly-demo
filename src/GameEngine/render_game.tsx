@@ -60,6 +60,8 @@ interface RenderGameProps {
     debugToggle: boolean
     gameEngine: GameEngine
     isFullscreen: boolean
+    gameAreaWidth: number
+    gameAreaHeight: number
 }
 
 export const RenderGame = (props: RenderGameProps) => {
@@ -81,6 +83,7 @@ export const RenderGame = (props: RenderGameProps) => {
                 onKeyDown={props.gameEngine.handleKeyDown}
                 onKeyUp={props.gameEngine.handleKeyUp}
                 tabIndex={0}
+                style={{ width: props.gameAreaWidth, height: props.gameAreaHeight }}
             >
                 {
                     //@ts-ignore

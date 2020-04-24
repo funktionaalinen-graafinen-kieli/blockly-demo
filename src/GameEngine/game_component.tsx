@@ -8,6 +8,8 @@ interface GameComponentProps {
     debugToggle: boolean
     program: string
     isFullscreen: boolean
+    gameAreaWidth: number
+    gameAreaHeight: number
 }
 
 const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) => {
@@ -19,6 +21,8 @@ const GameComponent: React.FC<GameComponentProps> = (props: GameComponentProps) 
             debugToggle={props.debugToggle}
             gameEngine={gameEngine}
             isFullscreen={props.isFullscreen}
+            gameAreaWidth={props.gameAreaWidth}
+            gameAreaHeight={props.gameAreaHeight}
         />
     )
 }

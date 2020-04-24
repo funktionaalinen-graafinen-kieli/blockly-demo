@@ -83,6 +83,11 @@ export class App extends React.Component<{}, AppState> {
     }
 
     render() {
+        if (this.state.game_area_width === 600 && this.state.full) {
+            this.setState({ game_area_width: 1600, game_area_height: 800 })
+        } else if (this.state.game_area_width === 1600 && !this.state.full) {
+            this.setState({ game_area_width: 600, game_area_height: 400 })
+        }
         const editorInstance = this.editorInstance.current!
 
         return (
@@ -119,6 +124,8 @@ export class App extends React.Component<{}, AppState> {
                             debugToggle={this.state.debugToggle}
                             program={this.state.code}
                             isFullscreen={this.state.full}
+                            gameAreaWidth={this.state.game_area_width}
+                            gameAreaHeight={this.state.game_area_height}
                         />
                     </MouseLocation>
                 </div>
