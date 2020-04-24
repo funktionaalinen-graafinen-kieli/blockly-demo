@@ -41,14 +41,17 @@ const entityDivStyle = (
     if (debug) background = "red"
     else background = ""
 
-    const calculatedX = Math.min(x, 500) + "%"
-    const calculatedY = Math.min(y, 500) + "%"
+    const calculatedWidth = Math.min(width, 100) + "%"
+    const calculatedHeight = Math.min(h, 100) + "%"
+
+    const calculatedX = Math.min(x, 100) + "%"
+    const calculatedY = Math.min(y, 100) + "%"
 
     return {
         backgroundColor: background,
         display: "flex",
-        width: width,
-        height: h,
+        width: calculatedWidth,
+        height: calculatedHeight,
         position: "absolute",
         left: calculatedX,
         top: calculatedY,
