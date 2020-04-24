@@ -57,6 +57,8 @@ export class App extends React.Component<{}, AppState> {
     }
 
     toggleGame = () => {
+        // We want setSelectedCharacter's side effects, it will update the current program
+        this.editorInstance.current!.setSelectedCharacter(this.state.selectedCharacter)
         this.setState({ gameRunning: !this.state.gameRunning })
     }
 
