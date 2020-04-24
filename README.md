@@ -35,12 +35,13 @@ TODO: is this actually something anyone does / should do?
 
 ### Architecture / file structure
 
-TODO: add contents
-
 ### Testing
 
 #### Running
 - `npm test` runs tests using jest as the testrunner. Edit package.json's `test` script if you want to run tests in watch mode
+
+#### Updating
+- Change `test` under `scripts` in `package.json` to `react-scripts test -- -u` and then run `npm test` in your terminal.
 
 #### Writing
 
