@@ -81,7 +81,7 @@ Entities and binds (variables not tied to entities) must be specified as a json 
 ```
 Each entity variable and bind is a named pair of a function (which describes how to compute the next state) and the current state (this is passed to the function with the name `x`).
 
-The functions must take 2 arguments. The first is the value of the variable, named `x`. The second is the map `s` containing the entire gamestate.
+The functions must take 2 arguments. The first is the value of the variable, named `x`. The second is the map `s` containing the entire gamestate. `pack` and `packF` are helper functions which wrap functions in the correctly formatted anonymous function.
 ```
 (x,s) => ...
 ```
