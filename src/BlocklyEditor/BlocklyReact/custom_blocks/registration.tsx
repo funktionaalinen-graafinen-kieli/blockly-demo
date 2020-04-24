@@ -16,7 +16,7 @@ const entityDropdownOptions = () => {
                 .filter(b => b)
 
     // entities
-    const es = bs.filter(b => b.type === "funkly_entity")
+    const es = bs.filter(b => b.type === "funkly_entity" || b.type === "funkly_guientity")
                     .map(b => [b.getFieldValue("name"),b.id])
     // multi blocks
     bs.filter(b => b.type === "funkly_multi")
@@ -522,7 +522,8 @@ Extensions.register("entity_dropdown", function(this: Block) {
         ["y", "y"],
         ["ro", "ro"],
         ["w", "w"],
-        ["h", "h"]
+        ["h", "h"],
+        ["info", "text"]
     ])
     this.getInput("property").appendField(newCustomDropdown(propertyMap), "property")
 })
