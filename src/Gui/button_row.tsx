@@ -7,7 +7,9 @@ const handleUpload = (editor: Editor) => (event: React.FormEvent<HTMLInputElemen
     if (editor && event.currentTarget.files) {
         const uploaded = event.currentTarget.files.item(0)!
         uploaded.text().then(it => {
-            editor.importXml(it)
+            // Remove the bubblegummy const variable = stuff from the file contents and invalid quote marks
+            const decoded = decodeURI(it).slice(27, -1)
+            editor.importXml(decoded)
         })
     }
 }

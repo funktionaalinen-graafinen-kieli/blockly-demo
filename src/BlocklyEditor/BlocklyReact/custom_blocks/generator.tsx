@@ -204,8 +204,8 @@ function funklyCodegen(type: funklyBlockType) {
         if (lb && lb.type === "funkly_list" && lb.itemCount_ !== 0) { 
             //@ts-ignore
             for (var i = 0; i < lb.itemCount_; i++) {
-                console.trace(block)
-                console.trace(block.getInputTargetBlock("ADD"+i))
+                // console.trace(block)
+                // console.trace(block.getInputTargetBlock("ADD"+i))
                 es.push(multi_initToCode(baseId, baseId+i, block, lb.getInputTargetBlock("ADD"+i)))
             }
         } else {
